@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from '@/store'
 import { uiMenu } from '@/store/ui/uiSlice'
+import Image from 'next/image'
 import React, { useRef } from 'react'
 
 export const Navbar = () => {
@@ -34,7 +35,7 @@ export const Navbar = () => {
                      </svg>
                   </button>
                   <div className="text-xl font-bold flex items-center lg:ml-2.5">
-                     <img src="https://demo.themesberg.com/windster/images/logo.svg" className="h-6 mr-2" alt="Windster Logo" />
+                     <Image width={40} height={40} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-6 mr-2" alt="Windster Logo" />
                      <span className="hidden sm:flex self-center text-cyan-900 whitespace-nowrap">Subastas - Administrador</span>
                   </div>
                   {/* <form action="#" method="GET" className="hidden lg:block lg:pl-32">
@@ -62,7 +63,7 @@ export const Navbar = () => {
                   <div className='notifications text-cyan-600 hover:text-cyan-700 hover:cursor-pointer'>
                      <svg  className="mr-5 h-7 w-7" height={'2rem'} width={'2rem'} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 0 1 2-2a2 2 0 0 1 2 2v.29c2.97.88 5 3.61 5 6.71v6zm-7 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2m9.75-17.81l-1.42 1.42A8.98 8.98 0 0 1 21 11h2c0-2.93-1.16-5.75-3.25-7.81M1 11h2c0-2.4.96-4.7 2.67-6.39L4.25 3.19A10.96 10.96 0 0 0 1 11"></path></svg>
                   </div>
-                  <img className="h-10 w-10 rounded-full " src="https://demo.themesberg.com/windster/images/users/lana-byrd.png" alt="Neil Sims avatar" />
+                  <Image width={300} height={300} className="h-10 w-10 rounded-full " src="https://demo.themesberg.com/windster/images/users/lana-byrd.png" alt="Neil Sims avatar" />
                   {/* <div className="inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 hover:cursor-pointer focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3">
                      <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                         <defs>

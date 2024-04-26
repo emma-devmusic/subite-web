@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function RegisterPage() {
@@ -5,10 +6,9 @@ export default function RegisterPage() {
     return (
         <div className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
             <Link href="/" className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
-                <img src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
+                <Image width={40} height={40} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
                     <span className="self-center text-2xl font-bold whitespace-nowrap">Subastas</span>
             </Link>
-
             <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm xl:p-0">
                 <div className="p-6 sm:p-8 lg:p-16 space-y-8">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
@@ -37,7 +37,7 @@ export default function RegisterPage() {
                         </div>
                         <button type="submit" className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center">Create account</button>
                         <div className="text-sm font-medium text-gray-500">
-                            '¿Ya tienes una cuenta? <Link href="/login" className="text-teal-500 hover:underline">Ingresá</Link>
+                            ¿Ya tienes una cuenta? <Link href="/login" className="text-teal-500 hover:underline">Ingresá</Link>
                         </div>
                     </form>
                 </div>

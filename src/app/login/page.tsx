@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function LoginPage() {
     return (
         <div className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
             <Link href="/" className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
-                <img src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
+                <Image width={40} height={40} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
                 <span className="self-center text-2xl font-bold whitespace-nowrap">Subastas</span>
             </Link>
 
