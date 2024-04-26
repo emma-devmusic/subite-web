@@ -116,7 +116,7 @@ export const navigation = {
         },
     ],
     pages: [
-        { name: 'Company', href: '#' },
-        { name: 'Stores', href: '#' },
+        { name: 'Sobre Nosotros', href: '/about-us' },
+        { name: 'Contacto', href: '/contact' }
     ],
 }
