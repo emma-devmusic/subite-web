@@ -3,8 +3,7 @@ import { Home } from "@/components/ecommerce";
 export default function HomePage() {
   return (
     <div>
-      <Home />
-      
+        <h1>Productos</h1>
     </div>
   );
 }
