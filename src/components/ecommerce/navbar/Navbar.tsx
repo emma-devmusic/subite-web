@@ -8,6 +8,8 @@ import Link from 'next/link'
 import { SocialIcons } from '@/components/socialIcons/SocialIcons'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { PopoverApp } from '@/components/popover'
+import { Logo } from '@/components/logo'
 
 
 
@@ -18,10 +20,11 @@ export const Navbar = () => {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
     if (pathname.includes('dashboard')) return
+
     return (
         <div className="bg-white">
-            {/* Mobile menu */}
 
+            {/* Mobile menu */}
             <MobileMenu open={open} setOpen={setOpen} />
 
             <header className="relative bg-white">
@@ -38,17 +41,7 @@ export const Navbar = () => {
                             <span className="sr-only">Open menu</span>
                             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
-                        <Link href="/" className='hover:text-gray-200'>
-                            <span className="sr-only">Your Company</span>
-                            {/* <Image
-                                width={40}
-                                height={40}
-                                src="https://demo.themesberg.com/windster/images/logo.svg"
-                                className="mr-2"
-                                alt="Windster Logo"
-                            /> */}
-                            <h1 className='text-2xl font-light'>Subastas<span className='font-semibold'>App</span></h1>
-                        </Link>
+                        <Logo />
                     </div>
                     <div className='hidden md:flex w-full justify-end'>
                         <SocialIcons color='white' />
@@ -172,47 +165,26 @@ export const Navbar = () => {
                                 </div>
                             </div>
                             <div className="min-w-28 flex items-center justify-end">
-                                <Popover.Group>
-                                    <Popover className={'flex flex-col justify-center items-center'} >
-                                        {
-                                            ({ open }) => (
-                                                <>
-                                                    <Popover.Button className={open ? 'h-7 w-7 text-indigo-600' : 'h-7 w-7 text-gray-400 hover:text-gray-500'}>
-                                                        <UserCircleIcon />
-                                                    </Popover.Button>
-                                                    <Transition
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-2"
-                                                        enterFrom="opacity-0"
-                                                        enterTo="opacity-100"
-                                                        leave="transition ease-in duration-1"
-                                                        leaveFrom="opacity-100"
-                                                        leaveTo="opacity-0"
-                                                    >
-                                                        <Popover.Panel
-                                                            className={'absolute top-full z-20 bg-white p-5 w-36 rounded-md shadow-md text-gray-700'}
-                                                        >
-                                                            <ul className='flex flex-col gap-4 text-sm'>
-                                                                <li className='hover:text-indigo-600'>
-                                                                    <Link href={'/login'}>Ingresar</Link>
-                                                                </li>
-                                                                <li className='hover:text-indigo-600'>
-                                                                    <Link href={'/register'}>Regisrarse</Link>
-                                                                </li>
-                                                                <li className='hover:text-indigo-600'>
-                                                                    <Link href={'/dashboard'}>Plataforma</Link>
-                                                                </li>
-                                                                <li className='hover:text-indigo-600'>
-                                                                    <Link href={'/'}>Cerrar Cuenta</Link>
-                                                                </li>
-                                                            </ul>
-                                                        </Popover.Panel>
-                                                    </Transition>
-                                                </>
-                                            )
-                                        }
-                                    </Popover>
-                                </Popover.Group>
+                                <PopoverApp
+                                    button={<UserCircleIcon />}
+                                    classOpen='h-7 w-7 text-indigo-600'
+                                    classClose='h-7 w-7 text-gray-400 hover:text-gray-500'
+                                >
+                                    <ul className='flex flex-col gap-4 text-sm'>
+                                        <li className='hover:text-indigo-600'>
+                                            <Link href={'/login'}>Ingresar</Link>
+                                        </li>
+                                        <li className='hover:text-indigo-600'>
+                                            <Link href={'/register'}>Regisrarse</Link>
+                                        </li>
+                                        <li className='hover:text-indigo-600'>
+                                            <Link href={'/dashboard'}>Plataforma</Link>
+                                        </li>
+                                        <li className='hover:text-indigo-600'>
+                                            <Link href={'/'}>Cerrar Cuenta</Link>
+                                        </li>
+                                    </ul>
+                                </PopoverApp>
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
