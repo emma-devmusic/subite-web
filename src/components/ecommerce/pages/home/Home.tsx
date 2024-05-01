@@ -1,12 +1,12 @@
-import { Navbar } from "../../navbar/Navbar"
+
+import { BannerOne } from "@/components/banners";
+import { CardListProducts } from "@/components/cards";
 
 export const Home = () => {
     return (
         <div>
-            <Navbar />
-            <div className="h-[88.8vh]">
-
-            </div>
+            <BannerOne />
+            <CardListProducts />
         </div>
     )
 }

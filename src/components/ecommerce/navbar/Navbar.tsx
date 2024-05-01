@@ -1,63 +1,70 @@
 'use client'
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MobileMenu } from './MobileMenu'
 import { classNames, navigation } from './data'
 import Link from 'next/link'
 import { SocialIcons } from '@/components/socialIcons/SocialIcons'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 
 
 
 
 export const Navbar = () => {
-    const [open, setOpen] = useState(false)
 
+    const pathname = usePathname()
+    const [open, setOpen] = useState(false)
+    if (pathname.includes('dashboard')) return
     return (
         <div className="bg-white">
             {/* Mobile menu */}
-            
+
             <MobileMenu open={open} setOpen={setOpen} />
 
             <header className="relative bg-white">
-                <div className="flex h-10 items-center justify-center bg-cyan-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-                    <div className='flex w-full justify-end'>
+                <div className="flex h-10 items-center justify-between w-full bg-cyan-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+
+                    {/* Logo */}
+                    <div className="flex justify-between items-center md:justify-start lg:ml-0 w-full">
+                        <button
+                            type="button"
+                            className="relative rounded-md mr-3  text-white lg:hidden"
+                            onClick={() => setOpen(true)}
+                        >
+                            <span className="absolute -inset-0.5" />
+                            <span className="sr-only">Open menu</span>
+                            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                        <Link href="/" className='hover:text-gray-200'>
+                            <span className="sr-only">Your Company</span>
+                            {/* <Image
+                                width={40}
+                                height={40}
+                                src="https://demo.themesberg.com/windster/images/logo.svg"
+                                className="mr-2"
+                                alt="Windster Logo"
+                            /> */}
+                            <h1 className='text-2xl font-light'>Subastas<span className='font-semibold'>App</span></h1>
+                        </Link>
+                    </div>
+                    <div className='hidden md:flex w-full justify-end'>
                         <SocialIcons color='white' />
                     </div>
                 </div>
 
-                <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <nav aria-label="Top" className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
                     <div className="border-b border-gray-200">
-                        <div className="flex h-16 items-center">
-                            <button
-                                type="button"
-                                className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
-                                onClick={() => setOpen(true)}
-                            >
-                                <span className="absolute -inset-0.5" />
-                                <span className="sr-only">Open menu</span>
-                                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                            </button>
+                        <div className="flex h-16 items-center justify-center flex-1">
 
-                            {/* Logo */}
-                            <div className="ml-4 flex lg:ml-0">
-                                <a href="#">
-                                    <span className="sr-only">Your Company</span>
-                                    <Image 
-                                        width={40}
-                                        height={40}
-                                        src="https://demo.themesberg.com/windster/images/logo.svg" 
-                                        className="h-6 mr-2" 
-                                        alt="Windster Logo" 
-                                    />
-                                </a>
-                            </div>
 
                             {/* Flyout menus */}
                             <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                                 <div className="flex h-full space-x-8">
+
+
                                     {navigation.categories.map((category) => (
                                         <Popover key={category.name} className="flex">
                                             {({ open }) => (
@@ -67,7 +74,7 @@ export const Navbar = () => {
                                                             className={classNames(
                                                                 open
                                                                     ? 'border-indigo-600 text-indigo-600'
-                                                                    : 'border-transparent text-gray-700 hover:text-gray-800',
+                                                                    : 'border-transparent text-gray-700 hover:text-indigo-600',
                                                                 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                                                             )}
                                                         >
@@ -77,19 +84,19 @@ export const Navbar = () => {
 
                                                     <Transition
                                                         as={Fragment}
-                                                        enter="transition ease-out duration-200"
+                                                        enter="transition ease-out duration-2"
                                                         enterFrom="opacity-0"
                                                         enterTo="opacity-100"
-                                                        leave="transition ease-in duration-150"
+                                                        leave="transition ease-in duration-1"
                                                         leaveFrom="opacity-100"
                                                         leaveTo="opacity-0"
                                                     >
-                                                        <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500">
+                                                        <Popover.Panel className="absolute inset-x-0 top-full text-sm z-20 text-gray-500">
                                                             {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                                            <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
+                                                            {/* <div className="ml-5 rounded-md absolute max-w-7xl inset-0 top-1/2 bg-white shadow" aria-hidden="true" /> */}
 
-                                                            <div className="relative bg-white">
-                                                                <div className="mx-auto max-w-7xl px-8">
+                                                            <div className="mx-auto shadow-md rounded-md relative max-w-7xl bg-white">
+                                                                <div className=" max-w-7xl px-8">
                                                                     <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                                                         <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                                                             {category.featured.map((item) => (
@@ -149,7 +156,7 @@ export const Navbar = () => {
                                         <a
                                             key={page.name}
                                             href={page.href}
-                                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                                            className="flex text-nowrap items-center text-sm font-medium text-gray-700 hover:text-indigo-600"
                                         >
                                             {page.name}
                                         </a>
@@ -157,36 +164,55 @@ export const Navbar = () => {
                                 </div>
                             </Popover.Group>
 
-                            <div className="ml-auto flex items-center">
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        Ingresar
-                                    </Link>
-                                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                                    <Link href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        Crear Cuenta
-                                    </Link>
+                            <div className="flex lg:ml-6 w-full max-w-xl text-gray-700">
+                                <span className="sr-only">Search</span>
+                                <div className='relative w-full flex items-center'>
+                                    <MagnifyingGlassIcon className="h-6 w-6 absolute right-3" aria-hidden="true" />
+                                    <input type="text" placeholder='Televisor 32"' className='rounded-sm shadow-sm shadow-gray-400 py-2 px-4 w-full outline-slate-300' />
                                 </div>
-
-                                {/* <div className="hidden lg:ml-8 lg:flex">
-                                    <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
-                                        <img
-                                            src="https://tailwindui.com/img/flags/flag-canada.svg"
-                                            alt=""
-                                            className="block h-auto w-5 flex-shrink-0"
-                                        />
-                                        <span className="ml-3 block text-sm font-medium">CAD</span>
-                                        <span className="sr-only">, change currency</span>
-                                    </a>
-                                </div> */}
-
-                                {/* Search */}
-                                <div className="flex lg:ml-6">
-                                    <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Search</span>
-                                        <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                                    </a>
-                                </div>
+                            </div>
+                            <div className="min-w-28 flex items-center justify-end">
+                                <Popover.Group>
+                                    <Popover className={'flex flex-col justify-center items-center'} >
+                                        {
+                                            ({ open }) => (
+                                                <>
+                                                    <Popover.Button className={open ? 'h-7 w-7 text-indigo-600' : 'h-7 w-7 text-gray-400 hover:text-gray-500'}>
+                                                        <UserCircleIcon />
+                                                    </Popover.Button>
+                                                    <Transition
+                                                        as={Fragment}
+                                                        enter="transition ease-out duration-2"
+                                                        enterFrom="opacity-0"
+                                                        enterTo="opacity-100"
+                                                        leave="transition ease-in duration-1"
+                                                        leaveFrom="opacity-100"
+                                                        leaveTo="opacity-0"
+                                                    >
+                                                        <Popover.Panel
+                                                            className={'absolute top-full z-20 bg-white p-5 w-36 rounded-md shadow-md text-gray-700'}
+                                                        >
+                                                            <ul className='flex flex-col gap-4 text-sm'>
+                                                                <li className='hover:text-indigo-600'>
+                                                                    <Link href={'/login'}>Ingresar</Link>
+                                                                </li>
+                                                                <li className='hover:text-indigo-600'>
+                                                                    <Link href={'/register'}>Regisrarse</Link>
+                                                                </li>
+                                                                <li className='hover:text-indigo-600'>
+                                                                    <Link href={'/dashboard'}>Plataforma</Link>
+                                                                </li>
+                                                                <li className='hover:text-indigo-600'>
+                                                                    <Link href={'/'}>Cerrar Cuenta</Link>
+                                                                </li>
+                                                            </ul>
+                                                        </Popover.Panel>
+                                                    </Transition>
+                                                </>
+                                            )
+                                        }
+                                    </Popover>
+                                </Popover.Group>
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
