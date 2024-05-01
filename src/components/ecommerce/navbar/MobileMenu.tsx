@@ -127,20 +127,7 @@ export const MobileMenu = ({open, setOpen}: Props) => {
                                     </div>
                                 ))}
                             </div>
-
-                            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                                <div className="flow-root">
-                                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                                        Sign in
-                                    </a>
-                                </div>
-                                <div className="flow-root">
-                                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                                        Create account
-                                    </a>
-                                </div>
-                            </div>
-
+                            
                             <div className="border-t border-gray-200 px-4 py-6">
                                 <a href="#" className="-m-2 flex items-center p-2">
                                     <Image
