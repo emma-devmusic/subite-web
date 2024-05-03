@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { PopoverApp } from '@/components/popover'
 import { Logo } from '@/components/logo'
+import { AccountMenu } from './AccountMenu'
 
 
 
@@ -165,27 +166,7 @@ export const Navbar = () => {
                                 </div>
                             </div>
                             <div className="min-w-28 flex items-center justify-end">
-                                <PopoverApp
-                                    button={<UserCircleIcon />}
-                                    classOpen='h-7 w-7 text-indigo-600'
-                                    classClose='h-7 w-7 text-gray-400 hover:text-gray-500'
-                                >
-                                    <ul className='flex flex-col gap-4 text-sm'>
-                                        <li className='hover:text-indigo-600'>
-                                            <Link href={'/login'}>Ingresar</Link>
-                                        </li>
-                                        <li className='hover:text-indigo-600'>
-                                            <Link href={'/register'}>Regisrarse</Link>
-                                        </li>
-                                        <li className='hover:text-indigo-600'>
-                                            <Link href={'/dashboard'}>Plataforma</Link>
-                                        </li>
-                                        <li className='hover:text-indigo-600'>
-                                            <Link href={'/'}>Cerrar Cuenta</Link>
-                                        </li>
-                                    </ul>
-                                </PopoverApp>
-
+                                <AccountMenu />
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
                                     <a href="#" className="group -m-2 flex items-center p-2">

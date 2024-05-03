@@ -1,5 +1,5 @@
+'use client'
 import { Popover, Transition } from '@headlessui/react'
-import Link from 'next/link'
 import { Fragment } from 'react'
 
 
@@ -12,7 +12,8 @@ interface Props {
 }
 
 
-export const PopoverApp = ({children, button, classOpen, classClose, position = 'center'}: Props) => {
+export const PopoverApp = ({children, button, classOpen, classClose, position = 'end'}: Props) => {
+    
     return (
         <Popover.Group>
             <Popover className={`flex flex-col justify-center items-${position}`} >
@@ -32,7 +33,7 @@ export const PopoverApp = ({children, button, classOpen, classClose, position = 
                                 leaveTo="opacity-0"
                             >
                                 <Popover.Panel
-                                    className={`absolute top-full z-20 bg-white p-5 min-w-36 rounded-md shadow-md text-gray-700`}
+                                    className={`absolute top-full z-20 bg-white p-1 min-w-36 rounded-md shadow-md text-gray-700`}
                                 >
                                     {children}
                                 </Popover.Panel>
