@@ -5,6 +5,7 @@ export interface SidebarMenuItem {
     icon: string;
 }
 export interface MenuItem {
+    isBoth: boolean;
     isLogged: boolean;
     text: string;
     link: string;

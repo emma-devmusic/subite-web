@@ -41,45 +41,52 @@ export const sidebarData : SidebarMenuItem[] = [
 
 export const accountMenuData: MenuItem[] = [
     {
+        isBoth: false,
         isLogged: false,
         text: 'Ingresar',
         link: '/login',
         icon: 'ic:round-log-in'
     },
     {
+        isBoth: false,
         isLogged: false,
         text: 'Regisrarse',
         link: '/register',
         icon: 'mdi:register',
     },
     {
+        isBoth: false,
         isLogged: true,
         text: 'Perfil',
         link: '/profile',
         icon: 'gg:profile',
     },
     {
+        isBoth: false,
         isLogged: true,
         text: 'Ajustes',
         link: '/settings',
         icon: 'solar:settings-bold',
     },
     {
+        isBoth: false,
         isLogged: true,
         text: 'Plataforma',
         link: '/dashboard',
         icon: 'mage:dashboard-check-fill'
     },
     {
+        isBoth: false,
         isLogged: true,
         text: 'Ir a la Web',
-        link: '/dashboard',
+        link: '/',
         icon: 'mdi:web'
     },
     {
+        isBoth: false,
         isLogged: true,
         text: 'Cerrar Cuenta',
-        link: '/',
+        link: '/close-session',
         icon: 'ic:round-log-out'
     },
 ]

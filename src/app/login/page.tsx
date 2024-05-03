@@ -1,7 +1,20 @@
+'use client'
+import { userSara } from "@/mocks/mocks";
+import { useAppDispatch } from "@/store";
+import { login } from "@/store/authSlice";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
+
+    const dispatch = useAppDispatch()
+    
+    const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        dispatch( login( userSara ) );
+        redirect('/dashboard')
+    }
 
     return (
         <div className="mx-auto md:h-[calc(100vh - 105px)] flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
@@ -34,7 +47,12 @@ export default function LoginPage() {
                             <a href="#" className="text-sm text-teal-500 hover:underline ml-auto">¿Olvidó su contraseña?</a>
                         </div>
                         <div>
-                            <Link href={'/dashboard'} type="submit" className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center">Ingresar</Link>
+                            <button 
+                                className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
+                                onClick={handleLogin}
+                            >
+                                Ingresar
+                            </button>
                         </div>
                         <div className="text-sm font-medium text-gray-500">
                             ¿No está registrado? <Link href="/register" className="text-teal-500 hover:underline">Crear cuenta</Link>

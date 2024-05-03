@@ -1,6 +1,9 @@
 'use client'
 import Link from "next/link"
 import { Icon } from '@iconify/react';
+import { redirect } from "next/navigation";
+import { useAppDispatch } from "@/store";
+import { logout } from "@/store/authSlice";
 
 interface Props {
     show: boolean;
@@ -9,15 +12,29 @@ interface Props {
     icon?: string;
 }
 
-export const MenuItem = ({ text , link, icon, show }: Props) => {
+export const MenuItem = ({ text, link, icon, show }: Props) => {
 
-    if(!show) return;
+    const dispatch = useAppDispatch()
+
+    const handleLogout = () => {
+        dispatch( logout() );
+        redirect('/');
+    }
+
+
+    if (!show) return;
+    if (link === '/close-session') return (
+            <li onClick={handleLogout}>
+                <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
+                    {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
+                    <span className="ml-3">{text}</span>
+                </div>
+            </li>
+        )
     return (
         <li>
             <Link href={link} className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100">
-                {
-                    icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />
-                }
+                {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
                 <span className="ml-3">{text}</span>
             </Link>
         </li>

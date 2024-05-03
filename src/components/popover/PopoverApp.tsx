@@ -16,7 +16,7 @@ export const PopoverApp = ({children, button, classOpen, classClose, position = 
     
     return (
         <Popover.Group>
-            <Popover className={`flex flex-col justify-center items-${position}`} >
+            <Popover className={`flex flex-col justify-center items-${position} items-end` } >
                 {
                     ({ open }) => (
                         <>
