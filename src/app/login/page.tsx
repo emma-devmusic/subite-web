@@ -4,27 +4,24 @@ import { useAppDispatch } from "@/store";
 import { login } from "@/store/authSlice";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
 
     const dispatch = useAppDispatch()
+    const router = useRouter()
     
     const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         dispatch( login( userSara ) );
-        redirect('/dashboard')
+        router.push('/dashboard')
     }
 
     return (
-        <div className="mx-auto md:h-[calc(100vh - 105px)] flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-            <Link href="/" className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
-                <Image width={40} height={40} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
-                <span className="self-center text-2xl font-bold whitespace-nowrap">Subastas</span>
-            </Link>
-
-            <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm xl:p-0">
-                <div className="p-6 sm:p-8 lg:p-16 space-y-8">
+        <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
+   
+            <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm flex  xl:p-0">
+                <div className="p-6 sm:p-8 lg:p-16 space-y-8 flex-1">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         Ingrese a su plataforma
                     </h2>

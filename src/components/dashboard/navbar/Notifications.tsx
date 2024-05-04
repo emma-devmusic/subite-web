@@ -1,7 +1,6 @@
 import { PopoverApp } from "@/components/popover"
 import { notificationsData } from "@/mocks/mocks"
 import { BellAlertIcon } from "@heroicons/react/24/outline"
-import Link from "next/link"
 import { NotificationItem } from "./NotificationItem"
 
 export const Notifications = () => {
@@ -10,8 +9,8 @@ export const Notifications = () => {
     return (
         <PopoverApp
             button={<BellAlertIcon />}
-            classOpen='w-8 mr-4 text-cyan-800'
-            classClose='text-cyan-600 hover:text-cyan-700 hover:cursor-pointer w-8 mr-4'
+            classOpen='w-7 mr-4 text-cyan-800'
+            classClose='text-cyan-600 hover:text-cyan-700 hover:cursor-pointer w-7 mr-4'
             position='end'
         >
             <ul className='flex flex-col'>

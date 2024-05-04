@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link"
 import { Icon } from '@iconify/react';
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 import { logout } from "@/store/authSlice";
 
@@ -15,10 +15,11 @@ interface Props {
 export const MenuItem = ({ text, link, icon, show }: Props) => {
 
     const dispatch = useAppDispatch()
+    const router = useRouter()
 
     const handleLogout = () => {
         dispatch( logout() );
-        redirect('/');
+        router.push('/');
     }
 
 
