@@ -1,17 +1,30 @@
+'use client'
+import { userSara } from "@/mocks/mocks";
+import { useAppDispatch } from "@/store";
+import { login } from "@/store/authSlice";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
 
-    return (
-        <div className="mx-auto md:h-[calc(100vh - 105px)] flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-            <Link href="/" className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
-                <Image width={40} height={40} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
-                <span className="self-center text-2xl font-bold whitespace-nowrap">Subastas</span>
-            </Link>
+    const dispatch = useAppDispatch()
+    const router = useRouter()
+    
+    const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        dispatch( login( userSara ) );
+        router.push('/dashboard')
+    }
 
-            <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm xl:p-0">
-                <div className="p-6 sm:p-8 lg:p-16 space-y-8">
+    return (
+        <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
+   
+            <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm flex  xl:p-0">
+                <div>
+                    
+                </div>
+                <div className="p-6 sm:p-8 lg:p-16 space-y-8 flex-1">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         Ingrese a su plataforma
                     </h2>
@@ -34,7 +47,12 @@ export default function LoginPage() {
                             <a href="#" className="text-sm text-teal-500 hover:underline ml-auto">¿Olvidó su contraseña?</a>
                         </div>
                         <div>
-                            <Link href={'/dashboard'} type="submit" className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center">Ingresar</Link>
+                            <button 
+                                className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
+                                onClick={handleLogin}
+                            >
+                                Ingresar
+                            </button>
                         </div>
                         <div className="text-sm font-medium text-gray-500">
                             ¿No está registrado? <Link href="/register" className="text-teal-500 hover:underline">Crear cuenta</Link>

@@ -11,6 +11,7 @@ interface Props {
 
 
 export const MobileMenu = ({open, setOpen}: Props) => {
+
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -58,7 +59,7 @@ export const MobileMenu = ({open, setOpen}: Props) => {
                                                 key={category.name}
                                                 className={({ selected }) =>
                                                     classNames(
-                                                        selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900',
+                                                        selected ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-900',
                                                         'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
                                                     )
                                                 }
@@ -128,7 +129,7 @@ export const MobileMenu = ({open, setOpen}: Props) => {
                                 ))}
                             </div>
                             
-                            <div className="border-t border-gray-200 px-4 py-6">
+                            {/* <div className="border-t border-gray-200 px-4 py-6">
                                 <a href="#" className="-m-2 flex items-center p-2">
                                     <Image
                                         width={300}
@@ -140,7 +141,8 @@ export const MobileMenu = ({open, setOpen}: Props) => {
                                     <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
                                     <span className="sr-only">, change currency</span>
                                 </a>
-                            </div>
+                            </div> */}
+
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>
