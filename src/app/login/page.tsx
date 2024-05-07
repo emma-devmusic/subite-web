@@ -21,6 +21,9 @@ export default function LoginPage() {
         <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
    
             <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm flex  xl:p-0">
+                <div>
+                    
+                </div>
                 <div className="p-6 sm:p-8 lg:p-16 space-y-8 flex-1">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         Ingrese a su plataforma
