@@ -2,7 +2,8 @@
 
 
 import { Provider } from "react-redux";
-import { store } from "./";
+import { AppStore, makeStore } from "./";
+import { useRef } from "react";
 
 
 interface Props {
@@ -11,8 +12,13 @@ interface Props {
 
 
 export const Providers = ({ children }: Props) => {
+  const storeRef = useRef<AppStore>()
+  if (!storeRef.current) {
+    // Create the store instance the first time this renders
+    storeRef.current = makeStore()
+  }
   return (
-    <Provider store={ store }>
+    <Provider store={ storeRef.current }>
       { children }
     </Provider>
   )
