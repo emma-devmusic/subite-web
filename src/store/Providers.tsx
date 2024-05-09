@@ -2,23 +2,26 @@
 
 
 import { Provider } from "react-redux";
-import { AppStore, makeStore } from "./";
-import { useRef } from "react";
+import { store } from "./";
+import { useEffect } from "react";
+import { getSession } from "@/helpers";
+import { setAuthState } from "./authSlice";
 
 
 interface Props {
   children: React.ReactNode;
 }
 
-
 export const Providers = ({ children }: Props) => {
-  const storeRef = useRef<AppStore>()
-  if (!storeRef.current) {
-    // Create the store instance the first time this renders
-    storeRef.current = makeStore()
-  }
+
+
+  useEffect(() => {
+    const user = getSession();
+    store.dispatch( setAuthState( user ) )
+  },[])
+
   return (
-    <Provider store={ storeRef.current }>
+    <Provider store={ store }>
       { children }
     </Provider>
   )
