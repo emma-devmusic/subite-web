@@ -10,7 +10,7 @@ export const sidebarData : SidebarMenuItem[] = [
     {
         admin: true,
         text: 'Autorizaciones',
-        link: '/dashboard8/authorizations',
+        link: '/dashboard/authorizations',
         icon: 'simple-icons:authelia'
     },
     {
