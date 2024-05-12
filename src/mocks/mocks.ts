@@ -1,4 +1,4 @@
-import { SidebarMenuItem, MenuItem, NotificationApp, User  } from "@/types/interfaces";
+import { SidebarMenuItem, MenuItem, NotificationApp, User  } from "@/types";
 
 export const sidebarData : SidebarMenuItem[] = [
     {

@@ -1,6 +1,6 @@
 'use client'
 
-import { NotificationApp } from "@/types/interfaces"
+import { NotificationApp } from "@/types"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 

@@ -1,16 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import styles from './register.module.css';
 
 export default function RegisterPage() {
 
     return (
-        <div className="mx-auto md:h-screen flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-            <Link href="/" className="text-2xl font-semibold flex justify-center items-center mb-8 lg:mb-10">
-                <Image width={40} height={40} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-10 mr-4" alt="Windster Logo"/>
-                    <span className="self-center text-2xl font-bold whitespace-nowrap">Subastas</span>
-            </Link>
-            <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm xl:p-0">
-                <div className="p-6 sm:p-8 lg:p-16 space-y-8">
+        <div className="mx-auto flex justify-center items-center px-5 pt-4 pb-4  overflow-auto">
+
+            <div className={`${styles.image} bg-white shadow-md rounded-lg md:mt-0 w-full min-h-[700px] md:min-h-full  md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
+
+                <div className="basis-3/6 shadow-md"></div>
+            
+                <div className="p-6 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         Crea tu Cuenta Gratis!
                     </h2>

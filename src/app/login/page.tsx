@@ -1,41 +1,62 @@
 'use client'
+import { useForm } from "@/hooks/useForm";
 import { userSara } from "@/mocks/mocks";
 import { useAppDispatch } from "@/store";
-import { login } from "@/store/authSlice";
+import { login, loginData } from "@/store/authSlice";
+import { LoginData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import styles from './login.module.css';
 
 export default function LoginPage() {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
     
+    const [ values, handleInputChange, reset ] = useForm({
+        email: '',
+        password: ''
+    } )
+
     const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        dispatch( login( userSara ) );
-        router.push('/dashboard')
+        dispatch( loginData( values as LoginData ) );
     }
 
     return (
-        <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
+        <div className="mx-auto flex justify-center items-center px-5 pt-4 pb-4  overflow-auto">
    
-            <div className="bg-white shadow rounded-lg md:mt-0 w-full sm:max-w-screen-sm flex  xl:p-0">
-                <div>
-                    
-                </div>
-                <div className="p-6 sm:p-8 lg:p-16 space-y-8 flex-1">
+            <div className={`${styles.image} bg-white shadow-md rounded-lg md:mt-0 w-full min-h-[600px] md:min-h-full md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
+                <div className="basis-3/6 shadow-md"></div>
+                <div className="p-6 sm:p-8 lg:px-8 space-y-8 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         Ingrese a su plataforma
                     </h2>
                     <form className="mt-8 space-y-6" action="#">
                         <div>
                             <label htmlFor="email" className="text-sm font-medium text-gray-900 block mb-2">Email</label>
-                            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="name@company.com" required/>
+                            <input 
+                                value={values.email}
+                                onChange={handleInputChange}
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" 
+                                placeholder="name@company.com"
+                            />
                         </div>
                         <div>
                             <label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2">Contraseña</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required/>
+                            <input 
+                                value={values.password}
+                                onChange={handleInputChange}
+                                type="password" 
+                                name="password" 
+                                id="password" 
+                                placeholder="••••••••" 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" 
+                            />
                         </div>
                         <div className=" flex items-start">
                             <div className="flex items-center h-5">

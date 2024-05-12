@@ -25,6 +25,6 @@ const uiSlice = createSlice({
     }
 });
 
-export const { uiMenu } = uiSlice.actions;
+export const { uiMenu, uiSetLoading } = uiSlice.actions;
 
 export default uiSlice.reducer;
