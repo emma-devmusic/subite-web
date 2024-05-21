@@ -1,14 +1,5 @@
 .image {
-    background-image: url('../../assets/img/subastasapp.jpg');
+    background-image: url('../../assets/img/bg-login.jpg');
     background-position: top center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-size: cover;
 }
-
-@media (min-width: 768px) {
-    .image {
-        background-position: top left;
-        background-size: cover;
-    }
-}
-

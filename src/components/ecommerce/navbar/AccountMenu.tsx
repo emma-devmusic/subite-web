@@ -25,6 +25,7 @@ export const AccountMenu = () => {
             classClose={(isLogged) ? '' : 'h-7 w-7 text-gray-400 hover:text-gray-500'}
             position="end"
         >
+            <div className="bg-red absolute"></div>
             <ul className='flex flex-col w-[200px]'>
                 {
                     accountMenuData.map(item => {

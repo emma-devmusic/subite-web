@@ -1,17 +1,11 @@
 
 import { LoginData } from "@/types";
 import { useState } from "react"
-type FormValues = { [key: string]: string } | LoginData;
 
-type UseFormReturn = [
-    FormValues,
-    (e: React.ChangeEvent<HTMLInputElement>) => void,
-    () => void
-];
 
-export const useForm = (initialState: FormValues): UseFormReturn => {
+export const useForm = (initialState: any) => {
 
-    const [values, setValues] = useState<FormValues>(initialState);
+    const [values, setValues] = useState(initialState);
 
     const reset = () => {
         setValues(initialState)
