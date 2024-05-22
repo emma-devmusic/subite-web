@@ -22,9 +22,9 @@ export default function RootLayout({
       <body className={`${inter.className} `}>
         <Providers>
           <Navbar />
-              {children}
+          {children}
+          <Modal />
         </Providers>
-        {/* <Modal /> */}
       </body>
     </html>
   );

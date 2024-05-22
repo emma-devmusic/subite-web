@@ -1,19 +1,26 @@
 export interface LoginResponse {
-    error:   boolean;
-    code:    number;
+    error: boolean;
+    code: number;
     message: string;
-    data:    Data;
+    data: Data;
 }
 
 export interface Data {
-    two_factor:  boolean;
-    access:      Access;
+    two_factor: boolean;
+    access: Access;
     permissions: string;
 }
 
 export interface Access {
-    accessToken:  string;
+    accessToken: string;
     refreshToken: string;
+}
+
+
+export interface RegisterResponse {
+    error: boolean;
+    code: number;
+    message: string;
 }
 
 
@@ -32,3 +39,8 @@ export interface CreateUserData {
     two_factor_enabled: boolean;
 }
 
+
+export interface GenderTypes {
+    id: number;
+    description: string;
+}

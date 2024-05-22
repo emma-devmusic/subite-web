@@ -8,7 +8,7 @@ import { registerUserMiddleware } from './middlewares/registerUser-middleware';
 
 export const store = configureStore({
   reducer: {
-    iu: uiReducer,
+    ui: uiReducer,
     auth: authReducer
   },
   middleware: ( getDefaultMiddleware  ) => getDefaultMiddleware()

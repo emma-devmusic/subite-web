@@ -1,5 +1,8 @@
 import { Action, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { RootState } from "..";
+import { RootState, store } from "..";
+import { fetchData } from "@/services/fetchData";
+import { RegisterResponse } from "@/types/dataFetching";
+import { uiMenu, uiModal, uiSetLoading } from "../uiSlice";
 
 export const registerUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: Action) => {
@@ -9,10 +12,21 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
         if(action.type ==='auth/registerUser') {
             const { 
                 auth: { newUser }, 
-                iu: { loading } 
+                ui: { loading } 
             } = state.getState() as RootState
+            
+            state.dispatch( uiSetLoading(true) )
+            state.dispatch( uiModal({modalFor:'new_user', modalOpen: true}) )
 
-            console.log(newUser)
+            setTimeout( () => {
+                
+                console.log(newUser)
+                state.dispatch( uiSetLoading(false) )
+            }, 2000)
+
+            // const userRegister:RegisterResponse = await fetchData(`/manage-auth/create/:${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', newUser)
+            // if(!userRegister.error) {
+            // } 
         }
 
     }

@@ -12,7 +12,7 @@ export interface LoginData {
     password: string;
 }
 
-export interface CreateUserData {
+export interface CreateUserDataRedux {
     name: string;
     last_name: string;
     email: string;
