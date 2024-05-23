@@ -56,6 +56,7 @@ export const Navbar = () => {
 
                             {/* Flyout menus */}
                             <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+                            {/* <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true"></div> */}
                                 <div className="flex h-full space-x-8">
 
 

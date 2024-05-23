@@ -4,14 +4,15 @@ import uiReducer from './uiSlice';
 import authReducer from './authSlice';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import { sessionStorageMiddleware } from './middlewares/sessionStorage-middleware';
+import { registerUserMiddleware } from './middlewares/registerUser-middleware';
 
 export const store = configureStore({
   reducer: {
-    iu: uiReducer,
+    ui: uiReducer,
     auth: authReducer
   },
   middleware: ( getDefaultMiddleware  ) => getDefaultMiddleware()
-  .concat( sessionStorageMiddleware as Middleware )
+  .concat( [sessionStorageMiddleware as Middleware, registerUserMiddleware as Middleware] )
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
