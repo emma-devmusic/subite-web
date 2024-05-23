@@ -23,7 +23,10 @@ export interface RegisterResponse {
     message: string;
 }
 
-
+export interface ValidateUserData {
+    email: string;
+    code: string;
+}
 
 export interface CreateUserData {
     name: string;

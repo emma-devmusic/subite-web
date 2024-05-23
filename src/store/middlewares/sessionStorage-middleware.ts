@@ -18,14 +18,13 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
             
             const { 
                 auth: { loginData }, 
-                iu: { loading } 
             } = state.getState() as RootState
 
             const user:LoginResponse = await fetchData('/manage-auth/signin', 'POST', loginData)
             
-            setInSessionStorage('user', user.data)
-            
-            const encryptData = new EncryptData()
+            // setInSessionStorage('user', user.data)
+            console.log(user.data.permissions)
+            const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
             const dataDecrypted = encryptData.decrypt(user.data.permissions)
             console.log(dataDecrypted)
         }

@@ -1,47 +1,17 @@
-import crypto from 'crypto-js';
-
-// export default class EncryptData {
-//     constructor(private key: string) {
-//         this.key = key;
-//         this.encrypt = this.encrypt.bind(this);
-//         this.decrypt = this.decrypt.bind(this);
-//     }
-//     encrypt(data: any) {
-//         try {
-//             return crypto.AES.encrypt(data, this.key).toString();
-//         } catch (e: any) {
-//             throw new ConflictException(e.stack);
-//             // throw new Error(e.stack);
-//         }
-//     }
-//     decrypt(data: any) {
-//         try {
-//             const w = crypto.AES.decrypt(data, this.key);
-//             const datadecrypted = JSON.parse(w.toString(crypto.enc.Utf8));
-//             if (!datadecrypted) {
-//                 throw new Error('Unauthorized');
-//             }
-//             return {
-//                 error: false,
-//                 data: datadecrypted,
-//             };
-//         } catch (e: any) {
-//             return { error: true, message: e.message };
-//         }
-//     }
-// }
+import * as crypto from 'crypto-js';
 
 export default class EncryptData {
-    constructor(public key = `${process.env.NEXT_PUBLIC_SERVER_SECRET}`) {
+    constructor(private key: string) {
         this.key = key;
         this.encrypt = this.encrypt.bind(this);
         this.decrypt = this.decrypt.bind(this);
     }
     encrypt(data: any) {
         try {
-            return crypto.AES.encrypt( data , this.key).toString();
+            return crypto.AES.encrypt(data, this.key).toString();
         } catch (e: any) {
-            throw new Error(e);
+            // throw new ConflictException(e.stack);
+            throw new Error(e.stack);
         }
     }
     decrypt(data: any) {
@@ -49,7 +19,7 @@ export default class EncryptData {
             const w = crypto.AES.decrypt(data, this.key);
             const datadecrypted = JSON.parse(w.toString(crypto.enc.Utf8));
             if (!datadecrypted) {
-                throw new Error("Unauthorized");
+                throw new Error('Unauthorized');
             }
             return {
                 error: false,
@@ -60,3 +30,34 @@ export default class EncryptData {
         }
     }
 }
+
+// export default class EncryptData {
+//     constructor(public key = `${process.env.NEXT_PUBLIC_SERVER_SECRET}`) {
+//         this.key = key;
+//         this.encrypt = this.encrypt.bind(this);
+//         this.decrypt = this.decrypt.bind(this);
+//     }
+//     encrypt(data: any) {
+//         try {
+//             return crypto.AES.encrypt( data , this.key).toString();
+//         } catch (e: any) {
+//             throw new Error(e);
+//         }
+//     }
+//     decrypt(data: any) {
+//         try {
+//             const w = crypto.AES.decrypt(data, this.key);
+//             const datadecrypted = JSON.parse(w.toString(crypto.enc.Utf8));
+//             console.log('>>>>>>')
+//             if (!datadecrypted) {
+//                 throw new Error("Unauthorized");
+//             }
+//             return {
+//                 error: false,
+//                 data: datadecrypted,
+//             };
+//         } catch (e: any) {
+//             return { error: true, message: e.message };
+//         }
+//     }
+// }

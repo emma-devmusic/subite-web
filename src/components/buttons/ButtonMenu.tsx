@@ -4,7 +4,7 @@ import { uiMenu } from '@/store/uiSlice'
 
 export const ButtonMenu = () => {
 
-    const { menuOpen } = useAppSelector(state => state.iu)
+    const { menuOpen } = useAppSelector(state => state.ui)
 
     const dispatch = useAppDispatch()
 

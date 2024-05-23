@@ -1,5 +1,5 @@
 
-import { Modal } from '@/types';
+import { Modal, ModalMsg } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface UiSlice {
@@ -33,10 +33,14 @@ const uiSlice = createSlice({
         },
         uiCloseModal(state) {
             state.modal = initialState.modal
+        },
+        uiModalMessage(state, action: PayloadAction<ModalMsg>){
+            state.modal.msg = action.payload.msg
+            state.modal.typeMsg = action.payload.typeMsg
         }
     }
 });
 
-export const { uiMenu, uiSetLoading, uiModal, uiCloseModal } = uiSlice.actions;
+export const { uiMenu, uiSetLoading, uiModal, uiCloseModal, uiModalMessage } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -15,7 +15,12 @@ export const useForm = (initialState: any) => {
 
         setValues({
             ...values,
-            [e.target.name]: e.target.value
+            [e.target.name]:
+                e.target.name === 'gender_type'
+                    ? parseInt(e.target.value)
+                    // : e.target.name === 'two_factor_enabled'
+                    //     ? JSON.parse(e.target.value)
+                        : e.target.value
         });
 
     }

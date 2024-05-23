@@ -4,7 +4,7 @@ import { uiMenu } from '@/store/uiSlice'
 
 export const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
 
-    const { menuOpen } = useAppSelector(state => state.iu)
+    const { menuOpen } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
     const showSidebar = menuOpen ? '' : 'hidden'
     const handleToggleMenu = () => {

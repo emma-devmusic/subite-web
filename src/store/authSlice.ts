@@ -1,10 +1,12 @@
 
 import { CreateUserData, LoginData, User } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ValidateUserData } from '../types/dataFetching';
 
 
 
 interface AuthSlice {
+    validateUserData: ValidateUserData;
     newUser: CreateUserData
     isLogged: boolean;
     loginData: LoginData;
@@ -13,6 +15,7 @@ interface AuthSlice {
 
 
 const initialState: AuthSlice = {
+    validateUserData: {email: '', code: ''},
     newUser: {} as CreateUserData,
     isLogged: false,
     loginData: { email: '', password: ''},
@@ -43,10 +46,13 @@ const authSlice = createSlice({
         logout(state) {
             state.isLogged = false;
             state.user = null;
+        },
+        email_validation(state, action:PayloadAction<ValidateUserData>) {
+            state.validateUserData = action.payload
         }
     }
 });
 
-export const { login, loginData, logout, setAuthState, registerUser } = authSlice.actions;
+export const { login, loginData, logout, setAuthState, registerUser, email_validation } = authSlice.actions;
 
 export default authSlice.reducer;

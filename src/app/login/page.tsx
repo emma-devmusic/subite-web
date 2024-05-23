@@ -15,8 +15,8 @@ export default function LoginPage() {
     const router = useRouter()
     
     const [ values, handleInputChange, reset ] = useForm({
-        email: '',
-        password: ''
+        email: 'emilcemagaliparra@gmail.com',
+        password: 'PassWord123!'
     } )
 
     const handleLogin = (e: React.MouseEvent<HTMLElement>) => {

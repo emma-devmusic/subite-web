@@ -7,7 +7,6 @@ export const fetchData = async (path: string, method: 'POST' | 'GET' | 'DELETE' 
         },
         ...( body && {body: JSON.stringify(body)})
     })
-
     return data.json()
 
 }
