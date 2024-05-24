@@ -1,8 +1,13 @@
-import { CreateUserDataRedux } from "@/types"
+import { CreateUserDataRedux, User, UserDataLogin } from "@/types"
+import EncryptData from "./EncryptData";
 
 export const getSession = () => {
-    return JSON.parse(sessionStorage.getItem('user') ?? '{}')
+    const userData: UserDataLogin = JSON.parse(sessionStorage.getItem('user-login-data') ?? '{}');
+    const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
+    return encryptData.decrypt(userData.permissions);
 }
+
+export const getFromSessionStorage = (id: string) => sessionStorage.getItem(id);
 
 export const setInSessionStorage = (id: string, data: any) => {
     sessionStorage.setItem(id, JSON.stringify(data))

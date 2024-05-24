@@ -1,34 +1,45 @@
 'use client'
 import { useForm } from "@/hooks/useForm";
-import { userSara } from "@/mocks/mocks";
-import { useAppDispatch } from "@/store";
-import { login, loginData } from "@/store/authSlice";
-import { LoginData } from "@/types";
-import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { loginData } from "@/store/authSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from './login.module.css';
+import { Spinner } from "@/components/spinner/Spinner";
+import { useEffect } from "react";
+import { Footer } from "@/components/dashboard";
 
 export default function LoginPage() {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
     
+    const { loading } = useAppSelector(state => state.ui)
+    const { isLogged } = useAppSelector(state => state.auth)
+
+    useEffect(() => {
+        if(isLogged) router.push('/dashboard')
+    }, [isLogged])
+
     const [ values, handleInputChange, reset ] = useForm({
-        email: 'emilcemagaliparra@gmail.com',
-        password: 'PassWord123!'
+        email: 'yejoco5676@lucvu.com',
+        password: '35300409Emma!'
     } )
 
     const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        dispatch( loginData( values as LoginData ) );
+        dispatch( loginData( values ) );
     }
 
+
+
+    if(loading) return <div className={`mx-auto flex justify-center items-center px-5 pt-4 pb-4 overflow-auto ${styles.loginPage} `}> <Spinner /> </div>
+
     return (
-        <div className="mx-auto flex justify-center items-center px-5 pt-4 pb-4  overflow-auto">
+        <div className={`mx-auto flex flex-col justify-between px-5 pt-4 pb-4 overflow-auto ${styles.loginPage} `}>
    
-            <div className={`${styles.image} bg-white shadow-md rounded-lg md:mt-0 w-full min-h-[600px] md:min-h-full md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
-                <div className="basis-3/6 shadow-md"></div>
+            <div className={`${styles.image} bg-white mx-auto shadow-2xl rounded-lg md:mt-12 w-full min-h-[600px] md:min-h-full md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
+                <div className="basis-3/6"></div>
                 <div className="p-6 sm:p-8 lg:px-8 space-y-8 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         Ingrese a su plataforma
@@ -81,6 +92,7 @@ export default function LoginPage() {
                     </form>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

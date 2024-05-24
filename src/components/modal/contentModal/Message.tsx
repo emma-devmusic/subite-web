@@ -1,7 +1,8 @@
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { ReactElement } from "react";
 
 interface Props {
-    msg: string | JSX.Element;
+    msg: null | string | ReactElement;
     typeMsg: 'success' | 'info' | 'warning' | 'error' | null | undefined
 }
 

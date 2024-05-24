@@ -8,5 +8,17 @@ export const fetchData = async (path: string, method: 'POST' | 'GET' | 'DELETE' 
         ...( body && {body: JSON.stringify(body)})
     })
     return data.json()
+}
 
+export const fetchDataAuth = async (path: string, method: 'POST' | 'GET' | 'DELETE' | 'PUT', body: any | null, authorization: string) => {
+
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${path}`, {
+        method,
+        headers: {
+            "Authorization": `Bearer ${authorization}`,
+            "Content-Type": "application/json",
+        },
+        ...( body && {body: JSON.stringify(body)})
+    })
+    return data.json()
 }

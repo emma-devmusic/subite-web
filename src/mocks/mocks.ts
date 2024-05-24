@@ -116,10 +116,10 @@ export const notificationsData: NotificationApp[] = [
 ]
 
 
-export const userSara: User = {
-    id: 'sdfjlweb',
-    name: 'Sara Zecchin',
-    email: 'sara@correo.com',
-    phone: '0123456789',
-    urlImg: 'https://demo.themesberg.com/windster/images/users/lana-byrd.png'
-}
+// export const userSara: User = {
+//     id: 'sdfjlweb',
+//     name: 'Sara Zecchin',
+//     email: 'sara@correo.com',
+//     phone: '0123456789',
+//     urlImg: 'https://demo.themesberg.com/windster/images/users/lana-byrd.png'
+// }

@@ -17,12 +17,13 @@ export const AccountMenu = () => {
     return (
         <PopoverApp
             button={
-                (isLogged)
-                    ? <Image width={300} height={300} className="h-7 w-7 rounded-full " src={user?.urlImg ?? ''} alt="Neil Sims avatar" />
-                    : <UserCircleIcon />
+                // (isLogged)
+                // ? <Image width={300} height={300} className="h-7 w-7 rounded-full " src={user?.urlImg ?? ''} alt="Neil Sims avatar" />
+                    <UserCircleIcon />
+                    // : <UserCircleIcon />
             }
-            classOpen={(isLogged) ? '' : 'h-7 w-7 text-cyan-700'}
-            classClose={(isLogged) ? '' : 'h-7 w-7 text-gray-400 hover:text-gray-500'}
+            classOpen={'h-7 w-7 text-cyan-700'}
+            classClose={'h-7 w-7 text-gray-400 hover:text-gray-500'}
             position="end"
         >
             <div className="bg-red absolute"></div>

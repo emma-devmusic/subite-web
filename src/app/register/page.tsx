@@ -10,6 +10,7 @@ import { formValidate, userToRegister } from "@/helpers";
 import { useEffect, useState } from 'react';
 import { fetchData } from "@/services/fetchData";
 import { GenderTypes } from "@/types/dataFetching";
+import { Footer } from "@/components/dashboard";
 
 export default function RegisterPage() {
 
@@ -60,8 +61,8 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className={`mx-auto flex justify-center items-center px-5 pt-4 pb-4  overflow-auto ${styles.image}`}>
-            <div className="py-6 px-8 w-full bg-white shadow-lg rounded-lg sm:max-w-screen-lg">
+        <div className={`mx-auto flex flex-col justify-center  px-5 pt-4 pb-4  overflow-auto ${styles.image} ${styles.registerPage}`}>
+            <div className="py-6 px-8 w-full bg-white shadow-lg mx-auto rounded-lg sm:max-w-screen-lg">
 
                 <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                     Regístrate
@@ -192,6 +193,7 @@ export default function RegisterPage() {
                     </div>
                 </form>
             </div>
+            <Footer />
         </div>
     );
 }

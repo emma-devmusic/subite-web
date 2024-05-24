@@ -3,12 +3,15 @@ import { useAppDispatch, useAppSelector } from "@/store"
 import { NewProduct } from "./contentModal/NewProduct"
 import { NewUser } from "./contentModal/NewUser"
 import { uiCloseModal } from "@/store/uiSlice"
+import { Message } from "./contentModal/Message"
+import { MessageModal } from "./contentModal/MessageModal"
+import { TwoFactorCode } from './contentModal/TwoFactorCode';
 
 
 export const Modal = () => {
     const dispatch = useAppDispatch()
 
-    const { modal: { modalOpen, modalFor } } = useAppSelector(state => state.ui)
+    const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
     if (!modalOpen) return
 
     return (
@@ -25,10 +28,16 @@ export const Modal = () => {
                             X
                         </button>
                         {
+                            modalFor === 'message' && <MessageModal />
+                        }
+                        {
                             modalFor === 'new_product' && <NewProduct />
                         }
                         {
                             modalFor === 'new_user' && <NewUser />
+                        }
+                        {
+                            modalFor === '2F_code' && <TwoFactorCode />
                         }
                     </div>
                 </div>

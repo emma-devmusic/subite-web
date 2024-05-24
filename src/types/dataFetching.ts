@@ -47,3 +47,22 @@ export interface GenderTypes {
     id: number;
     description: string;
 }
+
+
+export interface UserDataLogin {
+    two_factor:  boolean;
+    access:      Access;
+    permissions: string;
+}
+
+export interface Access {
+    accessToken:  string;
+    refreshToken: string;
+}
+
+
+export interface TwoFactorResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+}

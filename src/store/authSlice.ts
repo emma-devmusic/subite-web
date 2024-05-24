@@ -30,14 +30,15 @@ const authSlice = createSlice({
             state.newUser = action.payload
         },
         loginData(state, action:PayloadAction<LoginData>) {
-            state.loginData = action.payload
+            // state.loginData = action.payload
         },
         login(state, action: PayloadAction<User>) {
             state.user = action.payload;
+            state.isLogged = true;
         },
         setAuthState(state, action: PayloadAction<User>) {
             state.user = action.payload;
-            if(action.payload?.id) {
+            if(action.payload?.basic_data?.email) {
                 state.isLogged = true
             } else {
                 state.isLogged = false
@@ -49,10 +50,16 @@ const authSlice = createSlice({
         },
         email_validation(state, action:PayloadAction<ValidateUserData>) {
             state.validateUserData = action.payload
+        },
+        twoFactorAuthentication(state, action: PayloadAction <{code: string;}>){
+            //interceptando
+        },
+        loggear() {
+            //interceptando
         }
     }
 });
 
-export const { login, loginData, logout, setAuthState, registerUser, email_validation } = authSlice.actions;
+export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear } = authSlice.actions;
 
 export default authSlice.reducer;
