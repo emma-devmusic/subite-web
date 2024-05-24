@@ -116,10 +116,16 @@ export const notificationsData: NotificationApp[] = [
 ]
 
 
-// export const userSara: User = {
-//     id: 'sdfjlweb',
-//     name: 'Sara Zecchin',
-//     email: 'sara@correo.com',
-//     phone: '0123456789',
-//     urlImg: 'https://demo.themesberg.com/windster/images/users/lana-byrd.png'
-// }
+
+export const errorMsg:any = {
+    400: "Parece que hubo un problema con tu solicitud. Por favor, verifica e inténtalo de nuevo.",
+    401: "No estás autorizado para realizar esta acción. Por favor, inicia sesión e inténtalo de nuevo.",
+    403: "Este registro ya existe.",
+    404: "No encontramos lo que estás buscando. Por favor, verifica la URL o intenta más tarde.",
+    409: "Existe un conflicto con la solicitud.", // Añadido para el código 409
+    500: "¡Ups! Algo salió mal en nuestro servidor. Por favor, inténtalo de nuevo más tarde.",
+    502: "El servidor está teniendo problemas. Por favor, inténtalo de nuevo más tarde.",
+    503: "El servicio no está disponible en este momento. Por favor, inténtalo de nuevo más tarde.",
+    504: "El servidor está tardando demasiado en responder. Por favor, inténtalo de nuevo más tarde.",
+    default: "Ocurrió un error desconocido. Por favor, inténtalo de nuevo más tarde.",
+};

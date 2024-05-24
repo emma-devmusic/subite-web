@@ -2,18 +2,33 @@
 import { useAppDispatch, useAppSelector } from "@/store"
 import { NewProduct } from "./contentModal/NewProduct"
 import { NewUser } from "./contentModal/NewUser"
-import { uiCloseModal } from "@/store/uiSlice"
+import { uiCloseModal, uiSetLoading } from "@/store/uiSlice"
 import { Message } from "./contentModal/Message"
 import { MessageModal } from "./contentModal/MessageModal"
 import { TwoFactorCode } from './contentModal/TwoFactorCode';
+import { ModalHeader } from './ModalHeader';
+import { useRouter } from "next/navigation"
 
 
 export const Modal = () => {
     const dispatch = useAppDispatch()
 
+    const router = useRouter()
+
     const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
     if (!modalOpen) return
 
+    const handleCloseModal = () => {
+        dispatch( uiCloseModal() )
+        dispatch( uiSetLoading(false) )
+        if(modalFor === '2F_code') {
+            sessionStorage.clear();
+        }
+        if(modalFor === 'new_user') {
+            router.push('./login');
+        }
+    }
+ 
     return (
         <div className="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
             <div className="fixed inset-0 z-10 bg-gray-500 bg-opacity-75 transition-opacity" >
@@ -21,12 +36,9 @@ export const Modal = () => {
             <div className="fixed inset-0 w-screen z-10 overflow-y-auto ">
                 <div className="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
                     <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                        <button 
-                            className='p-3 pt-6 pr-6 cursor-pointer absolute right-0'
-                            onClick={() => dispatch( uiCloseModal() )}
-                        >
-                            X
-                        </button>
+
+                        <ModalHeader close={handleCloseModal} />
+
                         {
                             modalFor === 'message' && <MessageModal />
                         }

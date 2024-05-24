@@ -4,6 +4,7 @@ import { fetchData } from "@/services/fetchData";
 import { RegisterResponse } from "@/types/dataFetching";
 import { uiMenu, uiModal, uiModalMessage, uiSetLoading } from "../uiSlice";
 import Swal from 'sweetalert2'
+import { errorMsg } from "@/mocks/mocks";
 
 export const registerUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: Action) => {
@@ -22,10 +23,10 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
             const userRegister = await fetchData(`/manage-auth/create/${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', newUser)
                 .catch(err => {
                     state.dispatch(
-                        uiModalMessage({ msg: 'Parece que hubo un error al comunicar al servidor. Revisa tu conexión.', typeMsg: 'error' })
+                        uiModalMessage({ msg: `${errorMsg[err.message]}`, typeMsg: 'error' })
                     )
                 })
-            if (userRegister.error) {
+            if (userRegister && userRegister.error) {
                 console.log(userRegister)
                 state.dispatch(
                     uiModalMessage({ msg: userRegister.message, typeMsg: 'info' })
@@ -53,7 +54,7 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
                 )
             }
             state.dispatch( 
-                uiModalMessage({ msg: '<strong>¡Validación exitosa!</strong> Ahora puedes ingresar a la plataforma', typeMsg: 'success' })
+                uiModalMessage({ msg: '¡Validación exitosa! Ahora puedes ingresar a la plataforma', typeMsg: 'success' })
             )
             state.dispatch(uiSetLoading(false))
         }

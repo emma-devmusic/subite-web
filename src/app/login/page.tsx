@@ -22,8 +22,8 @@ export default function LoginPage() {
     }, [isLogged])
 
     const [ values, handleInputChange, reset ] = useForm({
-        email: 'yejoco5676@lucvu.com',
-        password: '35300409Emma!'
+        email: 'jodose6067@lucvu.com',
+        password: '123456Emma!'
     } )
 
     const handleLogin = (e: React.MouseEvent<HTMLElement>) => {

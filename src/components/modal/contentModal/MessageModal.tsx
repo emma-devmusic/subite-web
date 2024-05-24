@@ -7,7 +7,7 @@ export const MessageModal = () => {
     const { modal: { msg, typeMsg } } = useAppSelector( state => state.ui )
 
     return (
-        <div className='h-[200px] flex justify-center items-center'>
+        <div className='h-[150px] flex justify-center items-center'>
             <Message msg={msg || ''} typeMsg={typeMsg} />
         </div>
     )

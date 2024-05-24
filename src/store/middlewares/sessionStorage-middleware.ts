@@ -1,13 +1,12 @@
 
-import { Action, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { RootState } from "..";
+import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { loggear, login } from "../authSlice";
 import { getFromSessionStorage, setInSessionStorage } from "@/helpers";
 import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
-import { fetchData, fetchDataAuth } from "@/services/fetchData";
+import { fetchData } from "@/services/fetchData";
 import EncryptData from "@/helpers/EncryptData";
-import { uiModal, uiSetLoading } from "../uiSlice";
-import { LoginData } from "@/types";
+import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
+import { errorMsg } from "@/mocks/mocks";
 
 
 export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
@@ -15,9 +14,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
 
         next(action);
         if (action.type === 'auth/loginData') {
-
-            const loginData: LoginData = action.payload
             state.dispatch(uiSetLoading(true))
+            const loginData = action.payload
             const user: LoginResponse = await fetchData('/manage-auth/signin', 'POST', loginData)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
@@ -26,51 +24,32 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: 'Parece que hubo un error. Revisa tu conexión.'
+                            msg: `${errorMsg[err.message]}`
                         })
                     )
                 })
-            setInSessionStorage('user-login-data', user.data)
-            if (user.data.two_factor) {
-                state.dispatch(
-                    uiModal({
-                        modalFor: '2F_code',
-                        modalOpen: true,
-                    })
-                )
-                return
+            if(user && !user.error) {
+                setInSessionStorage('user-login-data', user?.data)
+                if (user.data.two_factor) {
+                    state.dispatch( uiSetLoading(false) )
+                    state.dispatch(
+                        uiModal({
+                            modalFor: '2F_code',
+                            modalOpen: true,
+                        })
+                    )
+                    return
+                }
+                state.dispatch( loggear() )
             }
-
-            state.dispatch( loggear() )
-
-            // state.dispatch(uiSetLoading(false))
-            // state.dispatch(
-            //     uiModal({
-            //         modalFor: 'message',
-            //         modalOpen: true,
-            //         typeMsg: 'success',
-            //         msg: 'Ingresando...'
-            //     })
-            // )
-            // setTimeout(() => {
-            //     state.dispatch(
-            //         uiModal({
-            //             modalFor: null,
-            //             modalOpen: false,
-            //         })
-            //     )
-            // }, 2000)
-
-            // const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
-            // const userDecrypted = encryptData.decrypt(user.data.permissions)
-            // state.dispatch( login( userDecrypted.data ))
         }
 
+
         if (action.type === 'auth/twoFactorAuthentication') {
-            const codeSend = action.payload
             state.dispatch(uiSetLoading(true))
+            const codeSend = action.payload
             const userData: any = JSON.parse( getFromSessionStorage('user-login-data') || '' )
-            const codeResponse: TwoFactorResponse = await fetchDataAuth('/manage-auth/signin-validation', 'POST', codeSend, userData.access.accessToken)
+            const codeResponse: TwoFactorResponse = await fetchData('/manage-auth/signin-validation', 'POST', codeSend, userData.access.accessToken)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -78,26 +57,27 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: 'Parece que hubo un error. Revisa tu conexión.'
+                            msg: `${errorMsg[err.message]}`
                         })
                     )
                     sessionStorage.clear();
                 })
-            if (codeResponse.error) {
+            if (codeResponse && codeResponse.error) {
                 state.dispatch(uiSetLoading(false))
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
                         modalOpen: true,
                         typeMsg: 'error',
-                        msg: 'Parece que tu código está mal. Intenta nuevamente'
+                        msg: `${errorMsg[codeResponse.code]}`
                     })
                 )
                 sessionStorage.clear();
-            } else {
+            } else if(codeResponse && !codeResponse.error) {
                 state.dispatch( loggear() )
             }
         }
+
 
         if (action.type === 'auth/loggear') {
 
@@ -113,23 +93,49 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
             )
             setTimeout(() => {
                 state.dispatch(
-                    uiModal({
-                        modalFor: null,
-                        modalOpen: false,
-                    })
+                    uiCloseModal()
                 )
             }, 2000)
 
             const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
             const userDecrypted = encryptData.decrypt(userData.permissions)
             state.dispatch(login(userDecrypted.data))
-
         }
+
 
         if (action.type === 'auth/logout') {
-            sessionStorage.clear();
+            state.dispatch(uiSetLoading(true))
+            state.dispatch(
+                uiModal({
+                    modalFor: 'message',
+                    modalOpen: true,
+                    typeMsg: 'success',
+                    msg: 'Saliendo...'
+                })
+            )
+            const userData: any = JSON.parse( getFromSessionStorage('user-login-data') || '' )
+            const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, userData.access.accessToken)
+            .catch(err => {
+                console.log(err)
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${errorMsg[err.message]}`
+                    })
+                )
+                sessionStorage.clear();
+            })
+            if(!logoutResponse.error){
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiCloseModal()
+                )
+                sessionStorage.clear();
+            }
         }
-
     }
 }
 

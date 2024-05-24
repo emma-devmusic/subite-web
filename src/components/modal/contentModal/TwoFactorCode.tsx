@@ -16,7 +16,7 @@ export const TwoFactorCode = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch(
-            twoFactorAuthentication( values )
+            twoFactorAuthentication(values)
         )
     }
 
@@ -28,18 +28,11 @@ export const TwoFactorCode = () => {
     return (
         <div>
             <form action="" onSubmit={handleSubmit}>
-                <div className="bg-white px-4 py-5 sm:p-6 sm:pb-4">
+                <div className="bg-white p-8 sm:p-6">
                     <div className="">
-                        <div className=''>
-                            <div className='flex justify-between items-center mb-3'>
-                                <h2 className='text-xl'>Autenticación en 2 Pasos</h2>
-                            </div>
-                            <hr />
-                        </div>
-                        <div className="mt-8">
-                            <h4 className="text-lg mb-5 text-center text-cyan-700">Ingresa el código que enviamos a tu email.</h4>
-                        </div>
-                        <div className='m-3 flex justify-center items-center mb-8'>
+                        <h4 className="text-lg mb-5 text-center text-cyan-700">Ingresa el código que enviamos a tu email.</h4>
+
+                        <div className='m-3 flex justify-center items-center'>
                             <input
                                 value={values.code}
                                 onChange={handleInputChange}
