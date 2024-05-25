@@ -3,10 +3,10 @@ import { ReactElement } from "react";
 
 interface Props {
     msg: null | string | ReactElement;
-    typeMsg: null | 'error' | 'info' | 'success' | 'warning' | 'spinner' | undefined;
+    typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner' | undefined;
 }
 
-export const Message = ({msg, typeMsg}: Props) => {
+export const Message = ({msg}: Props) => {
     return (
         <div className="p-4 px-6">
             <div className="text-lg text-center">{ msg }</div>

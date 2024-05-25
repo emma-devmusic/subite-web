@@ -29,7 +29,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     )
                 })
             if(user && !user.error) {
-                setInSessionStorage('user-login-data', user?.data)
+                setInSessionStorage('user-login-data', user.data)
                 if (user.data.two_factor) {
                     state.dispatch( uiSetLoading(false) )
                     state.dispatch(

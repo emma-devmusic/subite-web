@@ -2,12 +2,12 @@
 import { useForm } from "@/hooks/useForm";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { loginData } from "@/store/authSlice";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from './login.module.css';
 import { Spinner } from "@/components/spinner/Spinner";
 import { useEffect } from "react";
 import { Footer } from "@/components/dashboard";
+import Link from "next/link";
+import styles from './login.module.css';
 
 export default function LoginPage() {
 
@@ -30,8 +30,6 @@ export default function LoginPage() {
         e.preventDefault();
         dispatch( loginData( values ) );
     }
-
-
 
     if(loading) return <div className={`mx-auto flex justify-center items-center px-5 pt-4 pb-4 overflow-auto ${styles.loginPage} `}> <Spinner /> </div>
 
