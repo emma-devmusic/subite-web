@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/store";
 import { logout } from "@/store/authSlice";
 
 interface Props {
-    show: boolean;
+    show?: boolean;
     text: string;
     link: string;
     icon?: string;

@@ -52,10 +52,10 @@ const authSlice = createSlice({
             state.validateUserData = action.payload
         },
         twoFactorAuthentication(state, action: PayloadAction <{code: string;}>){
-            //interceptando
+            //interceptado
         },
         loggear() {
-            //interceptando
+            //interceptado
         }
     }
 });

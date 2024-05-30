@@ -1,7 +1,7 @@
 
 import { ButtonMenu } from '@/components/buttons'
 import Image from 'next/image'
-import { WelcomeMessage, ProfileMenu, Notifications } from '.';
+import { WelcomeMessage, Notifications } from '.';
 import { AccountMenu } from '@/components/ecommerce/navbar/AccountMenu';
 export const Navbar = () => {
 
