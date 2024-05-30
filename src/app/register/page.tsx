@@ -3,7 +3,6 @@
 import Link from "next/link";
 import styles from './register.module.css';
 import { useForm } from "@/hooks/useForm";
-import { CreateUserData, CreateUserDataRedux } from "@/types";
 import { useAppDispatch } from "@/store";
 import { registerUser } from "@/store/authSlice";
 import { formValidate, userToRegister } from "@/helpers";
