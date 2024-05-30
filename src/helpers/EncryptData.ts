@@ -35,14 +35,19 @@ export default class EncryptData {
 
 export const encryptLoginDataInSessionStorage = (data: any) => {
     const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
-    const encryptData = encrypter.encrypt(data)
+    const encryptData = encrypter.encrypt(
+        JSON.stringify(data)
+    )
     setInSessionStorage('user-login-data', encryptData);
 }
 
 export const decryptLoginData = () => {
     const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
     const loginDataEncrypt = getFromSessionStorage('user-login-data');
+    return encrypter.decrypt(
+        JSON.parse(loginDataEncrypt || '{}')
+    )
     // const loginData = encrypter.decrypt(loginDataEncrypt);
     // return encrypter.decrypt(loginData.data.permissions)
-    return encrypter.decrypt(loginDataEncrypt);
+    // return encrypter.decrypt(loginDataEncrypt);
 }

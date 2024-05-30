@@ -6,7 +6,6 @@ import { store } from "./";
 import { useEffect } from "react";
 import { getSession } from "@/helpers";
 import { setAuthState } from "./authSlice";
-import { useRouter } from "next/navigation";
 
 
 interface Props {
@@ -17,7 +16,7 @@ export const Providers = ({ children }: Props) => {
 
 
   useEffect(() => {
-    const user = getSession();
+    const user = getSession()
     store.dispatch( setAuthState( user.data ) )
   },[])
 

@@ -1,10 +1,10 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { loggear, login } from "../authSlice";
-import { getFromSessionStorage, setInSessionStorage } from "@/helpers";
+import { getSession } from "@/helpers";
 import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import EncryptData from "@/helpers/EncryptData";
+import { decryptLoginData, encryptLoginDataInSessionStorage } from "@/helpers/EncryptData";
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 
@@ -29,7 +29,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     )
                 })
             if(user && !user.error) {
-                setInSessionStorage('user-login-data', user.data)
+                encryptLoginDataInSessionStorage(user.data);
                 if (user.data.two_factor) {
                     state.dispatch( uiSetLoading(false) )
                     state.dispatch(
@@ -48,8 +48,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/twoFactorAuthentication') {
             state.dispatch(uiSetLoading(true))
             const codeSend = action.payload
-            const userData: any = JSON.parse( getFromSessionStorage('user-login-data') || '' )
-            const codeResponse: TwoFactorResponse = await fetchData('/manage-auth/signin-validation', 'POST', codeSend, userData.access.accessToken)
+            const userData: any = decryptLoginData()
+            const codeResponse: TwoFactorResponse = await fetchData('/manage-auth/signin-validation', 'POST', codeSend, userData.data.access.accessToken)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -81,7 +81,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'auth/loggear') {
 
-            const userData: any = JSON.parse( getFromSessionStorage('user-login-data') || '' )
+            const userData: any = decryptLoginData()
             state.dispatch(uiSetLoading(false))
             state.dispatch(
                 uiModal({
@@ -97,9 +97,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                 )
             }, 2000)
 
-            const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
-            const userDecrypted = encryptData.decrypt(userData.permissions)
-            state.dispatch(login(userDecrypted.data))
+            const userDecrypted = getSession()
+            state.dispatch( login(userDecrypted.data) )
         }
 
 
@@ -113,8 +112,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     msg: 'Saliendo...'
                 })
             )
-            const userData: any = JSON.parse( getFromSessionStorage('user-login-data') || '' )
-            const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, userData.access.accessToken)
+            const userData: any = decryptLoginData()
+            const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, userData.data.access.accessToken)
             .catch(err => {
                 console.log(err)
                 state.dispatch(uiSetLoading(false))

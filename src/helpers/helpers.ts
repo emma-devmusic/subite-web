@@ -1,10 +1,10 @@
 import { CreateUserDataRedux, User, UserDataLogin } from "@/types"
-import EncryptData from "./EncryptData";
+import EncryptData, { decryptLoginData } from "./EncryptData";
 
 export const getSession = () => {
-    const userData: UserDataLogin = JSON.parse(sessionStorage.getItem('user-login-data') ?? '{}');
+    const userData = decryptLoginData();
     const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
-    return encryptData.decrypt(userData.permissions);
+    return encryptData.decrypt(userData?.data?.permissions);
 }
 
 export const getFromSessionStorage = (id: string) => sessionStorage.getItem(id);
@@ -14,8 +14,6 @@ export const setInSessionStorage = (id: string, data: any) => {
 }
 
 export const formValidate = (formData: CreateUserDataRedux) => {
-
-
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let phoneRegex = /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/;
     let nameRegex = /^[a-zA-Z\s]{2,}$/;
@@ -74,4 +72,12 @@ export const userToRegister = (values: any) => {
     delete values2.remember;
     values2.two_factor_enabled = JSON.parse(values2.two_factor_enabled)
     return values2
+}
+
+export const objToArray = (obj: any) => {
+    let arr = []
+    for(let prop in obj) {
+        arr.push(obj[prop])
+    }
+    return arr
 }

@@ -58,14 +58,14 @@ export const accountMenuData: MenuItem[] = [
         isBoth: false,
         isLogged: true,
         text: 'Perfil',
-        link: '/profile',
+        link: '/dashboard/user-profile',
         icon: 'gg:profile',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Ajustes',
-        link: '/settings',
+        link: '/dashboard/user-config',
         icon: 'solar:settings-bold',
     },
     {
