@@ -6,6 +6,8 @@ import { store } from "./";
 import { useEffect } from "react";
 import { getSession } from "@/helpers";
 import { setAuthState } from "./authSlice";
+import { uiModal, uiModalMessage } from "./uiSlice";
+import { useRouter } from "next/navigation";
 
 
 interface Props {
@@ -14,10 +16,23 @@ interface Props {
 
 export const Providers = ({ children }: Props) => {
 
+  const router = useRouter()
 
   useEffect(() => {
     const user = getSession()
-    store.dispatch( setAuthState( user.data ) )
+    if(!user.error) {
+      store.dispatch( setAuthState( user.data ) )
+    } else {
+       store.dispatch(
+        uiModal({
+          modalFor: 'message',
+          msg: 'No se pudo cargar el usuario.',
+          modalOpen: true,
+          typeMsg: 'error'
+        })
+       )
+       router.push('/login')
+    }
   },[])
 
   return (

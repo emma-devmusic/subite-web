@@ -2,9 +2,9 @@
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { loggear, login } from "../authSlice";
 import { getSession } from "@/helpers";
-import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
+import { LoginResponse, TwoFactorResponse, UserDataLogin } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import { decryptLoginData, encryptLoginDataInSessionStorage } from "@/helpers/EncryptData";
+import EncryptData, { decryptLoginData, encryptLoginDataInSessionStorage } from "@/helpers/EncryptData";
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 
@@ -29,6 +29,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     )
                 })
             if(user && !user.error) {
+                // const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
+                // console.log(encrypter.decrypt(user.data.permissions))
                 encryptLoginDataInSessionStorage(user.data);
                 if (user.data.two_factor) {
                     state.dispatch( uiSetLoading(false) )
@@ -82,6 +84,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/loggear') {
 
             const userData: any = decryptLoginData()
+            // console.log(userData)
             state.dispatch(uiSetLoading(false))
             state.dispatch(
                 uiModal({
