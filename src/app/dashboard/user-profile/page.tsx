@@ -32,6 +32,7 @@ export default function UserProfilePage() {
 
     return (
         <div className="pt-6 px-4">
+            <h3 className="text-2xl font-medium mb-5">Perfil de Usuario</h3>
             <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-4">
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                     <div 
@@ -42,7 +43,7 @@ export default function UserProfilePage() {
                         <Icon icon={'lucide:edit'} className="w-7 h-7 "/>
                     </div>
                     <div>
-                        <h3 className="text-2xl mt-4 font-medium">{`${userProfile?.name} ${userProfile?.last_name}`}</h3>
+                        <h3 className="text-2xl mt-4 font-semibold">{`${userProfile?.name} ${userProfile?.last_name}`}</h3>
                     </div>
                     <h3 className="text-gray-500 mt-4">Contacto</h3>
                     <div className="flex items-center gap-2 mt-1 text-sm">

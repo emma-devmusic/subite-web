@@ -73,3 +73,11 @@ export interface SendEmailVerificationResponse {
     code:    number;
     message: string;
 }
+
+
+export interface ImagesProfileSendResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+}
+
