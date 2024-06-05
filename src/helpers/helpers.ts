@@ -6,7 +6,7 @@ import EncryptData, { decryptLoginData } from "./EncryptData";
 export const getSession = () => {
     const userData = decryptLoginData();
     const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
-    return encryptData.decrypt(userData.data.permissions);
+    return encryptData.decrypt(userData?.data?.permissions);
 }
 
 export const getFromSessionStorage = (id: string) => sessionStorage.getItem(id);

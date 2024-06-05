@@ -48,8 +48,8 @@ export default class DecryptedSession {
     }
     sessionDecrypted = getSession().data;
     getArrayPermissions() {
-        return objToArray( 
-            objPermissions(this.sessionDecrypted.permission) 
+        return objToArray(
+            objPermissions(this.sessionDecrypted.permission)
         )
     }
     getModuleById(id: number) {
@@ -64,4 +64,15 @@ export default class DecryptedSession {
     getPermissionsId() {
         return objPermissionsId(this.sessionDecrypted.permission)
     }
+}
+
+
+
+
+
+export const getPermissionsOf = (module: string) => {
+    const session = new DecryptedSession();
+    const userConfigId = session.getPermissionsId()[module]
+    const permissionsUserConfig = session.getModuleById(userConfigId)
+    return permissionsUserConfig
 }

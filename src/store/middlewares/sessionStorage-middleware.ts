@@ -16,6 +16,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/loginData') {
             state.dispatch(uiSetLoading(true))
             const loginData = action.payload
+
+            console.log('Llamada a la Api - USER LOGIN - POST DE LOGIN')
             const user: LoginResponse = await fetchData('/manage-auth/signin', 'POST', loginData)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
@@ -51,6 +53,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiSetLoading(true))
             const codeSend = action.payload
             const userData: any = decryptLoginData()
+
+            console.log('Llamada a la Api - USER LOGIN - ENVÍO DE CÓGIO SEGUNDO FACTOR DE AUTENTICACIÓN')
             const codeResponse: TwoFactorResponse = await fetchData('/manage-auth/signin-validation', 'POST', codeSend, userData.data.access.accessToken)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
@@ -84,7 +88,6 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/loggear') {
 
             const userData: any = decryptLoginData()
-            // console.log(userData)
             state.dispatch(uiSetLoading(false))
             state.dispatch(
                 uiModal({
@@ -116,6 +119,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                 })
             )
             const userData: any = decryptLoginData()
+
+            console.log('Llamada a la Api - USER LOGOUT')
             const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, userData.data.access.accessToken)
             .catch(err => {
                 console.log(err)

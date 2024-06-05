@@ -10,20 +10,21 @@ interface Props {
 export const ModalHeader = ({ close }: Props) => {
     const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
 
-    const title = {
+    const title: any = {
         '2F_code': 'Autenticación en 2 Factores',
         loading: 'Cargando...',
         message: typeMsg,
         new_auction: 'Nueva Subasta',
         new_product: 'Nuevo Producto',
-        new_user: 'Código de Verificación'
+        new_user: 'Código de Verificación',
+        edit_image_profile: 'Imagen del Perfil'
     }
 
 
     return (
         <div className=''>
             <div className='flex justify-between items-center p-2 px-4'>
-                <div className='text-xl'>
+                <div className='text-lg font-medium'>
                     {
                         !typeMsg && title[ modalFor || 'loading' ]
                     }
@@ -44,7 +45,7 @@ export const ModalHeader = ({ close }: Props) => {
                     }
                 </div>
                 <div
-                    className='p-3 cursor-pointer'
+                    className='p-3 cursor-pointer text-sm'
                     onClick={close}
                 >
                     X

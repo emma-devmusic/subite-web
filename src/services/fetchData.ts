@@ -2,11 +2,13 @@ export const fetchData = async (
     path: string,
     method: 'POST' | 'GET' | 'DELETE' | 'PUT',
     body: any | null,
-    authorization?: string // Hacer que authorization sea opcional
+    authorization?: string, // Hacer que authorization sea opcional
+    header?: { [key:string]: string; }
 ) => {
     // Configurar las cabeceras iniciales
     const headers: Record<string, string> = {
         "Content-Type": "application/json",
+        ...(header && header)
     };
 
     // Añadir la cabecera de Authorization si se proporciona

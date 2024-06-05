@@ -20,6 +20,7 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiModal({ modalFor: 'new_user', modalOpen: true, }))
             state.dispatch(uiSetLoading(true))
 
+            console.log('Llamada a la Api - USER REGISTER - POST DE NUEVO USUARIO')
             const userRegister = await fetchData(`/manage-auth/create/${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', newUser)
                 .catch(err => {
                     state.dispatch(
@@ -40,23 +41,27 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
                 auth: { validateUserData },
             } = state.getState() as RootState
             state.dispatch(uiSetLoading(true))
-
+            
+            console.log('Llamada a la Api - USER REGISTER - ENVIO DE EMAIL PARA VERIFICACION')
             const userValidationResponse = await fetchData(`/manage-auth/email-validation/${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', validateUserData)
                 .catch(err => {
+                    state.dispatch(uiSetLoading(false))
                     state.dispatch(
-                        uiModalMessage({ msg: 'Parece que hubo un error al comunicar al servidor. Revisa tu conexión.', typeMsg: 'error' })
+                        uiModalMessage({ msg: 'Parece que hubo un error al comunicar al servidor. Revisa tu conexión. O tal vez ingresaste mal los datos.', typeMsg: 'error' })
                     )
                 })
             if (userValidationResponse.error) {
-                console.log(userValidationResponse)
+                state.dispatch(uiSetLoading(false))
+
                 state.dispatch(
                     uiModalMessage({ msg: userValidationResponse.message, typeMsg: 'error' })
                 )
+            } else {
+                state.dispatch( 
+                    uiModalMessage({ msg: '¡Validación exitosa! Ahora puedes ingresar a la plataforma', typeMsg: 'success' })
+                )
+                state.dispatch(uiSetLoading(false))
             }
-            state.dispatch( 
-                uiModalMessage({ msg: '¡Validación exitosa! Ahora puedes ingresar a la plataforma', typeMsg: 'success' })
-            )
-            state.dispatch(uiSetLoading(false))
         }
 
     }

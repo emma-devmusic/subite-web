@@ -7,12 +7,13 @@ import { Message } from "./contentModal/Message"
 import { MessageModal } from "./contentModal/MessageModal"
 import { TwoFactorCode } from './contentModal/TwoFactorCode';
 import { ModalHeader } from './ModalHeader';
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { ImageProfile } from "./contentModal/ImageProfile"
 
 
 export const Modal = () => {
     const dispatch = useAppDispatch()
-
+    const path = usePathname()
     const router = useRouter()
 
     const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
@@ -24,9 +25,16 @@ export const Modal = () => {
         if(modalFor === '2F_code') {
             sessionStorage.clear();
         }
-        if(modalFor === 'new_user') {
+        if(modalFor === 'new_user' && path.includes('register')) {
             router.push('./login');
         }
+    }
+
+    if(modalFor === 'message') {
+        setTimeout( () => {
+            dispatch( uiCloseModal() )
+            dispatch( uiSetLoading(false) )
+        }, 2000)
     }
  
     return (
@@ -50,6 +58,9 @@ export const Modal = () => {
                         }
                         {
                             modalFor === '2F_code' && <TwoFactorCode />
+                        }
+                        {
+                            modalFor === 'edit_image_profile' && <ImageProfile />
                         }
                     </div>
                 </div>

@@ -66,3 +66,10 @@ export interface TwoFactorResponse {
     code:    number;
     message: string;
 }
+
+
+export interface SendEmailVerificationResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+}

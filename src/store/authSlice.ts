@@ -1,5 +1,5 @@
 
-import { CreateUserData, LoginData, User } from '@/types';
+import { CreateUserData, DataUserProfile, LoginData, StateImagesProfile, User } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ValidateUserData } from '../types/dataFetching';
 
@@ -11,6 +11,7 @@ interface AuthSlice {
     isLogged: boolean;
     loginData: LoginData;
     user: User | null;
+    userProfile: DataUserProfile | null
 }
 
 
@@ -19,7 +20,8 @@ const initialState: AuthSlice = {
     newUser: {} as CreateUserData,
     isLogged: false,
     loginData: { email: '', password: ''},
-    user: null
+    user: null,
+    userProfile: null
 }
 
 const authSlice = createSlice({
@@ -56,10 +58,22 @@ const authSlice = createSlice({
         },
         loggear() {
             //interceptado
+        },
+        getUserProfile() {
+            //Interceptado
+        },
+        UserProfileToRedux(state, action: PayloadAction<DataUserProfile>) {
+            state.userProfile = action.payload;
+        },
+        sendMailVerification() {
+            //Interceptado
+        },
+        savingImages(state, action: PayloadAction<StateImagesProfile>){
+            //Interceptado
         }
     }
 });
 
-export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear } = authSlice.actions;
+export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear, getUserProfile, UserProfileToRedux, sendMailVerification, savingImages } = authSlice.actions;
 
 export default authSlice.reducer;
