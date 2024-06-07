@@ -67,5 +67,13 @@ export interface DataUserProfile {
     two_factor_enabled:                  boolean;
     account_verified:                    boolean;
     email_verified:                      boolean;
-    image_profiles:                      any[];
+    image_profiles:                      ImageProfile[];
+}
+
+export interface ImageProfile {
+    id:            number;
+    data_created:  Date;
+    image_url:     string;
+    original_name: string;
+    default:       boolean;
 }

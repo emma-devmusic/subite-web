@@ -4,43 +4,56 @@ import DecryptedSession, { getPermissionsOf } from "@/helpers/Permissions";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUserProfile, sendMailVerification } from "@/store/authSlice";
 import { uiModal, uiSetLoading } from "@/store/uiSlice";
+import { ImageProfile } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function UserProfilePage() {
 
+    const { loading } = useAppSelector(state => state.ui)
+
+    const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 
     const dispatch = useAppDispatch()
     const { userProfile } = useAppSelector(state => state.auth)
-    const { loading } = useAppSelector(state => state.ui)
-    useEffect(() => {
-        dispatch( getUserProfile() )
+    const [imageProfile, setImageProfile] = useState<ImageProfile>()
+
+
+    const init = useCallback(() => {
+        dispatch(getUserProfile())
     }, [])
+
+    useEffect(() => {
+        init()
+    }, [])
+
+    useEffect(() => {
+        setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
+    }, [userProfile])
 
     const handleEmailVerification = () => {
         dispatch(uiModal({ modalFor: 'new_user', modalOpen: true }))
         dispatch(sendMailVerification())
     }
+    let joinDate = new Date(userProfile?.data_created || '').toLocaleDateString()
 
     const handleImageEdit = () => {
-        dispatch( uiModal({modalFor:'edit_image_profile', modalOpen: true}) )
+        dispatch(uiModal({ modalFor: 'edit_image_profile', modalOpen: true }))
     }
-
-    let joinDate = new Date(userProfile?.data_created || '').toLocaleDateString()
-    // if (loading) return <Spinner />
+    if (loading || userProfile === null) return <Spinner />
 
     return (
         <div className="pt-6 px-4">
             <h3 className="text-2xl font-medium mb-5">Perfil de Usuario</h3>
             <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-4">
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-                    <div 
+                    <div
                         className="inline-flex text-gray-400 hover:text-gray-600 hover:cursor-pointer transition-all"
                         onClick={handleImageEdit}
                     >
-                        <Image width={400} height={400} className="h-28 w-28 rounded-lg" src="https://demo.themesberg.com/windster/images/users/bonnie-green.png" alt="Neil image" />
-                        <Icon icon={'lucide:edit'} className="w-7 h-7 "/>
+                        <Image width={400} height={400} className="h-28 w-28 rounded-lg object-cover" src={imageProfile?.image_url || alternativeImage} alt="Neil image" />
+                        <Icon icon={'lucide:edit'} className="w-7 h-7 " />
                     </div>
                     <div>
                         <h3 className="text-2xl mt-4 font-semibold">{`${userProfile?.name} ${userProfile?.last_name}`}</h3>

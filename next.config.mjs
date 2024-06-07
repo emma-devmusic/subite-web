@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: false,
     images: {
         remotePatterns: [
             {
@@ -13,7 +14,11 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'tailwindui.com'
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'auctionpublic.s3.amazonaws.com'
+            },
         ]
     }
 };

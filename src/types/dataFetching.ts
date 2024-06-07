@@ -81,3 +81,8 @@ export interface ImagesProfileSendResponse {
     message: string;
 }
 
+export interface ImagesProfileUpdateResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+}

@@ -1,9 +1,9 @@
 'use client'
 
-import DecryptedSession from "@/helpers/Permissions";
+// import DecryptedSession from "@/helpers/Permissions";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUserProfile, sendMailVerification } from "@/store/authSlice";
-import { uiModal } from "@/store/uiSlice";
+// import { uiModal } from "@/store/uiSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -13,19 +13,19 @@ export default function UserConfigPage() {
 
     const dispatch = useAppDispatch()
     const { userProfile } = useAppSelector(state => state.auth)
-    const { loading } = useAppSelector(state => state.ui)
+    // const { loading } = useAppSelector(state => state.ui)
     useEffect(() => {
         dispatch(getUserProfile())
     }, [])
 
-    const session = new DecryptedSession();
-    const userConfigId = session.getPermissionsId()['user-config']
-    const permissionsUserConfig = session.getModuleById(userConfigId)
+    // const session = new DecryptedSession();
+    // const userConfigId = session.getPermissionsId()['user-config']
+    // const permissionsUserConfig = session.getModuleById(userConfigId)
 
-    const handleEmailVerification = () => {
-        dispatch(uiModal({ modalFor: 'new_user', modalOpen: true }))
-        dispatch(sendMailVerification())
-    }
+    // const handleEmailVerification = () => {
+    //     dispatch(uiModal({ modalFor: 'new_user', modalOpen: true }))
+    //     dispatch(sendMailVerification())
+    // }
     return (
         <div className="pt-6 px-4">
             <h3 className="text-2xl font-medium mb-5">Perfil de Usuario</h3>

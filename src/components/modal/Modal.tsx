@@ -8,11 +8,13 @@ import { MessageModal } from "./contentModal/MessageModal"
 import { TwoFactorCode } from './contentModal/TwoFactorCode';
 import { ModalHeader } from './ModalHeader';
 import { usePathname, useRouter } from "next/navigation"
-import { ImageProfile } from "./contentModal/ImageProfile"
+import { ImageProfileModal } from "./contentModal/ImageProfile"
+import { Spinner } from "../spinner/Spinner"
 
 
 export const Modal = () => {
     const dispatch = useAppDispatch()
+    const { loading } = useAppSelector(state => state.ui)
     const path = usePathname()
     const router = useRouter()
 
@@ -20,23 +22,23 @@ export const Modal = () => {
     if (!modalOpen) return
 
     const handleCloseModal = () => {
-        dispatch( uiCloseModal() )
-        dispatch( uiSetLoading(false) )
-        if(modalFor === '2F_code') {
+        dispatch(uiCloseModal())
+        dispatch(uiSetLoading(false))
+        if (modalFor === '2F_code') {
             sessionStorage.clear();
         }
-        if(modalFor === 'new_user' && path.includes('register')) {
+        if (modalFor === 'new_user' && path.includes('register')) {
             router.push('./login');
         }
     }
 
-    if(modalFor === 'message') {
-        setTimeout( () => {
-            dispatch( uiCloseModal() )
-            dispatch( uiSetLoading(false) )
+    if (modalFor === 'message') {
+        setTimeout(() => {
+            dispatch(uiCloseModal())
+            dispatch(uiSetLoading(false))
         }, 2000)
     }
- 
+
     return (
         <div className="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
             <div className="fixed inset-0 z-10 bg-gray-500 bg-opacity-75 transition-opacity" >
@@ -48,19 +50,24 @@ export const Modal = () => {
                         <ModalHeader close={handleCloseModal} />
 
                         {
-                            modalFor === 'message' && <MessageModal />
-                        }
-                        {
-                            modalFor === 'new_product' && <NewProduct />
-                        }
-                        {
-                            modalFor === 'new_user' && <NewUser />
-                        }
-                        {
-                            modalFor === '2F_code' && <TwoFactorCode />
-                        }
-                        {
-                            modalFor === 'edit_image_profile' && <ImageProfile />
+                            loading ? <div className="h-80"> <Spinner /> </div>
+                                : <>
+                                    {
+                                        modalFor === 'message' && <MessageModal />
+                                    }
+                                    {
+                                        modalFor === 'new_product' && <NewProduct />
+                                    }
+                                    {
+                                        modalFor === 'new_user' && <NewUser />
+                                    }
+                                    {
+                                        modalFor === '2F_code' && <TwoFactorCode />
+                                    }
+                                    {
+                                        modalFor === 'edit_image_profile' && <ImageProfileModal />
+                                    }
+                                </>
                         }
                     </div>
                 </div>

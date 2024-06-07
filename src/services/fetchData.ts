@@ -1,6 +1,6 @@
 export const fetchData = async (
     path: string,
-    method: 'POST' | 'GET' | 'DELETE' | 'PUT',
+    method: 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH',
     body: any | null,
     authorization?: string, // Hacer que authorization sea opcional
     header?: { [key:string]: string; }

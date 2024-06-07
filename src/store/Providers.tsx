@@ -4,7 +4,7 @@
 import { Provider } from "react-redux";
 import { store } from "./";
 import { useEffect } from "react";
-import { getSession } from "@/helpers";
+import { getFromSessionStorage, getSession } from "@/helpers";
 import { setAuthState } from "./authSlice";
 import { uiModal, uiModalMessage } from "./uiSlice";
 import { useRouter } from "next/navigation";
@@ -19,19 +19,21 @@ export const Providers = ({ children }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    const user = getSession()
-    if(!user.error) {
-      store.dispatch( setAuthState( user.data ) )
-    } else {
-       store.dispatch(
-        uiModal({
-          modalFor: 'message',
-          msg: 'No se pudo cargar el usuario.',
-          modalOpen: true,
-          typeMsg: 'error'
-        })
-       )
-       router.push('/login')
+    if(getFromSessionStorage('user-login-data')) {
+      const user = getSession()
+      if(!user.error) {
+        store.dispatch( setAuthState( user.data ) )
+      } else {
+         store.dispatch(
+          uiModal({
+            modalFor: 'message',
+            msg: 'No se pudo cargar el usuario.',
+            modalOpen: true,
+            typeMsg: 'error'
+          })
+         )
+         router.push('/login')
+      }
     }
   },[])
 

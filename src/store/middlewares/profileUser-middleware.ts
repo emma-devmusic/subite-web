@@ -2,12 +2,12 @@
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { UserProfileToRedux, loggear, login } from "../authSlice";
 import { getSession } from "@/helpers";
-import { ImagesProfileSendResponse, LoginResponse, SendEmailVerificationResponse, TwoFactorResponse, UserDataLogin } from "@/types/dataFetching";
+import { ImagesProfileSendResponse, ImagesProfileUpdateResponse, LoginResponse, SendEmailVerificationResponse, TwoFactorResponse, UserDataLogin } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
 import EncryptData, { decryptLoginData, encryptLoginDataInSessionStorage } from "@/helpers/EncryptData";
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
-import { GetUserProfile } from "@/types";
+import { GetUserProfile, ImageProfileState } from "@/types";
 
 export const profileUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
@@ -32,7 +32,6 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
             if (!user.error) {
                 state.dispatch(
                     UserProfileToRedux(user.data)
-
                 )
                 state.dispatch(
                     uiModal({
@@ -63,6 +62,12 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     )
                 })
             if (!resp.error) {
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'new_user',
+                        modalOpen: true,
+                    })
+                )
                 state.dispatch(uiSetLoading(false))
             } else {
                 state.dispatch(uiSetLoading(false))
@@ -83,18 +88,10 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
             action.payload.images.forEach((file: any) => {
                 formData.append('files', file);
             })
-            formData.append('default', 'action.payload.imageSelected.name')
-
-            // const objToDatabase = {
-            //     files: action.payload.images,
-            //     default: action.payload.imageSelected.name
-            // }
-
+            formData.append('default', action.payload.imageSelected.name)
             const userData: any = decryptLoginData()
-
-
             try {
-                const response = await fetch('http://localhost:4500/api/v1/user-profile/add/image', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile/add/image`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${userData.data.access.accessToken}`
@@ -103,18 +100,92 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 });
 
                 if (!response.ok) {
+                    state.dispatch(uiSetLoading(true))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'error',
+                            msg: 'Ocurrió un error en el envío de datos'
+                        })
+                    )
                     throw new Error(response.statusText);
                 }
 
                 const resp = await response.json();
 
                 if (!resp.error) {
-                    console.log(resp);
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'success',
+                            msg: 'Datos enviados correctamente.'
+                        })
+                    )
+                    state.dispatch(uiSetLoading(false))
+                    window.location.reload()
                 }
 
             } catch (err: any) {
-                console.log(err);
+                state.dispatch(uiSetLoading(true))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: 'Ocurrió un error en el envío de datos'
+                    })
+                )
             }
         }
+
+
+        if (action.type === 'auth/updateImageProfile') {
+            const imgState: ImageProfileState = action.payload
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+            const imgProfileUpdate = {
+                ...(imgState.imageProfileSelected && {default: imgState.imageProfileSelected?.id}),
+                ...(imgState.imagesToDelete.length > 0 && {delete: imgState.imagesToDelete})
+            }
+            console.log('Llamada a la Api - USER PROFILE - UPDATE IMAGES PROFILE')
+            const resp: ImagesProfileUpdateResponse = await fetchData('/user-profile/update/image', 'PATCH', imgProfileUpdate, userData.data.access.accessToken)
+                .catch(err => {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'error',
+                            msg: `${errorMsg[err.message]}`
+                        })
+                    )
+                })
+            if (!resp.error) {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'success',
+                        msg: '¡Actualización Exitosa!'
+                    })
+                )
+                window.location.reload()
+            } else {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${errorMsg[resp.message]}`
+                    })
+                )
+            }
+        }
+
+
     }
 }

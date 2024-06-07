@@ -1,5 +1,5 @@
 
-import { CreateUserData, DataUserProfile, LoginData, StateImagesProfile, User } from '@/types';
+import { CreateUserData, DataUserProfile, ImageProfileState, LoginData, StateImagesProfile, User } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ValidateUserData } from '../types/dataFetching';
 
@@ -70,10 +70,13 @@ const authSlice = createSlice({
         },
         savingImages(state, action: PayloadAction<StateImagesProfile>){
             //Interceptado
+        },
+        updateImageProfile( state, action: PayloadAction<ImageProfileState>){
+            //Interceptado
         }
     }
 });
 
-export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear, getUserProfile, UserProfileToRedux, sendMailVerification, savingImages } = authSlice.actions;
+export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear, getUserProfile, UserProfileToRedux, sendMailVerification, savingImages, updateImageProfile } = authSlice.actions;
 
 export default authSlice.reducer;

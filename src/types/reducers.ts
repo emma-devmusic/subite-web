@@ -1,3 +1,5 @@
+import { ImageProfile } from "./user";
+
 export interface Image {
     path: string;
     lastModified: number;
@@ -14,3 +16,8 @@ export interface StateImagesProfile {
     images: Image[]
 }
 
+export interface ImageProfileState {
+    imageProfileSelected: null | ImageProfile,
+    images: ImageProfile[],
+    imagesToDelete: number[];
+}
