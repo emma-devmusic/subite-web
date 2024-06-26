@@ -16,10 +16,10 @@ interface AuthSlice {
 
 
 const initialState: AuthSlice = {
-    validateUserData: {email: '', code: ''},
+    validateUserData: { email: '', code: '' },
     newUser: {} as CreateUserData,
     isLogged: false,
-    loginData: { email: '', password: ''},
+    loginData: { email: '', password: '' },
     user: null,
     userProfile: null
 }
@@ -28,10 +28,10 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        registerUser(state, action: PayloadAction<CreateUserData>){
+        registerUser(state, action: PayloadAction<CreateUserData>) {
             state.newUser = action.payload
         },
-        loginData(state, action:PayloadAction<LoginData>) {
+        loginData(state, action: PayloadAction<LoginData>) {
             // state.loginData = action.payload
         },
         login(state, action: PayloadAction<User>) {
@@ -40,7 +40,7 @@ const authSlice = createSlice({
         },
         setAuthState(state, action: PayloadAction<User>) {
             state.user = action.payload;
-            if(action.payload?.basic_data?.email) {
+            if (action.payload?.basic_data?.email) {
                 state.isLogged = true
             } else {
                 state.isLogged = false
@@ -50,29 +50,32 @@ const authSlice = createSlice({
             state.isLogged = false;
             state.user = null;
         },
-        email_validation(state, action:PayloadAction<ValidateUserData>) {
+        email_validation(state, action: PayloadAction<ValidateUserData>) {
             state.validateUserData = action.payload
         },
-        twoFactorAuthentication(state, action: PayloadAction <{code: string;}>){
-            //interceptado
+        twoFactorAuthentication(state, action: PayloadAction<{ code: string; }>) {
+            //for middleware
         },
         loggear() {
-            //interceptado
+            //for middleware
         },
         getUserProfile() {
-            //Interceptado
+            //for middleware
         },
         UserProfileToRedux(state, action: PayloadAction<DataUserProfile>) {
             state.userProfile = action.payload;
         },
         sendMailVerification() {
-            //Interceptado
+            //for middleware
         },
-        savingImages(state, action: PayloadAction<StateImagesProfile>){
-            //Interceptado
+        savingImages(state, action: PayloadAction<StateImagesProfile>) {
+            //for middleware
         },
-        updateImageProfile( state, action: PayloadAction<ImageProfileState>){
-            //Interceptado
+        updateImageProfile(state, action: PayloadAction<ImageProfileState>) {
+            //for middleware
+        },
+        newPassword(state, action: PayloadAction<{ old_password: string; new_password: string; }>){
+            //for middleware
         }
     }
 });

@@ -41,7 +41,7 @@ export default function UserProfilePage() {
     const handleImageEdit = () => {
         dispatch(uiModal({ modalFor: 'edit_image_profile', modalOpen: true }))
     }
-    if (loading || userProfile === null) return <Spinner />
+    if (loading || !userProfile) return <Spinner />
 
     return (
         <div className="pt-6 px-4">

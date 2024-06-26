@@ -19,6 +19,7 @@ export const Providers = ({ children }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
+
     if(getFromSessionStorage('user-login-data')) {
       const user = getSession()
       if(!user.error) {
