@@ -1,3 +1,5 @@
+import { errorMsg } from "@/mocks/mocks";
+
 export const fetchData = async (
     path: string,
     method: 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH',
@@ -24,12 +26,13 @@ export const fetchData = async (
         });
 
         if (!response.ok) {
-            throw new Error(`${response.status}`);
+            throw new Error(`${errorMsg[response.status]}`);
+            // throw new Error(`${response.status}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error(error);
         throw error;
     }
 };

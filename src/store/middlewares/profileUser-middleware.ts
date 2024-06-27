@@ -8,6 +8,8 @@ import EncryptData, { decryptLoginData, encryptLoginDataInSessionStorage } from 
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
+import { redirect } from "next/dist/server/api-utils";
+import { NextResponse } from "next/server";
 
 export const profileUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
@@ -42,6 +44,19 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
                 state.dispatch(uiSetLoading(false))
+            } else {
+                console.log('aca?')
+
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: 'No se puede cargar el usuario'
+                    })
+                )
+                state.dispatch(uiSetLoading(false))
+                NextResponse.redirect('/login')
             }
         }
 

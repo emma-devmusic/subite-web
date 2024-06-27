@@ -80,6 +80,6 @@ const authSlice = createSlice({
     }
 });
 
-export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear, getUserProfile, UserProfileToRedux, sendMailVerification, savingImages, updateImageProfile } = authSlice.actions;
+export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear, getUserProfile, UserProfileToRedux, sendMailVerification, savingImages, updateImageProfile, newPassword } = authSlice.actions;
 
 export default authSlice.reducer;

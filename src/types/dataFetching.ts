@@ -50,39 +50,48 @@ export interface GenderTypes {
 
 
 export interface UserDataLogin {
-    two_factor:  boolean;
-    access:      Access;
+    two_factor: boolean;
+    access: Access;
     permissions: string;
 }
 
 export interface Access {
-    accessToken:  string;
+    accessToken: string;
     refreshToken: string;
 }
 
 
 export interface TwoFactorResponse {
-    error:   boolean;
-    code:    number;
+    error: boolean;
+    code: number;
     message: string;
 }
 
 
 export interface SendEmailVerificationResponse {
-    error:   boolean;
-    code:    number;
+    error: boolean;
+    code: number;
     message: string;
 }
 
 
 export interface ImagesProfileSendResponse {
-    error:   boolean;
-    code:    number;
+    error: boolean;
+    code: number;
     message: string;
 }
 
 export interface ImagesProfileUpdateResponse {
-    error:   boolean;
-    code:    number;
+    error: boolean;
+    code: number;
     message: string;
+}
+
+
+
+export interface PasswordChangeResponse {
+    error: boolean;
+    code: number;
+    message: string;
+    data: string[];
 }

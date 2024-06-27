@@ -71,6 +71,7 @@ export default function UserConfigPage() {
 
                 {/* INFORMACIÓN GENERAL */}
                 <FormGeneral userProfile={userProfile} />
+                
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                     <button
                         className="bg-white border-[1px] border-red-600 text-red-600 rounded-md px-4 py-2 hover:bg-red-600 hover:text-white transition-all"

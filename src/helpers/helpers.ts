@@ -1,4 +1,4 @@
-import { CreateUserDataRedux, User, UserDataLogin } from "@/types"
+import { CreateUserDataRedux, FormNewPassword, PasswordChecks, User, UserDataLogin } from "@/types"
 import EncryptData, { decryptLoginData } from "./EncryptData";
 
 
@@ -66,6 +66,39 @@ export const formValidate = (formData: CreateUserDataRedux) => {
     return errors
 }
 
+export const validateNewPassword = (passwordForm: FormNewPassword) => {
+
+    
+    let flag = false;
+    const { old_password, new_password, new_password_2 } = passwordForm
+
+    const errors: PasswordChecks = {
+        pass_length: (new_password.length >= 8),
+        pass_uppercase: (/[A-Z]/.test(new_password)),
+        pass_lowercase: (/[a-z]/.test(new_password)),
+        pass_specialCaracter: (/[!@#$%^&*(),.?":{}|<>]/.test(new_password)),
+        pass_number: (/[0-9]/.test(new_password)),
+        pass_2: new_password === new_password_2 && new_password.length > 0,
+        pass_new_old: new_password !== old_password
+    }
+
+    if(
+        errors.pass_length &&
+        errors.pass_lowercase &&
+        errors.pass_uppercase &&
+        errors.pass_number &&
+        errors.pass_specialCaracter &&
+        new_password === new_password_2 &&
+        new_password !== old_password &&
+        old_password.length > 5
+    ) {
+        flag = true
+    }
+    return {
+        errors,
+        flag
+    }   
+}
 
 //prepara los valores del usuario a registrar en la base de datos
 export const userToRegister = (values: any) => {

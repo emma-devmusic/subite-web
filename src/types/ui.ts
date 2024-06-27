@@ -11,3 +11,19 @@ export interface Modal {
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';
         msg?: null | string | ReactElement;
 }
+
+export interface FormNewPassword {
+        old_password: string;
+        new_password: string;
+        new_password_2: string;
+}
+
+export interface PasswordChecks {
+        pass_length: boolean;
+        pass_uppercase: boolean;
+        pass_lowercase: boolean;
+        pass_specialCaracter: boolean;
+        pass_number: boolean;
+        pass_2: boolean;
+        pass_new_old: boolean;
+}
