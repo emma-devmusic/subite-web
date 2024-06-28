@@ -1,19 +1,42 @@
 'use client'
 import { MenuItem } from "@/components/menuItem"
 import { PopoverApp } from "@/components/popover"
+import { SmallSpinner, Spinner } from "@/components/spinner/Spinner"
 import { accountMenuData } from "@/mocks/mocks"
-import { useAppSelector } from "@/store"
+import { useAppDispatch, useAppSelector } from "@/store"
+import { getUserProfile } from "@/store/authSlice"
+import { ImageProfile } from "@/types"
 import { UserCircleIcon } from "@heroicons/react/24/outline"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export const AccountMenu = () => {
-
-    const { isLogged, user } = useAppSelector(state => state.auth)
+    
+    const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
+    const [imageProfile, setImageProfile] = useState<ImageProfile>()
+    const { isLogged, userProfile } = useAppSelector(state => state.auth)
+    const { loading } = useAppSelector(state => state.ui)
     const path = usePathname();
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (!userProfile && isLogged) dispatch(getUserProfile())
+    }, [])
+
+    useEffect(() => {
+        setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
+    }, [userProfile])
+
+    if ((!userProfile || loading) && isLogged) return <SmallSpinner />
 
     return (
         <PopoverApp
-            button={<UserCircleIcon />}
+            button={ <Image width={28} height={28} className="rounded-full object-cover" src={imageProfile?.image_url || alternativeImage} alt="Neil image" style={{
+                height: 28,
+                width: 28
+            }}/> }
             classOpen={'h-7 w-7 text-cyan-700'}
             classClose={'h-7 w-7 text-gray-400 hover:text-gray-500'}
             position="end"

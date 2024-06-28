@@ -119,8 +119,8 @@ export const notificationsData: NotificationApp[] = [
 
 export const errorMsg:any = {
     400: "Hubo un problema con tu solicitud. Por favor, verifica los datos e inténtalo de nuevo.",
-    401: "No estás autorizado para realizar esta acción. Por favor, inicia sesión e inténtalo de nuevo.",
-    403: "Este registro ya existe.",
+    401: "Por favor, revisa los datos.",
+    403: "No estás autorizado o el registro ya existe.",
     404: "No encontramos lo que estás buscando. Por favor, verifica la URL o intenta más tarde.",
     409: "Existe un conflicto con la solicitud.", // Añadido para el código 409
     500: "¡Ups! Algo salió mal en nuestro servidor. Por favor, inténtalo de nuevo más tarde.",

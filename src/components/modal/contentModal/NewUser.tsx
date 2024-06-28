@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 export const NewUser = () => {
 
     const router = useRouter()
-    const { loading, modal: { msg, typeMsg } } = useAppSelector(state => state.ui)
+    const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
     const [values, handleInputChange] = useForm({
         email: '',
@@ -36,12 +36,14 @@ export const NewUser = () => {
                         {
                             loading
                                 ? <Spinner />
-                                : msg
+                                : (msg && modalFor !== 'validate_code')
                                     ? <Message msg={msg} typeMsg={typeMsg} />
                                     : <div className="flex flex-col gap-3">
                                         <div>
                                             <h4 className="text-2xl mb-5 text-center text-cyan-700">¡Revisa tu Correo Electrónico!</h4>
-                                            <p className="text-center">Hemos enviado un código de validación a tu correo electrónico para que puedas ingresar a la plataforma.</p>
+                                            <p className="text-center">
+                                                {msg ? msg : 'Hemos enviado un código de validación a tu correo electrónico para que puedas ingresar a la plataforma.'}
+                                            </p>
                                         </div>
                                         <div className="mt-4 flex flex-col gap-3 items-center justify-center">
                                             <input

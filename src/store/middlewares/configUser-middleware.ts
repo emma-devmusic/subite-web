@@ -1,13 +1,13 @@
 import { fetchData } from "@/services/fetchData";
-import { PasswordChangeResponse } from "@/types";
+import { EmailChangeResponse, PasswordChangeResponse, TwoFactorChangeResponse, ValidateNewEmailResponse } from "@/types";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiModal, uiSetLoading } from "../uiSlice";
-import { errorMsg } from "@/mocks/mocks";
 import { decryptLoginData } from "@/helpers/EncryptData";
 
 
 export const configUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
+
         next(action);
 
         if (action.type === 'auth/newPassword') {
@@ -23,23 +23,9 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'success',
-                            msg: `Contraseña Actualizado`
-                        })
-                    )
-                } 
-                // else {
-                //     console.log(resp)
-                //     state.dispatch(uiSetLoading(false))
-                //     state.dispatch(
-                //         uiModal({
-                //             modalFor: 'message',
-                //             modalOpen: true,
-                //             typeMsg: 'error',
-                //             msg: `${errorMsg[resp.message]}`
-                //         })
-                //     )
-                // }
-
+                            msg: `Contraseña Actualizada.`
+                        }))
+                }
             } catch (resp) {
                 state.dispatch(uiSetLoading(false))
                 state.dispatch(
@@ -48,8 +34,141 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
                         modalOpen: true,
                         typeMsg: 'error',
                         msg: `${resp}`
-                    })
-                )
+                    }))
+            }
+        }
+
+
+
+        if (action.type === 'auth/changeEmail') {
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+            try {
+                const resp: EmailChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, userData.data.access.accessToken)
+                if (!resp.error) {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'validate_new_email',
+                            modalOpen: true,
+                            typeMsg: 'success',
+                            msg: `${resp.data[0]}`
+                        }))
+                }
+            } catch (error) {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${error}`
+                    }))
+            }
+        }
+
+
+
+
+        if (action.type === 'auth/validate_email') {
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+            try {
+                const resp: ValidateNewEmailResponse = await fetchData('/user-config/validate-email', 'POST', action.payload, userData.data.access.accessToken)
+                if (!resp.error) {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'success',
+                            msg: `Email Actualizado`
+                        }))
+                    location.reload()
+                }
+            } catch (error) {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${error}`
+                    }))
+            }
+        }
+
+
+        //********************************ENVIO DEL TRUE O FALSE DEL SEGUNDO FACTOR DE AUTETICACION */
+        if (action.type === 'auth/two_factor_change') {
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+            console.log(typeof action.payload)
+            console.log(action.payload)
+            console.log(userData.data.access.accessToken)
+            try {
+                const resp: TwoFactorChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, userData.data.access.accessToken)
+                if (!resp.error) {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: '2F_code_change',
+                            modalOpen: true,
+                        }))
+                } else {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'error',
+                            msg: `${resp.message}`
+                        }))
+                }
+            } catch (error) {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${error}`
+                    }))
+            }
+        }
+
+
+        //******************ENVÍO DEL CÓDIGO */
+        if (action.type === 'auth/send_two_factor_code_change') {
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+
+            console.log(typeof action.payload)
+            console.log(action.payload)
+            console.log(userData.data.access.accessToken)
+
+            try {
+                const resp = await fetchData('/user-config/validate-sec', 'POST', action.payload, userData.data.access.accessToken)
+                if (!resp.error) {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'success',
+                            msg: 'Hecho. Ya cambió su configuración.'
+                        }))
+                }
+                location.reload()
+            } catch (error) {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${error}`
+                    }))
             }
         }
 

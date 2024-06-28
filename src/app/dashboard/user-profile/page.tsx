@@ -1,31 +1,24 @@
 'use client'
 import { Spinner } from "@/components/spinner/Spinner";
-import DecryptedSession, { getPermissionsOf } from "@/helpers/Permissions";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUserProfile, sendMailVerification } from "@/store/authSlice";
-import { uiModal, uiSetLoading } from "@/store/uiSlice";
+import { uiModal } from "@/store/uiSlice";
 import { ImageProfile } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 
 export default function UserProfilePage() {
 
-    const { loading } = useAppSelector(state => state.ui)
-
-    const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
-
     const dispatch = useAppDispatch()
+    const { loading } = useAppSelector(state => state.ui)
     const { userProfile } = useAppSelector(state => state.auth)
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
 
-
-    const init = useCallback(() => {
-        dispatch(getUserProfile())
-    }, [])
-
     useEffect(() => {
-        init()
+        if(!userProfile) dispatch( getUserProfile() )
     }, [])
 
     useEffect(() => {
@@ -33,15 +26,19 @@ export default function UserProfilePage() {
     }, [userProfile])
 
     const handleEmailVerification = () => {
-        dispatch(uiModal({ modalFor: 'new_user', modalOpen: true }))
+        dispatch(uiModal({ modalFor: 'validate_code', modalOpen: true }))
         dispatch(sendMailVerification())
     }
+
     let joinDate = new Date(userProfile?.data_created || '').toLocaleDateString()
 
     const handleImageEdit = () => {
         dispatch(uiModal({ modalFor: 'edit_image_profile', modalOpen: true }))
     }
-    if (loading || !userProfile) return <Spinner />
+    
+    // if (loading) return <Spinner />
+    if (!userProfile || loading) return <Spinner />
+
 
     return (
         <div className="pt-6 px-4">

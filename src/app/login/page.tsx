@@ -22,7 +22,7 @@ export default function LoginPage() {
     }, [isLogged])
 
     const [ values, handleInputChange, reset ] = useForm({
-        email: 'totelep258@fresec.com',
+        email: 'picoge6235@joeroc.com',
         password: '123456Emma!'
     } )
 

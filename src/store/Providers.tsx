@@ -5,9 +5,10 @@ import { Provider } from "react-redux";
 import { store } from "./";
 import { useEffect } from "react";
 import { getFromSessionStorage, getSession } from "@/helpers";
-import { setAuthState } from "./authSlice";
+import { clearRedux, getUserProfile, setAuthState } from "./authSlice";
 import { uiModal, uiModalMessage } from "./uiSlice";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/spinner/Spinner";
 
 
 interface Props {
@@ -20,27 +21,29 @@ export const Providers = ({ children }: Props) => {
 
   useEffect(() => {
 
-    if(getFromSessionStorage('user-login-data')) {
+    if (getFromSessionStorage('user-login-data')) {
       const user = getSession()
-      if(!user.error) {
-        store.dispatch( setAuthState( user.data ) )
+      if (!user.error) {
+        store.dispatch(setAuthState(user.data))
+        store.dispatch( getUserProfile() )
       } else {
-         store.dispatch(
+        store.dispatch( clearRedux() )
+        store.dispatch(
           uiModal({
             modalFor: 'message',
             msg: 'No se pudo cargar el usuario.',
             modalOpen: true,
             typeMsg: 'error'
           })
-         )
-         router.push('/login')
+        )
+        router.push('/login')
       }
     }
-  },[])
+  }, [])
 
   return (
-    <Provider store={ store }>
-      { children }
+    <Provider store={store}>
+      {children}
     </Provider>
   )
 }

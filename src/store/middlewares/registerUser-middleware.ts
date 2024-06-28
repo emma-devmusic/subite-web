@@ -17,7 +17,7 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
                 auth: { newUser },
             } = state.getState() as RootState
 
-            state.dispatch(uiModal({ modalFor: 'new_user', modalOpen: true, }))
+            state.dispatch(uiModal({ modalFor: 'validate_code', modalOpen: true, }))
             state.dispatch(uiSetLoading(true))
 
             console.log('Llamada a la Api - USER REGISTER - POST DE NUEVO USUARIO')
@@ -42,6 +42,12 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
             } = state.getState() as RootState
             state.dispatch(uiSetLoading(true))
             
+            if(!validateUserData.email) {
+                console.log('Ejecutar acá');
+                return
+            }
+
+            console.log('se ejecuta igual?')
             console.log('Llamada a la Api - USER REGISTER - ENVIO DE EMAIL PARA VERIFICACION')
             const userValidationResponse = await fetchData(`/manage-auth/email-validation/${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', validateUserData)
                 .catch(err => {

@@ -1,20 +1,19 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { UserProfileToRedux, loggear, login } from "../authSlice";
-import { getSession } from "@/helpers";
-import { ImagesProfileSendResponse, ImagesProfileUpdateResponse, LoginResponse, SendEmailVerificationResponse, TwoFactorResponse, UserDataLogin } from "@/types/dataFetching";
+import { UserProfileToRedux } from "../authSlice";
+import { ImagesProfileUpdateResponse, SendEmailVerificationResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import EncryptData, { decryptLoginData, encryptLoginDataInSessionStorage } from "@/helpers/EncryptData";
-import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
+import { decryptLoginData } from "@/helpers/EncryptData";
+import { uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
-import { redirect } from "next/dist/server/api-utils";
-import { NextResponse } from "next/server";
 
 export const profileUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
 
         next(action);
+
+
         if (action.type === 'auth/getUserProfile') {
             state.dispatch(uiSetLoading(true))
             const userData: any = decryptLoginData()
@@ -27,11 +26,11 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: `${errorMsg[err.message]}`
+                            msg: `${err}`
                         })
                     )
                 })
-            if (!user.error) {
+            if (user && !user.error) {
                 state.dispatch(
                     UserProfileToRedux(user.data)
                 )
@@ -45,8 +44,6 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 )
                 state.dispatch(uiSetLoading(false))
             } else {
-                console.log('aca?')
-
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
@@ -56,9 +53,13 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
                 state.dispatch(uiSetLoading(false))
-                NextResponse.redirect('/login')
+                window.location.replace('/login')
+                sessionStorage.clear()
             }
         }
+
+
+
 
         if (action.type === 'auth/sendMailVerification') {
             state.dispatch(uiSetLoading(true))
@@ -79,7 +80,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
             if (!resp.error) {
                 state.dispatch(
                     uiModal({
-                        modalFor: 'new_user',
+                        modalFor: 'validate_code',
                         modalOpen: true,
                     })
                 )
@@ -96,6 +97,9 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 )
             }
         }
+
+
+
 
         if (action.type === 'auth/savingImages') {
             state.dispatch(uiSetLoading(true))
@@ -161,8 +165,8 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiSetLoading(true))
             const userData: any = decryptLoginData()
             const imgProfileUpdate = {
-                ...(imgState.imageProfileSelected && {default: imgState.imageProfileSelected?.id}),
-                ...(imgState.imagesToDelete.length > 0 && {delete: imgState.imagesToDelete})
+                ...(imgState.imageProfileSelected && { default: imgState.imageProfileSelected?.id }),
+                ...(imgState.imagesToDelete.length > 0 && { delete: imgState.imagesToDelete })
             }
             console.log('Llamada a la Api - USER PROFILE - UPDATE IMAGES PROFILE')
             const resp: ImagesProfileUpdateResponse = await fetchData('/user-profile/update/image', 'PATCH', imgProfileUpdate, userData.data.access.accessToken)
@@ -173,9 +177,11 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: `${errorMsg[err.message]}`
+                            msg: `${err}`
                         })
                     )
+                    window.location.reload()
+
                 })
             if (!resp.error) {
                 state.dispatch(uiSetLoading(false))

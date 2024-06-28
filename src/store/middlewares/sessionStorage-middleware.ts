@@ -1,6 +1,6 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { loggear, login } from "../authSlice";
+import { clearRedux, loggear, login, logout } from "../authSlice";
 import { getSession } from "@/helpers";
 import { LoginResponse, TwoFactorResponse, UserDataLogin } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
@@ -26,13 +26,11 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: `${errorMsg[err.message]}`
+                            msg: `${err}`
                         })
                     )
                 })
             if(user && !user.error) {
-                // const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
-                // console.log(encrypter.decrypt(user.data.permissions))
                 encryptLoginDataInSessionStorage(user.data);
                 if (user.data.two_factor) {
                     state.dispatch( uiSetLoading(false) )
@@ -63,7 +61,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: `${errorMsg[err.message]}`
+                            msg: `${err}`
                         })
                     )
                     sessionStorage.clear();
@@ -86,8 +84,6 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
 
 
         if (action.type === 'auth/loggear') {
-
-            const userData: any = decryptLoginData()
             state.dispatch(uiSetLoading(false))
             state.dispatch(
                 uiModal({
@@ -102,13 +98,13 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     uiCloseModal()
                 )
             }, 2000)
-
             const userDecrypted = getSession()
             state.dispatch( login(userDecrypted.data) )
         }
 
 
         if (action.type === 'auth/logout') {
+
             state.dispatch(uiSetLoading(true))
             state.dispatch(
                 uiModal({
@@ -119,9 +115,9 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                 })
             )
             const userData: any = decryptLoginData()
-
+            const token = userData.data.access.accessToken
             console.log('Llamada a la Api - USER LOGOUT')
-            const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, userData.data.access.accessToken)
+            const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, token)
             .catch(err => {
                 console.log(err)
                 state.dispatch(uiSetLoading(false))
@@ -130,16 +126,18 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                         modalFor: 'message',
                         modalOpen: true,
                         typeMsg: 'error',
-                        msg: `${errorMsg[err.message]}`
+                        msg: `${err}`
                     })
                 )
                 sessionStorage.clear();
+                window.location.reload()
             })
             if(!logoutResponse.error){
                 state.dispatch(uiSetLoading(false))
                 state.dispatch(
                     uiCloseModal()
                 )
+                state.dispatch(clearRedux())
                 sessionStorage.clear();
             }
         }

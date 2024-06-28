@@ -21,7 +21,7 @@ export default function RootLayout({
                 <Sidebar />
                 <div className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64 flex flex-col justify-between">
                     {children}
-                <Footer />
+                    <Footer />
                 </div>
             </div>
         </div>

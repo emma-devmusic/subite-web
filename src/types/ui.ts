@@ -6,7 +6,7 @@ export interface ModalMsg {
 }
 
 export interface Modal {
-        modalFor: null | 'new_user' | '2F_code' | 'new_product' | 'new_auction' | 'message' | 'loading' | 'edit_image_profile';
+        modalFor: null | 'validate_code' | '2F_code' | 'new_product' | 'new_auction' | 'message' | 'loading' | 'edit_image_profile' | 'validate_new_email' | '2F_code_change';
         modalOpen: boolean;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';
         msg?: null | string | ReactElement;

@@ -95,3 +95,26 @@ export interface PasswordChangeResponse {
     message: string;
     data: string[];
 }
+
+
+export interface EmailChangeResponse {
+    error: boolean;
+    code: number;
+    message: string;
+    data: string[];
+}
+
+
+export interface ValidateNewEmailResponse {
+    error: boolean;
+    code: number;
+    message: string;
+}
+
+
+export interface TwoFactorChangeResponse {
+    error: boolean;
+    code: number;
+    message: string;
+    data: string[];
+}

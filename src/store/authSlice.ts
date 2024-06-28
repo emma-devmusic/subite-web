@@ -47,8 +47,15 @@ const authSlice = createSlice({
             }
         },
         logout(state) {
-            state.isLogged = false;
-            state.user = null;
+            //for middleware
+        },
+        clearRedux(state) {
+            state.validateUserData = { email: '', code: '' }
+            state.newUser = {} as CreateUserData
+            state.isLogged = false
+            state.loginData = { email: '', password: '' }
+            state.user = null
+            state.userProfile = null
         },
         email_validation(state, action: PayloadAction<ValidateUserData>) {
             state.validateUserData = action.payload
@@ -74,12 +81,44 @@ const authSlice = createSlice({
         updateImageProfile(state, action: PayloadAction<ImageProfileState>) {
             //for middleware
         },
-        newPassword(state, action: PayloadAction<{ old_password: string; new_password: string; }>){
+        newPassword(state, action: PayloadAction<{ old_password: string; new_password: string; }>) {
+            //for middleware
+        },
+        changeEmail(state, action: PayloadAction<{ email: string }>) {
+            //for middleware
+        },
+        validate_email(state, action: PayloadAction<{ code: { code: string; }; }>) {
+            //for middleware
+        },
+        two_factor_change(state, action: PayloadAction<{ two_factor_enabled: boolean }>) {
+            //for middleware
+        },
+        send_two_factor_code_change(state, action: PayloadAction<{ code: string }>) {
             //for middleware
         }
     }
 });
 
-export const { login, loginData, logout, setAuthState, registerUser, email_validation, twoFactorAuthentication, loggear, getUserProfile, UserProfileToRedux, sendMailVerification, savingImages, updateImageProfile, newPassword } = authSlice.actions;
+export const {
+    login,
+    loginData,
+    logout,
+    setAuthState,
+    registerUser,
+    email_validation,
+    twoFactorAuthentication,
+    loggear,
+    getUserProfile,
+    UserProfileToRedux,
+    sendMailVerification,
+    savingImages,
+    updateImageProfile,
+    newPassword,
+    clearRedux,
+    changeEmail,
+    validate_email,
+    two_factor_change,
+    send_two_factor_code_change
+} = authSlice.actions;
 
 export default authSlice.reducer;

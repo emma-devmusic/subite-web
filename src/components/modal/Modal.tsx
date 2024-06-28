@@ -3,13 +3,13 @@ import { useAppDispatch, useAppSelector } from "@/store"
 import { NewProduct } from "./contentModal/NewProduct"
 import { NewUser } from "./contentModal/NewUser"
 import { uiCloseModal, uiSetLoading } from "@/store/uiSlice"
-import { Message } from "./contentModal/Message"
 import { MessageModal } from "./contentModal/MessageModal"
 import { TwoFactorCode } from './contentModal/TwoFactorCode';
 import { ModalHeader } from './ModalHeader';
 import { usePathname, useRouter } from "next/navigation"
 import { ImageProfileModal } from "./contentModal/ImageProfile"
 import { Spinner } from "../spinner/Spinner"
+import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
 
 
 export const Modal = () => {
@@ -27,12 +27,12 @@ export const Modal = () => {
         if (modalFor === '2F_code') {
             sessionStorage.clear();
         }
-        if (modalFor === 'new_user' && path.includes('register')) {
+        if (modalFor === 'validate_code' && path.includes('register')) {
             router.push('./login');
         }
     }
 
-    if (modalFor === 'message') {
+    if (modalFor === 'message' && typeMsg === 'success') {
         setTimeout(() => {
             dispatch(uiCloseModal())
             dispatch(uiSetLoading(false))
@@ -59,10 +59,16 @@ export const Modal = () => {
                                         modalFor === 'new_product' && <NewProduct />
                                     }
                                     {
-                                        modalFor === 'new_user' && <NewUser />
+                                        modalFor === 'validate_code' && <NewUser />
+                                    }
+                                    {
+                                        modalFor === 'validate_new_email' && <ValidateNewEmail />
                                     }
                                     {
                                         modalFor === '2F_code' && <TwoFactorCode />
+                                    }
+                                    {
+                                        modalFor === '2F_code_change' && <TwoFactorCode />
                                     }
                                     {
                                         modalFor === 'edit_image_profile' && <ImageProfileModal />

@@ -1,13 +1,13 @@
 import { useForm } from "@/hooks/useForm"
 import { useAppDispatch, useAppSelector } from "@/store"
-import { email_validation, twoFactorAuthentication } from "@/store/authSlice"
+import { email_validation, send_two_factor_code_change, twoFactorAuthentication } from "@/store/authSlice"
 import { uiCloseModal } from "@/store/uiSlice"
 import { useRouter } from "next/router"
 
 export const TwoFactorCode = () => {
 
-    // const router = useRouter()
-    const { loading, modal: { msg, typeMsg } } = useAppSelector(state => state.ui)
+
+    const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
     const [values, handleInputChange] = useForm({
         code: ''
@@ -15,15 +15,17 @@ export const TwoFactorCode = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(
-            twoFactorAuthentication(values)
-        )
+        if (modalFor === '2F_code_change') {
+            dispatch(
+                send_two_factor_code_change(values)
+            )
+            return
+        } else {
+            dispatch(
+                twoFactorAuthentication(values)
+            )
+        }
     }
-
-    // const handleRedirectLogin = () => {
-    //     dispatch(uiCloseModal())
-    //     if (typeMsg === 'success') router.push('/login')
-    // }
 
     return (
         <div>

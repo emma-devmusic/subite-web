@@ -10,14 +10,13 @@ import { useEffect, useState } from "react";
 import { FormPass } from "./formPass/FormPass";
 import { FormGeneral } from "./formGeneral/FormGeneral";
 import { Spinner } from "@/components/spinner/Spinner";
-import DecryptedSession from "@/helpers/Permissions";
 
 const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 
 export default function UserConfigPage() {
 
     const dispatch = useAppDispatch()
-    const { userProfile } = useAppSelector(state => state.auth)
+    const { userProfile, isLogged } = useAppSelector(state => state.auth)
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
     const { loading } = useAppSelector(state => state.ui)
     
@@ -28,7 +27,7 @@ export default function UserConfigPage() {
     }, [userProfile])
 
     useEffect(() => {
-        dispatch(getUserProfile())
+        if (!userProfile && isLogged) dispatch(getUserProfile())
     }, [])
 
     // const session = new DecryptedSession();
