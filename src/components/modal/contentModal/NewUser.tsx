@@ -36,7 +36,7 @@ export const NewUser = () => {
                         {
                             loading
                                 ? <Spinner />
-                                : (msg && modalFor !== 'validate_code')
+                                : (msg)
                                     ? <Message msg={msg} typeMsg={typeMsg} />
                                     : <div className="flex flex-col gap-3">
                                         <div>

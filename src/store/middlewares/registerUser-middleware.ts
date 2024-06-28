@@ -28,7 +28,6 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
                     )
                 })
             if (userRegister && userRegister.error) {
-                console.log(userRegister)
                 state.dispatch(
                     uiModalMessage({ msg: userRegister.message, typeMsg: 'info' })
                 )
@@ -41,24 +40,17 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
                 auth: { validateUserData },
             } = state.getState() as RootState
             state.dispatch(uiSetLoading(true))
-            
-            if(!validateUserData.email) {
-                console.log('Ejecutar acá');
-                return
-            }
 
-            console.log('se ejecuta igual?')
             console.log('Llamada a la Api - USER REGISTER - ENVIO DE EMAIL PARA VERIFICACION')
             const userValidationResponse = await fetchData(`/manage-auth/email-validation/${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', validateUserData)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
-                        uiModalMessage({ msg: 'Parece que hubo un error al comunicar al servidor. Revisa tu conexión. O tal vez ingresaste mal los datos.', typeMsg: 'error' })
+                        uiModalMessage({ msg: err, typeMsg: 'error' })
                     )
                 })
             if (userValidationResponse.error) {
                 state.dispatch(uiSetLoading(false))
-
                 state.dispatch(
                     uiModalMessage({ msg: userValidationResponse.message, typeMsg: 'error' })
                 )

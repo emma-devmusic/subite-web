@@ -2,7 +2,7 @@
 
 import { useForm } from "@/hooks/useForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getUserProfile, sendMailVerification } from "@/store/authSlice";
+import { delete_account, getUserProfile, sendMailVerification } from "@/store/authSlice";
 import { ImageProfile } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
@@ -10,6 +10,9 @@ import { useEffect, useState } from "react";
 import { FormPass } from "./formPass/FormPass";
 import { FormGeneral } from "./formGeneral/FormGeneral";
 import { Spinner } from "@/components/spinner/Spinner";
+import Swal from "sweetalert2";
+import DecryptedSession from "@/helpers/Permissions";
+import { useRouter } from "next/navigation";
 
 const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 
@@ -19,8 +22,8 @@ export default function UserConfigPage() {
     const { userProfile, isLogged } = useAppSelector(state => state.auth)
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
     const { loading } = useAppSelector(state => state.ui)
-    
-    
+    const router = useRouter()
+
 
     useEffect(() => {
         setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
@@ -30,16 +33,29 @@ export default function UserConfigPage() {
         if (!userProfile && isLogged) dispatch(getUserProfile())
     }, [])
 
-    // const session = new DecryptedSession();
-    // const userConfigId = session.getPermissionsId()['user-config']
-    // const permissionsUserConfig = session.getModuleById(userConfigId)
-    
-    // // const handleEmailVerification = () => {
-    // //     dispatch(uiModal({ modalFor: 'new_user', modalOpen: true }))
-    // //     dispatch(sendMailVerification())
-    // // }
+    const session = new DecryptedSession();
+    const userConfigId = session.getPermissionsId()['user-config']
+    const permissionsUserConfig = session.getModuleById(userConfigId)
+    console.log(permissionsUserConfig)
 
-    if(loading || !userProfile) return <Spinner />
+    const handleAccountDelete = () => {
+        Swal.fire({
+            title: "Eliminar Cuenta",
+            text: "¿Estás seguro/a que deseas eliminar la cuenta?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Si, Borrar Cuenta",
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(delete_account())
+            }
+        });
+    }
+
+    if (loading || !userProfile) return <Spinner />
 
     return (
         <div className="pt-6 px-4">
@@ -59,7 +75,7 @@ export default function UserConfigPage() {
                             <Icon icon={'material-symbols:mail'} />
                             <span className="m-0">{userProfile?.email}</span>
                         </div>
-                        <button className="bg-cyan-600 text-white rounded-lg px-4 py-2 mt-3">
+                        <button onClick={() => router.push('/dashboard/user-profile')} className="bg-cyan-600 border-[1px] border-cyan-600  text-white self-end rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto mt-3">
                             Ir al Perfil
                         </button>
                     </div>
@@ -70,11 +86,11 @@ export default function UserConfigPage() {
 
                 {/* INFORMACIÓN GENERAL */}
                 <FormGeneral userProfile={userProfile} />
-                
+
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                     <button
                         className="bg-white border-[1px] border-red-600 text-red-600 rounded-md px-4 py-2 hover:bg-red-600 hover:text-white transition-all"
-
+                        onClick={handleAccountDelete}
                     >
                         Eliminar Cuenta
                     </button>

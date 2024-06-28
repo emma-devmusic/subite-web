@@ -3,6 +3,7 @@ import { EmailChangeResponse, PasswordChangeResponse, TwoFactorChangeResponse, V
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiModal, uiSetLoading } from "../uiSlice";
 import { decryptLoginData } from "@/helpers/EncryptData";
+import { clearRedux } from "../authSlice";
 
 
 export const configUserMiddleware = (state: MiddlewareAPI) => {
@@ -143,12 +144,15 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiSetLoading(true))
             const userData: any = decryptLoginData()
 
-            console.log(typeof action.payload)
-            console.log(action.payload)
-            console.log(userData.data.access.accessToken)
-
             try {
-                const resp = await fetchData('/user-config/validate-sec', 'POST', action.payload, userData.data.access.accessToken)
+                const resp = await fetchData(
+                    '/user-config/validate-sec',
+                    'POST',
+                    action.payload,
+                    userData.data.access.accessToken,
+                    { verify: `${process.env.NEXT_PUBLIC_VERIFY}` }
+                )
+
                 if (!resp.error) {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -169,6 +173,46 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
                         typeMsg: 'error',
                         msg: `${error}`
                     }))
+            }
+        }
+
+
+
+        if (action.type === 'auth/delete_account') {
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+            try {
+                const resp = await fetchData(
+                    '/user-config/delete-user',
+                    'DELETE',
+                    null,
+                    userData.data.access.accessToken
+                )
+
+                if (!resp.error) {
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'success',
+                            msg: 'Lamentamos mucho que te vayas. ¡Sientete libre de volve cuando quieras!'
+                        }))
+                }
+                sessionStorage.clear()
+                state.dispatch( clearRedux() )
+                location.replace('/')
+
+            } catch (error) {
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: `${error}`
+                    }))
+                
             }
         }
 

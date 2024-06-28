@@ -55,7 +55,7 @@ export const FormGeneral = ({ userProfile }: Props) => {
                                 onChange={(e: any) => setEmailInput(e.target.value)}
                                 type="email"
                                 name="email"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                                className=" border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5 disabled:bg-gray-50"
                                 placeholder="Nuevo Email"
                                 required
                             />
@@ -104,7 +104,7 @@ export const FormGeneral = ({ userProfile }: Props) => {
                         {twoFactorChange ? 'Cambiar' : 'Cancelar'}
                     </button>
                     <button
-                        className={`bg-cyan-600 border-[1px] border-cyan-600 self-end text-white rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto ${(twoFactorChange && 'hidden')}`}
+                        className={`bg-cyan-600 border-[1px] border-cyan-600 self-end text-white rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto ${(twoFactorChange || (twoFactorSelect === userProfile?.two_factor_enabled) ? 'hidden': '')}`}
                         onClick={handleSubmitTwoFactor}
                     >
                         Guardar
@@ -114,13 +114,13 @@ export const FormGeneral = ({ userProfile }: Props) => {
 
 
 
-                <div className="mt-4 flex items-center">
+                {/* <div className="mt-4 flex items-center">
                     <button
                         className="bg-cyan-600 self-end text-white rounded-md px-4 py-2 mt-1 hover:bg-cyan-500 transition-all"
                     >
                         Validar Email
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );
