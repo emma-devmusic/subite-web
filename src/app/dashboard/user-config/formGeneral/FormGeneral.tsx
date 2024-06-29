@@ -81,13 +81,13 @@ export const FormGeneral = ({ userProfile }: Props) => {
 
 
                 <div className="mt-4 flex flex-col sm:flex-row items-center gap-2">
-                    <div>
+                    <div className="md:basis-1/2 xl:basis-1/3 w-full">
                         {
                             userProfile?.two_factor_enabled
                                 ? <i className="text-sm text-gray-500 ms-1">La autenticación en 2 factores ya está activada</i>
                                 : <i className="text-sm text-red-400 ms-1">La autenticación en 2 factores está desactivada</i>
                         }
-                        <div className={`flex items-center ${twoFactorChange && 'bg-gray-50'} border md:basis-1/2 xl:basis-1/3 border-gray-300 text-gray-900  rounded-lg focus:ring-cyan-600 focus:border-cyan-600 w-full p-2.5`}>
+                        <div className={`flex items-center ${twoFactorChange && 'bg-gray-50'} border  border-gray-300 text-gray-900  rounded-lg focus:ring-cyan-600 focus:border-cyan-600 w-full p-2.5`}>
                             <input checked={twoFactorSelect} disabled={twoFactorChange} id="disabled-checked-checkbox" onChange={() => setTwoFactorSelect(!twoFactorSelect)} type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                             <label htmlFor={"disabled-checked-checkbox"} className={`ms-2 sm:text-sm w-full hover:cursor-pointer ${twoFactorChange && 'text-gray-500 hover:cursor-not-allowed'}`}>Autenticación en 2 factores</label>
                         </div>

@@ -33,10 +33,10 @@ export default function UserConfigPage() {
         if (!userProfile && isLogged) dispatch(getUserProfile())
     }, [])
 
-    const session = new DecryptedSession();
-    const userConfigId = session.getPermissionsId()['user-config']
-    const permissionsUserConfig = session.getModuleById(userConfigId)
-    console.log(permissionsUserConfig)
+    // const session = new DecryptedSession();
+    // const userConfigId = session.getPermissionsId()['user-config']
+    // const permissionsUserConfig = session.getModuleById(userConfigId)
+    // console.log(permissionsUserConfig)
 
     const handleAccountDelete = () => {
         Swal.fire({
