@@ -98,6 +98,9 @@ const authSlice = createSlice({
         },
         delete_account(state) {
             //for middleware
+        },
+        verify_account(state, action: PayloadAction<{ document: any[], file: any[] }>) {
+            //for middleware
         }
     }
 });
@@ -122,7 +125,8 @@ export const {
     validate_email,
     two_factor_change,
     send_two_factor_code_change,
-    delete_account
+    delete_account,
+    verify_account
 } = authSlice.actions;
 
 export default authSlice.reducer;

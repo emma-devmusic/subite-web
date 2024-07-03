@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { ImageProfileModal } from "./contentModal/ImageProfile"
 import { Spinner } from "../spinner/Spinner"
 import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
+import { VerifyAccount } from "./contentModal/verifyAccount/VerifyAccount"
 
 
 export const Modal = () => {
@@ -72,6 +73,9 @@ export const Modal = () => {
                                     }
                                     {
                                         modalFor === 'edit_image_profile' && <ImageProfileModal />
+                                    }
+                                    {
+                                        modalFor === 'verify_account' && <VerifyAccount />
                                     }
                                 </>
                         }

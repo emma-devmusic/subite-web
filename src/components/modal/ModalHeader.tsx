@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const ModalHeader = ({ close }: Props) => {
-    const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
+    const { modal: { modalOpen, modalFor, msg, typeMsg, modalTitle } } = useAppSelector(state => state.ui)
 
     const title: any = {
         '2F_code': 'Autenticación en 2 Factores',
@@ -29,7 +29,7 @@ export const ModalHeader = ({ close }: Props) => {
             <div className='flex justify-between items-center p-2 px-4'>
                 <div className='text-lg font-medium'>
                     {
-                        !typeMsg && title[ modalFor || 'loading' ]
+                        !typeMsg && title[ modalFor || 'loading' ] || modalTitle
                     }
                     {
                         typeMsg === 'success' && <CheckCircleIcon className=" h-8 w-8 text-green-400" />

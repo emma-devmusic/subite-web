@@ -13,6 +13,7 @@ const initialState: UiSlice = {
     modal: {
         modalFor: null,
         modalOpen: false,
+        modalTitle: ''
     },
     menuOpen: false,
     loading: false,

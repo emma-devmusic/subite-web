@@ -13,6 +13,7 @@ import { Spinner } from "@/components/spinner/Spinner";
 import Swal from "sweetalert2";
 import DecryptedSession from "@/helpers/Permissions";
 import { useRouter } from "next/navigation";
+import { uiModal } from '@/store/uiSlice';
 
 const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 
@@ -55,6 +56,14 @@ export default function UserConfigPage() {
         });
     }
 
+    const handleVerifyAccount = () => {
+        dispatch( uiModal({
+            modalFor: 'verify_account',
+            modalOpen: true,
+            modalTitle: 'Verificar Cuenta'
+        }) )
+    }
+
     if (loading || !userProfile) return <Spinner />
 
     return (
@@ -63,21 +72,41 @@ export default function UserConfigPage() {
             <div className="w-full flex flex-col gap-4">
 
                 {/* PERFIL */}
-                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 flex gap-2 items-center ">
-                    <div
-                        className="inline-flex text-gray-400 hover:text-gray-600 hover:cursor-pointer transition-all"
-                    >
-                        <Image width={400} height={400} className="h-28 w-28 rounded-lg object-cover" src={imageProfile?.image_url || alternativeImage} alt="Neil image" />
-                    </div>
-                    <div className="">
-                        <h3 className="text-2xl font-semibold">{`${userProfile?.name} ${userProfile?.last_name}`}</h3>
-                        <div className="flex items-center gap-2 mt-1 text-sm">
-                            <Icon icon={'material-symbols:mail'} />
-                            <span className="m-0">{userProfile?.email}</span>
+                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 flex gap-2 items-center justify-between flex-wrap">
+                    <div className="flex gap-2 items-center">
+                        <div
+                            className="inline-flex text-gray-400 hover:text-gray-600 hover:cursor-pointer transition-all"
+                        >
+                            <Image width={400} height={400} className="h-28 w-28 rounded-lg object-cover" src={imageProfile?.image_url || alternativeImage} alt="Neil image" />
                         </div>
-                        <button onClick={() => router.push('/dashboard/user-profile')} className="bg-cyan-600 border-[1px] border-cyan-600  text-white self-end rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto mt-3">
-                            Ir al Perfil
-                        </button>
+                        <div className="">
+                            <h3 className="text-xl font-medium md:text-2xl md:font-semibold">{`${userProfile?.name} ${userProfile?.last_name}`}</h3>
+                            <div className="flex items-center gap-2 mt-1 text-sm">
+                                <Icon icon={'material-symbols:mail'} />
+                                <span className="m-0">{userProfile?.email}</span>
+                            </div>
+                            <button onClick={() => router.push('/dashboard/user-profile')} className="bg-cyan-600 border-[1px] border-cyan-600  text-white self-end rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto mt-3">
+                                Ir al Perfil
+                            </button>
+                        </div>
+                    </div>
+                    <div className="h-full w-full sm:w-auto ">
+                        {
+                            !userProfile.account_verified &&
+                            <button 
+                                className="flex items-center justify-center bg-yellow-500 h-full text-white self-end rounded-md px-4 py-2 hover:bg-yellow-400 transition-all w-full sm:w-auto mt-3 g-2"
+                                onClick={handleVerifyAccount}
+                            >
+                                <Icon icon={'bitcoin-icons:verify-outline'} className="text-3xl" />
+                                <span className="uppercase">
+                                    {
+                                        userProfile.auth_user_audits_status_description === 'en proceso'
+                                        ? 'En proceso'
+                                        : 'Verificar Cuenta'
+                                    }   
+                                </span>
+                            </button>
+                        }
                     </div>
                 </div>
 

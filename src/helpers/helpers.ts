@@ -68,7 +68,7 @@ export const formValidate = (formData: CreateUserDataRedux) => {
 
 export const validateNewPassword = (passwordForm: FormNewPassword) => {
 
-    
+
     let flag = false;
     const { old_password, new_password, new_password_2 } = passwordForm
 
@@ -82,7 +82,7 @@ export const validateNewPassword = (passwordForm: FormNewPassword) => {
         pass_new_old: new_password !== old_password
     }
 
-    if(
+    if (
         errors.pass_length &&
         errors.pass_lowercase &&
         errors.pass_uppercase &&
@@ -97,7 +97,7 @@ export const validateNewPassword = (passwordForm: FormNewPassword) => {
     return {
         errors,
         flag
-    }   
+    }
 }
 
 //prepara los valores del usuario a registrar en la base de datos
@@ -111,8 +111,21 @@ export const userToRegister = (values: any) => {
 
 export const objToArray = (obj: any) => {
     let arr = []
-    for(let prop in obj) {
+    for (let prop in obj) {
         arr.push(obj[prop])
     }
     return arr
+}
+
+
+export const base64ToBlob = (dataURI: string) => {
+    const splitDataURI = dataURI.split(',')
+    const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+    const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+    const ia = new Uint8Array(byteString.length)
+    for (let i = 0; i < byteString.length; i++)
+        ia[i] = byteString.charCodeAt(i)
+
+    return new Blob([ia], { type: mimeString })
 }

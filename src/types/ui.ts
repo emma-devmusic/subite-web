@@ -6,8 +6,20 @@ export interface ModalMsg {
 }
 
 export interface Modal {
-        modalFor: null | 'validate_code' | '2F_code' | 'new_product' | 'new_auction' | 'message' | 'loading' | 'edit_image_profile' | 'validate_new_email' | '2F_code_change';
+        modalFor: 
+        | null 
+        | 'validate_code' 
+        | '2F_code' 
+        | 'new_product' 
+        | 'new_auction' 
+        | 'message' 
+        | 'loading' 
+        | 'edit_image_profile' 
+        | 'validate_new_email' 
+        | '2F_code_change'
+        | 'verify_account';
         modalOpen: boolean;
+        modalTitle?: string;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';
         msg?: null | string | ReactElement;
 }

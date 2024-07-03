@@ -21,6 +21,7 @@ export const PopoverApp = ({ children, button, classOpen, classClose, position =
                     <>
                         <Popover.Button className={open ? classOpen : classClose}>
                             {button}
+                            
                         </Popover.Button>
                         <Transition
                             as={Fragment}

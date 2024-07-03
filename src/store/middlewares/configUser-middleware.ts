@@ -216,5 +216,70 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
             }
         }
 
+        if(action.type === 'auth/verify_account') {
+            state.dispatch(uiSetLoading(true))
+            const userData: any = decryptLoginData()
+            const formData = new FormData();
+            action.payload.document.forEach((file: any) => {
+                formData.append('document', file)
+            })
+            formData.append('selfie', action.payload.selfie[0])
+
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-users-audits/request-validation`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${userData.data.access.accessToken}`
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    state.dispatch(uiSetLoading(true))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'error',
+                            msg: 'Ocurrió un error en el envío de datos'
+                        })
+                    )
+                    state.dispatch(uiSetLoading(false))
+                    throw new Error(response.statusText);
+
+                }
+
+                const resp = await response.json();
+
+                if (!resp.error) {
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'success',
+                            msg: 'Documentación enviada correctamente.'
+                        })
+                    )
+                    state.dispatch(uiSetLoading(false))
+                    window.location.reload()
+                    state.dispatch(uiSetLoading(false))
+
+                }
+
+            } catch (err: any) {
+                state.dispatch(uiSetLoading(true))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: 'Ocurrió un error en el envío de datos'
+                    })
+                )
+                state.dispatch(uiSetLoading(false))
+
+            }
+        }
+
     }
 }

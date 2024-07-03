@@ -7,12 +7,14 @@ import { useAppDispatch, useAppSelector } from "@/store"
 import { getUserProfile } from "@/store/authSlice"
 import { ImageProfile } from "@/types"
 import { UserCircleIcon } from "@heroicons/react/24/outline"
+import { Icon } from "@iconify/react/dist/iconify.js"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { MenuItemVerify } from "./MenuItemVerify"
 
 export const AccountMenu = () => {
-    
+
     const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
     const { isLogged, userProfile } = useAppSelector(state => state.auth)
@@ -25,20 +27,38 @@ export const AccountMenu = () => {
         if (!userProfile && isLogged) dispatch(getUserProfile())
     }, [])
 
-    useEffect(() => {
-        setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
-    }, [userProfile])
+    const IconProfile =
+
+        useEffect(() => {
+            setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
+        }, [userProfile])
 
     if ((!userProfile || loading) && isLogged) return <SmallSpinner />
 
+    console.log(userProfile)
+
     return (
         <PopoverApp
-            button={ <Image width={28} height={28} className="rounded-full object-cover" src={imageProfile?.image_url || alternativeImage} alt="Neil image" style={{
-                height: 28,
-                width: 28
-            }}/> }
-            classOpen={'h-7 w-7 text-cyan-700'}
-            classClose={'h-7 w-7 text-gray-400 hover:text-gray-500'}
+            button={
+                <div className="relative">
+                    <Image width={48} height={48} className={`rounded-full object-cover border-[2px] ${userProfile && (userProfile?.account_verified ? 'border-cyan-500' : 'border-yellow-500')}`} src={imageProfile?.image_url || alternativeImage} alt="Neil image" style={{
+                        height: 32,
+                        width: 32,
+                    }} />
+                    {
+                        userProfile && <>
+                            {
+                                userProfile?.account_verified
+                                    ? <Icon icon={'bitcoin-icons:verify-filled'} className="absolute text-3xl top-4 left-2 text-cyan-500" />
+                                    : <Icon icon={'uis:exclamation-circle'} className="absolute text-xl top-5 left-4 text-yellow-500" />
+                            }
+                        </>
+                    }
+
+                </div>
+            }
+            classOpen={'h-8 w-8 text-cyan-700'}
+            classClose={'h-8 w-8 text-gray-400 hover:text-gray-500'}
             position="end"
         >
             {/* <div className="bg-red absolute"></div> */}
@@ -59,6 +79,8 @@ export const AccountMenu = () => {
                         />
                     })
                 }
+
+                { userProfile &&<MenuItemVerify /> }
             </ul>
         </PopoverApp>
     )
