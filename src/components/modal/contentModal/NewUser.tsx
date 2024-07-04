@@ -10,9 +10,10 @@ export const NewUser = () => {
 
     const router = useRouter()
     const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
+    const { userProfile } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
     const [values, handleInputChange] = useForm({
-        email: '',
+        email: userProfile ? userProfile.email : '',
         code: ''
     })
 

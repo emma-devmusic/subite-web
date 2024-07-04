@@ -226,7 +226,7 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
             formData.append('selfie', action.payload.selfie[0])
 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-users-audits/request-validation`, {
+                const response: any = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-users-audits/request-validation`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${userData.data.access.accessToken}`
@@ -241,7 +241,7 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
                             modalFor: 'message',
                             modalOpen: true,
                             typeMsg: 'error',
-                            msg: 'Ocurrió un error en el envío de datos'
+                            msg: response.message
                         })
                     )
                     state.dispatch(uiSetLoading(false))

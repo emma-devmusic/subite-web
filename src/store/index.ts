@@ -7,12 +7,14 @@ import { sessionStorageMiddleware } from './middlewares/sessionStorage-middlewar
 import { registerUserMiddleware } from './middlewares/registerUser-middleware';
 import { profileUserMiddleware } from './middlewares/profileUser-middleware';
 import { configUserMiddleware } from './middlewares/configUser-middleware';
+import { manageUserAuditsMiddleware } from './middlewares/manageUserAudits-middleware';
 
 const middlewares = [
   sessionStorageMiddleware,
   registerUserMiddleware,
   profileUserMiddleware,
-  configUserMiddleware
+  configUserMiddleware,
+  manageUserAuditsMiddleware
 ] as Middleware[]
 
 export const store = configureStore({

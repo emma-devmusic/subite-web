@@ -56,7 +56,7 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
                 )
             } else {
                 state.dispatch( 
-                    uiModalMessage({ msg: '¡Validación exitosa! Ahora puedes ingresar a la plataforma', typeMsg: 'success' })
+                    uiModalMessage({ msg: '¡Validación exitosa!', typeMsg: 'success' })
                 )
                 state.dispatch(uiSetLoading(false))
             }

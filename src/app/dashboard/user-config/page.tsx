@@ -35,7 +35,7 @@ export default function UserConfigPage() {
     }, [])
 
     // const session = new DecryptedSession();
-    // const userConfigId = session.getPermissionsId()['user-config']
+    // const userConfigId = session.getPermissionsId()['manage-users']
     // const permissionsUserConfig = session.getModuleById(userConfigId)
     // console.log(permissionsUserConfig)
 
@@ -57,11 +57,11 @@ export default function UserConfigPage() {
     }
 
     const handleVerifyAccount = () => {
-        dispatch( uiModal({
+        dispatch(uiModal({
             modalFor: 'verify_account',
             modalOpen: true,
             modalTitle: 'Verificar Cuenta'
-        }) )
+        }))
     }
 
     if (loading || !userProfile) return <Spinner />
@@ -93,17 +93,20 @@ export default function UserConfigPage() {
                     <div className="h-full w-full sm:w-auto ">
                         {
                             !userProfile.account_verified &&
-                            <button 
-                                className="flex items-center justify-center bg-yellow-500 h-full text-white self-end rounded-md px-4 py-2 hover:bg-yellow-400 transition-all w-full sm:w-auto mt-3 g-2"
+                            <button
+                                disabled={userProfile.auth_user_audits_status_description === 'en proceso'}
+                                className={`flex items-center justify-center ${userProfile.account_verified ? 'text-cyan-600 ' : 'bg-yellow-500 text-white hover:bg-yellow-400'}  h-full  self-end rounded-md px-4 py-2 transition-all w-full sm:w-auto mt-3 g-2 disabled:bg-white disabled:text-gray-600`}
                                 onClick={handleVerifyAccount}
                             >
-                                <Icon icon={'bitcoin-icons:verify-outline'} className="text-3xl" />
+                                <Icon icon={'bitcoin-icons:verify-outline'} className={` ${userProfile.account_verified ? 'text-5xl' : 'text-3xl'}`} />
                                 <span className="uppercase">
                                     {
-                                        userProfile.auth_user_audits_status_description === 'en proceso'
-                                        ? 'En proceso'
-                                        : 'Verificar Cuenta'
-                                    }   
+                                        userProfile.account_verified
+                                            ? 'Cuenta Verificada'
+                                            : userProfile.auth_user_audits_status_description === 'en proceso'
+                                                ? 'Verificación en proceso...'
+                                                : 'Verificar Cuenta'
+                                    }
                                 </span>
                             </button>
                         }

@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image"
 import { MenuItem } from "@/components/menuItem"
 import { PopoverApp } from "@/components/popover"
 import { SmallSpinner, Spinner } from "@/components/spinner/Spinner"
@@ -6,9 +7,7 @@ import { accountMenuData } from "@/mocks/mocks"
 import { useAppDispatch, useAppSelector } from "@/store"
 import { getUserProfile } from "@/store/authSlice"
 import { ImageProfile } from "@/types"
-import { UserCircleIcon } from "@heroicons/react/24/outline"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { MenuItemVerify } from "./MenuItemVerify"
@@ -20,22 +19,17 @@ export const AccountMenu = () => {
     const { isLogged, userProfile } = useAppSelector(state => state.auth)
     const { loading } = useAppSelector(state => state.ui)
     const path = usePathname();
-
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (!userProfile && isLogged) dispatch(getUserProfile())
     }, [])
 
-    const IconProfile =
-
-        useEffect(() => {
-            setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
-        }, [userProfile])
+    useEffect(() => {
+        setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
+    }, [userProfile])
 
     if ((!userProfile || loading) && isLogged) return <SmallSpinner />
-
-    console.log(userProfile)
 
     return (
         <PopoverApp
@@ -54,14 +48,12 @@ export const AccountMenu = () => {
                             }
                         </>
                     }
-
                 </div>
             }
             classOpen={'h-8 w-8 text-cyan-700'}
             classClose={'h-8 w-8 text-gray-400 hover:text-gray-500'}
             position="end"
         >
-            {/* <div className="bg-red absolute"></div> */}
             <ul className='flex flex-col w-[200px]'>
                 {
                     accountMenuData.map(item => {
@@ -80,7 +72,7 @@ export const AccountMenu = () => {
                     })
                 }
 
-                { userProfile &&<MenuItemVerify /> }
+                {userProfile && <MenuItemVerify />}
             </ul>
         </PopoverApp>
     )

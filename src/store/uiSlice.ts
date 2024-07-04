@@ -42,6 +42,11 @@ const uiSlice = createSlice({
     }
 });
 
-export const { uiMenu, uiSetLoading, uiModal, uiCloseModal, uiModalMessage } = uiSlice.actions;
+export const { 
+    uiMenu, 
+    uiSetLoading, 
+    uiModal, 
+    uiCloseModal, 
+    uiModalMessage } = uiSlice.actions;
 
 export default uiSlice.reducer;

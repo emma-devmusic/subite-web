@@ -1,5 +1,6 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/store'
+import { getUsers } from '@/store/manageUserSlice'
 import { uiMenu } from '@/store/uiSlice'
 
 export const SidebarLayout = ({ children }: { children: React.ReactNode }) => {

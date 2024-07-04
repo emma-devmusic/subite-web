@@ -1,10 +1,16 @@
-
+'use client'
 import { sidebarData } from '@/mocks/mocks';
 import { SidebarLayout } from './SidebarLayout';
 import { MenuItem } from '@/components/menuItem';
+import { useAppDispatch } from '@/store';
+import { getUsers } from '@/store/manageUserSlice';
 
 const Sidebar = () => {
 
+    const dispatch = useAppDispatch()
+
+    dispatch( getUsers() )
+    
 
     return (
         <SidebarLayout>
