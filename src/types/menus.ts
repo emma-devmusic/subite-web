@@ -1,5 +1,5 @@
 export interface SidebarMenuItem {
-    admin: boolean;
+    forAdmin: boolean;
     text: string;
     link: string;
     icon: string;

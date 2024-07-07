@@ -1,11 +1,5 @@
-
-// export interface User {
-//     name: string;
-//     id: string;
-//     email: string;
-//     phone: string;
-//     urlImg: string;
-// }
+import { isAdmin } from '../helpers/helpers';
+import { UserItem } from './dataFetching';
 
 export interface LoginData {
     email: string;
@@ -49,4 +43,11 @@ export interface Permission {
     auth_actions_id:    number;
     action_description: string;
     action_method:      string;
+}
+
+
+export interface UserState {
+    isAdmin: boolean;
+    users: UserItem[];
+    usersSelected: {}
 }

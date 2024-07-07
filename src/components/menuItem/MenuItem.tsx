@@ -23,7 +23,7 @@ export const MenuItem = ({ text, link, icon, show }: Props) => {
     }
 
 
-    if (!show) return;
+    if (!show) return
     if (link === '/close-session') return (
             <li onClick={handleLogout}>
                 <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">

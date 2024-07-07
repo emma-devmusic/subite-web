@@ -2,6 +2,7 @@ import { Middleware, configureStore } from '@reduxjs/toolkit';
 
 import uiReducer from './uiSlice';
 import authReducer from './authSlice';
+import manageUserReducer from './manageUserSlice';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import { sessionStorageMiddleware } from './middlewares/sessionStorage-middleware';
 import { registerUserMiddleware } from './middlewares/registerUser-middleware';
@@ -20,7 +21,8 @@ const middlewares = [
 export const store = configureStore({
   reducer: {
     ui: uiReducer,
-    auth: authReducer
+    auth: authReducer,
+    manageUser: manageUserReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,

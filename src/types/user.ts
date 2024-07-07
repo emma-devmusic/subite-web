@@ -22,6 +22,17 @@ export interface UserPermission {
     action_method?: string;
 }
 
+export interface PermissionCompressed {
+    action_description: string;
+    action_method: string;
+}
+
+export interface ModulesPermissions {
+    module_description: string;
+    module_endpoint: string;
+    permission: PermissionCompressed[]
+}
+
 export interface AuthUser {
     id: number;
     email: string;

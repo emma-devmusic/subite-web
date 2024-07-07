@@ -64,6 +64,11 @@ export default class DecryptedSession {
     getPermissionsId() {
         return objPermissionsId(this.sessionDecrypted.permission)
     }
+    getAccessToken() {
+    console.log(getSession())
+
+        return this.sessionDecrypted.accessToken
+    }
 }
 
 

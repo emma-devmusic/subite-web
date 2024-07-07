@@ -18,6 +18,7 @@ export default function UserProfilePage() {
     const { userProfile } = useAppSelector(state => state.auth)
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
 
+
     useEffect(() => {
         if (!userProfile) dispatch(getUserProfile())
     }, [])

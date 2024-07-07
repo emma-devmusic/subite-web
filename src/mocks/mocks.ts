@@ -2,37 +2,37 @@ import { SidebarMenuItem, MenuItem, NotificationApp, User  } from "@/types";
 
 export const sidebarData : SidebarMenuItem[] = [
     {
-        admin: true,
+        forAdmin: false,
         text: 'Tablero',
         link: '/dashboard',
         icon: 'tabler:chart-pie-filled'
     },
     {
-        admin: true,
+        forAdmin: false,
         text: 'Autorizaciones',
         link: '/dashboard/authorizations',
         icon: 'simple-icons:authelia'
     },
     {
-        admin: true,
+        forAdmin: false,
         text: 'Subastas',
         link: '/dashboard/auctions',
         icon: 'mingcute:auction-fill'
     },
     {
-        admin: true,
+        forAdmin: false,
         text: 'Productos',
         link: '/dashboard/products',
         icon: 'icon-park-outline:ad-product',
     },
     {
-        admin: true,
+        forAdmin: false,
         text: 'Buzón',
         link: '/dashboard/inbox',
         icon: 'ic:baseline-email'
     },
     {
-        admin: true,
+        forAdmin: true,
         text: 'Usuarios',
         link: '/dashboard/users',
         icon: 'mdi:users'
@@ -122,7 +122,7 @@ export const errorMsg:any = {
     401: "Por favor, revisa los datos.",
     403: "No estás autorizado o el registro ya existe.",
     404: "No encontramos lo que estás buscando. Por favor, verifica la URL o intenta más tarde.",
-    409: "Revisa los datos. Existe un conflicto con la solicitud.", // Añadido para el código 409
+    409: "Datos inválidos.", // Añadido para el código 409
     500: "¡Ups! Algo salió mal en nuestro servidor. Por favor, inténtalo de nuevo más tarde.",
     502: "El servidor está teniendo problemas. Por favor, inténtalo de nuevo más tarde.",
     503: "El servicio no está disponible en este momento. Por favor, inténtalo de nuevo más tarde.",

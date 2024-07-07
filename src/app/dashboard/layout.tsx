@@ -5,7 +5,7 @@ import './dashboardStyles.css'
 
 export const metadata: Metadata = {
     title: "Dashboard - Subastas",
-    description: "Dashboard de Sara de la página de subastas",
+    description: "Adminstrador de Subastas App",
 };
 
 export default function RootLayout({

@@ -1,5 +1,6 @@
-import { CreateUserDataRedux, FormNewPassword, PasswordChecks, User, UserDataLogin } from "@/types"
+import { CreateUserDataRedux, FormNewPassword, ModulesPermissions, PasswordChecks, User, UserDataLogin } from "@/types"
 import EncryptData, { decryptLoginData } from "./EncryptData";
+import DecryptedSession from "./Permissions";
 
 
 
@@ -128,4 +129,20 @@ export const base64ToBlob = (dataURI: string) => {
         ia[i] = byteString.charCodeAt(i)
 
     return new Blob([ia], { type: mimeString })
+}
+
+
+
+export const isAdmin = (module: string) => {
+    const session = new DecryptedSession();
+    const userConfigId = session.getPermissionsId()[module]
+    const permissionsUserConfig: ModulesPermissions = session.getModuleById(userConfigId)
+    let isAdmin = false
+    if(permissionsUserConfig) {
+        permissionsUserConfig.permission.forEach( p => {
+            if(p.action_method === 'PATCH' || p.action_method === 'DELETE') isAdmin = true;
+        })
+        return isAdmin
+    }
+    throw new Error('El módulo no existe')
 }

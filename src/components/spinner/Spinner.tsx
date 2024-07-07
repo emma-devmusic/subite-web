@@ -1,5 +1,6 @@
 
 export const Spinner = () => {
+    
     return (
         <div role="status" style={{
             width: '100%',
