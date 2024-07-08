@@ -2,24 +2,22 @@
 import { useAppDispatch } from "@/store"
 import { getUsers } from "@/store/manageUserSlice"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { QueryObject } from "../page"
 
 
 interface Props {
-    setPagesSearch: Dispatch<SetStateAction<{
-        pageQuerys: string;
-        searchQuerys: string;
-    }>>;
-    
-    pagesSearch: {
-        pageQuerys: string;
-        searchQuerys: string;
-    }
+    setPagesSearch: Dispatch<SetStateAction<QueryObject>>
+    pagesSearch: QueryObject
 }
+
+const initialQueryState = 'search?page=1&limit=30'
+
 
 export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     const dispatch = useAppDispatch()
-    const [paramState, setParamState] = useState(pagesSearch)
+    
+    const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
 
     const [filters, setFilters] = useState({
         term: '',
@@ -59,11 +57,18 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     useEffect(() => {
         const param = createQueryParams()
-        setParamState(pagesSearch.pageQuerys + param)
-    }, [filters, pagesSearch])
+        setParamState(param)
+        setPagesSearch(state => {
+            return {
+                ...state,
+                searchQuerys: param
+            }
+        })
+    }, [filters])
 
-    const handleSearch = () => {
-        dispatch( getUsers() )
+    const handleSearch = (e:any) => {
+        e.preventDefault()
+        dispatch( getUsers(initialQueryState + paramState) )
     }   
 
     return (
@@ -84,7 +89,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 placeholder="Búsqueda"
                             />
                             <button
-                                type="button"
+                                type="submit"
                                 className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
                                 onClick={handleSearch}
                             >

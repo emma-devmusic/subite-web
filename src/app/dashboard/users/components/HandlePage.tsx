@@ -1,11 +1,9 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { QueryObject } from "../page";
 
 interface Props {
-    setPagesSearch: Dispatch<SetStateAction<{
-        pageQuerys: string;
-        searchQuerys: string;
-    }>>
+    setPagesSearch: Dispatch<SetStateAction<QueryObject>>
 }
 
 export const HandlePage = ({ setPagesSearch }: Props) => {
@@ -19,7 +17,7 @@ export const HandlePage = ({ setPagesSearch }: Props) => {
         setPagesSearch( (state) => {
             return {
                 ...state,
-                page: `search?page=${pageNumber}&limit=30`
+                pageQuerys: `search?page=${pageNumber}&limit=30`
             }
         })
     }, [pageNumber])
