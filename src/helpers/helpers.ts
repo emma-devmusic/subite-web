@@ -146,3 +146,9 @@ export const isAdmin = (module: string) => {
     }
     throw new Error('El módulo no existe')
 }
+
+
+export const flu = (str:string) => { // First Letter Uppercase
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  

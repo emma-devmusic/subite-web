@@ -38,7 +38,8 @@ export default function UserProfilePage() {
         dispatch(uiModal({ modalFor: 'edit_image_profile', modalOpen: true }))
     }
 
-    // if (loading) return <Spinner />
+    console.log(userProfile)
+
     if (!userProfile || loading) return <Spinner />
 
     const text = userProfile?.account_verified ? 'Cuenta verificada' : 'Cuenta no verificada'

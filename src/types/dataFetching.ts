@@ -124,30 +124,89 @@ export interface TwoFactorChangeResponse {
 
 export interface Data2 {
     items: UserItem[];
-    meta:  Meta;
+    meta: Meta;
 }
 export interface UserItem {
-    user_id:              number;
-    user_name:            string;
-    user_last_name:       string;
-    user_email:           string;
-    user_phone:           string;
-    role_id:              number;
-    role_description:     'Administrator' | 'Client';
-    user_active:          boolean;
-    current_audit_id:     number;
+    user_id: number;
+    user_name: string;
+    user_last_name: string;
+    user_email: string;
+    user_phone: string;
+    role_id: number;
+    role_description: 'Administrator' | 'Client';
+    user_active: boolean;
+    current_audit_id: number;
     current_audit_status: 'aprobado' | 'en proceso' | 'pendiente';
 }
 export interface Meta {
-    totalItems:   number;
-    itemsCount:   number;
+    totalItems: number;
+    itemsCount: number;
     itemsPerPage: number;
-    totalPages:   number;
-    currentPage:  number;
+    totalPages: number;
+    currentPage: number;
 }
 export interface SearchUsersResponse {
+    error: boolean;
+    code: number;
+    message: string;
+    data: Data2;
+}
+
+
+export interface SearchUser {
+    error: boolean;
+    code: number;
+    message: string;
+    data: DataUserState;
+}
+
+export interface DataUserState {
+    user_id: number;
+    user_name: string;
+    user_last_name: string;
+    user_email: string;
+    user_phone: string;
+    cell_phone_secondary: null;
+    role_id: number;
+    role_description: string;
+    user_active: boolean;
+    user_date_created: Date;
+    user_address: string;
+    floor: null;
+    email_verified: boolean;
+    user_dni: string;
+    account_verified: boolean;
+    user_gender: string;
+    default_image_profile: any[];
+    audit_status_history: AuditStatusHistory[];
+    audit_images_documents: AuditImagesDocuments[];
+}
+
+export interface AuditStatusHistory {
+    id: number;
+    data_created: Date;
+    data_deleted: null;
+    audit_status_id: number;
+    audit_status_description: string;
+    notes: any[];
+}
+
+export interface AuditImagesDocuments {
+    content_type_image: string;
+    data_created: Date;
+    description: string;
+    document_name: string;
+    id: number
+}
+
+
+export interface AuditDocumentResponse {
     error:   boolean;
     code:    number;
     message: string;
-    data:    Data2;
+    data:    DataAuditDocumentResponse;
+}
+
+export interface DataAuditDocumentResponse {
+    signed_url: string | null;
 }

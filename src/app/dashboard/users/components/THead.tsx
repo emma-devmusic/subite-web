@@ -20,7 +20,7 @@ export const THead = () => {
                 <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
                     Tipo de usuario
                 </th>
-                <th scope="col" className="p-4">
+                <th scope="col" className="p-4 ">
                     Acciones
                 </th>
             </tr>

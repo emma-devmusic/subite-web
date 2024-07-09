@@ -1,5 +1,5 @@
 import { isAdmin } from '../helpers/helpers';
-import { UserItem } from './dataFetching';
+import { DataAuditDocumentResponse, DataUserState, UserItem } from './dataFetching';
 
 export interface LoginData {
     email: string;
@@ -49,5 +49,6 @@ export interface Permission {
 export interface UserState {
     isAdmin: boolean;
     users: UserItem[];
-    usersSelected: {}
+    usersSelected: DataUserState | null;
+    userDocument: DataAuditDocumentResponse;
 }

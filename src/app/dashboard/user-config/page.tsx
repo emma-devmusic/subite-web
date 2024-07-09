@@ -34,11 +34,6 @@ export default function UserConfigPage() {
         if (!userProfile && isLogged) dispatch(getUserProfile())
     }, [])
 
-    // const session = new DecryptedSession();
-    // const userConfigId = session.getPermissionsId()['manage-users']
-    // const permissionsUserConfig = session.getModuleById(userConfigId)
-    // console.log(permissionsUserConfig)
-
     const handleAccountDelete = () => {
         Swal.fire({
             title: "Eliminar Cuenta",

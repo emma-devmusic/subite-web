@@ -72,7 +72,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
     }   
 
     return (
-        <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+        <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 ">
             <div className="mb-1 w-full">
                 <div className="mb-4">
                     <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Usuarios</h1>
@@ -114,8 +114,8 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 </select>
                                 <select value={filters.order} onChange={handleFilter} name="order" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
                                     <option value="">Orden Alfabético</option>
-                                    <option value="asc">Ascendente</option>
-                                    <option value="desc">Descendente</option>
+                                    <option value="last_name:asc">Ascendente</option>
+                                    <option value="last_name:desc">Descendente</option>
                                 </select>
                             </div>
                         </div>

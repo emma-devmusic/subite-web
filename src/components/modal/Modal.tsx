@@ -11,6 +11,7 @@ import { ImageProfileModal } from "./contentModal/ImageProfile"
 import { Spinner } from "../spinner/Spinner"
 import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
 import { VerifyAccount } from "./contentModal/verifyAccount/VerifyAccount"
+import { AuditDocument } from "./contentModal/AuditDocument"
 
 
 export const Modal = () => {
@@ -39,6 +40,8 @@ export const Modal = () => {
             dispatch(uiSetLoading(false))
         }, 2000)
     }
+
+    if(modalFor === 'audit_document') return <AuditDocument close={handleCloseModal} />
 
     return (
         <div className="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
@@ -76,6 +79,9 @@ export const Modal = () => {
                                     }
                                     {
                                         modalFor === 'verify_account' && <VerifyAccount />
+                                    }
+                                    {
+                                        // modalFor === 'audit_document' && <AuditDocument />
                                     }
                                 </>
                         }
