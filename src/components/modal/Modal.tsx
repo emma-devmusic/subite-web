@@ -12,6 +12,7 @@ import { Spinner } from "../spinner/Spinner"
 import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
 import { VerifyAccount } from "./contentModal/verifyAccount/VerifyAccount"
 import { AuditDocument } from "./contentModal/AuditDocument"
+import { AuditUser } from "./contentModal/AuditUser"
 
 
 export const Modal = () => {
@@ -81,7 +82,7 @@ export const Modal = () => {
                                         modalFor === 'verify_account' && <VerifyAccount />
                                     }
                                     {
-                                        // modalFor === 'audit_document' && <AuditDocument />
+                                        modalFor === 'audit_user' && <AuditUser />
                                     }
                                 </>
                         }

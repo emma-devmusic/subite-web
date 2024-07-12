@@ -18,7 +18,8 @@ export interface Modal {
         | 'validate_new_email' 
         | '2F_code_change'
         | 'verify_account'
-        | 'audit_document';
+        | 'audit_document'
+        | 'audit_user';
         modalOpen: boolean;
         modalTitle?: string;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';

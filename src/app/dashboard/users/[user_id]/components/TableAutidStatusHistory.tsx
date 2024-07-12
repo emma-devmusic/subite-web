@@ -1,11 +1,14 @@
 import { flu } from "@/helpers";
 import { AuditStatusHistory } from "@/types";
+import { useEffect, useState } from "react";
 
 interface Props {
     auditHistory: AuditStatusHistory[]
 }
 
 export const TableAutidStatusHistory = ({ auditHistory }: Props) => {
+
+
 
     return (
         <div className="flex flex-col">
@@ -29,14 +32,15 @@ export const TableAutidStatusHistory = ({ auditHistory }: Props) => {
 
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {
-                                    auditHistory.map((e: AuditStatusHistory, i: number) =>
-                                        <tr className="hover:bg-gray-100" key={i}>
+                                    auditHistory?.map((e: AuditStatusHistory, i: number) =>{
+                                        return <tr className="hover:bg-gray-100" key={i}>
                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{flu(e.audit_status_description)}</td>
                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{new Date(e.data_created).toLocaleDateString()}</td>
                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                                { e.notes.map((note, i) => <p key={i}>{note}</p>) }
+                                                { e.notes.map((note, i) => <p key={i}>{note?.description}</p>) }
                                             </td>
                                         </tr>
+                                    }
                                     )
                                 }
                             </tbody>

@@ -1,7 +1,8 @@
 'use client'
 
+import { flu } from "@/helpers";
 import { useAppDispatch } from "@/store";
-import { getUser } from "@/store/manageUserSlice";
+import { deleteUser, getUser } from "@/store/manageUserSlice";
 import { UserItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,55 +11,58 @@ import Swal from "sweetalert2";
 export const TRow = (user: UserItem) => {
 
     const dispatch = useAppDispatch()
-    
+
 
     const handleUserDelete = () => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Eliminar Cuenta",
+            text: "¿Estás seguro/a que deseas eliminar la cuenta?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-          }).then((result) => {
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Si, Borrar Cuenta",
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-              });
+                dispatch(deleteUser(user.user_id))
             }
-          });
+        });
     }
+
 
     return (
         <tr className="hover:bg-gray-100">
-            <td className="p-4 w-4">
+            {/* <td className="p-4 w-4">
                 <div className="flex items-center">
                     <input id="checkbox-194556" aria-describedby="checkbox-1" type="checkbox" className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded" />
                     <label htmlFor="checkbox-194556" className="sr-only">checkbox</label>
                 </div>
-            </td>
+            </td> */}
             <td className="p-4 flex items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0">
-                <Image width={300} height={300} className="h-10 w-10 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil Sims avatar" />
+                {/* <Image width={300} height={300} className="h-10 w-10 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil Sims avatar" /> */}
                 <div className="text-sm font-normal text-gray-500">
                     <div className="text-base font-semibold text-gray-900">{user.user_last_name.trim()}, {user.user_name}</div>
                     <div className="text-sm font-normal text-gray-500">{user.user_email}</div>
                 </div>
             </td>
             <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{user.user_phone}</td>
-            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{user.current_audit_status}</td>
+            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{flu(user.current_audit_status)}</td>
             <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{user.role_description}</td>
+            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">
+                <div className="flex justify-center items-center gap-2">
+                    <div className={`${user.user_active ? 'bg-green-500' : 'bg-red-500'} w-2 h-2 rounded-full`}></div> <span>{user.user_active ? 'Activo' : 'Inactivo'}</span>
+                </div>
+            </td>
             <td className="p-4 whitespace-nowrap space-x-2 text-end">
-                <Link 
-                    href={`/dashboard/users/${user.user_id}`} 
+                <Link
+                    href={`/dashboard/users/${user.user_id}`}
                     className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
-                    onClick={() => dispatch( getUser(user.user_id) )}
+                    onClick={() => dispatch(getUser(user.user_id))}
                 >
                     <svg className=" h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd"></path></svg>
                 </Link>
-                <button 
+                <button
                     className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
                     onClick={handleUserDelete}
                 >

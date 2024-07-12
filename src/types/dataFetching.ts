@@ -201,12 +201,33 @@ export interface AuditImagesDocuments {
 
 
 export interface AuditDocumentResponse {
-    error:   boolean;
-    code:    number;
+    error: boolean;
+    code: number;
     message: string;
-    data:    DataAuditDocumentResponse;
+    data: DataAuditDocumentResponse;
 }
 
 export interface DataAuditDocumentResponse {
     signed_url: string | null;
+}
+
+
+
+export interface UserStatusResponse {
+    error: boolean;
+    code: number;
+    message: string;
+    data: DataUserStatus[];
+}
+
+export interface DataUserStatus {
+    id: number;
+    description: string;
+}
+
+
+export interface SetNewUserStatusResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
 }

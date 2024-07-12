@@ -1,4 +1,4 @@
-import { AuditDocumentResponse, DataAuditDocumentResponse, DataUserState, UserItem, UserState } from '@/types';
+import { AuditDocumentResponse, DataAuditDocumentResponse, DataUserState, DataUserStatus, UserItem, UserState } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 
@@ -6,7 +6,8 @@ const initialState: UserState = {
     isAdmin: false,
     users: [],
     usersSelected: null,
-    userDocument: {signed_url: null}
+    userDocument: { signed_url: null },
+    userStatusArray: null
 }
 
 const manageUsersSlice = createSlice({
@@ -31,11 +32,23 @@ const manageUsersSlice = createSlice({
         setUser(state, action: PayloadAction<DataUserState>) {
             state.usersSelected = action.payload
         },
-        getDocument(state, action: PayloadAction<number | string>){
+        getDocument(state, action: PayloadAction<number | string>) {
             //middleware
         },
         setDocument(state, action: PayloadAction<DataAuditDocumentResponse>) {
             state.userDocument = action.payload
+        },
+        getStatus(state) {
+            //middleware
+        },
+        setSelectStatus(state, action: PayloadAction<DataUserStatus[]>) {
+            state.userStatusArray = action.payload
+        },
+        setStatusAccount(state, action: PayloadAction<{status: string, note: string; id: number | string;}>) {
+            //middleware
+        },
+        deleteUser(state, action: PayloadAction<number | string>) {
+            //middleware
         }
     }
 });
@@ -45,10 +58,15 @@ export const {
     getUser,
     getPermissions,
     getDocument,
+    getStatus,
     setDocument,
     setRole,
     setUser,
-    setUsers } = manageUsersSlice.actions;
+    setUsers,
+    setSelectStatus,
+    setStatusAccount,
+    deleteUser
+} = manageUsersSlice.actions;
 
 
 export default manageUsersSlice.reducer;

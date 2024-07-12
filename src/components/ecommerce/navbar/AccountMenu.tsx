@@ -29,7 +29,7 @@ export const AccountMenu = () => {
         setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
     }, [userProfile])
 
-    if ((!userProfile || loading) && isLogged) return <SmallSpinner />
+    if (!(!userProfile || isLogged) && loading) return <SmallSpinner />
 
     return (
         <PopoverApp

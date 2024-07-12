@@ -5,7 +5,7 @@ import { MenuItem } from '@/components/menuItem';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { getPermissions} from '@/store/manageUserSlice';
 import { useEffect, useState } from 'react';
-import { Spinner } from '@/components/spinner/Spinner';
+import { SmallSpinner, Spinner } from '@/components/spinner/Spinner';
 
 const Sidebar = () => {
 
@@ -20,11 +20,13 @@ const Sidebar = () => {
         setSidebarState(sidebarData)
     },[])
 
-    if(!sidebarState) return <p>Cargando...</p>
+    if(!sidebarState) return <SidebarLayout>
+        <SmallSpinner />
+    </SidebarLayout>
+
 
     return (
         <SidebarLayout>
-
             <ul className="space-y-2 pb-2">
                 {
                     sidebarState.map((item:any) =>
