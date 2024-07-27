@@ -1,4 +1,4 @@
-import { SidebarMenuItem, MenuItem, NotificationApp, User  } from "@/types";
+import { SidebarMenuItem, MenuItem, NotificationApp, User, NotificationFromDB  } from "@/types";
 
 export const sidebarData : SidebarMenuItem[] = [
     {
@@ -6,6 +6,12 @@ export const sidebarData : SidebarMenuItem[] = [
         text: 'Tablero',
         link: '/dashboard',
         icon: 'tabler:chart-pie-filled'
+    },
+    {
+        forAdmin: false,
+        text: 'Notificaciones',
+        link: '/dashboard/notifications',
+        icon: 'ic:round-notifications-active'
     },
     {
         forAdmin: false,
@@ -115,6 +121,14 @@ export const notificationsData: NotificationApp[] = [
     }
 ]
 
+export const dataNotifications: NotificationFromDB[] = [
+    {
+        details: 'Detalles del mensaje',
+        error: false,
+        message: 'Mensaje',
+        title : 'Actualización del estado de tu cuenta.'
+    }
+]
 
 
 export const errorMsg:any = {

@@ -2,6 +2,7 @@ import { Permission } from "@/types";
 import { getSession, objToArray } from "./helpers";
 
 const objPermissions = (data: Permission[]) => {
+
     const objModules: any = {}
     data?.forEach(e => {
         if (!!objModules[e.auth_module_id]) {
@@ -29,6 +30,7 @@ const objPermissions = (data: Permission[]) => {
     })
     return objModules
 }
+
 const objPermissionsId = (data: Permission[]) => {
     const objModules: any = {}
     data?.forEach(e => {
@@ -46,7 +48,8 @@ export default class DecryptedSession {
         this.getRoleId = this.getRoleId.bind(this);
         this.getPermissionsId = this.getPermissionsId.bind(this);
     }
-    sessionDecrypted = getSession().data;
+
+    sessionDecrypted = (typeof window !== 'undefined') && getSession().data ;
     getArrayPermissions() {
         return objToArray(
             objPermissions(this.sessionDecrypted.permission)
@@ -65,8 +68,7 @@ export default class DecryptedSession {
         return objPermissionsId(this.sessionDecrypted.permission)
     }
     getAccessToken() {
-    console.log(getSession())
-
+        console.log(this.sessionDecrypted)
         return this.sessionDecrypted.accessToken
     }
 }
@@ -75,9 +77,3 @@ export default class DecryptedSession {
 
 
 
-export const getPermissionsOf = (module: string) => {
-    const session = new DecryptedSession();
-    const userConfigId = session.getPermissionsId()[module]
-    const permissionsUserConfig = session.getModuleById(userConfigId)
-    return permissionsUserConfig
-}

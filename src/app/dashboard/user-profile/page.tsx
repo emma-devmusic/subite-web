@@ -1,5 +1,7 @@
 'use client'
 import { Spinner } from "@/components/spinner/Spinner";
+import { getUSID } from "@/helpers";
+import DecryptedSession from "@/helpers/Permissions";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUserProfile, sendMailVerification } from "@/store/authSlice";
 import { uiModal } from "@/store/uiSlice";
@@ -18,10 +20,10 @@ export default function UserProfilePage() {
     const { userProfile } = useAppSelector(state => state.auth)
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
 
-
     useEffect(() => {
         if (!userProfile) dispatch(getUserProfile())
     }, [])
+
 
     useEffect(() => {
         setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
@@ -31,19 +33,18 @@ export default function UserProfilePage() {
         dispatch(uiModal({ modalFor: 'validate_code', modalOpen: true }))
         dispatch(sendMailVerification())
     }
-
     let joinDate = new Date(userProfile?.data_created || '').toLocaleDateString()
 
     const handleImageEdit = () => {
         dispatch(uiModal({ modalFor: 'edit_image_profile', modalOpen: true }))
     }
 
-    console.log(userProfile)
-
     if (!userProfile || loading) return <Spinner />
-
     const text = userProfile?.account_verified ? 'Cuenta verificada' : 'Cuenta no verificada'
-    const icon = userProfile?.account_verified ? 'simple-line-icons:check' : 'simple-line-icons:exclamation'
+    const icon = (userProfile?.account_verified && userProfile?.auth_user_audits_status_description === 'aprobado')
+        ? 'simple-line-icons:check'
+        : 'simple-line-icons:exclamation'
+
     return (
         <div className="pt-6 px-4">
             <h3 className="text-2xl font-medium mb-5">Perfil de Usuario</h3>
@@ -77,7 +78,7 @@ export default function UserProfilePage() {
                         {/* <Icon icon={'lets-icons:check-fill'} className="text-green-500 text-lg"/> */}
                         <span className="m-0">
                             {
-                                userProfile?.account_verified
+                                (userProfile?.account_verified && userProfile?.auth_user_audits_status_description === 'aprobado')
                                     ?
                                     <div className="flex items-center gap-1 mt-1 text-sm">
                                         <Icon icon={'bitcoin-icons:verify-filled'} className="text-2xl text-cyan-500 ml-[-3px]" />
@@ -93,18 +94,18 @@ export default function UserProfilePage() {
                                         :
                                         <div className="flex items-center gap-2 mt-1 text-sm ml-[2px]">
                                             <Icon icon={icon} className=' text-yellow-500' />
-                                            <Link href={'/dashboard/user-config'} className="m-0 text-yellow-500 hover:text-yellow-400">Cuenta no verificada</Link>
+                                            <Link href={'/dashboard/user-config'} className="m-0 text-yellow-500 hover:text-yellow-400">Cuenta rechazada</Link>
                                         </div>
                             }
                         </span>
                     </div>
                     <div>
                         {
-                            !userProfile?.email_verified && 
-                            <button 
-                                className="bg-cyan-600 border-[1px] border-cyan-600  text-white self-end rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto mt-5" 
+                            !userProfile?.email_verified &&
+                            <button
+                                className="bg-cyan-600 border-[1px] border-cyan-600  text-white self-end rounded-md px-4 py-2 hover:bg-cyan-500 transition-all w-full sm:w-auto mt-5"
                                 onClick={handleEmailVerification}
-                            >    
+                            >
                                 Verificar Email
                             </button>
                         }

@@ -6,10 +6,8 @@ import { store } from "./";
 import { useEffect } from "react";
 import { getFromSessionStorage, getSession } from "@/helpers";
 import { clearRedux, getUserProfile, setAuthState } from "./authSlice";
-import { uiModal, uiModalMessage } from "./uiSlice";
+import { uiModal } from "./uiSlice";
 import { useRouter } from "next/navigation";
-import { Spinner } from "@/components/spinner/Spinner";
-
 
 interface Props {
   children: React.ReactNode;

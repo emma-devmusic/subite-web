@@ -3,7 +3,7 @@ import { sidebarData } from '@/mocks/mocks';
 import { SidebarLayout } from './SidebarLayout';
 import { MenuItem } from '@/components/menuItem';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { getPermissions} from '@/store/manageUserSlice';
+import { getPermissions } from '@/store/manageUserSlice';
 import { useEffect, useState } from 'react';
 import { SmallSpinner, Spinner } from '@/components/spinner/Spinner';
 
@@ -18,9 +18,9 @@ const Sidebar = () => {
 
     useEffect(() => {
         setSidebarState(sidebarData)
-    },[])
+    }, [])
 
-    if(!sidebarState) return <SidebarLayout>
+    if (!sidebarState) return <SidebarLayout>
         <SmallSpinner />
     </SidebarLayout>
 
@@ -29,7 +29,7 @@ const Sidebar = () => {
         <SidebarLayout>
             <ul className="space-y-2 pb-2">
                 {
-                    sidebarState.map((item:any) =>
+                    sidebarState.map((item: any) =>
                         <MenuItem
                             key={item.text}
                             link={item.link}

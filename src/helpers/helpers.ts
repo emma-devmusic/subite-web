@@ -1,26 +1,88 @@
-import { CreateUserDataRedux, FormNewPassword, ModulesPermissions, PasswordChecks, User, UserDataLogin } from "@/types"
-import EncryptData, { decryptLoginData } from "./EncryptData";
+'use client'
+import { CreateUserDataRedux, FormNewPassword, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks } from "@/types"
+import EncryptData from "./EncryptData";
 import DecryptedSession from "./Permissions";
 
 
 
+
+
+
+
+
+//
+export const getUSID = () => {
+    const userData = decryptLoginData();
+    const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
+    if (userData) return encryptData.decrypt(userData.data.access.conn)
+}
+
+
+
+
+
+/// DEVUELVE LOS PERMISOS ENCRYPTADOS ALMACENADOS EN LA BASE DE DATO - INFORMACIÓN IMPORTANTE DEL USUARIO
 export const getSession = () => {
+    (typeof window !== 'undefined')
     const userData = decryptLoginData();
     const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
     return encryptData.decrypt(userData?.data?.permissions);
 }
 
-export const getFromSessionStorage = (id: string) => sessionStorage.getItem(id);
 
-export const setInSessionStorage = (id: string, data: any) => {
-    sessionStorage.setItem(id, JSON.stringify(data))
+
+// TRAE INFORMACIÓN DEL SESSION STORAGE
+export const getFromSessionStorage = (id: string) => (typeof window !== "undefined") && sessionStorage.getItem(id)
+
+
+
+
+// SETEA INFORMACIÓN EN EL SESSION STORAGE
+export const setInSessionStorage = (id: string, data: any) => (typeof window !== "undefined") && sessionStorage.setItem(id, JSON.stringify(data))
+
+
+
+
+
+// ENCRIPTA LOS DATOS DE LA SESION EN EL SESSION STORAGE
+export const encryptLoginDataInSessionStorage = (data: any) => {
+    (typeof window !== 'undefined')
+    const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
+    const encryptData = encrypter.encrypt(
+        JSON.stringify(data)
+    )
+    setInSessionStorage('user-login-data', encryptData);
 }
 
+
+
+
+/// TRAE LOS DATOS DE LA SESIÓN DEL SESSION STORAGE
+export const decryptLoginData = () => {
+    (typeof window !== 'undefined')
+    const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
+    const loginDataEncrypt = getFromSessionStorage('user-login-data');
+    if (loginDataEncrypt) return encrypter.decrypt(JSON.parse(loginDataEncrypt))
+}
+
+
+
+//// TRAE LOS PERMISOS DEL USUARIO DE UN MODULO EN ESPECIFICO
+export const getPermissionsOf = (module: string) => {
+    (typeof window !== 'undefined')
+    const session = new DecryptedSession();
+    const userConfigId = session.getPermissionsId()[module]
+    const permissionsUserConfig = session.getModuleById(userConfigId)
+    return permissionsUserConfig
+}
+
+
+// VALIDA EL FORMULARIO DE REGISTRO
 export const formValidate = (formData: CreateUserDataRedux) => {
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let phoneRegex = /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/;
-    let nameRegex = /^[a-zA-Z\s]{2,}$/;
-    let lastNameRegex = /^[a-zA-Z\s]{2,}$/;
+    let nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,}$/;
+    let lastNameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,}$/;
     // let passwordRegex = /^(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&()_+{}[]:;<>,.?~\/-]).{6,}$/;
     let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     let dniRegex = /^\d{8,10}$/;
@@ -49,9 +111,9 @@ export const formValidate = (formData: CreateUserDataRedux) => {
     if (!phoneRegex.test(formData.cell_phone)) {
         errors.cell_phone = 'Número Inválido';
     }
-    if (!phoneRegex.test(formData.cell_phone_secondary)) {
-        errors.cell_phone_secondary = 'Número Inválido';
-    }
+    // if ( !phoneRegex.test(formData.cell_phone_secondary)) {
+    //     errors.cell_phone_secondary = 'Número Inválido';
+    // }
     if (!addressRegex.test(formData.address)) {
         errors.address = 'Dirección Inválida';
     }
@@ -64,12 +126,13 @@ export const formValidate = (formData: CreateUserDataRedux) => {
     if (!formData.two_factor_enabled) {
         errors.two_factor_enabled = 'Debes seleccionar algúna opción';
     }
+
     return errors
 }
 
+
+// VALIDA LOS PASSWORD PARA EL CAMBIO DE CONTRASEÑA
 export const validateNewPassword = (passwordForm: FormNewPassword) => {
-
-
     let flag = false;
     const { old_password, new_password, new_password_2 } = passwordForm
 
@@ -101,6 +164,7 @@ export const validateNewPassword = (passwordForm: FormNewPassword) => {
     }
 }
 
+
 //prepara los valores del usuario a registrar en la base de datos
 export const userToRegister = (values: any) => {
     const values2 = { ...values };
@@ -110,37 +174,38 @@ export const userToRegister = (values: any) => {
     return values2
 }
 
+
+
 export const objToArray = (obj: any) => {
     let arr = []
-    for (let prop in obj) {
-        arr.push(obj[prop])
-    }
+    for (let prop in obj) arr.push(obj[prop])
     return arr
 }
 
 
+// TRANSFORMA UN DATO EN BASE64
 export const base64ToBlob = (dataURI: string) => {
     const splitDataURI = dataURI.split(',')
     const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
     const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
-
     const ia = new Uint8Array(byteString.length)
     for (let i = 0; i < byteString.length; i++)
         ia[i] = byteString.charCodeAt(i)
-
     return new Blob([ia], { type: mimeString })
 }
 
 
 
+
+//REVISA QUE SI UN USUARIO TIENE PERMISOS DE ADMINISTRADOR SEGUN EL MODULO
 export const isAdmin = (module: string) => {
     const session = new DecryptedSession();
     const userConfigId = session.getPermissionsId()[module]
     const permissionsUserConfig: ModulesPermissions = session.getModuleById(userConfigId)
     let isAdmin = false
-    if(permissionsUserConfig) {
-        permissionsUserConfig.permission.forEach( p => {
-            if(p.action_method === 'PATCH' || p.action_method === 'DELETE') isAdmin = true;
+    if (permissionsUserConfig) {
+        permissionsUserConfig.permission.forEach(p => {
+            if (p.action_method === 'PATCH' || p.action_method === 'DELETE') isAdmin = true;
         })
         return isAdmin
     }
@@ -148,7 +213,87 @@ export const isAdmin = (module: string) => {
 }
 
 
-export const flu = (str:string) => { // First Letter Uppercase
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-  
+
+
+// PRIMERA LETRA A MAYUSCULA
+export const flu = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+
+
+
+
+// GUARDA LAS NOTIFICACIONES EN EL LOCAL STORAGE
+export const setNotificationOnLocalStorage = (userId: number | string, data: NotificationFromDB) => {
+    const dataToSave = objectNotification(data);
+    
+    let arrayNotifications = []
+    const strNotifications = localStorage.getItem(`notif-${userId}`)
+
+    if (strNotifications) {
+        arrayNotifications = [...JSON.parse(strNotifications), dataToSave]
+    } else {
+        arrayNotifications = [dataToSave]
+    }
+    localStorage.setItem(`notif-${userId}`, JSON.stringify(arrayNotifications))
+}
+
+
+
+// TRAE LAS NOTIFICACIONES DEL LOCAL STORAGE
+export const getNotificationsFromLocalStorage = (userId: number | string): ObjectNotification[] => {
+    const strNotifications = localStorage.getItem(`notif-${userId}`)
+    if (strNotifications) {
+        return JSON.parse(strNotifications)
+    }
+    return []
+}
+
+
+
+
+export const getIdFromUSID = (usid: string) => {
+    const array = usid.split('*')
+    return array[2]
+}
+
+
+
+
+
+export const objectNotification = (data: NotificationFromDB): ObjectNotification => {
+
+    let obj: ObjectNotification = {
+        ...data,
+        date: `${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}hs`,
+        link: '',
+        icon: ''
+    }
+
+    const getLinkIcon = (title: NotificationTitle | ''): { link: string; icon: string } => {
+        switch (title) {
+            case 'Actualización del estado de tu cuenta.':
+                return { link: '/dashboard/user-profile', icon: 'simple-icons:authelia' };
+            default:
+                return { link: '/dashboard/notifications', icon: 'ic:round-notifications-active'};
+        }
+    }
+
+    switch (data.title) {
+        case 'Actualización del estado de tu cuenta.':
+            obj = {
+                ...obj,
+                link: getLinkIcon(data.title).link,
+                icon: getLinkIcon(data.title).icon
+            }
+            break;
+        default:
+            obj = {
+                ...obj,
+                link: getLinkIcon('').link,
+                icon: getLinkIcon('').icon
+            };
+            break;
+    }
+
+    return obj
+}

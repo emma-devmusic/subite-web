@@ -57,6 +57,7 @@ export default function UserPage({ params }: Props) {
     }
 
     if (loading || !usersSelected) return <Spinner />
+    
     return (
         <div className="pt-6 px-4">
             <h2 className="text-2xl mb-6">Perfil del Usuario</h2>
@@ -65,11 +66,11 @@ export default function UserPage({ params }: Props) {
                     <div
                         className="flex justify-center text-gray-400 hover:text-gray-600 hover:cursor-pointer transition-all "
                     >
-                        <Image width={400} height={400} className={`h-28 w-28 rounded-3xl object-cover border-4 ${ usersSelected.account_verified ? 'border-cyan-500' : 'border-yellow-500' }`} src={usersSelected?.default_image_profile[0]?.image_url ?? alternativeImage} alt="Neil image" />
+                        <Image width={400} height={400} className={`h-28 w-28 rounded-3xl object-cover border-4 ${ (usersSelected.account_verified && usersSelected.audit_status_history[0].audit_status_description === 'aprobado') ? 'border-cyan-500' : 'border-yellow-500' }`} src={usersSelected?.default_image_profile[0]?.image_url ?? alternativeImage} alt="Neil image" />
                     </div>
                     <div className="flex justify-center items-center mt-4 ">
                         {
-                            usersSelected.account_verified
+                            (usersSelected.account_verified && usersSelected.audit_status_history[0].audit_status_description === 'aprobado')
                                 ? <Icon icon={'bitcoin-icons:verify-filled'} className="text-3xl text-cyan-500" />
                                 : <Icon icon={'uis:exclamation-circle'} className="text-xl mr-1 text-yellow-500" />
                         }

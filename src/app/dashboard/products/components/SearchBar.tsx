@@ -4,7 +4,6 @@ import { getUsers } from "@/store/manageUserSlice"
 import { QueryObject } from "@/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
-
 interface Props {
     setPagesSearch: Dispatch<SetStateAction<QueryObject>>
     pagesSearch: QueryObject
@@ -16,7 +15,7 @@ const initialQueryState = 'search?page=1&limit=30'
 export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     const dispatch = useAppDispatch()
-    
+
     const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
 
     const [filters, setFilters] = useState({
@@ -28,15 +27,13 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
     })
 
     const handleFilter = (e: any) => {
-        setFilters((state: any) => {
-            return {
-                ...state,
-                [e.target.name]: (e.target.type === 'checkbox') ? e.target.checked : e.target.value
-            }
-        })
+        setFilters((state: any) => ({
+            ...state,
+            [e.target.name]: (e.target.type === 'checkbox') ? e.target.checked : e.target.value
+        }))
     }
 
-    
+
     const createQueryParams = () => {
         let text = ''
         let inputText = filters.term
@@ -58,24 +55,22 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
     useEffect(() => {
         const param = createQueryParams()
         setParamState(param)
-        setPagesSearch(state => {
-            return {
-                ...state,
-                searchQuerys: param
-            }
-        })
+        setPagesSearch(state => ({
+            ...state,
+            searchQuerys: param
+        }))
     }, [filters])
 
-    const handleSearch = (e:any) => {
+    const handleSearch = (e: any) => {
         e.preventDefault()
-        dispatch( getUsers(initialQueryState + paramState) )
-    }   
+        dispatch(getUsers(initialQueryState + paramState))
+    }
 
     return (
         <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 ">
             <div className="mb-1 w-full">
                 <div className="mb-4">
-                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Usuarios</h1>
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Productos</h1>
                 </div>
                 <div className="block sm:flex items-center md:divide-x md:divide-gray-100">
                     <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2">
@@ -105,7 +100,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <input value={filters.last_name} name="last_name" onChange={handleFilter} type="checkbox" id="last_name" className="" />
-                                    <label htmlFor="last_name" className="text-xs mt-[1px]">Apellido</label>
+                                    <label htmlFor="last_name" className="text-xs mt-[1px]">Tipo</label>
                                 </div>
                                 <select value={filters.role_description} onChange={handleFilter} name="role_description" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
                                     <option value="">Admin/Cliente</option>

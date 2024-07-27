@@ -3,7 +3,7 @@ import { AuditDocumentResponse, ModulesPermissions, SearchUser, SearchUsersRespo
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit"
 import { setDocument, setRole, setSelectStatus, setUser, setUsers } from "../manageUserSlice";
 import { uiModal, uiSetLoading } from "../uiSlice";
-import { decryptLoginData } from "@/helpers/EncryptData";
+import { decryptLoginData } from "@/helpers";
 import { fetchData } from "@/services/fetchData";
 import Swal from "sweetalert2";
 

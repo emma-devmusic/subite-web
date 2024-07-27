@@ -1,7 +1,6 @@
 
 import { QueryObject } from "@/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-// import { QueryObject } from "../page";
 
 interface Props {
     setPagesSearch: Dispatch<SetStateAction<QueryObject>>

@@ -6,16 +6,16 @@ export interface ModalMsg {
 }
 
 export interface Modal {
-        modalFor: 
-        | null 
-        | 'validate_code' 
-        | '2F_code' 
-        | 'new_product' 
-        | 'new_auction' 
-        | 'message' 
-        | 'loading' 
-        | 'edit_image_profile' 
-        | 'validate_new_email' 
+        modalFor:
+        | null
+        | 'validate_code'
+        | '2F_code'
+        | 'new_product'
+        | 'new_auction'
+        | 'message'
+        | 'loading'
+        | 'edit_image_profile'
+        | 'validate_new_email'
         | '2F_code_change'
         | 'verify_account'
         | 'audit_document'
@@ -41,3 +41,12 @@ export interface PasswordChecks {
         pass_2: boolean;
         pass_new_old: boolean;
 }
+
+
+
+export interface QueryObject {
+        pageQuerys: string;
+        searchQuerys: string;
+}
+
+

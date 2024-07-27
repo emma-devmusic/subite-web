@@ -14,6 +14,7 @@ export interface Data {
 export interface Access {
     accessToken: string;
     refreshToken: string;
+    conn: string;
 }
 
 
@@ -35,7 +36,7 @@ export interface CreateUserData {
     password: string;
     dni: string;
     cell_phone: string;
-    cell_phone_secondary: string;
+    cell_phone_secondary?: string;
     address: string;
     age: string;
     gender_type: number;

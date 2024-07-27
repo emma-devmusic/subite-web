@@ -35,14 +35,14 @@ export const AccountMenu = () => {
         <PopoverApp
             button={
                 <div className="relative">
-                    <Image width={48} height={48} className={`rounded-full object-cover border-[2px] ${userProfile && (userProfile?.account_verified ? 'border-cyan-500' : 'border-yellow-500')}`} src={imageProfile?.image_url || alternativeImage} alt="Neil image" style={{
+                    <Image width={48} height={48} className={`rounded-full object-cover border-[2px] ${userProfile && ((userProfile?.account_verified && userProfile?.auth_user_audits_status_description === 'aprobado') ? 'border-cyan-500' : 'border-yellow-500')}`} src={imageProfile?.image_url || alternativeImage} alt="Neil image" style={{
                         height: 32,
                         width: 32,
                     }} />
                     {
                         userProfile && <>
                             {
-                                userProfile?.account_verified
+                                (userProfile?.account_verified && userProfile?.auth_user_audits_status_description === 'aprobado')
                                     ? <Icon icon={'bitcoin-icons:verify-filled'} className="absolute text-3xl top-4 left-2 text-cyan-500" />
                                     : <Icon icon={'uis:exclamation-circle'} className="absolute text-xl top-5 left-4 text-yellow-500" />
                             }

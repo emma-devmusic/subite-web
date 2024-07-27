@@ -3,10 +3,11 @@ import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { UserProfileToRedux } from "../authSlice";
 import { ImagesProfileUpdateResponse, SendEmailVerificationResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import { decryptLoginData } from "@/helpers/EncryptData";
+import { decryptLoginData } from "@/helpers";
 import { uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
+import DecryptedSession from "@/helpers/Permissions";
 
 export const profileUserMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
@@ -65,7 +66,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiSetLoading(true))
             const userData: any = decryptLoginData()
             console.log('Llamada a la Api - USER PROFILE - ENVIO DE EMAIL PARA VERIFICACION')
-            const resp: SendEmailVerificationResponse = await fetchData('/user-profile/verify-email', 'GET', null, userData.data.access.accessToken)
+            const resp: SendEmailVerificationResponse = await fetchData('/user-profile/verify-email', 'GET', null, userData.data.access?.accessToken)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -169,7 +170,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 ...(imgState.imagesToDelete.length > 0 && { delete: imgState.imagesToDelete })
             }
             console.log('Llamada a la Api - USER PROFILE - UPDATE IMAGES PROFILE')
-            const resp: ImagesProfileUpdateResponse = await fetchData('/user-profile/update/image', 'PATCH', imgProfileUpdate, userData.data.access.accessToken)
+            const resp: ImagesProfileUpdateResponse = await fetchData('/user-profile/update/image', 'PATCH', imgProfileUpdate, userData.data.access?.accessToken)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(

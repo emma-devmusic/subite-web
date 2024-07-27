@@ -34,6 +34,7 @@ export default function RegisterPage() {
 
     useEffect(() => {
         if (Object.entries(errors).length === 0) {
+            if(values.cell_phone_secondary === "") values.cell_phone_secondary = '-'
             dispatch(
                 registerUser(
                     userToRegister(values)
@@ -42,8 +43,7 @@ export default function RegisterPage() {
     }, [flag])
 
     useEffect(() => {
-        if (flag !== null)
-            setErrors(formValidate(values))
+        if (flag !== null) setErrors(formValidate(values))
     }, [values])
 
 

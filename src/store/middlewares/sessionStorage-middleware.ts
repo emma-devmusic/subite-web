@@ -1,10 +1,9 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { clearRedux, loggear, login, logout } from "../authSlice";
-import { getSession } from "@/helpers";
-import { LoginResponse, TwoFactorResponse, UserDataLogin } from "@/types/dataFetching";
+import { clearRedux, loggear, login } from "../authSlice";
+import { decryptLoginData, encryptLoginDataInSessionStorage, getSession,  } from "@/helpers";
+import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import EncryptData, { decryptLoginData, encryptLoginDataInSessionStorage } from "@/helpers/EncryptData";
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 

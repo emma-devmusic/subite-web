@@ -7,11 +7,8 @@ import { HandlePage } from "./components/HandlePage";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUsers } from "@/store/manageUserSlice";
 import { redirect } from "next/navigation";
+import { QueryObject } from "@/types";
 
-export interface QueryObject {
-    pageQuerys: string;
-    searchQuerys: string;
-}
 
 const initialQueryState = 'search?page=1&limit=30'
 
@@ -24,10 +21,6 @@ export default function UsersPage() {
         pageQuerys: initialQueryState,
         searchQuerys: ''
     });
-
-    useEffect(() => {
-        dispatch( getUsers( queryObject.pageQuerys) )
-    }, [])
 
     useEffect(() => {
         dispatch( getUsers( queryObject.pageQuerys + queryObject.searchQuerys ) )

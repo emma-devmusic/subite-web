@@ -12,14 +12,12 @@ export const registerUserMiddleware = (state: MiddlewareAPI) => {
         next(action);
 
         if (action.type === 'auth/registerUser') {
-
             const {
                 auth: { newUser },
             } = state.getState() as RootState
 
             state.dispatch(uiModal({ modalFor: 'validate_code', modalOpen: true, }))
             state.dispatch(uiSetLoading(true))
-
             console.log('Llamada a la Api - USER REGISTER - POST DE NUEVO USUARIO')
             const userRegister = await fetchData(`/manage-auth/create/${process.env.NEXT_PUBLIC_API_TENANT}`, 'POST', newUser)
                 .catch(err => {

@@ -1,5 +1,5 @@
 'use client'
-import { SmallSpinner } from "@/components/spinner/Spinner"
+
 import { useAppSelector } from "@/store"
 
 
@@ -7,7 +7,7 @@ export const WelcomeMessage = () => {
 
     const {user} = useAppSelector( state => state.auth)
 
-    if (!user) return <SmallSpinner />
+    if (!user) return <p className="me-3">Cargando información...</p>
 
     return (
         <div className="hidden lg:flex items-center">

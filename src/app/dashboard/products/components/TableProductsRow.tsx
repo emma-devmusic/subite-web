@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-export const TRow = (user: UserItem) => {
+export const TableProductsRow = (user: UserItem) => {
 
     const dispatch = useAppDispatch()
 
@@ -25,19 +25,19 @@ export const TRow = (user: UserItem) => {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteUser(user.user_id))
+                // dispatch(deleteUser(user.user_id))
             }
         });
     }
 
     return (
         <tr className="hover:bg-gray-100">
-            {/* <td className="p-4 w-4">
+            <td className="p-4 w-4">
                 <div className="flex items-center">
                     <input id="checkbox-194556" aria-describedby="checkbox-1" type="checkbox" className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded" />
                     <label htmlFor="checkbox-194556" className="sr-only">checkbox</label>
                 </div>
-            </td> */}
+            </td>
             <td className="p-4 flex items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0">
                 {/* <Image width={300} height={300} className="h-10 w-10 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil Sims avatar" /> */}
                 <div className="text-sm font-normal text-gray-500">
@@ -55,7 +55,7 @@ export const TRow = (user: UserItem) => {
             </td>
             <td className="p-4 whitespace-nowrap space-x-2 text-end">
                 <Link
-                    href={`/dashboard/users/${user.user_id}`}
+                    href={`/dashboard/products/${user.user_id}`}
                     className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
                     onClick={() => dispatch(getUser(user.user_id))}
                 >
