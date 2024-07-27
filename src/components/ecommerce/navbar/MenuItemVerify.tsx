@@ -13,24 +13,31 @@ export const MenuItemVerify = () => {
             <hr />
             <div className="text-base text-gray-900 font-normal rounded-lg  p-3 cursor-default flex items-center">
                 {
-                    userProfile?.account_verified
+                    (userProfile?.auth_user_audits_status_description === 'aprobado')
                         ?
-                        <div className="flex items-center">
+                        <Link href={'/dashboard/user-config'} className="flex items-center">
                             <Icon icon={icon} className='w-3 h-3 text-gray-500' />
                             <i className="ml-1 text-xs text-gray-500">{text}</i>
-                        </div>
+                        </Link>
                         :
                         (userProfile?.auth_user_audits_status_description === 'en proceso')
                             ?
-                            <div className="flex items-center">
+                            <Link href={'/dashboard/user-config'} className="flex items-center">
                                 <Icon icon={icon} className='w-3 h-3 text-gray-500' />
                                 <i className="ml-1 text-xs text-gray-500">En proceso de verificación</i>
-                            </div>
-                            :
-                            <Link href={'/dashboard/user-config'} className="flex items-center text-yellow-500 gap-3 hover:text-cyan-600 transition-all">
-                                <Icon icon={icon} className='w-5 h-5' />
-                                <p className="">Verificar Cuenta</p>
                             </Link>
+                            :
+                            (userProfile?.auth_user_audits_status_description === 'cancelado' || userProfile?.auth_user_audits_status_description === 'pendiente')
+                                ?
+                                <Link href={'/dashboard/user-config'} className="flex items-center text-yellow-500 gap-3 hover:text-cyan-600 transition-all">
+                                    <Icon icon={icon} className='w-5 h-5' />
+                                    <p className="">Verificar Cuenta</p>
+                                </Link>
+                                :
+                                <Link href={'/dashboard/user-config'} className="flex items-center">
+                                    <Icon icon={'material-symbols-light:cancel-outline'} className='w-4 h-4 text-red-500' />
+                                    <i className="ml-1 text-xs text-red-500">Cuenta Rechazada</i>
+                                </Link>
                 }
 
             </div>

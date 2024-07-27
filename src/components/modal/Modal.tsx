@@ -55,7 +55,7 @@ export const Modal = () => {
                         <ModalHeader close={handleCloseModal} />
 
                         {
-                            loading ? <div className="h-80"> <Spinner /> </div>
+                            loading ? <div className="h-80 w-full"> <Spinner /> </div>
                                 : <>
                                     {
                                         modalFor === 'message' && <MessageModal />

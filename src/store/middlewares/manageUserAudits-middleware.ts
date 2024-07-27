@@ -98,7 +98,6 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - GET STATUS')
                 const userDocument: UserStatusResponse = await fetchData(`/manage-users-audits/get-status`, 'GET', null, userData.data.access.accessToken)
                 if (!userDocument.error) {
-                    console.log(userDocument.data)
                     state.dispatch(setSelectStatus(userDocument.data))
                 } else {
                     Swal.fire('Error', userDocument.message, 'error')

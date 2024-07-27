@@ -272,7 +272,7 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
     const getLinkIcon = (title: NotificationTitle | ''): { link: string; icon: string } => {
         switch (title) {
             case 'Actualización del estado de tu cuenta.':
-                return { link: '/dashboard/user-profile', icon: 'simple-icons:authelia' };
+                return { link: '/dashboard/user-config', icon: 'simple-icons:authelia' };
             default:
                 return { link: '/dashboard/notifications', icon: 'ic:round-notifications-active'};
         }

@@ -11,9 +11,9 @@ import { FormPass } from "./formPass/FormPass";
 import { FormGeneral } from "./formGeneral/FormGeneral";
 import { Spinner } from "@/components/spinner/Spinner";
 import Swal from "sweetalert2";
-import DecryptedSession from "@/helpers/Permissions";
 import { useRouter } from "next/navigation";
 import { uiModal } from '@/store/uiSlice';
+import { AccountStatusButton } from "./AccountStatusButton";
 
 const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 
@@ -67,8 +67,8 @@ export default function UserConfigPage() {
             <div className="w-full flex flex-col gap-4">
 
                 {/* PERFIL */}
-                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 flex gap-2 items-center justify-between flex-wrap">
-                    <div className="flex gap-2 items-center">
+                <div className="bg-white shadow rounded-lg flex justify-between flex-wrap">
+                    <div className="flex gap-2 items-center md:basis-1/2 p-4 sm:p-6 xl:p-8">
                         <div
                             className="inline-flex text-gray-400 hover:text-gray-600 hover:cursor-pointer transition-all"
                         >
@@ -85,28 +85,11 @@ export default function UserConfigPage() {
                             </button>
                         </div>
                     </div>
-                    <div className="h-full w-full sm:w-auto ">
-                        {
-                            !userProfile.account_verified &&
-                            <button
-                                disabled={userProfile.auth_user_audits_status_description === 'en proceso'}
-                                className={`flex items-center justify-center ${userProfile.account_verified ? 'text-cyan-600 ' : 'bg-yellow-500 text-white hover:bg-yellow-400'}  h-full  self-end rounded-md px-4 py-2 transition-all w-full sm:w-auto mt-3 g-2 disabled:bg-white disabled:text-gray-600`}
-                                onClick={handleVerifyAccount}
-                            >
-                                <Icon icon={'bitcoin-icons:verify-outline'} className={` ${userProfile.account_verified ? 'text-5xl' : 'text-3xl'}`} />
-                                <span className="uppercase">
-                                    {
-                                        userProfile.account_verified
-                                            ? 'Cuenta Verificada'
-                                            : userProfile.auth_user_audits_status_description === 'en proceso'
-                                                ? 'Verificación en proceso...'
-                                                : 'Verificar Cuenta'
-                                    }
-                                </span>
-                            </button>
-                        }
+                    <div className="w-full h-auto md:basis-1/2 overflow-hidden p-1">
+                        <AccountStatusButton userProfileStatus={userProfile.auth_user_audits_status_description} />
                     </div>
                 </div>
+
 
                 {/* CAMBIO DE CONTRASEÑA */}
                 <FormPass />
