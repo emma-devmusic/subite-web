@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { redirect } from "next/navigation";
 import { HandlePage } from "./components/HandlePage";
 import { TableProducts } from "./components/TableProducts";
+import { TableLayout } from "@/components/tables/TableLayout";
+import { TableProductsRow } from "./components/TableProductsRow";
 
 const initialQueryState = 'search?page=1&limit=30'
 
@@ -15,6 +17,7 @@ export default function ProductsPage() {
 
     const dispatch = useAppDispatch()
     // const { isAdmin } = useAppSelector(state => state.manageUser)
+    const { users } = useAppSelector(state => state.manageUser)
 
     const [queryObject, setQueryObject] = useState<QueryObject>({
         pageQuerys: initialQueryState,
@@ -26,14 +29,23 @@ export default function ProductsPage() {
     }, [queryObject.pageQuerys])
 
 
+    const columns = ['Titulo', 'Categoría', 'Subcategoría', 'Descripción', 'Precio', 'Stock']
+
     // if(!isAdmin) redirect('/dashboard/user-profile')
 
 
     return (
         <div>
             <SearchBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
-                <TableProducts />
-            <HandlePage setPagesSearch={setQueryObject}/>
+            
+            <TableLayout withCheckbox={false} columns={columns} >
+                {
+                    users.map((user, i) =>
+                        <TableProductsRow key={i} {...user} />
+                    )
+                }
+            </TableLayout>
+            <HandlePage setPagesSearch={setQueryObject} />
         </div>
     );
 }

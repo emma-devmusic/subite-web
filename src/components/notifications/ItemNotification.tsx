@@ -1,6 +1,6 @@
 'use client'
 
-import { NotificationApp, ObjectNotification } from "@/types"
+import { ObjectNotification } from "@/types"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 
@@ -8,14 +8,6 @@ import Link from "next/link"
 
 export const ItemNotification = ({ title, details, error, message, icon, link }: ObjectNotification) => {
 
-
-    // const icon = {
-    //     authorization: 'simple-icons:authelia',
-    //     inbox: 'icon-park-outline:email-down',
-    //     auction: '',
-    //     product: '',
-    //     alert: 'jam:alert'
-    // }
 
     if (title === 'Actualización del estado de tu cuenta.')
         return <li className="">

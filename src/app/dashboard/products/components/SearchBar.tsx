@@ -1,6 +1,7 @@
 'use client'
 import { useAppDispatch } from "@/store"
 import { getUsers } from "@/store/manageUserSlice"
+import { uiModal } from "@/store/uiSlice"
 import { QueryObject } from "@/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
@@ -61,6 +62,16 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
         }))
     }, [filters])
 
+    const handleNewProduct = () => {
+        dispatch( 
+            uiModal({
+                modalFor: 'new_product',
+                modalOpen: true,
+                modalTitle: 'Nuevo Producto'
+            })
+         )
+    }
+
     const handleSearch = (e: any) => {
         e.preventDefault()
         dispatch(getUsers(initialQueryState + paramState))
@@ -69,8 +80,12 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
     return (
         <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 ">
             <div className="mb-1 w-full">
-                <div className="mb-4">
+                <div className="mb-4 flex justify-between">
                     <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Productos</h1>
+                    <button 
+                        className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
+                        onClick={handleNewProduct}    
+                    >Nuevo Producto</button>
                 </div>
                 <div className="block sm:flex items-center md:divide-x md:divide-gray-100">
                     <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2">

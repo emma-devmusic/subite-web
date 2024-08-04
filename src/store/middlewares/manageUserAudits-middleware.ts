@@ -33,9 +33,11 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
 
         if (action.type === 'manageUser/getPermissions') {
-            const session = new DecryptedSession()
-            const isUserAdmin = session.getRoleId() === 1
-            state.dispatch(setRole(isUserAdmin))
+            if(typeof window.localStorage !== 'undefined') {
+                const session = new DecryptedSession()
+                const isUserAdmin = session.getRoleId() === 1
+                state.dispatch(setRole(isUserAdmin))
+            }
         }
 
 

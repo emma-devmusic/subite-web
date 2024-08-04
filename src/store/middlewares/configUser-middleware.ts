@@ -104,9 +104,6 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/two_factor_change') {
             state.dispatch(uiSetLoading(true))
             const userData: any = decryptLoginData()
-            console.log(typeof action.payload)
-            console.log(action.payload)
-            console.log(userData.data.access.accessToken)
             try {
                 const resp: TwoFactorChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, userData.data.access.accessToken)
                 if (!resp.error) {

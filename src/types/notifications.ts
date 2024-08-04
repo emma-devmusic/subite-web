@@ -18,7 +18,7 @@ export interface NotificationFromDB {
 }
 
 
-export type NotificationTitle = 'Actualización del estado de tu cuenta.'
+export type NotificationTitle = 'Actualización del estado de tu cuenta.' | 'Nueva solicitud de Auditoría de Cliente'
 
 export interface ObjectNotification {
     title: NotificationTitle;

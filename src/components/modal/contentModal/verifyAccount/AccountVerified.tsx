@@ -1,9 +1,23 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Confetti from 'react-confetti';
 
 export const AccountVerified = () => {
-    
+
+
+
     return (
         <div>
+            <Confetti
+                width={500}
+                height={800}
+                confettiSource={{
+                    w: 5,
+                    h: 5,
+                    x: 0,
+                    y: 0
+                }}
+                recycle={false}
+            />
             <div className="flex gap-2 items-center">
                 <Icon icon={'bitcoin-icons:verify-outline'} className={`text-4xl text-cyan-600`} />
                 <p className="text-lg">Cuenta Verificada</p>

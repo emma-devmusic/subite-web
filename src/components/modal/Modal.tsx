@@ -1,4 +1,5 @@
 'use client'
+
 import { useAppDispatch, useAppSelector } from "@/store"
 import { NewProduct } from "./contentModal/NewProduct"
 import { NewUser } from "./contentModal/NewUser"
@@ -22,17 +23,12 @@ export const Modal = () => {
     const router = useRouter()
 
     const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
-    if (!modalOpen) return
 
     const handleCloseModal = () => {
         dispatch(uiCloseModal())
         dispatch(uiSetLoading(false))
-        if (modalFor === '2F_code') {
-            sessionStorage.clear();
-        }
-        if (modalFor === 'validate_code' && path.includes('register')) {
-            router.push('./login');
-        }
+        if (modalFor === '2F_code') sessionStorage.clear();
+        if (modalFor === 'validate_code' && path.includes('register')) router.push('./login');
     }
 
     if (modalFor === 'message' && typeMsg === 'success') {
@@ -42,15 +38,16 @@ export const Modal = () => {
         }, 2000)
     }
 
-    if(modalFor === 'audit_document') return <AuditDocument close={handleCloseModal} />
+    if (!modalOpen) return
+    if (modalFor === 'audit_document') return <AuditDocument close={handleCloseModal} />
 
     return (
         <div className="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
             <div className="fixed inset-0 z-10 bg-gray-500 bg-opacity-75 transition-opacity" >
             </div>
-            <div className="fixed inset-0 w-screen z-10 overflow-y-auto ">
-                <div className="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-                    <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <div className="fixed inset-0 w-screen z-10 overflow-y-auto min-w-80">
+                <div className="flex min-h-full justify-center p-4 text-center items-center sm:p-0 min-w-80">
+                    <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg min-w-80">
 
                         <ModalHeader close={handleCloseModal} />
 

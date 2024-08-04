@@ -231,6 +231,9 @@ export const setNotificationOnLocalStorage = (userId: number | string, data: Not
 
     if (strNotifications) {
         arrayNotifications = [...JSON.parse(strNotifications), dataToSave]
+        if( JSON.parse(strNotifications).length === 30 ) {
+            arrayNotifications.shift()
+        }
     } else {
         arrayNotifications = [dataToSave]
     }
@@ -273,6 +276,10 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
         switch (title) {
             case 'Actualización del estado de tu cuenta.':
                 return { link: '/dashboard/user-config', icon: 'simple-icons:authelia' };
+            
+            case 'Nueva solicitud de Auditoría de Cliente':
+                return { link: '/dashboard/notifications', icon: 'gridicons:user-add' }
+            
             default:
                 return { link: '/dashboard/notifications', icon: 'ic:round-notifications-active'};
         }
@@ -297,3 +304,6 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
 
     return obj
 }
+
+
+

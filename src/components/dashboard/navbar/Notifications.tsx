@@ -3,7 +3,7 @@
 import { PopoverApp } from "@/components/popover"
 import { BellAlertIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
-import { getIdFromUSID, getNotificationsFromLocalStorage, getUSID, objectNotification, setNotificationOnLocalStorage } from "@/helpers"
+import { getIdFromUSID, getUSID, objectNotification, setNotificationOnLocalStorage } from "@/helpers"
 import { io } from 'socket.io-client'
 import { ObjectNotification } from "@/types"
 import { ItemNotification } from "@/components/notifications/ItemNotification"
@@ -12,7 +12,6 @@ import { ItemNotification } from "@/components/notifications/ItemNotification"
 export const Notifications = () => {
     const usid = getUSID()?.data
     const [notifications, setNotifications] = useState<ObjectNotification[]>([])
-
     useEffect(() => {
         const socketConection = io(`https://notifystage.ding.com.ar?usid=${usid}`, {autoConnect: false})
         if (typeof usid !== 'undefined') {

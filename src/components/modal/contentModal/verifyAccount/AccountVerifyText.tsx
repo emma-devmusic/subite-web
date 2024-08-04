@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+
 
 export const AccountVerifyText = () => {
     return (

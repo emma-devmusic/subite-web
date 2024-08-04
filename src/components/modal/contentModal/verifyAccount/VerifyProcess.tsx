@@ -6,9 +6,9 @@ import { ImageDocumentUpload } from '../ImageDocumentUpload';
 import { PhotoWebCam } from '../PhotoWebCam';
 import { useAppDispatch } from "@/store";
 import { verify_account } from "@/store/authSlice";
+import { AccountVerifyText } from './AccountVerifyText';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { AccountVerifyText } from './AccountVerifyText';
 
 
 const settings = {
@@ -44,6 +44,7 @@ export const VerifyProcess = () => {
 
     return (
         <Slider {...settings}>
+
             <div>
                 <h3 className='text-xl mb-5'><strong></strong>Inicio de Verificación</h3>
                 <AccountVerifyText />
@@ -54,10 +55,12 @@ export const VerifyProcess = () => {
                     >Comenzar</button>
                 </div>
             </div>
+
             <div>
                 <h3 className='text-xl mb-5'><strong>1.</strong> Fotos del documento</h3>
                 <ImageDocumentUpload setAuditImage={setAuditImage} slide={slideNow} numberOfImages={2} />
             </div>
+
             <div>
                 <h3 className="text-xl mb-5"><strong>2.</strong> Selfie</h3>
                 {
@@ -67,6 +70,7 @@ export const VerifyProcess = () => {
                         <p>Completa el paso anterior</p>
                 }
             </div>
+            
             <div>
                 <h3 className='text-xl mb-5'><strong>3.</strong> Enviar</h3>
                 {
