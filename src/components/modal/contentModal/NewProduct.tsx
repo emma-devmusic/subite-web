@@ -6,12 +6,12 @@ import { useState } from 'react';
 
 const settings = {
     dots: true,
-    swipeToSlide: false,
     infinite: false,
     arrow: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    speed: 200
+    speed: 200,
+    draggable: false
 };
 
 
@@ -21,16 +21,23 @@ export const NewProduct = () => {
 
     const slideNext = () => {
         const arrow: any = document.querySelector('.slick-next')
-        setStep(step + 1)
-        arrow.click()
+        if(step <= 3) {
+            setStep(step + 1)
+            arrow.click()
+        }
     }
 
     const slidePrev = () => {
         const arrow: any = document.querySelector('.slick-prev')
-        setStep(step - 1)
-        arrow.click()
+        if(step >=1) {
+            setStep(step - 1)
+            arrow.click()
+        }
     }
     
+    const handleNewProduct = () => {
+        console.log('upload product')
+    }
 
     return (
         <>
@@ -58,11 +65,27 @@ export const NewProduct = () => {
                         <form action="">
                             <div className='w-100 my-4'>
                                 <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Categoría</label>
-                                <input placeholder='Electronics' name='category' type="text" className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' />
+                                <select className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Home">Home</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Toys">Toys</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
                             <div className='w-100 my-4'>
                                 <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
-                                <input placeholder='Electronics' name='category' type="text" className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' />
+                                <select className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Home">Home</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Toys">Toys</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
                             <div className='w-100 my-4'>
                                 <label htmlFor="price" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Precio ($)</label>
@@ -95,6 +118,11 @@ export const NewProduct = () => {
                     className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto ${step === 3 && 'invisible'}`}
                     onClick={slideNext}
                 >Siguiente</button>
+                <button
+                    type="button"
+                    className={`w-full rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto  ${step === 3 ? 'block' : 'hidden'}`}
+                    onClick={handleNewProduct}
+                >Guardar</button>
             </div>
         </>
     )

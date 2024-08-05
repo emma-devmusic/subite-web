@@ -150,3 +150,25 @@ export interface Image {
     description: string;
     url_image:   string;
 }
+
+
+
+export interface ProductsSearchResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+    data:    ProductsSearchResponseData;
+}
+
+export interface ProductsSearchResponseData {
+    items: any[];
+    meta:  ProductsSearchResponseMeta;
+}
+
+export interface ProductsSearchResponseMeta {
+    currentPage:    number;
+    nextPage:       null;
+    totalRecords:   number;
+    recordsPerPage: number;
+    totalPages:     number;
+}
