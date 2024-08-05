@@ -9,7 +9,9 @@ const manageUsersSlice = createSlice({
     name: 'manageProductClient',
     initialState,
     reducers: {
-       
+       searchProcuts(state, action: PayloadAction) {
+
+       },
     }
 });
 
