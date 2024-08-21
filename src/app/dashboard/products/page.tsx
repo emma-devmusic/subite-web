@@ -37,7 +37,7 @@ export default function ProductsPage() {
     return (
         <div>
             <SearchBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
-            
+
             <TableLayout withCheckbox={false} columns={columns} >
                 {
                     users.map((user, i) =>

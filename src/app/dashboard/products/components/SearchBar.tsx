@@ -115,12 +115,17 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <input value={filters.last_name} name="last_name" onChange={handleFilter} type="checkbox" id="last_name" className="" />
-                                    <label htmlFor="last_name" className="text-xs mt-[1px]">Tipo</label>
+                                    <label htmlFor="last_name" className="text-xs mt-[1px]">Descripción</label>
                                 </div>
                                 <select value={filters.role_description} onChange={handleFilter} name="role_description" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Admin/Cliente</option>
-                                    <option value="client">Cliente</option>
-                                    <option value="administrator">Administrador</option>
+                                    <option value="">Categorías</option>
+                                    <option value="client">Categoría #1</option>
+                                    <option value="administrator">Categoría #2</option>
+                                </select>
+                                <select value={filters.role_description} onChange={handleFilter} name="role_description" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                    <option value="">Subcategorías</option>
+                                    <option value="client">Subcategoría #1</option>
+                                    <option value="administrator">Subcategoría #2</option>
                                 </select>
                                 <select value={filters.order} onChange={handleFilter} name="order" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
                                     <option value="">Orden Alfabético</option>

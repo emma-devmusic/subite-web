@@ -36,7 +36,7 @@ export default function LoginPage() {
     return (
         <div className={`mx-auto flex flex-col justify-between px-5 pt-4 pb-4 overflow-auto ${styles.loginPage} `}>
    
-            <div className={`${styles.image} bg-white mx-auto shadow-2xl rounded-lg md:mt-12 w-full min-h-[600px] md:min-h-full md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
+            <div className={`${styles.image} bg-white mx-auto shadow-lg rounded-lg md:mt-12 w-full min-h-[600px] md:min-h-full md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
                 <div className="basis-3/6"></div>
                 <div className="p-6 sm:p-8 lg:px-8 space-y-8 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">

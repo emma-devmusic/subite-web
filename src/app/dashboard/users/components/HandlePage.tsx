@@ -4,14 +4,15 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 // import { QueryObject } from "../page";
 
 interface Props {
-    setPagesSearch: Dispatch<SetStateAction<QueryObject>>
+    setPagesSearch: Dispatch<SetStateAction<QueryObject>>;
+    limit: number;
 }
 
-export const HandlePage = ({ setPagesSearch }: Props) => {
+export const HandlePage = ({ setPagesSearch, limit }: Props) => {
 
-    const limit = 30
+    // const limit = 30
     const [pageNumber, setPageNumber] = useState(1);
-    const [countPage, setCountPage] = useState('1-30')
+    const [countPage, setCountPage] = useState(`1-${limit}`)
 
     useEffect(() => {
         setCountPage(`${(pageNumber === 1) ? 1 : (limit * pageNumber + 1)}-${limit * pageNumber}`)

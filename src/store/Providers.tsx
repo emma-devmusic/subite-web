@@ -20,7 +20,7 @@ export const Providers = ({ children }: Props) => {
   useEffect(() => {
     // CADA VEZ QUE SE RECARGA LA PÁGINA SE PIERDE EL ESTADO GLOBAL.
     // POR LO TANTO DEBEMOS TRAER LA INFORMACIÓN DE LA SESIÓN ALMACENADA EN EL SESSION STORAGE
-    // E HIDRATAR TODA LA APLICACIÓN CON LA MISMA.
+    // PARA HIDRATAR TODA LA APLICACIÓN CON LA MISMA.
     if (getFromSessionStorage('user-login-data')) {
       const user = getSession()
       if (!user.error) {

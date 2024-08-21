@@ -14,6 +14,7 @@ import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
 import { VerifyAccount } from "./contentModal/verifyAccount/VerifyAccount"
 import { AuditDocument } from "./contentModal/AuditDocument"
 import { AuditUser } from "./contentModal/AuditUser"
+import { CategoryModal } from "./contentModal/CategoryModal"
 
 
 export const Modal = () => {
@@ -80,6 +81,9 @@ export const Modal = () => {
                                     }
                                     {
                                         modalFor === 'audit_user' && <AuditUser />
+                                    }
+                                    {
+                                        modalFor === 'category' && <CategoryModal />
                                     }
                                 </>
                         }

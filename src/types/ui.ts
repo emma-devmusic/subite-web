@@ -19,7 +19,9 @@ export interface Modal {
         | '2F_code_change'
         | 'verify_account'
         | 'audit_document'
-        | 'audit_user';
+        | 'audit_user'
+        | 'category'
+        | 'categoryInfo';
         modalOpen: boolean;
         modalTitle?: string;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';

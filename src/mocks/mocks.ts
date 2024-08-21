@@ -32,10 +32,10 @@ export const sidebarData : SidebarMenuItem[] = [
         icon: 'icon-park-outline:ad-product',
     },
     {
-        forAdmin: false,
-        text: 'Buzón',
-        link: '/dashboard/inbox',
-        icon: 'ic:baseline-email'
+        forAdmin: true,
+        text: 'Categorias',
+        link: '/dashboard/categories',
+        icon: 'ic:round-category'
     },
     {
         forAdmin: true,

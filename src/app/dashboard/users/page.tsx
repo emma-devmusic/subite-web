@@ -32,7 +32,7 @@ export default function UsersPage() {
         <div>
             <SearchBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
             <TableUsers />
-            <HandlePage setPagesSearch={setQueryObject} />
+            <HandlePage setPagesSearch={setQueryObject} limit={30}/>
         </div>
     );
 }
