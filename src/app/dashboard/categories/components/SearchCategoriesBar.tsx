@@ -1,7 +1,10 @@
 'use client'
 
+import { useAppDispatch } from "@/store";
+import { filterInPage } from "@/store/categorySlice";
 import { QueryObject } from "@/types";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
     setPagesSearch: Dispatch<SetStateAction<QueryObject>>;
@@ -9,42 +12,20 @@ interface Props {
 }
 export const SearchCategoriesBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
-    const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
-
-    const [filters, setFilters] = useState({
-        term: '',
-        name: 'off',
-        last_name: 'off',
-        order: '',
-        role_description: '',
+    const router = useRouter()
+    const dispatch = useAppDispatch()
+    const [inputSearch, setInputSearch] = useState({
+        term: ''
     })
-
-    const createQueryParams = () => {
-        let text = ''
-        let inputText = filters.term
-        for (const [key, value] of Object.entries(filters)) {
-            if (value.length === 0 || value === 'off') continue
-            if (value) {
-                if (key === 'name' || key === 'last_name') {
-                    text = text + '&' + key + '=' + inputText
-                } else {
-                    text = text + '&' + key + '=' + value
-                }
-            }
-        }
-        return text
-    }
-
-    
-    const handleFilter = (e: any) => {
-        setFilters((state: any) => {
-            return {
-                ...state,
-                [e.target.name]: (e.target.type === 'checkbox') ? e.target.checked : e.target.value
-            }
-        })
-    }
-
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    useEffect(() => {
+        dispatch(filterInPage(inputSearch))
+        const params = new URLSearchParams(searchParams.toString())
+        params.set('term', inputSearch.term)
+        router.push(pathname + '?' + params)
+    },[inputSearch])
+   
     return (
                 <div className="block sm:flex items-center md:divide-x md:divide-gray-100 ">
                     <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2">
@@ -53,7 +34,9 @@ export const SearchCategoriesBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 type="text"
                                 name="term"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5 sm:min-w-96"
-                                placeholder="Búsqueda"
+                                placeholder="Búsqueda por paginado"
+                                value={inputSearch.term}
+                                onChange={(e) => setInputSearch({ term: e.target.value })}
                             />
                             <button
                                 type="submit"
@@ -62,29 +45,7 @@ export const SearchCategoriesBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 Buscar
                             </button>
                         </div>
-                        <div className="flex gap-2 items-center flex-wrap">
-                            <strong className="text-sm mt-2 text-gray-500">Filtrar:</strong>
-                            <div className="flex gap-3 mt-2 items-center flex-wrap">
-                                <div className="flex items-center gap-1">
-                                    <input value={filters.name} name="name" onChange={handleFilter} type="checkbox" id="name" className="" />
-                                    <label htmlFor="name" className="text-xs mt-[1px]">Categoría</label>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <input value={filters.last_name} name="last_name" onChange={handleFilter} type="checkbox" id="last_name" className="" />
-                                    <label htmlFor="last_name" className="text-xs mt-[1px]">Subcategoría</label>
-                                </div>
-                                {/* <select value={filters.role_description} onChange={handleFilter} name="role_description" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Admin/Cliente</option>
-                                    <option value="client">Cliente</option>
-                                    <option value="administrator">Administrador</option>
-                                </select>
-                                <select value={filters.order} onChange={handleFilter} name="order" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Orden Alfabético</option>
-                                    <option value="last_name:asc">Ascendente</option>
-                                    <option value="last_name:desc">Descendente</option>
-                                </select> */}
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
     );

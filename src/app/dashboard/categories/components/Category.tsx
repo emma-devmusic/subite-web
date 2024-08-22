@@ -1,5 +1,4 @@
 'use client'
-
 import { CategoryItem } from '@/types/category';
 import { ActionButtons } from './ActionButtons';
 import { Subcategory } from './Subcategory';
@@ -10,7 +9,6 @@ interface Props {
 
 export const Category = ({category}: Props) => {
 
-    console.log(category);
     return (
         <div className="hs-accordion" role="treeitem" aria-expanded="false" id={`hs-caret-tree-heading-${category.id}`}>
             <div className="hs-accordion-heading py-0.5 flex items-center gap-x-0.5 w-full">
@@ -26,7 +24,7 @@ export const Category = ({category}: Props) => {
                                 {category.name}
                             </span>
                         </div>
-                        <ActionButtons />
+                        <ActionButtons category={category} />
                     </div>
                 </div>
             </div>

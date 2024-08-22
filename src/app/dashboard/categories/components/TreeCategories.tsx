@@ -1,6 +1,8 @@
-'use'
+'use client'
 import { Category } from "./Category";
 import { CategoryItem } from '../../../../types/category';
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import PrelineScript from "@/components/prelineScript/PrelineScript";
 
 
@@ -11,6 +13,8 @@ interface Props {
 
 export const TreeCategories = ({ categories }: Props) => {
 
+
+    
     return (
         <>
             <div className="max-w-lg mb-4">
@@ -24,7 +28,7 @@ export const TreeCategories = ({ categories }: Props) => {
                     </div>
                 </div>
             </div>
-            <PrelineScript />
+            {/* <PrelineScript /> */}
         </>
     );
 };

@@ -14,7 +14,8 @@ import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
 import { VerifyAccount } from "./contentModal/verifyAccount/VerifyAccount"
 import { AuditDocument } from "./contentModal/AuditDocument"
 import { AuditUser } from "./contentModal/AuditUser"
-import { CategoryModal } from "./contentModal/CategoryModal"
+import { CategoryModal } from "./contentModal/category/CategoryModal"
+import { SubcategoryInfo } from "./contentModal/category/SubcategoryInfo"
 
 
 export const Modal = () => {
@@ -85,6 +86,10 @@ export const Modal = () => {
                                     {
                                         modalFor === 'category' && <CategoryModal />
                                     }
+                                    {
+                                        modalFor === 'categoryInfo' && <SubcategoryInfo />
+                                    }
+                                    
                                 </>
                         }
                     </div>

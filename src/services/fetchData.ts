@@ -17,22 +17,17 @@ export const fetchData = async (
     if (authorization) {
         headers["Authorization"] = `Bearer ${authorization}`;
     }
-
+    let response:any = null;
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${path}`, {
+        response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${path}`, {
             method,
             headers,
             ...(body && { body: JSON.stringify(body) }),
         });
 
-        if (!response.ok) {
-            throw new Error(`${errorMsg[response.status]}`);
-            // throw new Error(`${response.status}`);
-        }
-
+        if (!response.ok) throw new Error(`${errorMsg[response.status]}`);
         return await response.json();
     } catch (error) {
-        console.error(error);
-        throw error;
+        throw await response.json()
     }
 };

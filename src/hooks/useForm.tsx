@@ -7,8 +7,8 @@ export const useForm = (initialState: any) => {
 
     const [values, setValues] = useState(initialState);
 
-    const reset = () => {
-        setValues(initialState)
+    const reset = (newState = initialState) => {
+        setValues(newState);
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

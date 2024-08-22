@@ -4,6 +4,8 @@ import { Providers } from "@/store/Providers";
 import { Modal } from "@/components/modal/Modal";
 import { Navbar } from "@/components/ecommerce";
 import "./globals.css";
+import Script from "next/script";
+import PrelineScript from "@/components/prelineScript/PrelineScript";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +28,7 @@ export default function RootLayout({
           <Modal />
         </Providers>
       </body>
+        <PrelineScript />
     </html>
   );
 }

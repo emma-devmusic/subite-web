@@ -24,3 +24,11 @@ export interface CategoryMeta {
     recordsPerPage: number;
     totalPages:     number;
 }
+
+
+export interface NewCategoryResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+}
+

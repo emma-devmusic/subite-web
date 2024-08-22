@@ -21,7 +21,7 @@ export const Subcategory = ({subcategory}: Props) => {
                                                 {subcategory.name}
                                             </span>
                                         </div>
-                                        <ActionButtons />
+                                        <ActionButtons category={subcategory} isSubcategory={true} />
                                     </div>
                                 </div>
                             </div>

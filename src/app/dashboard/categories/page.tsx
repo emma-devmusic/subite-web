@@ -7,11 +7,12 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { uiModal } from "@/store/uiSlice";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getCategories } from "@/store/categorySlice";
+import { cleanSelectCategories, getCategories } from "@/store/categorySlice";
 import { QueryObject } from "@/types";
 import { HandlePage } from "../users/components/HandlePage";
 import { Spinner } from "@/components/spinner/Spinner";
 import './stylesCategories.css';
+import PrelineScript from "@/components/prelineScript/PrelineScript";
 
 const initialQueryState = 'search?page=1&limit=30'
 
@@ -19,12 +20,11 @@ export default function CatgoriesPage() {
 
     const dispatch = useAppDispatch()
     const { isAdmin } = useAppSelector(state => state.manageUser)
-    const { categories } = useAppSelector(state => state.category)
+    const { categories, filterInPage } = useAppSelector(state => state.category)
     const { loading } = useAppSelector(state => state.ui)
 
-    console.log(categories)
-
     const handleNewCategory = () => {
+        dispatch(cleanSelectCategories())
         dispatch(uiModal({
             modalFor: 'category',
             modalOpen: true,
@@ -41,11 +41,9 @@ export default function CatgoriesPage() {
         dispatch(getCategories(queryObject.pageQuerys + queryObject.searchQuerys))
     }, [queryObject.pageQuerys])
 
-    if (!isAdmin) redirect('/dashboard/user-profile')
-
-
+    if (!isAdmin) return <p className="mt-10 text-center">¿Eres Administrador?</p>
     if (loading) return <Spinner />
-    if (categories.length === 0) return <p className="mt-10 text-center">No hay categorías</p>
+
     return (
         <div>
             <HeaderLayout title="Categorias" >
@@ -54,15 +52,23 @@ export default function CatgoriesPage() {
                     <button className={`${btnPrimary}`} onClick={handleNewCategory}>Nueva Categoría</button>
                 </div>
             </HeaderLayout>
+
             <div className={`${cardBasic} m-2`}>
                 <SearchCategoriesBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
                 <hr className="mt-6 mb-3" />
                 {
-                    (categories.length !== 0)
-                    ? <TreeCategories categories={categories} />
-                    : <p className="mt-10 text-center">No hay categorías</p>
+                    (categories.length === 0)
+                        ? <p className="mt-10 text-center">No hay categorías</p>
+                        : (filterInPage.length !== 0)
+                            ? <TreeCategories categories={filterInPage} />
+                            : <p className="my-10 text-start">No hay esa categoría en esta búsqueda</p>
                 }
+                {/* {
+                    <TreeCategories categories={filterInPage} />
+                } */}
                 <HandlePage limit={10} setPagesSearch={setQueryObject} />
+                <PrelineScript />
+
             </div>
         </div>
     );

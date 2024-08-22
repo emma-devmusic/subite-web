@@ -35,14 +35,14 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(
                     UserProfileToRedux(user.data)
                 )
-                state.dispatch(
-                    uiModal({
-                        modalFor: 'message',
-                        modalOpen: true,
-                        typeMsg: 'success',
-                        msg: 'Datos cargados correctamente'
-                    })
-                )
+                // state.dispatch(
+                //     uiModal({
+                //         modalFor: 'message',
+                //         modalOpen: true,
+                //         typeMsg: 'success',
+                //         msg: 'Datos cargados correctamente'
+                //     })
+                // )
                 state.dispatch(uiSetLoading(false))
             } else {
                 state.dispatch(
