@@ -4,6 +4,7 @@ import uiReducer from './uiSlice';
 import authReducer from './authSlice';
 import manageUserReducer from './manageUserSlice';
 import categoryReducer from './categorySlice';
+import productReducer from './productSlice';
 
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import { sessionStorageMiddleware } from './middlewares/sessionStorage-middleware';
@@ -12,6 +13,7 @@ import { profileUserMiddleware } from './middlewares/profileUser-middleware';
 import { configUserMiddleware } from './middlewares/configUser-middleware';
 import { manageUserAuditsMiddleware } from './middlewares/manageUserAudits-middleware';
 import { manageCategoryMiddleware } from './middlewares/manage-categories-middleware';
+import { manageProductMiddleware } from './middlewares/manage-products-middleware';
 
 const middlewares = [
   sessionStorageMiddleware,
@@ -19,7 +21,8 @@ const middlewares = [
   profileUserMiddleware,
   configUserMiddleware,
   manageUserAuditsMiddleware,
-  manageCategoryMiddleware
+  manageCategoryMiddleware,
+  manageProductMiddleware
 ] as Middleware[]
 
 export const store = configureStore({
@@ -27,7 +30,8 @@ export const store = configureStore({
     ui: uiReducer,
     auth: authReducer,
     manageUser: manageUserReducer,
-    category: categoryReducer
+    category: categoryReducer,
+    product: productReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,

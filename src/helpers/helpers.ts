@@ -2,6 +2,9 @@
 import { CreateUserDataRedux, FormNewPassword, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks } from "@/types"
 import EncryptData from "./EncryptData";
 import DecryptedSession from "./Permissions";
+import { S3FileManagerFactory } from "@/services/set-manager.bucket";
+import { File } from "buffer";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -225,13 +228,13 @@ export const flu = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 // GUARDA LAS NOTIFICACIONES EN EL LOCAL STORAGE
 export const setNotificationOnLocalStorage = (userId: number | string, data: NotificationFromDB) => {
     const dataToSave = objectNotification(data);
-    
+
     let arrayNotifications = []
     const strNotifications = localStorage.getItem(`notif-${userId}`)
 
     if (strNotifications) {
         arrayNotifications = [...JSON.parse(strNotifications), dataToSave]
-        if( JSON.parse(strNotifications).length === 30 ) {
+        if (JSON.parse(strNotifications).length === 30) {
             arrayNotifications.shift()
         }
     } else {
@@ -276,12 +279,12 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
         switch (title) {
             case 'Actualización del estado de tu cuenta.':
                 return { link: '/dashboard/user-config', icon: 'simple-icons:authelia' };
-            
+
             case 'Nueva solicitud de Auditoría de Cliente':
                 return { link: '/dashboard/notifications', icon: 'gridicons:user-add' }
-            
+
             default:
-                return { link: '/dashboard/notifications', icon: 'ic:round-notifications-active'};
+                return { link: '/dashboard/notifications', icon: 'ic:round-notifications-active' };
         }
     }
 
@@ -304,6 +307,11 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
 
     return obj
 }
+
+
+
+
+
 
 
 

@@ -13,6 +13,8 @@ import { TableProductsRow } from "./components/TableProductsRow";
 
 const initialQueryState = 'search?page=1&limit=30'
 
+const columns = ['Titulo', 'Categoría', 'Subcategoría', 'Descripción', 'Precio', 'Stock']
+
 export default function ProductsPage() {
 
     const dispatch = useAppDispatch()
@@ -29,9 +31,7 @@ export default function ProductsPage() {
     }, [queryObject.pageQuerys])
 
 
-    const columns = ['Titulo', 'Categoría', 'Subcategoría', 'Descripción', 'Precio', 'Stock']
 
-    // if(!isAdmin) redirect('/dashboard/user-profile')
 
 
     return (

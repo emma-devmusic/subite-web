@@ -1,34 +1,37 @@
 'use client'
 
 import { useAppDispatch } from "@/store";
-import { filterInPage } from "@/store/categorySlice";
+import { filteringInPage } from "@/store/categorySlice";
 import { QueryObject } from "@/types";
-import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
     setPagesSearch: Dispatch<SetStateAction<QueryObject>>;
     pagesSearch: QueryObject;
 }
+
+// const router = useRouter()
+// const pathname = usePathname()
+// const searchParams = useSearchParams()
+// const params = new URLSearchParams(searchParams.toString())
+// params.set('term', inputSearch.term)
+// router.push(pathname + '?' + params)
+
 export const SearchCategoriesBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
-    const router = useRouter()
     const dispatch = useAppDispatch()
     const [inputSearch, setInputSearch] = useState({
         term: ''
     })
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
+
     useEffect(() => {
-        dispatch(filterInPage(inputSearch))
-        const params = new URLSearchParams(searchParams.toString())
-        params.set('term', inputSearch.term)
-        router.push(pathname + '?' + params)
+        dispatch(filteringInPage(inputSearch))
     },[inputSearch])
    
+
     return (
                 <div className="block sm:flex items-center md:divide-x md:divide-gray-100 ">
-                    <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2">
+                    <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2" onSubmit={(e) => {e.preventDefault()}}>
                         <div className="mt-1 relative flex gap-2">
                             <input
                                 type="text"

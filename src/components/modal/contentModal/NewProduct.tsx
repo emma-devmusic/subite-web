@@ -1,8 +1,14 @@
 
 import Slider from 'react-slick';
-import { ImageProductModal } from './ImageProductModal'
+import { useEffect, useState } from 'react';
+import { FirstStepProductManage } from './productManage/FirstStepProductManage';
+import { SecondStepProductManage } from './productManage/SecondStepProductManage';
+import { ThirdStepProductManage } from './productManage/ThirdStepProductManage';
+import { HandleStep } from './HandleStep';
+import { useForm } from '@/hooks/useForm';
+import { v4 as uuidv4 } from 'uuid';
+import { useAppSelector } from '@/store';
 import './newProductModalStyle.css'
-import { useState } from 'react';
 
 const settings = {
     dots: true,
@@ -14,29 +20,51 @@ const settings = {
     draggable: false
 };
 
+const slideNext = (step: any, setStep: any) => {
+    const arrow: any = document.querySelector('.slick-next')
+    if (step <= 3) {
+        setStep(step + 1)
+        arrow.click()
+    }
+}
+
+const slidePrev = (step: any, setStep: any) => {
+    const arrow: any = document.querySelector('.slick-prev')
+    if (step >= 1) {
+        setStep(step - 1)
+        arrow.click()
+    }
+}
 
 export const NewProduct = () => {
 
+    const { imagesNewProduct } = useAppSelector(state => state.product)
     const [step, setStep] = useState(1)
+    const [idImagesProduct] = useState( uuidv4() )
 
-    const slideNext = () => {
-        const arrow: any = document.querySelector('.slick-next')
-        if(step <= 3) {
-            setStep(step + 1)
-            arrow.click()
-        }
-    }
+    const [values, handleInputChange, reset] = useForm({
+        title: "",
+        category: 0,
+        sub_category: 0,
+        description: "",
+        price: 0,
+        quantity: 0,
+        request_audit: true,
+        images: []
+    })
 
-    const slidePrev = () => {
-        const arrow: any = document.querySelector('.slick-prev')
-        if(step >=1) {
-            setStep(step - 1)
-            arrow.click()
-        }
-    }
+
+    useEffect(() => {
+        reset()
+    }, [])
+
     
+
     const handleNewProduct = () => {
-        console.log('upload product')
+        values.images = imagesNewProduct
+        values.sub_category = parseInt(values.sub_category)
+        values.category = parseInt(values.category)
+        console.log(values)
     }
 
     return (
@@ -47,83 +75,38 @@ export const NewProduct = () => {
                     className='mb-4'
                     afterChange={(index: any) => setStep(index + 1)}>
                     <div>
-                        <div className='bg-slate-100 p-4 border-l-2 border-gray-400'>
-                            <p className='text-gray-600 text-xs'>Sigue los pasos para la creación de un nuevo producto completando todos los campos.</p>
-                        </div>
-                        <form action="">
-                            <div className='w-100 my-4'>
-                                <label htmlFor="nameProduct" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Nombre del producto</label>
-                                <input placeholder='Apple Imac 27"' name='nameProduct' type="text" className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' />
-                            </div>
-                            <div className='w-100 my-4'>
-                                <label htmlFor="description" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Descripción</label>
-                                <textarea rows={4} placeholder='e.g. 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, Ram 16 GB DDR4 2300Mhz' name='price' className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' />
-                            </div>
-                        </form>
+                        <FirstStepProductManage 
+                            handleInputChange={handleInputChange} 
+                            title={values.title} 
+                            description={values.description}   
+                        />
                     </div>
                     <div>
-                        <form action="">
-                            <div className='w-100 my-4'>
-                                <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Categoría</label>
-                                <select className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '>
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Books">Books</option>
-                                    <option value="Clothing">Clothing</option>
-                                    <option value="Home">Home</option>
-                                    <option value="Sports">Sports</option>
-                                    <option value="Toys">Toys</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div className='w-100 my-4'>
-                                <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
-                                <select className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '>
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Books">Books</option>
-                                    <option value="Clothing">Clothing</option>
-                                    <option value="Home">Home</option>
-                                    <option value="Sports">Sports</option>
-                                    <option value="Toys">Toys</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div className='w-100 my-4'>
-                                <label htmlFor="price" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Precio ($)</label>
-                                <input placeholder='2300' name='price' type="number" className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' />
-                            </div>
-                        </form>
+                        <SecondStepProductManage
+                            category={values.category}
+                            subcategory={values.subcategory}
+                            price={values.price}
+                            stock={values.stock} 
+                            handleInputChange={handleInputChange}
+                        />
                     </div>
                     <div>
-                        <form action="">
-                            <div className='w-100 my-4'>
-                                <label htmlFor="price" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Stock</label>
-                                <input placeholder='8' name='price' type="number" className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' />
-                            </div>
-                            <div className='w-100 my-4'>
-                                <label htmlFor="images" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Imagenes</label>
-                                <ImageProductModal />
-                            </div>
-                        </form>
+                        <ThirdStepProductManage 
+                            idImagesProduct={idImagesProduct} 
+                            imagesOnS3={imagesNewProduct} 
+                            request_audit = {values.request_audit}
+                            handleInputChange={handleInputChange} 
+                        />
                     </div>
                 </Slider>
             </div>
-            <div className="bg-gray-50 px-4 py-4 pb-6 flex sm:px-6 justify-between gap-2">
-                <button
-                    type="button"
-                    className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto ${step === 1 && 'invisible'}`}
-                    onClick={slidePrev}
-                >Anterior</button>
-                <button
-                    type="button"
-                    className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto ${step === 3 && 'invisible'}`}
-                    onClick={slideNext}
-                >Siguiente</button>
-                <button
-                    type="button"
-                    className={`w-full rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto  ${step === 3 ? 'block' : 'hidden'}`}
-                    onClick={handleNewProduct}
-                >Guardar</button>
-            </div>
+            <HandleStep
+                slideNext={() => slideNext(step, setStep)}
+                slidePrev={() => slidePrev(step, setStep)}
+                action={handleNewProduct}
+                step={step}
+                finishDisable={imagesNewProduct.length === 0}
+            />
         </>
     )
 }

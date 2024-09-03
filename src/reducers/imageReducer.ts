@@ -32,6 +32,11 @@ export const imageReducer = (state: StateImagesProfile = imageInitialState, acti
                 ...state,
                 imageSelected: null
             }
+        case 'clear':
+            return {
+                ...state,
+                images: []
+            }
         default:
             return state;
     }

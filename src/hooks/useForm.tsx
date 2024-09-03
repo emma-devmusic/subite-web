@@ -20,6 +20,8 @@ export const useForm = (initialState: any) => {
                     ? parseInt(e.target.value)
                     // : e.target.name === 'two_factor_enabled'
                     //     ? JSON.parse(e.target.value)
+                    : (e.target.type === 'checkbox')
+                        ? e.target.checked
                         : e.target.value
         });
 

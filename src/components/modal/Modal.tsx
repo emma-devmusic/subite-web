@@ -16,19 +16,28 @@ import { AuditDocument } from "./contentModal/AuditDocument"
 import { AuditUser } from "./contentModal/AuditUser"
 import { CategoryModal } from "./contentModal/category/CategoryModal"
 import { SubcategoryInfo } from "./contentModal/category/SubcategoryInfo"
+import { deleteImagesFromS3 } from "@/store/productSlice"
+import { cleanSelectCategories } from "@/store/categorySlice"
 
 
 export const Modal = () => {
+
     const dispatch = useAppDispatch()
+    const { imagesNewProduct } = useAppSelector(state => state.product)
     const { loading } = useAppSelector(state => state.ui)
+    const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
     const path = usePathname()
     const router = useRouter()
-
-    const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
 
     const handleCloseModal = () => {
         dispatch(uiCloseModal())
         dispatch(uiSetLoading(false))
+        if (modalFor === 'new_product') {
+            if(imagesNewProduct.length > 0) {
+                dispatch( deleteImagesFromS3() )
+            }
+            dispatch(cleanSelectCategories())
+        }
         if (modalFor === '2F_code') sessionStorage.clear();
         if (modalFor === 'validate_code' && path.includes('register')) router.push('./login');
     }
@@ -54,8 +63,11 @@ export const Modal = () => {
                         <ModalHeader close={handleCloseModal} />
 
                         {
-                            loading ? <div className="h-80 w-full"> <Spinner /> </div>
+                            loading ? <div className="h-40 w-full"> <Spinner /> </div>
                                 : <>
+                                    {
+                                        modalFor === 'loading' && <div className="h-40 w-full"> <Spinner /> </div>
+                                    }
                                     {
                                         modalFor === 'message' && <MessageModal />
                                     }
@@ -89,7 +101,7 @@ export const Modal = () => {
                                     {
                                         modalFor === 'categoryInfo' && <SubcategoryInfo />
                                     }
-                                    
+
                                 </>
                         }
                     </div>

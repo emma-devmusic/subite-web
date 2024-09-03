@@ -5,23 +5,23 @@ import { TreeCategories } from "./components/TreeCategories";
 import { SearchCategoriesBar } from "./components/SearchCategoriesBar";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { uiModal } from "@/store/uiSlice";
-import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { cleanSelectCategories, getCategories } from "@/store/categorySlice";
+import { cleanSelectCategories, filteringInPage, getCategories } from "@/store/categorySlice";
 import { QueryObject } from "@/types";
 import { HandlePage } from "../users/components/HandlePage";
 import { Spinner } from "@/components/spinner/Spinner";
-import './stylesCategories.css';
 import PrelineScript from "@/components/prelineScript/PrelineScript";
+import './stylesCategories.css';
 
-const initialQueryState = 'search?page=1&limit=30'
+const initialQueryState = 'search?page=1&limit=10'
 
 export default function CatgoriesPage() {
 
     const dispatch = useAppDispatch()
     const { isAdmin } = useAppSelector(state => state.manageUser)
-    const { categories, filterInPage } = useAppSelector(state => state.category)
     const { loading } = useAppSelector(state => state.ui)
+    const { categories, filterInPage } = useAppSelector(state => state.category)
+    const [stopNextPage, setStopNextPage] = useState(false)
 
     const handleNewCategory = () => {
         dispatch(cleanSelectCategories())
@@ -41,8 +41,16 @@ export default function CatgoriesPage() {
         dispatch(getCategories(queryObject.pageQuerys + queryObject.searchQuerys))
     }, [queryObject.pageQuerys])
 
+    useEffect(() => {
+        dispatch(filteringInPage({ term: '' }))
+    },[categories])
+
+    useEffect(() => {
+        setStopNextPage(categories.length < 10)
+    },[categories.length])
+
+
     if (!isAdmin) return <p className="mt-10 text-center">¿Eres Administrador?</p>
-    if (loading) return <Spinner />
 
     return (
         <div>
@@ -57,18 +65,19 @@ export default function CatgoriesPage() {
                 <SearchCategoriesBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
                 <hr className="mt-6 mb-3" />
                 {
-                    (categories.length === 0)
-                        ? <p className="mt-10 text-center">No hay categorías</p>
-                        : (filterInPage.length !== 0)
-                            ? <TreeCategories categories={filterInPage} />
-                            : <p className="my-10 text-start">No hay esa categoría en esta búsqueda</p>
+                    loading
+                        ? <div className="flex my-10 justify-center items-center h-20 w-full">
+                            <Spinner />
+                        </div>
+                        :
+                        (categories.length === 0)
+                            ? <p className="my-10 text-center">No hay categorías</p>
+                            : (filterInPage.length !== 0)
+                                ? <TreeCategories categories={filterInPage} />
+                                : <p className="my-10 text-start">No existe esa categoría en esta página.</p>
                 }
-                {/* {
-                    <TreeCategories categories={filterInPage} />
-                } */}
-                <HandlePage limit={10} setPagesSearch={setQueryObject} />
                 <PrelineScript />
-
+                <HandlePage limit={10} setPagesSearch={setQueryObject} stop={stopNextPage} />
             </div>
         </div>
     );

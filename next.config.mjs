@@ -23,6 +23,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'auctionprivate.s3.amazonaws.com'
             },
+            {
+                protocol: 'https',
+                hostname: 'localpublic.s3.amazonaws.com'
+            },
         ]
     }
 };

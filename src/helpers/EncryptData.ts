@@ -1,5 +1,4 @@
 import * as crypto from 'crypto-js';
-import { getFromSessionStorage, setInSessionStorage } from './helpers';
 
 
 

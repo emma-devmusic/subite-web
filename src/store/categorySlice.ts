@@ -10,6 +10,7 @@ interface CategorySlice {
         description: string;
         category_id?: number | string;
         isSubcategory?: boolean;
+        subcategories?: CategoryItem[]
     };
     newCategory: {};
     filterInPage: CategoryItem[]
@@ -20,7 +21,8 @@ const initialState: CategorySlice = {
     categoriesSelected: {
         name: '',
         description: '',
-        category_id: ''
+        category_id: '',
+        subcategories: []
     },
     newCategory: {},
     filterInPage: []
@@ -45,6 +47,10 @@ const categorySlice = createSlice({
         selectEditCategory(state, action: PayloadAction<{ name: string; description: string; category_id?: number; isSubcategory?: boolean }>) {
             state.categoriesSelected = action.payload
         },
+        selectingCategory(state, action: PayloadAction<string>) {
+            let result = state.categories.filter(c => c.id === parseInt(action.payload) )
+            state.categoriesSelected = result[0]
+        },
         cleanSelectCategories(state) {
             state.categoriesSelected = initialState.categoriesSelected;
         },
@@ -60,7 +66,7 @@ const categorySlice = createSlice({
         deleteSubcategory(state, action: PayloadAction<number>) {
             //middleware
         },
-        filterInPage(state, action: PayloadAction<{term: string}>) {
+        filteringInPage(state, action: PayloadAction<{term: string}>) {
             let result:CategoryItem[] = []
             state.categories.forEach(
                 (category) => {
@@ -85,7 +91,8 @@ export const {
     updateSubcategory,
     deleteCategory,
     deleteSubcategory,
-    filterInPage
+    filteringInPage,
+    selectingCategory
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
