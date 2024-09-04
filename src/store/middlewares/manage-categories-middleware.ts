@@ -5,16 +5,20 @@ import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiModal, uiSetLoading } from "../uiSlice";
 import { NewCategoryResponse, SearchCategoriesResponse } from "@/types/category";
 import { setCategories } from "../categorySlice";
+import DecryptedSession from "@/helpers/Permissions";
 
 export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
         next(action);
 
 
+        const userData = new DecryptedSession()
+        const token = userData.getAccessToken()
+        const role_id = userData.getRoleId()
+
+
         if (action.type === 'category/getCategories') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             const query: string = action.payload
             try {
                 console.log('Llamada a la Api - MANAGE-CATEGORIES - SEARCH CATEGORIES')
@@ -37,8 +41,6 @@ export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'category/newCategory') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             const dataBody = action.payload
             try {
                 console.log('Llamada a la Api - MANAGE-CATEGORIES - NEW CATEGORY')
@@ -67,8 +69,6 @@ export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'category/newSubcategory') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             const dataBody = action.payload
             try {
                 console.log('Llamada a la Api - MANAGE-CATEGORIES - NEW SUB-CATEGORY')
@@ -95,8 +95,6 @@ export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'category/updateCategory') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             const dataBody = { ...action.payload }
             delete dataBody.id
             try {
@@ -124,8 +122,6 @@ export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'category/updateSubcategory') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             const dataBody = { ...action.payload }
             delete dataBody.id
             try {
@@ -155,8 +151,6 @@ export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'category/deleteCategory') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             try {
                 console.log('Llamada a la Api - MANAGE-CATEGORIES - DELETE CATEGORY')
                 await fetchData(`/manage-auction-products/admin/categories/${action.payload}`, "DELETE", null, token)
@@ -183,8 +177,6 @@ export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'category/deleteSubcategory') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
-            const token: string = userData.data.access.accessToken
             try {
                 console.log('Llamada a la Api - MANAGE-CATEGORIES - DELETE SUB-CATEGORY')
                 await fetchData(`/manage-auction-products/admin/sub-categories/${action.payload}`, "DELETE", null, token)

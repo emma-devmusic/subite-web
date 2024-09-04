@@ -1,5 +1,5 @@
 import DecryptedSession from "@/helpers/Permissions";
-import { AuditDocumentResponse, ModulesPermissions, SearchUser, SearchUsersResponse, SetNewUserStatusResponse, UserStatusResponse } from "@/types";
+import { AuditDocumentResponse, SearchUser, SearchUsersResponse, SetNewUserStatusResponse, UserStatusResponse } from "@/types";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit"
 import { setDocument, setRole, setSelectStatus, setUser, setUsers } from "../manageUserSlice";
 import { uiModal, uiSetLoading } from "../uiSlice";
@@ -12,12 +12,15 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
         next(action);
 
+        const userData = new DecryptedSession()
+        const token = userData.getAccessToken()
+        const role_id = userData.getRoleId()
+        
         if (action.type === 'manageUser/getUsers') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - SEARCH USERS')
-                const usersSearch: SearchUsersResponse = await fetchData(`/manage-users/${action.payload}`, 'GET', null, userData.data.access.accessToken)
+                const usersSearch: SearchUsersResponse = await fetchData(`/manage-users/${action.payload}`, 'GET', null, token)
                 if (!usersSearch.error) {
                     state.dispatch(setUsers(usersSearch.data.items))
                 } else {
@@ -34,9 +37,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'manageUser/getPermissions') {
             if(typeof window.localStorage !== 'undefined') {
-                const session = new DecryptedSession()
-                const isUserAdmin = session.getRoleId() === 1
-                state.dispatch(setRole(isUserAdmin))
+                state.dispatch(setRole(role_id === 1))
             }
         }
 

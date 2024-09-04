@@ -1,5 +1,5 @@
-import { Permission } from "@/types";
-import { getSession, objToArray } from "./helpers";
+import { Permission, User } from "@/types";
+import { decryptLoginData, getSession, objToArray } from "./helpers";
 
 const objPermissions = (data: Permission[]) => {
 
@@ -49,7 +49,7 @@ export default class DecryptedSession {
         this.getPermissionsId = this.getPermissionsId.bind(this);
     }
 
-    sessionDecrypted = (typeof window !== 'undefined') && getSession().data ;
+    sessionDecrypted: User = (typeof window !== 'undefined') && getSession()?.data  ;
     getArrayPermissions() {
         return objToArray(
             objPermissions(this.sessionDecrypted.permission)
@@ -62,14 +62,14 @@ export default class DecryptedSession {
         return this.sessionDecrypted.basic_data
     }
     getRoleId() {
-        return this.sessionDecrypted.role_id
+        return this.sessionDecrypted?.role_id
     }
     getPermissionsId() {
         return objPermissionsId(this.sessionDecrypted.permission)
     }
     getAccessToken() {
-        console.log(this.sessionDecrypted)
-        return this.sessionDecrypted.accessToken
+        const userDecrypt = decryptLoginData()
+        if(userDecrypt) return userDecrypt.data.access.accessToken
     }
 }
 

@@ -16,15 +16,15 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
 
 
     const dispatch = useAppDispatch();
-    const { categories, categoriesSelected } = useAppSelector(state=> state.category)
+    const { categories, categoriesSelected } = useAppSelector(state => state.category)
 
     useEffect(() => {
-        if( categories.length === 0 ) dispatch( getCategories('search?page=1&limit=30') )
-    },[])
+        if (categories.length === 0) dispatch(getCategories('search?page=1&limit=30'))
+    }, [])
 
     useEffect(() => {
-        if(typeof category === 'string') dispatch( selectingCategory(category) )
-    },[category])
+        if (typeof category === 'string') dispatch(selectingCategory(category))
+    }, [category])
 
 
 
@@ -32,7 +32,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
         <form action="">
             <div className='w-100 my-4'>
                 <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Categoría</label>
-                <select 
+                <select
                     required
                     name="category"
                     className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
@@ -40,15 +40,16 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                 >
                     <option value="">-Seleccionar-</option>
                     {
-                        categories.map( (cat) => (
-                            <option key={cat.id} value={cat.id}>{cat.name}</option>
-                        ))
+                        categories.map((cat) => {
+                            if (cat.subcategories)
+                                return cat.subcategories.length > 0 && <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        })
                     }
                 </select>
             </div>
             <div className='w-100 my-4'>
                 <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
-                <select 
+                <select
                     required
                     disabled={categoriesSelected.subcategories === undefined || categoriesSelected.subcategories.length === 0}
                     className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
@@ -57,7 +58,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                 >
                     <option value="">-Seleccionar-</option>
                     {
-                        categoriesSelected.subcategories && categoriesSelected.subcategories.map( sub => 
+                        categoriesSelected.subcategories && categoriesSelected.subcategories.map(sub =>
                             <option key={sub.id} value={sub.id}>{sub.name}</option>
                         )
                     }
@@ -65,23 +66,23 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
             </div>
             <div className='w-100 my-4'>
                 <label htmlFor="price" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Precio ($)</label>
-                <input 
+                <input
                     required
-                    placeholder='2300' 
-                    name='price' 
-                    type="number" 
-                    className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 ' 
+                    placeholder='2300'
+                    name='price'
+                    type="number"
+                    className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
                     value={price}
                     onChange={handleInputChange}
-                    
+
                 />
             </div>
             <div className='w-100 my-4'>
-                <label htmlFor="stock" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Stock</label>
+                <label htmlFor="quantity" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Stock</label>
                 <input
                     required
                     placeholder='8'
-                    name='stock'
+                    name='quantity'
                     value={stock}
                     onChange={handleInputChange}
                     type="number"

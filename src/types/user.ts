@@ -1,4 +1,32 @@
 
+export interface UserLoginResponse {
+    error:   boolean;
+    code:    number;
+    message: string;
+    data:    DataUserLoginResponse;
+}
+
+export interface DataUserLoginResponse {
+    two_factor:  boolean;
+    access:      Access;
+    permissions: string;
+}
+
+export interface Access {
+    accessToken:  string;
+    refreshToken: string;
+    conn:         string;
+}
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------
 export interface AuthRole {
     id: number;
     description: string;
@@ -48,6 +76,24 @@ export interface UserPermissions {
     user_data: AuthUser;
     user_permissions: UserPermission[];
 }
+
+
+
+
+export interface BasicData {
+    account_verified: boolean;
+    email: string;
+    email_verified: boolean;
+    last_name: string;
+    name: string;
+}
+
+export interface UserPermissionsDecrypted {
+    role_id: number;
+    basic_data: BasicData;
+    permission: UserPermission[]
+}
+
 
 
 export interface GetUserProfile {

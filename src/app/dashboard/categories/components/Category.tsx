@@ -3,13 +3,18 @@ import { CategoryItem } from '@/types/category';
 import { ActionButtons } from './ActionButtons';
 import { Subcategory } from './Subcategory';
 import PrelineScript from '@/components/prelineScript/PrelineScript';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 interface Props {
     category: CategoryItem;
+    setAlert: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Category = ({ category }: Props) => {
+export const Category = ({ category, setAlert }: Props) => {
 
+    useEffect(() => {
+        if(category.subcategories?.length === 0) setAlert(true);
+    },[])
     
     return (
         <>
@@ -23,7 +28,7 @@ export const Category = ({ category }: Props) => {
                     <div className="grow py-1.5 hs-accordion-selectable category-btn hs-accordion-selected:bg-gray-100 px-1.5 rounded-md cursor-pointer">
                         <div className="flex items-center gap-x-3 ">
                             <div className="grow">
-                                <span className="text-sm text-gray-800">
+                                <span className={`text-sm  ${(category.subcategories?.length === 0) ? 'text-red-500' : 'text-gray-800'}`}>
                                     {category.name}
                                 </span>
                             </div>

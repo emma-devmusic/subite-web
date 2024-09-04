@@ -14,12 +14,14 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
 
         next(action);
 
+        const userData = new DecryptedSession()
+        const token = userData.getAccessToken()
+        const role_id = userData.getRoleId()
 
         if (action.type === 'auth/getUserProfile') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             console.log('Llamada a la Api - USER PROFILE')
-            const user: GetUserProfile = await fetchData('/user-profile/search', 'GET', null, userData.data.access.accessToken)
+            const user: GetUserProfile = await fetchData('/user-profile/search', 'GET', null, token)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -43,7 +45,6 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 //         msg: 'Datos cargados correctamente'
                 //     })
                 // )
-                state.dispatch(uiSetLoading(false))
             } else {
                 state.dispatch(
                     uiModal({
@@ -53,10 +54,11 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                         msg: 'No se puede cargar el usuario'
                     })
                 )
-                state.dispatch(uiSetLoading(false))
                 window.location.replace('/login')
                 sessionStorage.clear()
             }
+            state.dispatch(uiSetLoading(false))
+
         }
 
 
@@ -64,11 +66,9 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'auth/sendMailVerification') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             console.log('Llamada a la Api - USER PROFILE - ENVIO DE EMAIL PARA VERIFICACION')
-            const resp: SendEmailVerificationResponse = await fetchData('/user-profile/verify-email', 'GET', null, userData.data.access?.accessToken)
+            const resp: SendEmailVerificationResponse = await fetchData('/user-profile/verify-email', 'GET', null, token)
                 .catch(err => {
-                    state.dispatch(uiSetLoading(false))
                     state.dispatch(
                         uiModal({
                             modalFor: 'message',
@@ -85,9 +85,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                         modalOpen: true,
                     })
                 )
-                state.dispatch(uiSetLoading(false))
             } else {
-                state.dispatch(uiSetLoading(false))
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
@@ -97,6 +95,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
             }
+            state.dispatch(uiSetLoading(false))
         }
 
 
@@ -105,22 +104,16 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/savingImages') {
             state.dispatch(uiSetLoading(true))
             const formData = new FormData();
-            action.payload.images.forEach((file: any) => {
-                formData.append('files', file);
-            })
+            action.payload.images.forEach((file: any) => formData.append('files', file) )
             formData.append('default', action.payload.imageSelected.name)
-            const userData: any = decryptLoginData()
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile/add/image`, {
                     method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${userData.data.access.accessToken}`
-                    },
+                    headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
                 });
 
                 if (!response.ok) {
-                    state.dispatch(uiSetLoading(true))
                     state.dispatch(
                         uiModal({
                             modalFor: 'message',
@@ -143,12 +136,10 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                             msg: 'Datos enviados correctamente.'
                         })
                     )
-                    state.dispatch(uiSetLoading(false))
                     window.location.reload()
                 }
 
             } catch (err: any) {
-                state.dispatch(uiSetLoading(true))
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
@@ -158,21 +149,21 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
             }
+            state.dispatch(uiSetLoading(true))
+
         }
 
 
         if (action.type === 'auth/updateImageProfile') {
             const imgState: ImageProfileState = action.payload
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             const imgProfileUpdate = {
                 ...(imgState.imageProfileSelected && { default: imgState.imageProfileSelected?.id }),
                 ...(imgState.imagesToDelete.length > 0 && { delete: imgState.imagesToDelete })
             }
             console.log('Llamada a la Api - USER PROFILE - UPDATE IMAGES PROFILE')
-            const resp: ImagesProfileUpdateResponse = await fetchData('/user-profile/update/image', 'PATCH', imgProfileUpdate, userData.data.access?.accessToken)
+            const resp: ImagesProfileUpdateResponse = await fetchData('/user-profile/update/image', 'PATCH', imgProfileUpdate, token)
                 .catch(err => {
-                    state.dispatch(uiSetLoading(false))
                     state.dispatch(
                         uiModal({
                             modalFor: 'message',
@@ -185,7 +176,6 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
 
                 })
             if (!resp.error) {
-                state.dispatch(uiSetLoading(false))
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
@@ -196,7 +186,6 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 )
                 window.location.reload()
             } else {
-                state.dispatch(uiSetLoading(false))
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
@@ -206,6 +195,8 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
             }
+            state.dispatch(uiSetLoading(false))
+
         }
 
 

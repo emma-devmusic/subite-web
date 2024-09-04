@@ -1,11 +1,9 @@
 
-import { deleteImageFromSW3 } from '@/helpers/imageProductManager';
-import { ImageProduct } from '@/types/products';
+import { ImageProduct, ItemProductSearchResponse, NewProductInterface } from '@/types/products';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import Swal from 'sweetalert2';
 
 interface ProductState {
-    products: [];
+    products: ItemProductSearchResponse[];
     imagesNewProduct: ImageProduct[];
 }
 
@@ -18,11 +16,20 @@ const productSlice = createSlice({
     name: 'product',
     initialState,
     reducers: {
+        getProducts(state, action: PayloadAction<string>) {
+            // middleware
+        },
+        setProducts(state, action: PayloadAction<ItemProductSearchResponse[]>) {
+            state.products = action.payload
+        },
         setImagesNewProduct(state, action: PayloadAction<ImageProduct>) {
             state.imagesNewProduct = [
                 ...state.imagesNewProduct,
                 action.payload
             ];
+        },
+        newProductSubmit(state, action: PayloadAction<NewProductInterface>) {
+            //middleware
         },
         deleteImagesFromS3(state) {
             // Middleware para borrar imágenes de S3 antes de eliminarlos de la base de datos
@@ -35,7 +42,10 @@ const productSlice = createSlice({
 });
 
 export const {
+    getProducts,
+    setProducts,
     setImagesNewProduct,
+    newProductSubmit,
     deleteImagesFromS3,
     deleteImageNewProduct
 } = productSlice.actions;

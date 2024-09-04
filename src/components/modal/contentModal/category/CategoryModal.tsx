@@ -24,9 +24,8 @@ export const CategoryModal = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-
+        delete values.subcategories
         if (categoriesSelected.id) {
-            delete values.subcategories
             delete values.isSubcategory
             if (categoriesSelected.isSubcategory) {
                 dispatch(updateSubcategory(values))

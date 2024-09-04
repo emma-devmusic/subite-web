@@ -6,6 +6,7 @@ import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
+import { UserLoginResponse } from "@/types";
 
 
 export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
@@ -17,7 +18,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
             const loginData = action.payload
 
             console.log('Llamada a la Api - USER LOGIN - POST DE LOGIN')
-            const user: LoginResponse = await fetchData('/manage-auth/signin', 'POST', loginData)
+            const user: UserLoginResponse = await fetchData('/manage-auth/signin', 'POST', loginData)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -98,7 +99,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                 )
             }, 2000)
             const userDecrypted = getSession()
-            state.dispatch( login(userDecrypted.data) )
+            if(userDecrypted) state.dispatch( login(userDecrypted.data) )
         }
 
 

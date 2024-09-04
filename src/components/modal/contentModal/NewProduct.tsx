@@ -7,8 +7,9 @@ import { ThirdStepProductManage } from './productManage/ThirdStepProductManage';
 import { HandleStep } from './HandleStep';
 import { useForm } from '@/hooks/useForm';
 import { v4 as uuidv4 } from 'uuid';
-import { useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import './newProductModalStyle.css'
+import { newProductSubmit } from '@/store/productSlice';
 
 const settings = {
     dots: true,
@@ -38,6 +39,7 @@ const slidePrev = (step: any, setStep: any) => {
 
 export const NewProduct = () => {
 
+    const dispatch = useAppDispatch()
     const { imagesNewProduct } = useAppSelector(state => state.product)
     const [step, setStep] = useState(1)
     const [idImagesProduct] = useState( uuidv4() )
@@ -64,7 +66,10 @@ export const NewProduct = () => {
         values.images = imagesNewProduct
         values.sub_category = parseInt(values.sub_category)
         values.category = parseInt(values.category)
-        console.log(values)
+        values.quantity = parseInt(values.quantity)
+        values.price = parseInt(values.price)
+        // console.log(JSON.stringify(values))
+        dispatch( newProductSubmit(values) )
     }
 
     return (
@@ -86,7 +91,7 @@ export const NewProduct = () => {
                             category={values.category}
                             subcategory={values.subcategory}
                             price={values.price}
-                            stock={values.stock} 
+                            stock={values.quantity} 
                             handleInputChange={handleInputChange}
                         />
                     </div>

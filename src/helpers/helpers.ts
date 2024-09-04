@@ -1,15 +1,14 @@
 'use client'
-import { CreateUserDataRedux, FormNewPassword, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks } from "@/types"
+import { CreateUserDataRedux, DataUserLoginResponse, FormNewPassword, LoginResponse, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks, User, UserLoginResponse, UserPermissionsDecrypted } from "@/types"
 import EncryptData from "./EncryptData";
 import DecryptedSession from "./Permissions";
-import { S3FileManagerFactory } from "@/services/set-manager.bucket";
-import { File } from "buffer";
-import { v4 as uuidv4 } from 'uuid';
 
 
 
-
-
+export const path_role = (roleId: number) => {
+    if (roleId === 1) return 'admin'
+    if (roleId === 2) return 'clients'
+}
 
 
 
@@ -29,13 +28,13 @@ export const getSession = () => {
     (typeof window !== 'undefined')
     const userData = decryptLoginData();
     const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
-    return encryptData.decrypt(userData?.data?.permissions);
+    if(userData) return encryptData.decrypt(userData.data.permissions)
 }
 
 
 
 // TRAE INFORMACIÓN DEL SESSION STORAGE
-export const getFromSessionStorage = (id: string) => (typeof window !== "undefined") && sessionStorage.getItem(id)
+export const getFromSessionStorage = (id: string): string | null | false => (typeof window !== "undefined") && sessionStorage.getItem(id)
 
 
 
@@ -48,7 +47,7 @@ export const setInSessionStorage = (id: string, data: any) => (typeof window !==
 
 
 // ENCRIPTA LOS DATOS DE LA SESION EN EL SESSION STORAGE
-export const encryptLoginDataInSessionStorage = (data: any) => {
+export const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) => {
     (typeof window !== 'undefined')
     const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
     const encryptData = encrypter.encrypt(
@@ -61,11 +60,11 @@ export const encryptLoginDataInSessionStorage = (data: any) => {
 
 
 /// TRAE LOS DATOS DE LA SESIÓN DEL SESSION STORAGE
-export const decryptLoginData = () => {
+export const decryptLoginData = ()  => {
     (typeof window !== 'undefined')
     const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
     const loginDataEncrypt = getFromSessionStorage('user-login-data');
-    if (loginDataEncrypt) return encrypter.decrypt(JSON.parse(loginDataEncrypt))
+    if (loginDataEncrypt) return encrypter.decrypt( JSON.parse(loginDataEncrypt) ) as {error: boolean; message?: string; data: DataUserLoginResponse}
 }
 
 
