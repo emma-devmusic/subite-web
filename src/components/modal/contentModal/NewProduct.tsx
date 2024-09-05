@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from '@/store';
 import './newProductModalStyle.css'
 import { newProductSubmit } from '@/store/productSlice';
+import { getIdProductImageFolder } from '@/helpers/products';
 
 const settings = {
     dots: true,
@@ -40,19 +41,21 @@ const slidePrev = (step: any, setStep: any) => {
 export const NewProduct = () => {
 
     const dispatch = useAppDispatch()
-    const { imagesNewProduct } = useAppSelector(state => state.product)
-    const [step, setStep] = useState(1)
-    const [idImagesProduct] = useState( uuidv4() )
+    const { imagesNewProduct, productSelected } = useAppSelector(state => state.product)
 
-    const [values, handleInputChange, reset] = useForm({
-        title: "",
-        category: 0,
-        sub_category: 0,
-        description: "",
-        price: 0,
-        quantity: 0,
+    
+    const [step, setStep] = useState(1)
+    const [idImagesProduct] = useState( productSelected.id && getIdProductImageFolder(productSelected.product_variations[0].productImages[0].url_image) || uuidv4() )
+
+    const [ values, handleInputChange, reset ] = useForm({
+        title: productSelected.name || "",
+        category: productSelected.category_id || 0,
+        sub_category: productSelected.sub_category_id || 0,
+        description: productSelected.id && productSelected.product_variations[0].description || "",
+        price: productSelected.id && productSelected.product_variations[0].price || 0,
+        quantity: productSelected.id && productSelected.product_variations[0].stocks.quantity || 0,
         request_audit: true,
-        images: []
+        images: imagesNewProduct
     })
 
 
@@ -60,7 +63,6 @@ export const NewProduct = () => {
         reset()
     }, [])
 
-    
 
     const handleNewProduct = () => {
         values.images = imagesNewProduct
@@ -69,6 +71,7 @@ export const NewProduct = () => {
         values.quantity = parseInt(values.quantity)
         values.price = parseInt(values.price)
         // console.log(JSON.stringify(values))
+        console.log(values)
         dispatch( newProductSubmit(values) )
     }
 
@@ -89,7 +92,7 @@ export const NewProduct = () => {
                     <div>
                         <SecondStepProductManage
                             category={values.category}
-                            subcategory={values.subcategory}
+                            subcategory={values.sub_category}
                             price={values.price}
                             stock={values.quantity} 
                             handleInputChange={handleInputChange}

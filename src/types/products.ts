@@ -231,7 +231,7 @@ export interface ProductImage {
     user_deleted:  null;
     id:            string;
     name:          string;
-    description:   Date;
+    description:   string;
     url_image:     string;
     main_image:    boolean;
 }

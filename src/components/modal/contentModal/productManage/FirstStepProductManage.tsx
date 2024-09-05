@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 
 interface Props {
     title: string;
@@ -11,7 +10,7 @@ export const FirstStepProductManage = ({title, description, handleInputChange}: 
     return (
         <>
             <div className='bg-slate-100 p-4 border-l-2 border-gray-400'>
-                <p className='text-gray-600 text-xs'>Sigue los pasos para la creación de un nuevo producto completando todos los campos.</p>
+                <p className='text-gray-600 text-xs'>Sigue los pasos para la creación o edición de un producto completando todos los campos.</p>
             </div>
             <form action="" >
                 <div className='w-100 my-4'>

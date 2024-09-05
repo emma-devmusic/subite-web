@@ -12,3 +12,9 @@ export const findCategoriesByIds = (
         subcategory: subcat ? subcat[0].name : ''
     }
 }
+
+
+export const getIdProductImageFolder = (url: string): string => {
+    const urlParts = url.split('pd')
+    return urlParts[0].split('ty')[3]
+}

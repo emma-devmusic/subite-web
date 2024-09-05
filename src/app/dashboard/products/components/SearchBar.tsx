@@ -1,6 +1,7 @@
 'use client'
 import { useAppDispatch } from "@/store"
 import { getUsers } from "@/store/manageUserSlice"
+import { clearSelectedProduct } from "@/store/productSlice"
 import { uiModal } from "@/store/uiSlice"
 import { QueryObject } from "@/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
@@ -63,6 +64,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
     }, [filters])
 
     const handleNewProduct = () => {
+        dispatch(clearSelectedProduct())
         dispatch( 
             uiModal({
                 modalFor: 'new_product',

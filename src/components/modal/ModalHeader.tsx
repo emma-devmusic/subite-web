@@ -16,7 +16,6 @@ export const ModalHeader = ({ close }: Props) => {
         loading: 'Cargando...',
         message: typeMsg,
         new_auction: 'Nueva Subasta',
-        new_product: 'Nuevo Producto',
         new_user: 'Código de Verificación',
         edit_image_profile: 'Imagen del Perfil',
         validate_new_email: 'Validar Nuevo Email',

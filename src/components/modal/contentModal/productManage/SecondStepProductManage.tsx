@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getCategories, selectingCategory } from "@/store/categorySlice";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { classNames } from '../../../ecommerce/navbar/data/helpers';
+import { useEffect, useState } from "react";
 
 
 interface Props {
@@ -17,16 +16,19 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
 
     const dispatch = useAppDispatch();
     const { categories, categoriesSelected } = useAppSelector(state => state.category)
+    const [sub_categoryDef, setSubcategoryDef] = useState(subcategory)
 
     useEffect(() => {
         if (categories.length === 0) dispatch(getCategories('search?page=1&limit=30'))
     }, [])
 
     useEffect(() => {
-        if (typeof category === 'string') dispatch(selectingCategory(category))
+        if (category !== 0) dispatch(selectingCategory(`${category}`))
     }, [category])
 
-
+    useEffect(() => {
+        setSubcategoryDef(subcategory)
+    }, [categoriesSelected])
 
     return (
         <form action="">
@@ -35,35 +37,41 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                 <select
                     required
                     name="category"
+                    defaultValue={category}
                     className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
                     onChange={handleInputChange}
                 >
-                    <option value="">-Seleccionar-</option>
+                    <option value={0}>-Seleccionar-</option>
                     {
                         categories.map((cat) => {
                             if (cat.subcategories)
-                                return cat.subcategories.length > 0 && <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                return cat.subcategories.length && <option key={cat.id} value={cat.id}>{cat.name}</option>
                         })
                     }
                 </select>
             </div>
-            <div className='w-100 my-4'>
-                <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
-                <select
-                    required
-                    disabled={categoriesSelected.subcategories === undefined || categoriesSelected.subcategories.length === 0}
-                    className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
-                    name="sub_category"
-                    onChange={handleInputChange}
-                >
-                    <option value="">-Seleccionar-</option>
-                    {
-                        categoriesSelected.subcategories && categoriesSelected.subcategories.map(sub =>
-                            <option key={sub.id} value={sub.id}>{sub.name}</option>
-                        )
-                    }
-                </select>
-            </div>
+            {
+                categoriesSelected.id &&
+                <div className='w-100 my-4'>
+                    <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
+                    <select
+                        required
+                        defaultValue={sub_categoryDef}
+                        // disabled={categoriesSelected.subcategories === undefined || categoriesSelected.subcategories.length === 0}
+                        className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        name="sub_category"
+                        onChange={handleInputChange}
+                    >
+                        <option value={0}>-Seleccionar-</option>
+                        {
+                            categoriesSelected.subcategories && categoriesSelected.subcategories.map(sub => {
+                                return <option key={sub.id} value={sub.id}>{sub.name}</option>
+                            }
+                            )
+                        }
+                    </select>
+                </div>
+            }
             <div className='w-100 my-4'>
                 <label htmlFor="price" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Precio ($)</label>
                 <input
