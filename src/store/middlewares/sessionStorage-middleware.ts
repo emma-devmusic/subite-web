@@ -1,12 +1,13 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { clearRedux, loggear, login } from "../authSlice";
-import { decryptLoginData, encryptLoginDataInSessionStorage, getSession,  } from "@/helpers";
+import { decryptLoginData, encryptLoginDataInSessionStorage, getSession, } from "@/helpers";
 import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
 import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { UserLoginResponse } from "@/types";
+import { cleanProducts } from "../productSlice";
 
 
 export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
@@ -30,10 +31,10 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                         })
                     )
                 })
-            if(user && !user.error) {
+            if (user && !user.error) {
                 encryptLoginDataInSessionStorage(user.data);
                 if (user.data.two_factor) {
-                    state.dispatch( uiSetLoading(false) )
+                    state.dispatch(uiSetLoading(false))
                     state.dispatch(
                         uiModal({
                             modalFor: '2F_code',
@@ -42,7 +43,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     )
                     return
                 }
-                state.dispatch( loggear() )
+                state.dispatch(loggear())
             }
         }
 
@@ -77,8 +78,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
                 sessionStorage.clear();
-            } else if(codeResponse && !codeResponse.error) {
-                state.dispatch( loggear() )
+            } else if (codeResponse && !codeResponse.error) {
+                state.dispatch(loggear())
             }
         }
 
@@ -99,7 +100,7 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                 )
             }, 2000)
             const userDecrypted = getSession()
-            if(userDecrypted) state.dispatch( login(userDecrypted.data) )
+            if (userDecrypted) state.dispatch(login(userDecrypted.data))
         }
 
 
@@ -118,21 +119,22 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
             const token = userData.data.access.accessToken
             console.log('Llamada a la Api - USER LOGOUT')
             const logoutResponse = await fetchData('/manage-auth/signout', 'GET', null, token)
-            .catch(err => {
-                console.log(err)
-                state.dispatch(uiSetLoading(false))
-                state.dispatch(
-                    uiModal({
-                        modalFor: 'message',
-                        modalOpen: true,
-                        typeMsg: 'error',
-                        msg: `${err}`
-                    })
-                )
-                sessionStorage.clear();
-                window.location.reload()
-            })
-            if(!logoutResponse.error){
+                .catch(err => {
+                    console.log(err)
+                    state.dispatch(uiSetLoading(false))
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'error',
+                            msg: `${err}`
+                        })
+                    )
+                    state.dispatch(cleanProducts())
+                    sessionStorage.clear();
+                    window.location.reload()
+                })
+            if (!logoutResponse.error) {
                 state.dispatch(uiSetLoading(false))
                 state.dispatch(
                     uiCloseModal()

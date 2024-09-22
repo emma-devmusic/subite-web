@@ -1,15 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useDropzone } from 'react-dropzone'
-import { v4 as uuidv4 } from 'uuid';
-import Image from 'next/image';
-
-
 import { imageInitialState, imageReducer } from '@/reducers';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fileIntoSW3 } from '@/helpers/imageProductManager';
-import { ImageProduct } from '@/types/products';
 import { Spinner } from '@/components/spinner/Spinner';
 import { setImagesNewProduct } from '@/store/productSlice';
+import Image from 'next/image';
 
 
 interface Props {
@@ -23,7 +19,6 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
     const { userProfile } = useAppSelector(state => state.auth)
     const [imageState, dispatch] = useReducer(imageReducer, imageInitialState);
     const [isLoading, setIsLoading] = useState(false)
-    // const [images, setImages] = useState<ImageProduct[]>([] as ImageProduct[]);
 
     const onDrop = (acceptedFiles: any) => {
         acceptedFiles.forEach((file: any) => {
@@ -47,6 +42,7 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
                     description: image.lastModifiedDate,
                     url_image: link
                 }))
+                
                 if (i === imageState.images.length - 1) {
                     setIsLoading(false)
                     dispatch({ type: 'clear' })
@@ -55,14 +51,8 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
         }
     }
 
-    // useEffect(() => {
-    //     if (images.length > 0) dispatchRedux( setImagesNewProduct( images ) )
-    // }, [images])
-
     const handleDelete = (i: number, flagDelete: boolean) => {
-        if (flagDelete) {
-            dispatch({ type: 'unselected' })
-        }
+        if (flagDelete) dispatch({ type: 'unselected' })
         dispatch({ type: 'delete', payload: i })
     }
 
@@ -89,7 +79,6 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
                                                     <div className='flex' key={i}>
                                                         <Image
                                                             className={`border-[2px] shadow-md  border-transparent hover:cursor-pointer hover:border-gray-400 transition-all`}
-                                                            // onClick={() => handleClickImage(file, file.path === imageState.imageSelected?.path)}
                                                             src={URL.createObjectURL(file)}
                                                             width={100}
                                                             height={100}
@@ -99,7 +88,6 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
                                                                 height: '100px',
                                                                 objectFit: 'cover',
                                                                 borderRadius: '10px',
-                                                                // border: (file.path === imageState.imageSelected?.path) ? '4px solid gray' : ''
                                                             }}
                                                         />
                                                         <div

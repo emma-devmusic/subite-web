@@ -1,9 +1,11 @@
 'use client'
-import { useAppDispatch } from "@/store"
+import { useAppDispatch, useAppSelector } from "@/store"
+import { cleanSelectCategories, selectingCategory } from "@/store/categorySlice"
 import { getUsers } from "@/store/manageUserSlice"
-import { clearSelectedProduct } from "@/store/productSlice"
+import { clearSelectedProduct, getProducts } from "@/store/productSlice"
 import { uiModal } from "@/store/uiSlice"
 import { QueryObject } from "@/types"
+import { useSearchParams } from "next/navigation"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 interface Props {
@@ -11,21 +13,25 @@ interface Props {
     pagesSearch: QueryObject
 }
 
-const initialQueryState = 'search?page=1&limit=30'
+// const initialQueryState = 'search?page=1&limit=30'
 
 
 export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     const dispatch = useAppDispatch()
+    // const searchParams = useSearchParams()
+    // const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
+    const { categories, categoriesSelected } = useAppSelector(state => state.category)
+    const { productAuditsStatuses } = useAppSelector(state => state.product)
 
-    const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
 
     const [filters, setFilters] = useState({
         term: '',
-        name: 'off',
-        last_name: 'off',
-        order: '',
-        role_description: '',
+        sub_categories_id: 0,
+        categories_id: 0,
+        max_price: '',
+        min_price: '',
+        product_audit_statuses: 0,
     })
 
     const handleFilter = (e: any) => {
@@ -36,47 +42,36 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
     }
 
 
-    const createQueryParams = () => {
-        let text = ''
-        let inputText = filters.term
-        for (const [key, value] of Object.entries(filters)) {
-            if (value.length === 0 || value === 'off') continue
-            if (value) {
-                if (key === 'name' || key === 'last_name') {
-                    text = text + '&' + key + '=' + inputText
-                } else {
-                    text = text + '&' + key + '=' + value
-                }
-            }
-
-        }
-        return text
-    }
-
+    useEffect(() => {
+        if (filters.categories_id) dispatch(selectingCategory(`${filters.categories_id}`))
+    }, [filters.categories_id])
 
     useEffect(() => {
-        const param = createQueryParams()
-        setParamState(param)
+        const params = new URLSearchParams();
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value) params.append(key, `${value}`)
+        })
         setPagesSearch(state => ({
             ...state,
-            searchQuerys: param
+            searchQuerys: params.toString() && `&${params.toString()}`
         }))
     }, [filters])
 
     const handleNewProduct = () => {
         dispatch(clearSelectedProduct())
-        dispatch( 
+        dispatch(cleanSelectCategories())
+        dispatch(
             uiModal({
                 modalFor: 'new_product',
                 modalOpen: true,
                 modalTitle: 'Nuevo Producto'
             })
-         )
+        )
     }
 
     const handleSearch = (e: any) => {
         e.preventDefault()
-        dispatch(getUsers(initialQueryState + paramState))
+        dispatch(getProducts(pagesSearch.pageQuerys + pagesSearch.searchQuerys))
     }
 
     return (
@@ -84,9 +79,9 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
             <div className="mb-1 w-full">
                 <div className="mb-4 flex justify-between">
                     <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Productos</h1>
-                    <button 
+                    <button
                         className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
-                        onClick={handleNewProduct}    
+                        onClick={handleNewProduct}
                     >Nuevo Producto</button>
                 </div>
                 <div className="block sm:flex items-center md:divide-x md:divide-gray-100">
@@ -112,27 +107,33 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                             <strong className="text-sm mt-2 text-gray-500">Filtrar:</strong>
                             <div className="flex gap-3 mt-2 items-center flex-wrap">
                                 <div className="flex items-center gap-1">
-                                    <input value={filters.name} name="name" onChange={handleFilter} type="checkbox" id="name" className="" />
-                                    <label htmlFor="name" className="text-xs mt-[1px]">Nombre</label>
+                                    <label htmlFor="max_price" className="text-xs mt-[1px]">Precio Máx.</label>
+                                    <input value={filters.max_price} name="max_price" onChange={handleFilter} type="number" id="max_price" className="w-12 border rounded-lg text-xs p-1" />
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    <input value={filters.last_name} name="last_name" onChange={handleFilter} type="checkbox" id="last_name" className="" />
-                                    <label htmlFor="last_name" className="text-xs mt-[1px]">Descripción</label>
+                                    <label htmlFor="min_price" className="text-xs mt-[1px]">Precio Min.</label>
+                                    <input value={filters.min_price} name="min_price" onChange={handleFilter} type="number" id="max_price" className="w-12 border rounded-lg text-xs p-1" />
                                 </div>
-                                <select value={filters.role_description} onChange={handleFilter} name="role_description" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                <select value={filters.categories_id} onChange={handleFilter} name="categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
                                     <option value="">Categorías</option>
-                                    <option value="client">Categoría #1</option>
-                                    <option value="administrator">Categoría #2</option>
+                                    {
+                                        categories.length > 0 && categories.map(cat => <option value={cat.id} key={cat.id}>{cat.name}</option>)
+                                    }
                                 </select>
-                                <select value={filters.role_description} onChange={handleFilter} name="role_description" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Subcategorías</option>
-                                    <option value="client">Subcategoría #1</option>
-                                    <option value="administrator">Subcategoría #2</option>
-                                </select>
-                                <select value={filters.order} onChange={handleFilter} name="order" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Orden Alfabético</option>
-                                    <option value="last_name:asc">Ascendente</option>
-                                    <option value="last_name:desc">Descendente</option>
+                                {
+                                    categoriesSelected?.id &&
+                                    <select value={filters.sub_categories_id} onChange={handleFilter} name="sub_categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                        <option value="">Subcategorías</option>
+                                        {
+                                            categoriesSelected.subcategories && categoriesSelected.subcategories.map(scat => <option value={scat.id} key={scat.id}>{scat.name}</option>)
+                                        }
+                                    </select>
+                                }
+                                <select value={filters.product_audit_statuses} onChange={handleFilter} name="product_audit_statuses" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                    <option value="">Estado</option>
+                                    {
+                                        productAuditsStatuses.length > 0 && productAuditsStatuses.map( status => <option value={status.id} key={status.id}>{status.description}</option>)
+                                    }
                                 </select>
                             </div>
                         </div>

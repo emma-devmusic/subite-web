@@ -17,7 +17,7 @@ export const HandlePage = ({ setPagesSearch }: Props) => {
         setPagesSearch( (state) => {
             return {
                 ...state,
-                pageQuerys: `search?page=${pageNumber}&limit=${30}`
+                pageQuerys: `search?page=${pageNumber}&limit=${10}`
             }
         })
     }, [pageNumber])

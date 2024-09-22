@@ -1,15 +1,18 @@
 import { ImageProduct } from "@/types/products";
 import { ImageProductModal } from "./ImageProductModal";
 import { ImagesOnS3 } from "./ImagesOnS3";
+import { ImageUpdatingReducer } from "@/reducers/imageUpdatingReducer";
 
 interface Props {
     idImagesProduct: string; // ID de la imagen del producto
     imagesOnS3: ImageProduct[];
     handleInputChange: () => void; // Función para manejar el cambio en los inputs del formulario
     request_audit: boolean;
+    dispatchImageUpdating:  any;
+    imageUpdatingState: ImageUpdatingReducer;
 }
 
-export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInputChange, request_audit }: Props) => {
+export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInputChange, request_audit, dispatchImageUpdating, imageUpdatingState }: Props) => {
 
 
 
@@ -37,7 +40,7 @@ export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInpu
             </div>
             <div className='w-100 my-4'>
                 {
-                    imagesOnS3.length > 0 && <ImagesOnS3 imagesOnS3={imagesOnS3} />
+                    imagesOnS3.length > 0 && <ImagesOnS3 imagesOnS3={imagesOnS3} dispatchImageUpdating={dispatchImageUpdating} imageUpdatingState={imageUpdatingState}/>
                 }
             </div>
         </form>

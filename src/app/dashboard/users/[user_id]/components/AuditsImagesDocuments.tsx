@@ -1,7 +1,6 @@
 'use client'
 import { useAppDispatch } from "@/store";
 import { getDocument } from "@/store/manageUserSlice";
-import { uiModal } from "@/store/uiSlice";
 import { AuditImagesDocuments } from "@/types";
 
 interface Props {

@@ -13,7 +13,7 @@ import { Spinner } from "../spinner/Spinner"
 import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
 import { VerifyAccount } from "./contentModal/verifyAccount/VerifyAccount"
 import { AuditDocument } from "./contentModal/AuditDocument"
-import { AuditUser } from "./contentModal/AuditUser"
+import { AuditModal } from "./contentModal/AuditModal"
 import { CategoryModal } from "./contentModal/category/CategoryModal"
 import { SubcategoryInfo } from "./contentModal/category/SubcategoryInfo"
 import { deleteImagesFromS3 } from "@/store/productSlice"
@@ -25,7 +25,7 @@ export const Modal = () => {
     const dispatch = useAppDispatch()
     const { imagesNewProduct } = useAppSelector(state => state.product)
     const { loading } = useAppSelector(state => state.ui)
-    const { modal: { modalOpen, modalFor, msg, typeMsg } } = useAppSelector(state => state.ui)
+    const { modal: { modalOpen, modalFor, msg, typeMsg, modalTitle } } = useAppSelector(state => state.ui)
     const path = usePathname()
     const router = useRouter()
 
@@ -33,7 +33,7 @@ export const Modal = () => {
         dispatch(uiCloseModal())
         dispatch(uiSetLoading(false))
         if (modalFor === 'new_product') {
-            if(imagesNewProduct.length > 0) {
+            if( imagesNewProduct.length > 0 ) {
                 dispatch( deleteImagesFromS3() )
             }
             dispatch(cleanSelectCategories())
@@ -49,9 +49,10 @@ export const Modal = () => {
         }, 2000)
     }
 
+
+
     if (!modalOpen) return
     if (modalFor === 'audit_document') return <AuditDocument close={handleCloseModal} />
-
     return (
         <div className="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
             <div className="fixed inset-0 z-10 bg-gray-500 bg-opacity-75 transition-opacity" >
@@ -93,13 +94,16 @@ export const Modal = () => {
                                         modalFor === 'verify_account' && <VerifyAccount />
                                     }
                                     {
-                                        modalFor === 'audit_user' && <AuditUser />
+                                        modalFor === 'audit_user' && <AuditModal />
                                     }
                                     {
                                         modalFor === 'category' && <CategoryModal />
                                     }
                                     {
                                         modalFor === 'categoryInfo' && <SubcategoryInfo />
+                                    }
+                                    {
+                                        modalFor === 'audit_product' && <AuditModal />
                                     }
 
                                 </>

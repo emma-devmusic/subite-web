@@ -1,41 +1,45 @@
 import { flu } from "@/helpers";
 import { useForm } from "@/hooks/useForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getStatus, setStatusAccount } from "@/store/manageUserSlice";
+import { setStatusAccount } from "@/store/manageUserSlice";
+import { setStatusProduct } from "@/store/productSlice";
 import { DataUserStatus } from "@/types";
-import { useEffect } from "react";
 
-export const AuditUser = () => {
+export const AuditModal = () => {
 
-    const { userStatusArray, usersSelected } = useAppSelector(state=> state.manageUser)
+    const { userStatusArray, usersSelected } = useAppSelector(state => state.manageUser)
+    const { productSelected, productAuditsStatuses } = useAppSelector(state => state.product)
+    const { modal: { modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        if(!userStatusArray) dispatch( getStatus() )
-    }, [])
-
-    // useEffect( () => {
-    // }, [userStatusArray])
 
     const [values, handleInputChange] = useForm({
         status: '',
         note: ''
     })
 
-    const handleStatusUserAccount = (e: any) => {
+    const handleStatus = (e: any) => {
         e.preventDefault()
-        dispatch(
-            setStatusAccount({...values, id: usersSelected?.user_id})
-        )
+        if (modalFor === 'audit_user') {
+            dispatch(setStatusAccount({ ...values, id: usersSelected?.user_id }))
+        }
+
+        if (modalFor === 'audit_product') {
+            let payload = {
+                product_id: productSelected.product_variations[0].id,
+                audit_status_id: parseInt(values.status),
+                status_note: values.note
+            }
+            dispatch(setStatusProduct(payload))
+        }
     }
 
     return (
         <div className="flex flex-col gap-4 p-5 py-6">
             <div>
-                <h4 className="text-xl text-center text-cyan-700">Decide sobre este usuario y su documentación</h4>
+                <h4 className="text-xl text-center text-cyan-700">Decide sobre este {modalFor === 'audit_user' ? 'usuario' : 'producto'}.</h4>
             </div>
 
-            <form className="flex flex-col gap-3" onSubmit={handleStatusUserAccount}>
+            <form className="flex flex-col gap-3" onSubmit={handleStatus}>
                 <div>
                     <label htmlFor="description" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Cambiar estado de cuenta:</label>
                     <select
@@ -47,13 +51,17 @@ export const AuditUser = () => {
                     >
                         <option value="">*Seleccionar</option>
                         {
-                            userStatusArray?.length === 0
-                                ?
-                                <p>Cargando...</p>
-                                :
-                                userStatusArray?.map((e: DataUserStatus, i) =>
-                                    <option value={`${e.id}`} key={i}>{flu(e.description)}</option>
-                                )
+                            modalFor === 'audit_user'
+                                ? userStatusArray?.length === 0
+                                    ? <p>Cargando...</p>
+                                    : userStatusArray?.map((e: DataUserStatus, i) =>
+                                        <option value={`${e.id}`} key={i}>{flu(e.description)}</option>
+                                    )
+                                : productAuditsStatuses.length === 0
+                                    ? <p>Cargando...</p>
+                                    : productAuditsStatuses.map((e, i) =>
+                                        <option value={`${e.id}`} key={i}>{flu(e.description)}</option>
+                                    )
                         }
                     </select>
                 </div>

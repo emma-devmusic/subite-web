@@ -1,0 +1,10 @@
+.custom-overlay__caption {
+}
+
+.ReactGridGallery_tile-icon-bar {
+    opacity: 0 !important;
+}
+
+#ReactSimpleImageViewer {
+    z-index: 99 !important;
+}

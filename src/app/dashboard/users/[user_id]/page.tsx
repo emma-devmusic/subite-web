@@ -7,10 +7,10 @@ import { UserState } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { useEffect } from "react";
-import { TableAutidStatusHistory } from "./components/TableAutidStatusHistory";
 import { AuditsImagesDocuments } from "./components/AuditsImagesDocuments";
 import { uiModal } from "@/store/uiSlice";
 import Swal from "sweetalert2";
+import { TableAutidStatusHistory } from "@/components/tables/TableAutidStatusHistory";
 
 interface Props {
     params: { user_id: string };
@@ -142,7 +142,7 @@ export default function UserPage({ params }: Props) {
                 </div>
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3">
                     <h3 className="text-2xl font-medium mb-4">Historial de Auditoría</h3>
-                    <TableAutidStatusHistory auditHistory={usersSelected?.audit_status_history ?? []} />
+                    <TableAutidStatusHistory auditHistory={{user: usersSelected?.audit_status_history} ?? []} />
                 </div>
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3">
                     <button

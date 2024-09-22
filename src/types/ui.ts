@@ -21,7 +21,8 @@ export interface Modal {
         | 'audit_document'
         | 'audit_user'
         | 'category'
-        | 'categoryInfo';
+        | 'categoryInfo'
+        | 'audit_product';
         modalOpen: boolean;
         modalTitle?: string;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';

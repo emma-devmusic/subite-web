@@ -232,3 +232,17 @@ export interface SetNewUserStatusResponse {
     code:    number;
     message: string;
 }
+
+
+
+export interface ProductAuditsStatuses {
+    error:   boolean;
+    code:    number;
+    message: string;
+    data:    DataProductAuditsStatuses[];
+}
+
+export interface DataProductAuditsStatuses {
+    id:          number;
+    description: string;
+}

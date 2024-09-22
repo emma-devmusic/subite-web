@@ -46,10 +46,9 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'manageUser/getUser') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - SEARCH 1 USER')
-                const userSearch: SearchUser = await fetchData(`/manage-users/details/${action.payload}`, 'GET', null, userData.data.access.accessToken)
+                const userSearch: SearchUser = await fetchData(`/manage-users/details/${action.payload}`, 'GET', null, token)
                 if (!userSearch.error) {
                     state.dispatch(setUser(userSearch.data))
                 } else {
@@ -68,10 +67,9 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'manageUser/getDocument') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - GET DOCUMENT')
-                const userDocument: AuditDocumentResponse = await fetchData(`/manage-users/details/${action.payload}`, 'GET', null, userData.data.access.accessToken)
+                const userDocument: AuditDocumentResponse = await fetchData(`/manage-users/details/${action.payload}`, 'GET', null, token)
                 if (!userDocument.error) {
                     console.log(userDocument.data)
                     state.dispatch(setDocument(userDocument.data))
@@ -96,10 +94,9 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'manageUser/getStatus') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - GET STATUS')
-                const userDocument: UserStatusResponse = await fetchData(`/manage-users-audits/get-status`, 'GET', null, userData.data.access.accessToken)
+                const userDocument: UserStatusResponse = await fetchData(`/manage-users-audits/get-status`, 'GET', null, token)
                 if (!userDocument.error) {
                     state.dispatch(setSelectStatus(userDocument.data))
                 } else {
@@ -115,7 +112,6 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'manageUser/setStatusAccount') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 const userIdToChangeStatus = action.payload.id;
                 const dataBody = {
@@ -124,7 +120,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 }
 
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - SET STATUS ACCOUNT')
-                const resp: SetNewUserStatusResponse = await fetchData(`/manage-users-audits/audit-identity/${userIdToChangeStatus}`, 'PATCH', dataBody , userData.data.access.accessToken)
+                const resp: SetNewUserStatusResponse = await fetchData(`/manage-users-audits/audit-identity/${userIdToChangeStatus}`, 'PATCH', dataBody , token)
                 if (!resp.error) {
                     Swal.fire('Estado de Cuenta Actualizado', resp.message, 'success')
                 } else {

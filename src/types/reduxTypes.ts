@@ -51,5 +51,5 @@ export interface UserState {
     users: UserItem[];
     usersSelected: DataUserState | null;
     userDocument: DataAuditDocumentResponse;
-    userStatusArray: DataUserStatus[] | null;
+    userStatusArray: DataUserStatus[];
 }

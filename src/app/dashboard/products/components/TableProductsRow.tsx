@@ -5,17 +5,34 @@ import Swal from "sweetalert2";
 import { findCategoriesByIds } from "@/helpers/products";
 import { useAppDispatch } from "@/store";
 import { ItemProductSearchResponse } from "@/types/products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from '../../../../store/index';
 import { selectProduct } from "@/store/productSlice";
-import { uiMenu, uiModal } from "@/store/uiSlice";
-import { title } from "process";
+import { uiModal } from "@/store/uiSlice";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export const TableProductsRow = (product: ItemProductSearchResponse ) => {
-
+export const TableProductsRow = (product: ItemProductSearchResponse) => {
+    const router = useRouter()
     const dispatch = useAppDispatch()
-    const { categories } = useAppSelector(state=> state.category)
-    const [ categoryProduct ] = useState( findCategoriesByIds(categories, product.category_id, product.sub_category_id) )
+    const { categories } = useAppSelector(state => state.category)
+    const { isAdmin } = useAppSelector(state => state.manageUser)
+    const [urlImg, setUrlImg] = useState('')
+
+    useEffect(() => {
+        if (product.product_variations.length > 0) {
+            product.product_variations[0].productImages.forEach((img, i) => {
+                const last = product.product_variations[0].productImages.length - 1
+                if (img.main_image) {
+                    setUrlImg(img.url_image)
+                } else if(urlImg === '' && i === last) {
+                    setUrlImg(img.url_image)
+                }
+            })
+        }
+    }, [])
+
+    const [categoryProduct] = useState(findCategoriesByIds(categories, product.category_id, product.sub_category_id))
 
     const handleUserDelete = () => {
         Swal.fire({
@@ -35,12 +52,16 @@ export const TableProductsRow = (product: ItemProductSearchResponse ) => {
     }
 
     const handleEditProduct = () => {
+        dispatch(selectProduct(product))
+        if(isAdmin) {
+            router.push(`/dashboard/products/${product.product_variations[0].id}`)
+            return
+        }
         dispatch(uiModal({
             modalFor: 'new_product',
             modalOpen: true,
             modalTitle: 'Editar Producto'
         }))
-        dispatch( selectProduct(product) )
     }
 
     return (
@@ -52,16 +73,22 @@ export const TableProductsRow = (product: ItemProductSearchResponse ) => {
                 </div>
             </td> */}
             <td className="p-4 flex items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0">
-                <Image width={300} height={300} className="h-10 w-10 rounded-full" src={product.product_variations[0].productImages[0].url_image} alt="Neil Sims avatar" />
+                {
+                    urlImg &&
+                    <Image width={300} height={300} className="h-10 w-10 rounded-full" src={urlImg} alt="Neil Sims avatar" />
+                }
                 <div className="text-sm font-normal text-gray-500">
-                    <div className="text-base font-semibold text-gray-900">{product.name}</div>
-                    {/* <div className="text-sm font-normal text-gray-500">{product}</div> */}
+                    <div className="text-sm font-semibold text-gray-900">{product.name}</div>
+                    {
+                        (isAdmin && product.supplier_products) &&
+                        <div className="text-xs font-normal text-gray-500">Publicado por: <Link className="hover:underline" href={`/dashboard/users/${product.supplier_products[0].supplier.auth_user.id}`}>{product.supplier_products[0].supplier.name}</Link></div>
+                    }
                 </div>
             </td>
-            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{categoryProduct.subcategory}</td>
-            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{product.product_variations[0].description}</td>
-            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">{product.product_variations[0].price}</td>
-            <td className="p-4 whitespace-nowrap space-x-2 text-end">{product.product_variations[0].stocks.quantity}</td>
+            <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">{categoryProduct.subcategory}</td>
+            <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">{product.product_variations[0].description}</td>
+            <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">{product.product_variations[0].price}</td>
+            <td className="p-4 text-sm whitespace-nowrap space-x-2 text-end">{product.product_variations[0].stocks.quantity}</td>
             <td className="p-4 whitespace-nowrap space-x-2 text-end">
                 <button
                     className=" text-cyan-600 hover:text-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm inline-flex items-center px-1 py-1 text-center"

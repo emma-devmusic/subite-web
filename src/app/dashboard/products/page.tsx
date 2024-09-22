@@ -5,12 +5,10 @@ import { SearchBar } from "./components/SearchBar";
 import { useEffect, useState } from "react";
 import { QueryObject } from "@/types";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { redirect } from "next/navigation";
 import { HandlePage } from "./components/HandlePage";
-import { TableProducts } from "./components/TableProducts";
 import { TableLayout } from "@/components/tables/TableLayout";
 import { TableProductsRow } from "./components/TableProductsRow";
-import { getProducts } from "@/store/productSlice";
+import { getProductAuditsStatuses, getProducts } from "@/store/productSlice";
 import { getCategories } from "@/store/categorySlice";
 import { Spinner } from "@/components/spinner/Spinner";
 
@@ -22,18 +20,24 @@ export default function ProductsPage() {
 
     const dispatch = useAppDispatch()
     // const { isAdmin } = useAppSelector(state => state.manageUser)
-    const { products } = useAppSelector(state => state.product)
+    const { products, productAuditsStatuses } = useAppSelector(state => state.product)
     const { categories } = useAppSelector(state => state.category)
 
     const [queryObject, setQueryObject] = useState<QueryObject>({
-        pageQuerys: initialQueryState,
+        pageQuerys: 'search?page=1&limit=10',
         searchQuerys: ''
     });
 
     useEffect(() => {
-        if (categories.length === 0) dispatch(getCategories('search?page=1&limit=30'))
+        // if (categories.length === 0) dispatch(getCategories('search?page=1&limit=30'))
+        // if (productAuditsStatuses.length === 0) dispatch(getProductAuditsStatuses())
         dispatch(getProducts(queryObject.pageQuerys + queryObject.searchQuerys))
     }, [queryObject.pageQuerys])
+
+    useEffect(() => {
+        if (categories.length === 0) dispatch(getCategories('search?page=1&limit=30'))
+        if (productAuditsStatuses.length === 0) dispatch(getProductAuditsStatuses())
+    }, [])
 
 
 
@@ -42,11 +46,8 @@ export default function ProductsPage() {
     return (
         <div>
             <SearchBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
-
             <TableLayout withCheckbox={false} columns={columns} >
-
                 {
-
                     products.map((prod, i) =>
                         <TableProductsRow key={i} {...prod} />
                     )

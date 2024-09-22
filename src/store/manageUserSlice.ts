@@ -7,7 +7,7 @@ const initialState: UserState = {
     users: [],
     usersSelected: null,
     userDocument: { signed_url: null },
-    userStatusArray: null
+    userStatusArray: []
 }
 
 const manageUsersSlice = createSlice({
