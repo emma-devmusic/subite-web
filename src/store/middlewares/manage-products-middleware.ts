@@ -44,6 +44,7 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiSetLoading(true))
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - GET PRODUCTS')
+                console.log(`/manage-auction-products/${ path_role(role_id) }/${action.payload}`)
                 const searchResponse: ProductSearchResponse = await fetchData(
                     `/manage-auction-products/${ path_role(role_id) }/${action.payload}`,
                     "GET",

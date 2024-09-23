@@ -51,7 +51,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                 </select>
             </div>
             {
-                categoriesSelected.id &&
+                categoriesSelected?.id &&
                 <div className='w-100 my-4'>
                     <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
                     <select

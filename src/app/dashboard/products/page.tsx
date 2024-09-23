@@ -40,9 +40,8 @@ export default function ProductsPage() {
     }, [])
 
 
-
-
     if (categories.length === 0) return <Spinner />
+    
     return (
         <div>
             <SearchBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />

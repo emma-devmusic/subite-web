@@ -19,8 +19,6 @@ interface Props {
 export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     const dispatch = useAppDispatch()
-    // const searchParams = useSearchParams()
-    // const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
     const { categories, categoriesSelected } = useAppSelector(state => state.category)
     const { productAuditsStatuses } = useAppSelector(state => state.product)
 

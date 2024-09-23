@@ -1,5 +1,6 @@
 import { isAdmin } from '../helpers/helpers';
 import { DataAuditDocumentResponse, DataUserState, DataUserStatus, UserItem } from './dataFetching';
+import { BasicData } from './user';
 
 export interface LoginData {
     email: string;
@@ -27,13 +28,6 @@ export interface User {
     permission: Permission[];
 }
 
-export interface BasicData {
-    name:             string;
-    last_name:        string;
-    email:            string;
-    account_verified: boolean;
-    email_verified:   boolean;
-}
 
 export interface Permission {
     id:                 number;

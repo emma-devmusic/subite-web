@@ -1,3 +1,4 @@
+import { Access } from "./dataFetching";
 
 export interface UserLoginResponse {
     error:   boolean;
@@ -10,12 +11,6 @@ export interface DataUserLoginResponse {
     two_factor:  boolean;
     access:      Access;
     permissions: string;
-}
-
-export interface Access {
-    accessToken:  string;
-    refreshToken: string;
-    conn:         string;
 }
 
 
