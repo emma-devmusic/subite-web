@@ -13,12 +13,12 @@ export const sidebarData : SidebarMenuItem[] = [
         link: '/dashboard/notifications',
         icon: 'ic:round-notifications-active'
     },
-    {
-        forAdmin: false,
-        text: 'Autorizaciones',
-        link: '/dashboard/authorizations',
-        icon: 'simple-icons:authelia'
-    },
+    // {
+    //     forAdmin: false,
+    //     text: 'Autorizaciones',
+    //     link: '/dashboard/authorizations',
+    //     icon: 'simple-icons:authelia'
+    // },
     {
         forAdmin: false,
         text: 'Subastas',
@@ -126,7 +126,7 @@ export const dataNotifications: NotificationFromDB[] = [
         details: 'Detalles del mensaje',
         error: false,
         message: 'Mensaje',
-        title : 'Actualización del estado de tu cuenta.'
+        title : 'Actualización del estado de tu cuenta'
     }
 ]
 

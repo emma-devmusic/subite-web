@@ -1,10 +1,10 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { UserProfileToRedux } from "../authSlice";
+import { UserProfileToRedux } from "../slices/authSlice";
 import { ImagesProfileUpdateResponse, SendEmailVerificationResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
 import { decryptLoginData } from "@/helpers";
-import { uiModal, uiSetLoading } from "../uiSlice";
+import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
 import DecryptedSession from "@/helpers/Permissions";

@@ -18,7 +18,7 @@ export interface NotificationFromDB {
 }
 
 
-export type NotificationTitle = 'Actualización del estado de tu cuenta.' | 'Nueva solicitud de Auditoría de Cliente'
+export type NotificationTitle = 'Actualización del estado de tu cuenta' | 'Nueva solicitud de Auditoría de Cliente' | 'Nueva Solicitud de Auditoría de Producto'
 
 export interface ObjectNotification {
     title: NotificationTitle;
@@ -28,4 +28,5 @@ export interface ObjectNotification {
     date: string;
     icon: string;
     link: string;
+    product_id?: number;
 }

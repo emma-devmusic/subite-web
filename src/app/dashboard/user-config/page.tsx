@@ -1,8 +1,8 @@
 'use client'
 
-import { useForm } from "@/hooks/useForm";
+// import { useForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { delete_account, getUserProfile, sendMailVerification } from "@/store/authSlice";
+// import { delete_account, getUserProfile, sendMailVerification } from "@/store/authSlice";
 import { ImageProfile } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
@@ -12,8 +12,9 @@ import { FormGeneral } from "./formGeneral/FormGeneral";
 import { Spinner } from "@/components/spinner/Spinner";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { uiModal } from '@/store/uiSlice';
+import { uiModal } from '@/store/slices/uiSlice';
 import { AccountStatusButton } from "./AccountStatusButton";
+import { delete_account, getUserProfile } from "@/store/slices/authSlice";
 
 const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
 

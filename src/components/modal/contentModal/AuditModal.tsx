@@ -1,8 +1,8 @@
 import { flu } from "@/helpers";
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { setStatusAccount } from "@/store/manageUserSlice";
-import { setStatusProduct } from "@/store/productSlice";
+import { setStatusAccount } from "@/store/slices/manageUserSlice";
+import { setStatusProduct } from "@/store/slices/productSlice";
 import { DataUserStatus } from "@/types";
 
 export const AuditModal = () => {
@@ -12,7 +12,7 @@ export const AuditModal = () => {
     const { modal: { modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
 
-    const [values, handleInputChange] = useForm({
+    const [values, handleInputChange] = useAppForm({
         status: '',
         note: ''
     })

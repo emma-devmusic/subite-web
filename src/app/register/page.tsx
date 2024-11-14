@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import styles from './register.module.css';
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch } from "@/store";
-import { registerUser } from "@/store/authSlice";
 import { formValidate, userToRegister } from "@/helpers";
 import { useEffect, useState } from 'react';
 import { fetchData } from "@/services/fetchData";
 import { GenderTypes } from "@/types/dataFetching";
 import { Footer } from "@/components/dashboard";
+import { registerUser } from "@/store/slices/authSlice";
 
 export default function RegisterPage() {
 
@@ -17,7 +17,7 @@ export default function RegisterPage() {
     const [errors, setErrors] = useState({ notARealProperty: 'some_value' } as any);
     const [flag, setFlag] = useState<any>(null)
     const [genderTypes, setGenderTypes] = useState([] as GenderTypes[])
-    const [values, handleInputChange, reset] = useForm({
+    const [values, handleInputChange, reset] = useAppForm({
         name: "",
         last_name: "",
         email: "",

@@ -1,8 +1,8 @@
 import DecryptedSession from "@/helpers/Permissions";
 import { AuditDocumentResponse, SearchUser, SearchUsersResponse, SetNewUserStatusResponse, UserStatusResponse } from "@/types";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit"
-import { setDocument, setRole, setSelectStatus, setUser, setUsers } from "../manageUserSlice";
-import { uiModal, uiSetLoading } from "../uiSlice";
+import { setDocument, setRole, setSelectStatus, setUser, setUsers } from "../slices/manageUserSlice";
+import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { decryptLoginData } from "@/helpers";
 import { fetchData } from "@/services/fetchData";
 import Swal from "sweetalert2";

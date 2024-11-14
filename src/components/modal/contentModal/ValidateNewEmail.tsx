@@ -1,7 +1,7 @@
 import { Spinner } from "@/components/spinner/Spinner"
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store"
-import { validate_email } from "@/store/authSlice";
+import { validate_email } from "@/store/slices/authSlice";
 import { useRouter } from 'next/navigation'
 
 
@@ -9,7 +9,7 @@ export const ValidateNewEmail = () => {
     const router = useRouter()
     const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
-    const [values, handleInputChange] = useForm({
+    const [values, handleInputChange] = useAppForm({
         email: '',
         code: ''
     })

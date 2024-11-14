@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ButtonOne,ButtonSmall } from "../buttons";
+import { ButtonOne, ButtonSmall } from "../buttons";
 
 export const BannerOne = () => {
     return (
@@ -31,7 +31,7 @@ export const BannerOne = () => {
                     <div className="absolute bg-black bg-opacity-30 w-full h-full flex flex-col gap-3 justify-center items-center">
                         <p className="text-white w-80 text-center">Save 20%</p>
                         <h5 className="text-2xl font-bold text-white">Special Offer</h5>
-                        <ButtonSmall text="Ver" />
+                        <ButtonSmall onClick={() => console.log('Click')} text="Ver" />
                     </div>
                 </div>
 
@@ -48,6 +48,7 @@ export const BannerOne = () => {
                         <h5 className="text-2xl font-bold text-white">Special Offer</h5>
                         <ButtonSmall 
                             text="Ver"
+                            onClick={() => console.log('Click')}
                         />
                     </div>
                 </div>

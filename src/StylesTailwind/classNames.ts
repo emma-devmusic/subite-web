@@ -1,4 +1,4 @@
-export const btnPrimary = 'border-[1px] border-cyan-600 self-end rounded-md px-3 py-2  transition-all w-full text-sm sm:w-auto disabled:bg-slate-500 bg-cyan-600 text-white hover:bg-cyan-500'
+export const btnPrimary = 'border-[1px] border-cyan-600 rounded-md px-3 py-2  transition-all w-full text-sm sm:w-auto disabled:bg-slate-500 bg-cyan-600 text-white hover:bg-cyan-500'
 
 export const btnOutlinePrimary = 'border-[1px] border-cyan-600 self-end rounded-md px-4 py-2 transition-all w-full text-sm sm:w-auto disabled:bg-slate-500 bg-white text-cyan-600 hover:bg-cyan-500 hover:text-white'
 

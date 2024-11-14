@@ -10,8 +10,10 @@ import { ItemNotification } from "@/components/notifications/ItemNotification"
 
 
 export const Notifications = () => {
-    const usid = getUSID()?.data
+
+    const [usid] = useState(getUSID()?.data)
     const [notifications, setNotifications] = useState<ObjectNotification[]>([])
+    console.log(notifications)
     useEffect(() => {
         const socketConection = io(`https://notifystage.ding.com.ar?usid=${usid}`, {autoConnect: false})
         if (typeof usid !== 'undefined') {

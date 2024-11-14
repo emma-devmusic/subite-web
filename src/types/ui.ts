@@ -22,7 +22,11 @@ export interface Modal {
         | 'audit_user'
         | 'category'
         | 'categoryInfo'
-        | 'audit_product';
+        | 'audit_product'
+        | 'new_auction'
+        | 'offers'
+        | 'new_offer'
+        | 'edit_auction';
         modalOpen: boolean;
         modalTitle?: string;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';

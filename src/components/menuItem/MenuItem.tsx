@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Icon } from '@iconify/react';
 import { redirect, useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
-import { logout } from "@/store/authSlice";
+import { logout } from "@/store/slices/authSlice";
 
 interface Props {
     show?: boolean;

@@ -2,7 +2,7 @@
 
 import { flu } from "@/helpers";
 import { useAppDispatch } from "@/store";
-import { deleteUser, getUser } from "@/store/manageUserSlice";
+import { deleteUser, getUser } from "@/store/slices/manageUserSlice";
 import { UserItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";

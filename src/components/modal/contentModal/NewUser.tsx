@@ -1,10 +1,10 @@
 import { Spinner } from "@/components/spinner/Spinner"
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store"
 import { Message } from "./Message";
-import { uiCloseModal } from "@/store/uiSlice";
-import { email_validation } from "@/store/authSlice";
+import { uiCloseModal } from "@/store/slices/uiSlice";
 import { useRouter } from 'next/navigation'
+import { email_validation } from "@/store/slices/authSlice";
 
 export const NewUser = () => {
 
@@ -12,7 +12,7 @@ export const NewUser = () => {
     const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const { userProfile } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
-    const [values, handleInputChange] = useForm({
+    const [values, handleInputChange] = useAppForm({
         email: userProfile ? userProfile.email : '',
         code: ''
     })

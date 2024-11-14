@@ -5,15 +5,14 @@ import { FirstStepProductManage } from './productManage/FirstStepProductManage';
 import { SecondStepProductManage } from './productManage/SecondStepProductManage';
 import { ThirdStepProductManage } from './productManage/ThirdStepProductManage';
 import { HandleStep } from './HandleStep';
-import { useForm } from '@/hooks/useForm';
+import { useAppForm } from '@/hooks/useAppForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { newProductSubmit, updateProduct } from '@/store/productSlice';
+import { newProductSubmit, updateProduct } from '@/store/slices/productSlice';
 import { createObjProductUpdating, formProduct, getIdProductImageFolder } from '@/helpers/products';
 import { imageUpdatingProductInitialState, imageUpdatingReducer } from '@/reducers/imageUpdatingReducer';
-import './newProductModalStyle.css'
 import Swal from 'sweetalert2';
-import { isAdmin } from '../../../helpers/helpers';
+import './newProductModalStyle.css'
 
 
 
@@ -31,7 +30,7 @@ export const NewProduct = () => {
         || uuidv4()
     )
 
-    const [values, handleInputChange] = useForm({ ...formProduct(productSelected) })
+    const [values, handleInputChange] = useAppForm({ ...formProduct(productSelected) })
     const [initialStateUpdtProd] = useState(values)
 
     const handleNewProduct = () => {
@@ -55,7 +54,7 @@ export const NewProduct = () => {
 
     return (
         <>
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 new-product">
                 <Slider
                     {...settings}
                     className='mb-4'

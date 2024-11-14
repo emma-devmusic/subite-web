@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getCategories, selectingCategory } from "@/store/categorySlice";
+import { getCategories, selectingCategory } from "@/store/slices/categorySlice";
 import { useEffect, useState } from "react";
 
 

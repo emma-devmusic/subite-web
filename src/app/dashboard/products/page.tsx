@@ -8,8 +8,8 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { HandlePage } from "./components/HandlePage";
 import { TableLayout } from "@/components/tables/TableLayout";
 import { TableProductsRow } from "./components/TableProductsRow";
-import { getProductAuditsStatuses, getProducts } from "@/store/productSlice";
-import { getCategories } from "@/store/categorySlice";
+import { getProductAuditsStatuses, getProducts } from "@/store/slices/productSlice";
+import { getCategories } from "@/store/slices/categorySlice";
 import { Spinner } from "@/components/spinner/Spinner";
 
 const initialQueryState = 'search?page=1&limit=10'

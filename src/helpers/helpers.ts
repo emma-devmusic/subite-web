@@ -276,7 +276,7 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
 
     const getLinkIcon = (title: NotificationTitle | ''): { link: string; icon: string } => {
         switch (title) {
-            case 'Actualización del estado de tu cuenta.':
+            case 'Actualización del estado de tu cuenta':
                 return { link: '/dashboard/user-config', icon: 'simple-icons:authelia' };
 
             case 'Nueva solicitud de Auditoría de Cliente':
@@ -288,7 +288,7 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
     }
 
     switch (data.title) {
-        case 'Actualización del estado de tu cuenta.':
+        case 'Actualización del estado de tu cuenta':
             obj = {
                 ...obj,
                 link: getLinkIcon(data.title).link,

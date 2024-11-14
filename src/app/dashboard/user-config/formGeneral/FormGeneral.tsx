@@ -1,6 +1,7 @@
 import { Spinner } from "@/components/spinner/Spinner";
 import { useAppDispatch } from "@/store";
-import { changeEmail, two_factor_change } from "@/store/authSlice";
+import { changeEmail, two_factor_change } from "@/store/slices/authSlice";
+// import { changeEmail, two_factor_change } from "@/store/authSlice";
 import { DataUserProfile } from "@/types";
 import { EventHandler, useEffect, useState } from "react";
 

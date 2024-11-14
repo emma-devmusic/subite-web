@@ -1,8 +1,8 @@
 'use client'
 
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { newCategory, newSubcategory, updateCategory, updateSubcategory } from "@/store/categorySlice";
+import { newCategory, newSubcategory, updateCategory, updateSubcategory } from "@/store/slices/categorySlice";
 import { useEffect, useState } from "react";
 
 export const CategoryModal = () => {
@@ -12,7 +12,7 @@ export const CategoryModal = () => {
     const dispatch = useAppDispatch()
 
 
-    const [values, handleInputChange, reset] = useForm({
+    const [values, handleInputChange, reset] = useAppForm({
         name: '',
         description: '',
         category_id: ''

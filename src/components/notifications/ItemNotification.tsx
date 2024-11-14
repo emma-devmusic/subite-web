@@ -9,7 +9,7 @@ import Link from "next/link"
 export const ItemNotification = ({ title, details, error, message, icon, link }: ObjectNotification) => {
 
 
-    if (title === 'Actualización del estado de tu cuenta.')
+    if (title === 'Actualización del estado de tu cuenta')
         return <li className="">
             <a href={link} className="">
                 <div className="flex gap-6 px-7 py-4 items-center hover:bg-gray-100">

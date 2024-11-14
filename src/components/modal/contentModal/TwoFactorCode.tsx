@@ -1,15 +1,13 @@
-import { useForm } from "@/hooks/useForm"
+import { useAppForm } from "@/hooks/useAppForm"
 import { useAppDispatch, useAppSelector } from "@/store"
-import { email_validation, send_two_factor_code_change, twoFactorAuthentication } from "@/store/authSlice"
-import { uiCloseModal } from "@/store/uiSlice"
-import { useRouter } from "next/router"
+import { send_two_factor_code_change, twoFactorAuthentication } from "@/store/slices/authSlice"
 
 export const TwoFactorCode = () => {
 
 
     const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
-    const [values, handleInputChange] = useForm({
+    const [values, handleInputChange] = useAppForm({
         code: ''
     })
 

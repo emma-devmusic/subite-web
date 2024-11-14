@@ -1,3 +1,4 @@
+import { access } from "@/helpers/envs";
 import { errorMsg } from "@/mocks/mocks";
 
 export const fetchData = async (
@@ -10,6 +11,7 @@ export const fetchData = async (
     // Configurar las cabeceras iniciales
     const headers: Record<string, string> = {
         "Content-Type": "application/json",
+        "access": `${access}`,
         ...(header && header)
     };
 

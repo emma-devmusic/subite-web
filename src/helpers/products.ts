@@ -54,25 +54,24 @@ export const createObjProductUpdating = (
     let product: any = {
         product_id: productSelected.id,
         product_variation_id: productSelected.product_variations[0].id,
-        ...user_id && {user_id}
+        ...user_id && { user_id }
     }
     const test = imageUpdatingState.imagesToSend.find(image => !image.id || image.delete)
     {
         Object.keys(initialStateUpdtProduct).forEach((key: any) => {
+            console.log(initialStateUpdtProduct[key], values[key])
             if (initialStateUpdtProduct[key] === values[key]) return
-            if (!isAdmin) {
-                if (key === 'description' || key === 'title') {
-                    product = { ...product, [`product_${key}`]: values[key], [`variation_${key}`]: values[key] }
-                }
+            if (key === 'description' || key === 'title') {
+                product = { ...product, [`product_${key}`]: values[key], [`variation_${key}`]: values[key] }
             } else {
                 product = { ...product, [key]: values[key] }
             }
         })
     }
     console.log(product)
-    
+
     if (test) product = { ...product, images: imageUpdatingState.imagesToSend }
-    if(isAdmin){
+    if (isAdmin) {
         if (Object.keys(product).length === 3 && !test) return false
     } else {
         if (Object.keys(product).length === 2 && !test) return false

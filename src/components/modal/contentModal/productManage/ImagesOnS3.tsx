@@ -2,7 +2,7 @@ import { Spinner } from "@/components/spinner/Spinner";
 import { deleteImageFromSW3 } from "@/helpers/imageProductManager";
 import { ImageUpdatingReducer } from "@/reducers/imageUpdatingReducer";
 import { useAppDispatch } from "@/store";
-import { deleteImageNewProduct, selectingImagesNewProduct } from "@/store/productSlice";
+import { deleteImageNewProduct, selectingImagesNewProduct } from "@/store/slices/productSlice";
 import { ImageProduct } from "@/types/products";
 import Image from "next/image";
 import { useEffect, useState } from "react";

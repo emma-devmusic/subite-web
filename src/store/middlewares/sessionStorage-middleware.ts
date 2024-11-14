@@ -1,13 +1,15 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { clearRedux, loggear, login } from "../authSlice";
+import { clearRedux, loggear, login } from "../slices/authSlice";
 import { decryptLoginData, encryptLoginDataInSessionStorage, getSession, } from "@/helpers";
 import { LoginResponse, TwoFactorResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
+import { uiCloseModal, uiModal, uiSetLoading } from "../slices/uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { UserLoginResponse } from "@/types";
-import { cleanProducts } from "../productSlice";
+import { cleanProducts } from "../slices/productSlice";
+import { clearOffers } from "../slices/offersSlice";
+import { clearAuctionState } from "../slices/auctionSlice";
 
 
 export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
@@ -140,6 +142,8 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
                     uiCloseModal()
                 )
                 state.dispatch(clearRedux())
+                state.dispatch(clearOffers())
+                state.dispatch(clearAuctionState())
                 sessionStorage.clear();
             }
         }

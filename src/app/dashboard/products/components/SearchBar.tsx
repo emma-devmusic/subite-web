@@ -1,26 +1,34 @@
 'use client'
 import { useAppDispatch, useAppSelector } from "@/store"
-import { cleanSelectCategories, selectingCategory } from "@/store/categorySlice"
-import { getUsers } from "@/store/manageUserSlice"
-import { clearSelectedProduct, getProducts } from "@/store/productSlice"
-import { uiModal } from "@/store/uiSlice"
+import { cleanSelectCategories, selectingCategory } from "@/store/slices/categorySlice"
+import { getHomeProducts } from "@/store/slices/homeSlice"
+import { getUsers } from "@/store/slices/manageUserSlice"
+import { clearSelectedProduct, getProducts } from "@/store/slices/productSlice"
+import { uiModal } from "@/store/slices/uiSlice"
 import { QueryObject } from "@/types"
-import { useSearchParams } from "next/navigation"
+import { redirect, usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 interface Props {
     setPagesSearch: Dispatch<SetStateAction<QueryObject>>
-    pagesSearch: QueryObject
+    pagesSearch: QueryObject;
+    titleSearch?: string;
+    forAuction?: boolean;
+    forHome?: boolean;
 }
 
 // const initialQueryState = 'search?page=1&limit=30'
 
 
-export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
+export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Productos', forAuction, forHome }: Props) => {
 
     const dispatch = useAppDispatch()
+    const router = useRouter()
+    const pathname = usePathname()
     const { categories, categoriesSelected } = useAppSelector(state => state.category)
     const { productAuditsStatuses } = useAppSelector(state => state.product)
+    const [auctionTab, setAuctionTab] = useState('')
+    const path = pathname.split('/')[3]
 
 
     const [filters, setFilters] = useState({
@@ -30,6 +38,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
         max_price: '',
         min_price: '',
         product_audit_statuses: 0,
+        with_auction: ''
     })
 
     const handleFilter = (e: any) => {
@@ -38,6 +47,15 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
             [e.target.name]: (e.target.type === 'checkbox') ? e.target.checked : e.target.value
         }))
     }
+
+
+    useEffect(() => {
+        if (forAuction) {
+            if (path === 'not-started-auctions') setAuctionTab('NOT_STARTED')
+            if (path === 'active-auctions') setAuctionTab('ACTIVE')
+            if (path === 'finished-auctions') setAuctionTab('FINISHED')
+        }
+    }, [path])
 
 
     useEffect(() => {
@@ -55,7 +73,12 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
         }))
     }, [filters])
 
+
     const handleNewProduct = () => {
+        if (forAuction) {
+            router.push('/dashboard/products')
+            return
+        }
         dispatch(clearSelectedProduct())
         dispatch(cleanSelectCategories())
         dispatch(
@@ -69,18 +92,27 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     const handleSearch = (e: any) => {
         e.preventDefault()
-        dispatch(getProducts(pagesSearch.pageQuerys + pagesSearch.searchQuerys))
+        if (forAuction) {
+            dispatch(getProducts(pagesSearch.pageQuerys + pagesSearch.searchQuerys + '&with_auction=' + auctionTab))
+        } else if (forHome) {
+            dispatch(getHomeProducts(pagesSearch.pageQuerys + pagesSearch.searchQuerys))
+        } else {
+            dispatch(getProducts(pagesSearch.pageQuerys + pagesSearch.searchQuerys))
+        }
     }
 
     return (
         <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 ">
             <div className="mb-1 w-full">
                 <div className="mb-4 flex justify-between">
-                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Productos</h1>
-                    <button
-                        className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
-                        onClick={handleNewProduct}
-                    >Nuevo Producto</button>
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">{titleSearch}</h1>
+                    {
+                        !forHome &&
+                        <button
+                            className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
+                            onClick={handleNewProduct}
+                        >{forAuction ? 'Nueva Subasta' : 'Nuevo Producto'}</button>
+                    }
                 </div>
                 <div className="block sm:flex items-center md:divide-x md:divide-gray-100">
                     <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2">
@@ -106,33 +138,48 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                             <div className="flex gap-3 mt-2 items-center flex-wrap">
                                 <div className="flex items-center gap-1">
                                     <label htmlFor="max_price" className="text-xs mt-[1px]">Precio Máx.</label>
-                                    <input value={filters.max_price} name="max_price" onChange={handleFilter} type="number" id="max_price" className="w-12 border rounded-lg text-xs p-1" />
+                                    <input value={filters.max_price} name="max_price" onChange={handleFilter} type="number" id="max_price" className="w-28 border rounded-lg text-xs p-1" />
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <label htmlFor="min_price" className="text-xs mt-[1px]">Precio Min.</label>
-                                    <input value={filters.min_price} name="min_price" onChange={handleFilter} type="number" id="max_price" className="w-12 border rounded-lg text-xs p-1" />
+                                    <input value={filters.min_price} name="min_price" onChange={handleFilter} type="number" id="max_price" className="w-28 border rounded-lg text-xs p-1" />
                                 </div>
-                                <select value={filters.categories_id} onChange={handleFilter} name="categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Categorías</option>
-                                    {
-                                        categories.length > 0 && categories.map(cat => <option value={cat.id} key={cat.id}>{cat.name}</option>)
-                                    }
-                                </select>
                                 {
-                                    categoriesSelected?.id &&
-                                    <select value={filters.sub_categories_id} onChange={handleFilter} name="sub_categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                        <option value="">Subcategorías</option>
+                                    !forHome &&
+                                    <>
+                                        <select value={filters.categories_id} onChange={handleFilter} name="categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                            <option value="">Categorías</option>
+                                            {
+                                                categories.length > 0 && categories.map(cat => <option value={cat.id} key={cat.id}>{cat.name}</option>)
+                                            }
+                                        </select>
                                         {
-                                            categoriesSelected.subcategories && categoriesSelected.subcategories.map(scat => <option value={scat.id} key={scat.id}>{scat.name}</option>)
+                                            categoriesSelected?.id &&
+                                            <select value={filters.sub_categories_id} onChange={handleFilter} name="sub_categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                                <option value="">Subcategorías</option>
+                                                {
+                                                    categoriesSelected.subcategories && categoriesSelected.subcategories.map(scat => <option value={scat.id} key={scat.id}>{scat.name}</option>)
+                                                }
+                                            </select>
                                         }
+                                        {
+                                            !forAuction && <select value={filters.product_audit_statuses} onChange={handleFilter} name="product_audit_statuses" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                                <option value="">Estado</option>
+                                                {
+                                                    productAuditsStatuses.length > 0 && productAuditsStatuses.map(status => <option value={status.id} key={status.id}>{status.description}</option>)
+                                                }
+                                            </select>
+                                        }
+                                    </>
+                                }
+                                {
+                                    forHome && <select value={filters.with_auction} onChange={handleFilter} name="with_auction" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                        <option value="">Estado de subasta</option>
+                                        <option value="ACTIVE">Activa</option>
+                                        <option value="NOT_STARTED">No Iniciada</option>
+                                        <option value="FINISHED">Finalizada</option>
                                     </select>
                                 }
-                                <select value={filters.product_audit_statuses} onChange={handleFilter} name="product_audit_statuses" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
-                                    <option value="">Estado</option>
-                                    {
-                                        productAuditsStatuses.length > 0 && productAuditsStatuses.map( status => <option value={status.id} key={status.id}>{status.description}</option>)
-                                    }
-                                </select>
                             </div>
                         </div>
                     </form>

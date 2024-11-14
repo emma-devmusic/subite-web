@@ -4,8 +4,9 @@ import { imageInitialState, imageReducer } from '@/reducers';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fileIntoSW3 } from '@/helpers/imageProductManager';
 import { Spinner } from '@/components/spinner/Spinner';
-import { setImagesNewProduct } from '@/store/productSlice';
+import { setImagesNewProduct } from '@/store/slices/productSlice';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
 
 interface Props {
@@ -36,16 +37,21 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
         if (userProfile) {
             imageState.images.map( async (image, i) => {
                 console.log('insertando imagen en S3')
-                const link = await fileIntoSW3(image, userProfile?.id, idImagesProduct)
-                dispatchRedux( setImagesNewProduct( {
-                    name: image.name,
-                    description: image.lastModifiedDate,
-                    url_image: link
-                }))
-                
-                if (i === imageState.images.length - 1) {
+                try {
+                    const link = await fileIntoSW3(image, userProfile?.id, idImagesProduct)
+                    dispatchRedux( setImagesNewProduct( {
+                        name: image.name,
+                        description: image.lastModifiedDate,
+                        url_image: link
+                    }))
+                    if (i === imageState.images.length - 1) {
+                        setIsLoading(false)
+                        dispatch({ type: 'clear' })
+                    }
+                } catch (error) {
+                    Swal.fire('Error', 'Error al insertar imagen en S3 | ' + error, 'error')
+                    // console.error('Error al insertar imagen en S3', error)
                     setIsLoading(false)
-                    dispatch({ type: 'clear' })
                 }
             })
         }

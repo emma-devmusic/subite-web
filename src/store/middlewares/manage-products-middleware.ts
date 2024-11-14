@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
 import DecryptedSession from "@/helpers/Permissions";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { uiCloseModal, uiModal, uiSetLoading } from "../uiSlice";
+import { uiCloseModal, uiModal, uiSetLoading } from "../slices/uiSlice";
 import { RootState } from "..";
 import { deleteImageFromSW3 } from "@/helpers/imageProductManager";
-import { deleteImageNewProduct, selectProduct, setProductAuditsStatuses, setProducts } from "../productSlice";
+import { deleteImageNewProduct, getProductById, getProducts, selectProduct, setProductAuditsStatuses, setProducts } from "../slices/productSlice";
 import { fetchData } from "@/services/fetchData";
 import { ItemProductSearchResponse, ProductSearchIDResponse, ProductSearchResponse } from "@/types/products";
 import { path_role } from "@/helpers";
@@ -17,7 +17,7 @@ import { ProductAuditsStatuses } from "@/types";
 export const manageProductMiddleware = (state: MiddlewareAPI) => {
     return (next: Dispatch) => async (action: any) => {
         next(action);
-        
+
         const userData = new DecryptedSession()
         const token = userData.getAccessToken()
         const role_id = userData.getRoleId()
@@ -25,7 +25,7 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
 
         const deleteArrayImages = (arr: any[]) => {
             arr.forEach(async (image: any, i) => {
-                if( typeof image.id === 'undefined' ) {
+                if (typeof image.id === 'undefined') {
                     try {
                         await deleteImageFromSW3(image.url_image)
                         state.dispatch(deleteImageNewProduct(image))
@@ -33,25 +33,26 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                         Swal.fire('Error', 'Error al eliminar las imágenes.', 'error');
                         throw new Error;
                     }
-                } 
+                }
                 if (arr.length - 1 === i) state.dispatch(uiCloseModal())
             })
         }
 
 
 
-        if(action.type === 'product/getProducts') {
+        if (action.type === 'product/getProducts') {
             state.dispatch(uiSetLoading(true))
+            console.log(action.payload)
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - GET PRODUCTS')
-                console.log(`/manage-auction-products/${ path_role(role_id) }/${action.payload}`)
                 const searchResponse: ProductSearchResponse = await fetchData(
-                    `/manage-auction-products/${ path_role(role_id) }/${action.payload}`,
+                    `/manage-auction-products/${path_role(role_id)}/${action.payload}`,
                     "GET",
                     null,
                     token
                 )
-                state.dispatch( setProducts(searchResponse.data.items))
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(setProducts(searchResponse.data.items))
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
@@ -59,17 +60,18 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+                state.dispatch(uiSetLoading(false))
             }
             state.dispatch(uiSetLoading(false))
         }
 
 
-        if(action.type === 'product/getProductById') {
+        if (action.type === 'product/getProductById') {
             state.dispatch(uiSetLoading(true))
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - GET PRODUCT BY ID')
                 const searchResponse: ProductSearchIDResponse = await fetchData(
-                    `/manage-auction-products/${ path_role(role_id) }/search/${action.payload}`,
+                    `/manage-auction-products/${path_role(role_id)}/search/${action.payload}`,
                     "GET",
                     null,
                     token
@@ -83,30 +85,36 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     products_audits: searchResponse.data.products_audits,
                     supplier_products: searchResponse.data.supplier_products,
                 }
-                state.dispatch( selectProduct(productFind) )
+                state.dispatch(selectProduct(productFind))
+                state.dispatch(uiSetLoading(false))
+
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
                     modalOpen: true,
                     typeMsg: 'error',
-                    msg: `${error.code}`
+                    msg: `${typeof error.code === 'undefined' ? 'Parece que ese registro no existe' : error.code}`
                 }))
+                location.replace('/dashboard')
+                state.dispatch(uiSetLoading(false))
+
             }
-            state.dispatch(uiSetLoading(false))
         }
 
 
-        if(action.type === 'product/getProductAuditsStatuses') {
+        if (action.type === 'product/getProductAuditsStatuses') {
             state.dispatch(uiSetLoading(true))
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - GET PRODUCTS AUDITS STATUSES')
                 const productAuditStatuses: ProductAuditsStatuses = await fetchData(
-                    `/manage-auction-products/${ path_role(role_id) }/audits/statuses`,
+                    `/manage-auction-products/${path_role(role_id)}/audits/statuses`,
                     "GET",
                     null,
                     token
                 )
-                state.dispatch( setProductAuditsStatuses(productAuditStatuses.data))
+                state.dispatch(setProductAuditsStatuses(productAuditStatuses.data))
+                state.dispatch(uiSetLoading(false))
+
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
@@ -114,8 +122,9 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+                state.dispatch(uiSetLoading(false))
+
             }
-            state.dispatch(uiSetLoading(false))
         }
 
 
@@ -125,18 +134,16 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - NEW PRODUCT')
                 await fetchData(
-                    `/manage-auction-products/${ path_role(role_id) }/create`,
+                    `/manage-auction-products/${path_role(role_id)}/create`,
                     "POST",
                     action.payload,
                     token
                 )
-                state.dispatch(uiModal({
-                    modalFor: 'message',
-                    modalOpen: true,
-                    typeMsg: 'success',
-                    msg: 'Producto creado correctamente'
-                }))
-                location.reload()
+                Swal.fire('Hecho', 'Producto creado correctamente', 'success')
+                state.dispatch(getProducts('search?page=1&limit=10'))
+                state.dispatch(uiCloseModal())
+                state.dispatch(uiSetLoading(false))
+
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
@@ -144,29 +151,34 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+                state.dispatch(uiSetLoading(false))
             }
-            state.dispatch(uiSetLoading(false))
         }
 
 
 
-        if(action.type === 'product/updateProduct') {
+        if (action.type === 'product/updateProduct') {
             state.dispatch(uiSetLoading(true))
+
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - UPDATE PRODUCT')
+                console.log(action.payload)
+                // return
                 await fetchData(
-                    `/manage-auction-products/${ path_role(role_id) }/update${ path_role(role_id) === 'clients' ? '/before-audits' : ''}`,
+                    `/manage-auction-products/${path_role(role_id)}/update${path_role(role_id) === 'clients' ? '/before-audits' : ''}`,
                     "PATCH",
                     action.payload,
                     token
                 )
-                state.dispatch(uiModal({
-                    modalFor: 'message',
-                    modalOpen: true,
-                    typeMsg: 'success',
-                    msg: `Producto actualizado correctamente.`
-                }))
-                location.reload()
+                if (path_role(role_id) === 'clients') {
+                    state.dispatch(getProducts('search?page=1&limit=10'))
+                    state.dispatch(uiCloseModal())
+                } else {
+                    location.reload()
+                }
+                Swal.fire('Hecho', 'Producto actualizado correctamente', 'success')
+                state.dispatch(uiSetLoading(false))
+
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
@@ -174,26 +186,26 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+                state.dispatch(uiSetLoading(false))
+
             }
-            state.dispatch(uiSetLoading(false))
         }
 
 
         //ELMINAR PRODUCTO
-        if(action.type === 'product/deleteProductFromDB') {
+        if (action.type === 'product/deleteProductFromDB') {
             state.dispatch(uiSetLoading(true))
             try {
-                const productToDelete = product.products.find(p => p.id === action.payload.id)
-                //BORRAR LAS IMAGENES SI LAS TIENE
-                if(productToDelete?.product_variations[0].productImages) 
-                deleteArrayImages(productToDelete?.product_variations[0].productImages)
-                state.dispatch(uiModal({
-                    modalFor: 'message',
-                    modalOpen: true,
-                    typeMsg:'success',
-                    msg: 'Producto eliminado correctamente'
-                }))
-                location.reload()
+                await fetchData(
+                    `/manage-auction-products/${path_role(role_id)}/${action.payload}`,
+                    'DELETE',
+                    null,
+                    token
+                )
+                Swal.fire('Hecho', 'Producto eliminado correctamente', 'success')
+                state.dispatch(getProducts('search?page=1&limit=10'))
+                state.dispatch(uiSetLoading(false))
+
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
@@ -201,8 +213,9 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+                state.dispatch(uiSetLoading(false))
+
             }
-            state.dispatch(uiSetLoading(false))
         }
 
 
@@ -217,7 +230,7 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
         }
 
 
-        if(action.type === 'product/setStatusProduct'){
+        if (action.type === 'product/setStatusProduct') {
             state.dispatch(uiSetLoading(true))
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - SET STATUS PRODUCT')
@@ -227,12 +240,10 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     action.payload,
                     token
                 )
-                state.dispatch(uiModal({
-                    modalFor: 'message',
-                    modalOpen: true,
-                    typeMsg:'success',
-                    msg: 'El estado del producto ha sido actualizado correctamente.'
-                }))
+                Swal.fire('Hecho', 'Producto actualizado correctamente', 'success')
+                // state.dispatch(getProducts('search?page=1&limit=10'))
+                state.dispatch(uiSetLoading(false))
+
                 location.reload()
             } catch (error: any) {
                 state.dispatch(uiModal({
@@ -241,8 +252,9 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+                state.dispatch(uiSetLoading(false))
+
             }
-            state.dispatch(uiSetLoading(false))
         }
 
     }

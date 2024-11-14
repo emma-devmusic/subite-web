@@ -1,8 +1,8 @@
 'use client'
 import { Spinner } from "@/components/spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getUserProfile, sendMailVerification } from "@/store/authSlice";
-import { uiModal } from "@/store/uiSlice";
+import { getUserProfile, sendMailVerification } from "@/store/slices/authSlice";
+import { uiModal } from "@/store/slices/uiSlice";
 import { ImageProfile } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
@@ -21,7 +21,6 @@ export default function UserProfilePage() {
     useEffect(() => {
         if (!userProfile) dispatch(getUserProfile())
     }, [])
-
 
     useEffect(() => {
         setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
@@ -43,9 +42,8 @@ export default function UserProfilePage() {
         : 'simple-line-icons:exclamation'
 
 
-    if (!userProfile || loading) return <div className="pt-6 px-4 h-full flex items-center">
-        <Spinner />
-    </div>
+    if (!userProfile || loading) return <div className="pt-6 px-4 h-full flex items-center"><Spinner /></div>
+    
     return (
         <div className="pt-6 px-4">
             <h3 className="text-2xl font-medium mb-5">Perfil de Usuario</h3>

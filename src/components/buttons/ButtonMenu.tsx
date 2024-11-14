@@ -1,6 +1,6 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { uiMenu } from '@/store/uiSlice'
+import { uiMenu } from '@/store/slices/uiSlice'
 
 export const ButtonMenu = () => {
 

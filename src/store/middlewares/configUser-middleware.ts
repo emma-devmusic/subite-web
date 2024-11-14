@@ -1,9 +1,9 @@
 import { fetchData } from "@/services/fetchData";
 import { EmailChangeResponse, PasswordChangeResponse, TwoFactorChangeResponse, ValidateNewEmailResponse } from "@/types";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { uiModal, uiSetLoading } from "../uiSlice";
+import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { decryptLoginData } from "@/helpers";
-import { clearRedux } from "../authSlice";
+import { clearRedux } from "../slices/authSlice";
 
 
 export const configUserMiddleware = (state: MiddlewareAPI) => {

@@ -1,5 +1,7 @@
-import { isAdmin } from '../helpers/helpers';
+
+import { DataOffersAuctionSearchInterface, ItemOffersAuctionSearchInterface, MetaDataOffersAuctionSearchInterface } from './auction';
 import { DataAuditDocumentResponse, DataUserState, DataUserStatus, UserItem } from './dataFetching';
+import { AuctionProductItem } from './products';
 import { BasicData } from './user';
 
 export interface LoginData {
@@ -46,4 +48,10 @@ export interface UserState {
     usersSelected: DataUserState | null;
     userDocument: DataAuditDocumentResponse;
     userStatusArray: DataUserStatus[];
+}
+
+
+export interface AuctionState {
+    auctions: AuctionProductItem[];
+    auctionSelected: AuctionProductItem
 }

@@ -1,6 +1,6 @@
 'use client'
 import { useAppDispatch } from "@/store"
-import { getUsers } from "@/store/manageUserSlice"
+import { getUsers } from "@/store/slices/manageUserSlice"
 import { QueryObject } from "@/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 

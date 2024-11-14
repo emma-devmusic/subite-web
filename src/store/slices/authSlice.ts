@@ -1,7 +1,6 @@
 
-import { CreateUserData, DataUserProfile, ImageProfileState, LoginData, StateImagesProfile, User } from '@/types';
+import { CreateUserData, DataUserProfile, ImageProfileState, LoginData, StateImagesProfile, User, ValidateUserData } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ValidateUserData } from '../types/dataFetching';
 
 
 

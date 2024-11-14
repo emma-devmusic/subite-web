@@ -15,8 +15,6 @@ interface Props {
 export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInputChange, request_audit, dispatchImageUpdating, imageUpdatingState }: Props) => {
 
 
-
-
     return (
         <form action="">
             <div className='w-100 my-4'>

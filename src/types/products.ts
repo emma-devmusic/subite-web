@@ -55,7 +55,39 @@ export interface DataProductSearchIDResponse {
     products_audits:    ProductsAudit[];
     supplier_products:  SupplierProduct[];
     sub_category:       SubCategory;
+    products_acutions?: AuctionProductSearchIDResponse[];
 }
+
+export interface AuctionProductSearchIDResponse {
+    data_deleted:     null;
+    id:               number;
+    init_date:        Date;
+    end_date:         Date;
+    publication_date: Date;
+    last_offers:      LastOffers;
+}
+
+export interface LastOffers {
+    total_offers: number;
+    last_results: LastResult[];
+}
+
+export interface LastResult {
+    id:                        number;
+    offer_date:                Date;
+    amount:                    number;
+    user_data_contact_checked: boolean;
+    full_name:                 string;
+    address:                   string;
+    phone:                     string;
+    product_auctions:          AuthUser;
+    auth_user:                 AuthUser;
+}
+
+export interface AuthUser {
+    id: number;
+}
+
 
 export interface Status {
     data_created:  Date;
@@ -179,8 +211,19 @@ export interface ItemProductSearchResponse {
     sub_category_description: string;
     category_id:              number;
     category_description:     string;
+    products_acutions?:       AuctionProductItem[];
 
 }
+
+export interface AuctionProductItem {
+    data_deleted:     null;
+    id:               number;
+    init_date:        Date;
+    end_date:         Date;
+    publication_date: Date;
+    bid_amount: number;
+}
+
 
 export interface SupplierItem {
     id: number;

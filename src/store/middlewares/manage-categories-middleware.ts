@@ -2,9 +2,9 @@
 import { decryptLoginData } from "@/helpers";
 import { fetchData } from "@/services/fetchData";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { uiModal, uiSetLoading } from "../uiSlice";
+import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { NewCategoryResponse, SearchCategoriesResponse } from "@/types/category";
-import { setCategories } from "../categorySlice";
+import { setCategories } from "../slices/categorySlice";
 import DecryptedSession from "@/helpers/Permissions";
 
 export const manageCategoryMiddleware = (state: MiddlewareAPI) => {

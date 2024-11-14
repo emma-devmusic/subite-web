@@ -2,7 +2,7 @@
 import { DataProductAuditsStatuses } from '@/types';
 import { ImageProduct, ImageUpdatingProduct, ItemProductSearchResponse, NewProductInterface, UpdateProductInterface } from '@/types/products';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ProductAuditsStatuses } from '../types/dataFetching';
+import { ProductAuditsStatuses } from '../../types/dataFetching';
 
 interface ProductState {
     products: ItemProductSearchResponse[];
@@ -68,7 +68,7 @@ const productSlice = createSlice({
 
         newProductSubmit(state, action: PayloadAction<NewProductInterface>) {},
 
-        deleteProductFromDB(state, action: PayloadAction<{ id: string }>) {},
+        deleteProductFromDB(state, action: PayloadAction< number | string >) {},
 
         deleteProduct(state, action: PayloadAction<{ id: number }>) {
             state.products = state.products.filter(p => p.id === action.payload.id)
@@ -115,6 +115,7 @@ export const {
     updateProduct,
     deleteImagesFromS3,
     deleteImageNewProduct,
+    deleteProductFromDB,
     selectProduct,
     selectingImagesNewProduct
 } = productSlice.actions;

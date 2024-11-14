@@ -3,7 +3,7 @@ import { LoginData } from "@/types";
 import { useState } from "react"
 
 
-export const useForm = (initialState: any) => {
+export const useAppForm = (initialState: any) => {
 
     const [values, setValues] = useState(initialState);
 

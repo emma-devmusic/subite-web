@@ -3,7 +3,7 @@ import { sidebarData } from '@/mocks/mocks';
 import { SidebarLayout } from './SidebarLayout';
 import { MenuItem } from '@/components/menuItem';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { getPermissions } from '@/store/manageUserSlice';
+import { getPermissions } from '@/store/slices/manageUserSlice';
 import { useEffect, useState } from 'react';
 
 const Sidebar = () => {

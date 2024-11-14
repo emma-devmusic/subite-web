@@ -16,6 +16,7 @@
     "aws-sdk": "^2.1681.0",
     "chart.js": "^4.4.2",
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.13",
     "next": "^14.2.3",
     "preline": "^2.4.1",
     "pure-react-carousel": "^1.30.1",

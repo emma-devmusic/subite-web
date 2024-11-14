@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppDispatch } from "@/store";
-import { uiModal } from "@/store/uiSlice";
+import { uiModal } from "@/store/slices/uiSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export const AccountStatusButton = ({ userProfileStatus }: { userProfileStatus: string }) => {

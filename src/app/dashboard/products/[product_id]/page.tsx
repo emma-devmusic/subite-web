@@ -5,13 +5,15 @@ import { TableAutidStatusHistory } from "@/components/tables/TableAutidStatusHis
 import { flu } from "@/helpers";
 import { findCategoriesByIds } from "@/helpers/products";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getProductById } from "@/store/productSlice";
-import { uiModal } from "@/store/uiSlice";
+import { deleteProductFromDB, getProductById } from "@/store/slices/productSlice";
+import { uiModal } from "@/store/slices/uiSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { AuctionCounter } from "../../main/components/AuctionCounter";
+import dayjs from "dayjs";
 
 export default function ProductPage() {
 
@@ -26,9 +28,15 @@ export default function ProductPage() {
         created: new Date(),
         modified: new Date()
     })
+    const [auction, setAuction] = useState(productSelected.products_acutions && productSelected.products_acutions.length > 0 && productSelected.products_acutions.find(s => !s.data_deleted))
 
     useEffect(() => {
-        if (!productSelected.id) dispatch(getProductById(params.product_id as string))
+        if (productSelected.products_acutions && productSelected.products_acutions.length > 0 && productSelected.products_acutions.find(s => !s.data_deleted))
+            setAuction(productSelected.products_acutions && productSelected.products_acutions.length > 0 && productSelected.products_acutions.find(s => !s.data_deleted))
+    }, [productSelected])
+
+    useEffect(() => {
+        if (!productSelected.id || productSelected.id !== parseInt(params.product_id as string)) dispatch(getProductById(params.product_id as string))
     }, [])
 
     useEffect(() => {
@@ -37,12 +45,13 @@ export default function ProductPage() {
                 const last = productSelected.product_variations[0].productImages.length - 1
                 if (img.main_image) {
                     setUrlImg(img.url_image)
-                } else if(urlImg === '' && i === last) {
+                } else if (urlImg === '' && i === last) {
                     setUrlImg(img.url_image)
                 }
             })
         }
     }, [productSelected])
+
     useEffect(() => {
         if (productSelected.category_id && productSelected.sub_category_id && categories.length > 0) {
             setCategoryProduct(findCategoriesByIds(categories, productSelected.category_id, productSelected.sub_category_id).category)
@@ -79,7 +88,7 @@ export default function ProductPage() {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-
+            dispatch(deleteProductFromDB(productSelected.product_variations[0].id))
         }
     });
 
@@ -97,8 +106,8 @@ export default function ProductPage() {
                     <Icon icon={'lucide:edit'} className="w-7 h-7 " />
                 </div>
             </div>
-            <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-4">
-                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3 sm:col-span-1 ">
+            <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-4 ">
+                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3 xl:col-span-1">
                     <div
                         className="flex justify-center text-gray-400 hover:text-gray-600 hover:cursor-pointer transition-all "
                     >
@@ -132,7 +141,7 @@ export default function ProductPage() {
                     }
 
                 </div>
-                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3 sm:col-span-2">
+                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3 xl:col-span-2">
                     <h3 className="text-2xl font-medium">Información General</h3>
                     {/* <hr className="mt-4" /> */}
                     <div className="grid grid-cols-1 xl:grid-cols-2">
@@ -182,10 +191,45 @@ export default function ProductPage() {
                     <div>
                         <h3 className="text-gray-500 mt-4">Descripción:</h3>
                         <div className="gap-2 mt-1 text-sm border rounded-md p-3 min-h-32">
-                            <span className="m-0">{productSelected.product_variations[0].description}</span>
+                            <p className="m-0 overflow-hidden text-ellipsis">{productSelected.product_variations[0].description}</p>
                         </div>
                     </div>
                 </div>
+                {
+                    auction &&
+                    <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3">
+                        <div className="sm:flex items-center sm:justify-between">
+                            <h3 className="text-2xl font-medium mb-4">Subasta de Producto</h3>
+                            <div className="mb-5">
+                                <AuctionCounter
+                                    auctionStartDate={new Date(auction?.init_date).toLocaleDateString()}
+                                    auctionEndDate={new Date(auction?.end_date).toLocaleDateString()}
+                                />
+                            </div>
+                        </div>
+                        <hr />
+                        <div className="sm:flex gap-4 sm:justify-between max-w-4xl">
+                            <div>
+                                <h3 className="text-gray-500 mt-4">Fecha de Publicación:</h3>
+                                <div className="flex items-center gap-2 mt-1 text-sm">
+                                    <span className="m-0">{new Date(auction.publication_date).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-gray-500 mt-4">Fecha de Inicio:</h3>
+                                <div className="flex items-center gap-2 mt-1 text-sm">
+                                    <span className="m-0">{new Date(auction.init_date).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-gray-500 mt-4">Fecha de Fin:</h3>
+                                <div className="flex items-center gap-2 mt-1 text-sm">
+                                    <span className="m-0">{new Date(auction.end_date).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3">
                     <h3 className="text-2xl font-medium mb-4">Galería</h3>
                     <GalleryImages images={productSelected.product_variations[0].productImages} />
@@ -198,7 +242,7 @@ export default function ProductPage() {
                 </div>
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3">
                     <h3 className="text-2xl font-medium mb-4">Historial de Auditoría</h3>
-                    <TableAutidStatusHistory auditHistory={{ products: productSelected.products_audits } ?? []} />
+                    <TableAutidStatusHistory auditHistory={{ products: productSelected.products_audits }} />
                 </div>
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 col-span-3">
                     <button

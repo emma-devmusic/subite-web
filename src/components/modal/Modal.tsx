@@ -3,7 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/store"
 import { NewProduct } from "./contentModal/NewProduct"
 import { NewUser } from "./contentModal/NewUser"
-import { uiCloseModal, uiSetLoading } from "@/store/uiSlice"
+import { uiCloseModal, uiSetLoading } from "@/store/slices/uiSlice"
 import { MessageModal } from "./contentModal/MessageModal"
 import { TwoFactorCode } from './contentModal/TwoFactorCode';
 import { ModalHeader } from './ModalHeader';
@@ -16,8 +16,13 @@ import { AuditDocument } from "./contentModal/AuditDocument"
 import { AuditModal } from "./contentModal/AuditModal"
 import { CategoryModal } from "./contentModal/category/CategoryModal"
 import { SubcategoryInfo } from "./contentModal/category/SubcategoryInfo"
-import { deleteImagesFromS3 } from "@/store/productSlice"
-import { cleanSelectCategories } from "@/store/categorySlice"
+import { deleteImagesFromS3 } from "@/store/slices/productSlice"
+import { cleanSelectCategories } from "@/store/slices/categorySlice"
+import { NewAuction } from "./contentModal/auction/NewAuction"
+import { Offers } from "./contentModal/offers/Offers"
+import { EditAuction } from "./contentModal/auction/EditAuction"
+import { clearOffers } from "@/store/slices/offersSlice"
+import { OfferForm } from "./contentModal/offers/OfferForm"
 
 
 export const Modal = () => {
@@ -29,18 +34,24 @@ export const Modal = () => {
     const path = usePathname()
     const router = useRouter()
 
+
+
     const handleCloseModal = () => {
+    
         dispatch(uiCloseModal())
         dispatch(uiSetLoading(false))
+
         if (modalFor === 'new_product') {
-            if( imagesNewProduct.length > 0 ) {
-                dispatch( deleteImagesFromS3() )
+            if (imagesNewProduct.length > 0) {
+                dispatch(deleteImagesFromS3())
             }
             dispatch(cleanSelectCategories())
         }
         if (modalFor === '2F_code') sessionStorage.clear();
         if (modalFor === 'validate_code' && path.includes('register')) router.push('./login');
+        if (modalFor === 'offers') dispatch(clearOffers())
     }
+
 
     if (modalFor === 'message' && typeMsg === 'success') {
         setTimeout(() => {
@@ -104,6 +115,18 @@ export const Modal = () => {
                                     }
                                     {
                                         modalFor === 'audit_product' && <AuditModal />
+                                    }
+                                    {
+                                        modalFor === 'new_auction' && <NewAuction />
+                                    }
+                                    {
+                                        modalFor === 'edit_auction' && <EditAuction />
+                                    }
+                                    {
+                                        modalFor === 'offers' && <Offers />
+                                    }
+                                    {
+                                        modalFor === 'new_offer' && <OfferForm />
                                     }
 
                                 </>

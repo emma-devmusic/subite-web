@@ -1,8 +1,8 @@
 'use client'
 
 import { useAppDispatch } from "@/store";
-import { deleteCategory, deleteSubcategory, selectEditCategory } from "@/store/categorySlice";
-import { uiModal } from "@/store/uiSlice";
+import { deleteCategory, deleteSubcategory, selectEditCategory } from "@/store/slices/categorySlice";
+import { uiModal } from "@/store/slices/uiSlice";
 import { CategoryItem } from "@/types/category";
 import Swal from "sweetalert2";
 

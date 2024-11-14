@@ -2,7 +2,7 @@ import { Action, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { RootState, store } from "..";
 import { fetchData } from "@/services/fetchData";
 import { RegisterResponse } from "@/types/dataFetching";
-import { uiMenu, uiModal, uiModalMessage, uiSetLoading } from "../uiSlice";
+import { uiMenu, uiModal, uiModalMessage, uiSetLoading } from "../slices/uiSlice";
 import Swal from 'sweetalert2'
 import { errorMsg } from "@/mocks/mocks";
 

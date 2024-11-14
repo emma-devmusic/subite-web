@@ -1,14 +1,16 @@
 import { validateNewPassword } from "@/helpers";
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
+// import { useForm } from "@/hooks/useAppForm";
 import { useAppDispatch } from "@/store";
-import { newPassword } from "@/store/authSlice";
+import { newPassword } from "@/store/slices/authSlice";
+// import { newPassword } from "@/store/authSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
 export const FormPass = () => {
 
     const [passVisible, setPassVisible] = useState(false);
-    const [values, handleInputChange, reset] = useForm({
+    const [values, handleInputChange, reset] = useAppForm({
         old_password: '',
         new_password: '',
         new_password_2: ''

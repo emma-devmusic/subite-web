@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppDispatch } from "@/store";
-import { filteringInPage } from "@/store/categorySlice";
+import { filteringInPage } from "@/store/slices/categorySlice";
 import { QueryObject } from "@/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 

@@ -5,7 +5,7 @@ import { SearchBar } from "./components/SearchBar";
 import { useEffect, useState } from "react";
 import { HandlePage } from "./components/HandlePage";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getUsers } from "@/store/manageUserSlice";
+import { getUsers } from "@/store/slices/manageUserSlice";
 import { redirect } from "next/navigation";
 import { QueryObject } from "@/types";
 

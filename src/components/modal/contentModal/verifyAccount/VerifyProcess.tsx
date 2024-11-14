@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { ImageDocumentUpload } from '../ImageDocumentUpload';
 import { PhotoWebCam } from '../PhotoWebCam';
 import { useAppDispatch } from "@/store";
-import { verify_account } from "@/store/authSlice";
+import { verify_account } from "@/store/slices/authSlice";
 import { AccountVerifyText } from './AccountVerifyText';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Swal from 'sweetalert2';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { imageInitialState, imageProfileReducer, imageReducer, imageProfileInitialState } from '@/reducers';
-import { savingImages, updateImageProfile } from '@/store/authSlice';
+import { savingImages, updateImageProfile } from '@/store/slices/authSlice';
 import { ImageProfile } from '@/types';
 
 

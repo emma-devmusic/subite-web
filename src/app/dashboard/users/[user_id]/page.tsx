@@ -2,13 +2,13 @@
 
 import { Spinner } from "@/components/spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { deleteUser, getUser } from "@/store/manageUserSlice";
+import { deleteUser, getUser } from "@/store/slices/manageUserSlice";
 import { UserState } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { useEffect } from "react";
 import { AuditsImagesDocuments } from "./components/AuditsImagesDocuments";
-import { uiModal } from "@/store/uiSlice";
+import { uiModal } from "@/store/slices/uiSlice";
 import Swal from "sweetalert2";
 import { TableAutidStatusHistory } from "@/components/tables/TableAutidStatusHistory";
 

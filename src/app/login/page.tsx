@@ -1,7 +1,7 @@
 'use client'
-import { useForm } from "@/hooks/useForm";
+import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { loginData } from "@/store/authSlice";
+import { loginData } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/spinner/Spinner";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ export default function LoginPage() {
         if(isLogged) router.push('/dashboard')
     }, [isLogged])
 
-    const [ values, handleInputChange, reset ] = useForm({
+    const [ values, handleInputChange, reset ] = useAppForm({
         email: 'lelac30182@digdy.com',
         password: '123456Emma!'
     } )
