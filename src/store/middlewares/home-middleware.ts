@@ -1,4 +1,4 @@
-import { Action, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
+import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { fetchData } from "@/services/fetchData";
 import { HomeProductsSearchResponse } from "@/types/homeResponse";
@@ -13,7 +13,6 @@ export const homeMiddleware = (state: MiddlewareAPI) => {
             state.dispatch(uiSetLoading(true))
             try {
                 console.log('Llamada a la Api - HOME - GET PRODUCTS')
-                console.log(action.payload)
                 const searchResponse: HomeProductsSearchResponse = await fetchData(
                     `/home-template/commons-products/${action.payload}`,
                     "GET",
@@ -27,7 +26,7 @@ export const homeMiddleware = (state: MiddlewareAPI) => {
                     modalFor: 'message',
                     modalOpen: true,
                     typeMsg: 'error',
-                    msg: `${error.code}`
+                    msg: `${error.code || error}`
                 }))
                 state.dispatch(uiSetLoading(false))
             }

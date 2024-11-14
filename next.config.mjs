@@ -28,7 +28,7 @@ const nextConfig = {
                 hostname: 'localpublic.s3.amazonaws.com'
             },
         ]
-    }
+    },
 };
 
 export default nextConfig;

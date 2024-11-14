@@ -15,20 +15,16 @@ const homeSlice = createSlice({
     name: 'home',
     initialState,
     reducers: {
-        // Add reducers here
-        getHomeProducts(state, action: PayloadAction<string>) {
-        },
+        getHomeProducts(state, action: PayloadAction<string>) {},
+
         setHomeProducts(state, action: PayloadAction<DataHomeProductsSearchResponse>) {
             state.homeProducts = action.payload.items;
             state.productMeta = action.payload.meta;
         },
-        getHomeProduct(state, action: PayloadAction) {
 
-        },
-        setHomeActiveProduct(state, action: PayloadAction) {
+        getHomeProduct(state, action: PayloadAction) {},
 
-        },
-
+        setHomeActiveProduct(state, action: PayloadAction) {},
     }
 })
 
