@@ -23,8 +23,9 @@ export const Providers = ({ children }: Props) => {
 
   useEffect(() => {
     
-    store.dispatch( getHomeProducts('search?page=1&limit=10') )
+    store.dispatch( getHomeProducts('search?page=1&limit=8') )
 
+    
     // CADA VEZ QUE SE RECARGA LA PÁGINA SE PIERDE EL ESTADO GLOBAL.
     // POR LO TANTO DEBEMOS TRAER LA INFORMACIÓN DE LA SESIÓN ALMACENADA EN EL SESSION STORAGE
     // PARA HIDRATAR TODA LA APLICACIÓN CON LA MISMA.

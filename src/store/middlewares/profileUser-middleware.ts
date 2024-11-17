@@ -33,7 +33,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                         })
                     )
                 })
-            if (user && !user.error) {
+            if (!user.error) {
                 state.dispatch(
                     UserProfileToRedux(user.data)
                 )

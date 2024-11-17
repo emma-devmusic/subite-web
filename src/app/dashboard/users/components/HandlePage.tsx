@@ -7,9 +7,10 @@ interface Props {
     setPagesSearch: Dispatch<SetStateAction<QueryObject>>;
     limit: number;
     stop?: boolean;
+    extraQuery?: string;
 }
 
-export const HandlePage = ({ setPagesSearch, limit, stop = false,  }: Props) => {
+export const HandlePage = ({ setPagesSearch, limit, stop = false, extraQuery }: Props) => {
 
     const [pageNumber, setPageNumber] = useState(1);
     const [countPage, setCountPage] = useState(`1-${limit}`)
@@ -19,19 +20,13 @@ export const HandlePage = ({ setPagesSearch, limit, stop = false,  }: Props) => 
         setPagesSearch( (state) => {
             return {
                 ...state,
-                pageQuerys: `search?page=${pageNumber}&limit=${limit}`
+                pageQuerys: extraQuery ? `search?page=${pageNumber}&limit=${limit}&${extraQuery}` : `search?page=${pageNumber}&limit=${limit}`
             }
         })
     }, [pageNumber])
 
-
     const handleNext = () => !stop && setPageNumber(pageNumber + 1)
-    
-
     const handlePrev = () => (pageNumber !== 1) && setPageNumber(pageNumber - 1)
-
-
-
 
     return (
         <div className="bg-white sticky sm:flex items-center w-full sm:justify-between bottom-0 right-0 border-t border-gray-200 p-4">

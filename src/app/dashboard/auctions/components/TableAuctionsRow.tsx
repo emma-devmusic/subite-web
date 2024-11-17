@@ -6,41 +6,31 @@ import Link from "next/link";
 import { findCategoriesByIds } from "@/helpers/products";
 import { useAppDispatch } from "@/store";
 import { ItemProductSearchResponse } from "@/types/products";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from '../../../../store/index';
 import { selectProduct } from "@/store/slices/productSlice";
 import { uiModal } from "@/store/slices/uiSlice";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { deleteAuction, selectAuction } from "@/store/slices/auctionSlice";
 import dayjs from "dayjs";
 import { AuctionCounter } from "../../main/components/AuctionCounter";
+import { TableAuctionImage } from "./TableAuctionImage";
 
 
 export const TableAuctionsRow = (product: ItemProductSearchResponse) => {
 
     const dispatch = useAppDispatch()
+    const pathname = usePathname()
     const { categories } = useAppSelector(state => state.category)
     const { isAdmin } = useAppSelector(state => state.manageUser)
     const [urlImg, setUrlImg] = useState('')
-    const [auction, setAuction] = useState(product.products_acutions && product.products_acutions.length > 0 && product.products_acutions.find(s => !s.data_deleted))
-    const pathname = usePathname()
     const [auctionTab, setAuctionTab] = useState('')
     const [status, setStatus] = useState<'waiting' | 'running' | 'finished'>('waiting')
 
 
-    useEffect(() => {
-        if (product.product_variations.length > 0) {
-            product.product_variations[0].productImages.forEach((img, i) => {
-                const last = product.product_variations[0].productImages.length - 1
-                if (img.main_image) {
-                    setUrlImg(img.url_image)
-                } else if (urlImg === '' && i === last) {
-                    setUrlImg(img.url_image)
-                }
-            })
-        }
-    }, [])
+    const auction = useMemo(() => product.products_acutions?.find(s => !s.data_deleted), [product]);
+    const productCategory = useMemo(() => findCategoriesByIds(categories, product.category_id, product.sub_category_id), [categories, product]);
 
     useEffect(() => {
         if (auction) {
@@ -59,20 +49,27 @@ export const TableAuctionsRow = (product: ItemProductSearchResponse) => {
                 setStatus('running')
             }
         }
+        return () => {
+            setStatus('waiting');
+        };
     }, [product])
 
+
     useEffect(() => {
-        setAuction(product.products_acutions && product.products_acutions.length > 0 && product.products_acutions.find(s => !s.data_deleted))
+        const mainImage = product.product_variations[0]?.productImages.find(img => img.main_image) || product.product_variations[0]?.productImages[0];
+        setUrlImg(mainImage?.url_image || '');
     }, [product])
+
 
     useEffect(() => {
         const path = pathname.split('/')[3]
         if (path === 'not-started-auctions') setAuctionTab('NOT_STARTED')
         if (path === 'active-auctions') setAuctionTab('ACTIVE')
         if (path === 'finished-auctions') setAuctionTab('FINISHED')
+        return () => {
+            setAuctionTab('');
+        };
     }, [])
-
-    const [categoryProduct] = useState(findCategoriesByIds(categories, product.category_id, product.sub_category_id))
 
     const handleUserDelete = () => {
         Swal.fire({
@@ -133,17 +130,9 @@ export const TableAuctionsRow = (product: ItemProductSearchResponse) => {
             </td> */}
             <td className="p-4 whitespace-nowrap space-x-6 mr-12 lg:mr-0">
                 <div className="flex items-center gap-5">
-
-                    {
-                        urlImg &&
-                        <img className="h-10 w-10 rounded-full inline-block" src={urlImg} alt="Neil Sims avatar" />
-                    }
-                    <div className="text-sm inline-block font-semibold text-gray-900">
-                        <span>{product.name}</span>
-                        {
-                            (product.products_acutions && product.products_acutions.length > 0 && product.products_acutions.find(s => !s.data_deleted))
-                            && <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block ms-2 text-gray-400" viewBox="0 0 24 24"><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"></path><path fill="currentColor" d="M2.686 10.462a2.5 2.5 0 0 0 0 3.536l2.829 2.828a2.5 2.5 0 0 0 4.095-2.681l.791-.791l6.407 7.392a2.793 2.793 0 1 0 3.94-3.94l-7.392-6.407l.791-.79a2.5 2.5 0 0 0 2.681-4.096L14 2.684a2.5 2.5 0 0 0-4.095 2.681L5.368 9.902a2.5 2.5 0 0 0-2.682.56"></path></g></svg>
-                        }
+                    <TableAuctionImage urlImg={urlImg} />
+                    <div className="text-sm inline-block font-semibold text-gray-900 w-full">
+                        <span className=" inline-block min-w-[132px]">{product.name}</span>
                         {
                             (isAdmin && product.supplier_products) &&
                             <span className="text-xs block font-normal text-gray-500">Publicado por: <Link className="hover:underline" href={`/dashboard/users/${product.supplier_products[0].supplier.auth_user.id}`}>{product.supplier_products[0].supplier.name}</Link></span>
@@ -152,21 +141,7 @@ export const TableAuctionsRow = (product: ItemProductSearchResponse) => {
                 </div>
             </td>
             <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">
-                {
-                    auction &&
-                    <>
-                        {dayjs(auction.init_date).format('DD/MM/YYYY')}
-                        {
-                            status === 'waiting' &&
-                            <div>
-                                <AuctionCounter
-                                    auctionStartDate={dayjs(auction?.init_date).format('DD/MM/YYYY')}
-                                    auctionEndDate={dayjs(auction?.end_date).format('DD/MM/YYYY')}
-                                />
-                            </div>
-                        }
-                    </>
-                }
+                {productCategory.subcategory}
             </td>
             <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">
                 {

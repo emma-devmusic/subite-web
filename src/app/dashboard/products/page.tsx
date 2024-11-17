@@ -5,12 +5,12 @@ import { SearchBar } from "./components/SearchBar";
 import { useEffect, useState } from "react";
 import { QueryObject } from "@/types";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { HandlePage } from "./components/HandlePage";
 import { TableLayout } from "@/components/tables/TableLayout";
 import { TableProductsRow } from "./components/TableProductsRow";
 import { getProductAuditsStatuses, getProducts } from "@/store/slices/productSlice";
 import { getCategories } from "@/store/slices/categorySlice";
 import { Spinner } from "@/components/spinner/Spinner";
+import { HandlePage } from "../users/components/HandlePage";
 
 const initialQueryState = 'search?page=1&limit=10'
 
@@ -52,7 +52,7 @@ export default function ProductsPage() {
                     )
                 }
             </TableLayout>
-            <HandlePage setPagesSearch={setQueryObject} />
+            <HandlePage limit={10} stop={products.length < 10} setPagesSearch={setQueryObject} />
         </div>
     );
 }

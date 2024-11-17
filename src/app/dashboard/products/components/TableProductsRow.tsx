@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { findCategoriesByIds } from "@/helpers/products";
 import { useAppDispatch } from "@/store";
 import { ItemProductSearchResponse } from "@/types/products";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from '../../../../store/index';
 import { deleteProductFromDB, getProductById, selectProduct } from "@/store/slices/productSlice";
 import { uiModal } from "@/store/slices/uiSlice";
@@ -18,21 +18,11 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
     const { categories } = useAppSelector(state => state.category)
     const { isAdmin } = useAppSelector(state => state.manageUser)
     const [urlImg, setUrlImg] = useState('')
-
+    const productCategory = useMemo(() => findCategoriesByIds(categories, product.category_id, product.sub_category_id), [categories, product]);
     useEffect(() => {
-        if (product.product_variations.length > 0) {
-            product.product_variations[0].productImages.forEach((img, i) => {
-                const last = product.product_variations[0].productImages.length - 1
-                if (img.main_image) {
-                    setUrlImg(img.url_image)
-                } else if (urlImg === '' && i === last) {
-                    setUrlImg(img.url_image)
-                }
-            })
-        }
-    }, [])
-
-    const [categoryProduct] = useState(findCategoriesByIds(categories, product.category_id, product.sub_category_id))
+        const mainImage = product.product_variations[0]?.productImages.find(img => img.main_image) || product.product_variations[0]?.productImages[0];
+        setUrlImg(mainImage?.url_image || '');
+    }, [product])
 
     const handleUserDelete = () => {
         Swal.fire({
@@ -82,7 +72,7 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
                     <label htmlFor="checkbox-194556" className="sr-only">checkbox</label>
                 </div>
             </td> */}
-            <td className="p-4 flex items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0">
+            <td className="p-4 flex items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0 w-full min-w-52">
                 {
                     urlImg &&
                     <img 
@@ -95,13 +85,15 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
                         alt="Neil Sims avatar" 
                     />
                 }
-                <div className="text-sm font-normal text-gray-500">
+                <div className="text-sm font-normal text-gray-500 w-full">
                     <div className="text-sm font-semibold text-gray-900">
                         <div className="flex items-center gap-3">
-                            {product.name}
+                            <p className="whitespace-normal w-full min-w-[132px]">
+                                {product.name} 
+                            </p>
                             {
                                 (product.products_acutions && product.products_acutions.length > 0 && product.products_acutions.find(s => !s.data_deleted))
-                                && <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 24 24"><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"></path><path fill="currentColor" d="M2.686 10.462a2.5 2.5 0 0 0 0 3.536l2.829 2.828a2.5 2.5 0 0 0 4.095-2.681l.791-.791l6.407 7.392a2.793 2.793 0 1 0 3.94-3.94l-7.392-6.407l.791-.79a2.5 2.5 0 0 0 2.681-4.096L14 2.684a2.5 2.5 0 0 0-4.095 2.681L5.368 9.902a2.5 2.5 0 0 0-2.682.56"></path></g></svg>
+                                && <svg xmlns="http://www.w3.org/2000/svg" className="h-4 min-w-4 w-4 text-gray-400" viewBox="0 0 24 24"><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"></path><path fill="currentColor" d="M2.686 10.462a2.5 2.5 0 0 0 0 3.536l2.829 2.828a2.5 2.5 0 0 0 4.095-2.681l.791-.791l6.407 7.392a2.793 2.793 0 1 0 3.94-3.94l-7.392-6.407l.791-.79a2.5 2.5 0 0 0 2.681-4.096L14 2.684a2.5 2.5 0 0 0-4.095 2.681L5.368 9.902a2.5 2.5 0 0 0-2.682.56"></path></g></svg>
                             }
                         </div>
                     </div>
@@ -111,8 +103,10 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
                     }
                 </div>
             </td>
-            <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">{categoryProduct.subcategory}</td>
-            <td className="p-4 text-sm overflow-hidden !text-ellipsis text-gray-900">{product.product_variations[0].description}</td>
+            <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">{productCategory.subcategory}</td>
+            <td className="p-4 text-sm text-gray-900 truncate min-w-44 max-w-52">
+                {product.product_variations[0].description}
+            </td>
             <td className="p-4 text-sm whitespace-nowrap  font-medium text-gray-900">{product.product_variations[0].price}</td>
             <td className="p-4 text-sm whitespace-nowrap space-x-2 text-end">{product.product_variations[0].stocks.quantity}</td>
             <td className="p-4 whitespace-nowrap space-x-2 text-center">
