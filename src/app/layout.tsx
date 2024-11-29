@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "@/store/Providers";
 import { Modal } from "@/components/modal/Modal";
-import { Navbar } from "@/components/ecommerce";
+import { Footer, Navbar } from "@/components/ecommerce";
 import PrelineScript from "@/components/prelineScript/PrelineScript";
 import "./globals.css";
 
@@ -26,8 +26,9 @@ export default function RootLayout({
             {children}
           <Modal />
         </Providers>
+        <Footer />
       </body>
-        <PrelineScript />
+      <PrelineScript />
     </html>
   );
 }

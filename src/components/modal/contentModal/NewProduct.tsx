@@ -14,9 +14,6 @@ import { imageUpdatingProductInitialState, imageUpdatingReducer } from '@/reduce
 import Swal from 'sweetalert2';
 import './newProductModalStyle.css'
 
-
-
-
 export const NewProduct = () => {
 
     const dispatch = useAppDispatch()
@@ -43,10 +40,13 @@ export const NewProduct = () => {
         if (productSelected.id) {
             const productUpdating = createObjProductUpdating(productSelected, values, imageUpdatingState, initialStateUpdtProd, isAdmin)
             console.log(productUpdating)
+            console.log(values)
+            return
             productUpdating
                 ? dispatch(updateProduct(productUpdating))
                 : Swal.fire('No hay cambios en el producto', 'Debes realizar cambios en tu producto para poder actualizarlo', 'info') 
         } else {
+            return
             dispatch(newProductSubmit(values))
         }
     }

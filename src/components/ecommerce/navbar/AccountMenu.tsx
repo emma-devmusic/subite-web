@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { MenuItemVerify } from "./MenuItemVerify"
 import { menuAccountStyles } from "./styles"
+import PrelineScript from "@/components/prelineScript/PrelineScript"
 
 export const AccountMenu = () => {
 
@@ -56,18 +57,15 @@ export const AccountMenu = () => {
                     }
                 </div>
             }
-            classOpen={'h-8 w-8 text-cyan-700'}
-            classClose={'h-8 w-8 text-gray-400 hover:text-gray-500'}
-            position="end"
         >
-            <ul className='flex flex-col w-[200px]'>
+            <ul className='flex flex-col w-[200px] z-20'>
                 {
                     accountMenuData.map(item => {
                         let showItem = (item.isLogged === isLogged) ? true : false
                         if (
                             path.includes('dashboard') && item.link === '/dashboard' ||
                             !path.includes('dashboard') && item.link === '/'
-                        ) showItem = false
+                        ) showItem = false                    
                         return <MenuItem
                             link={item.link}
                             show={showItem}
@@ -80,6 +78,8 @@ export const AccountMenu = () => {
 
                 {userProfile && <MenuItemVerify />}
             </ul>
+            <PrelineScript />
+
         </PopoverApp>
     )
 }

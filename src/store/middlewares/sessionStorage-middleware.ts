@@ -103,7 +103,6 @@ export const sessionStorageMiddleware = (state: MiddlewareAPI) => {
             }, 2000)
             console.log('hasta acá todo bien y normal')
             const userDecrypted = getSession()
-            console.log(userDecrypted)
             if (userDecrypted) state.dispatch(login(userDecrypted.data))
         }
 

@@ -22,8 +22,6 @@ export const Providers = ({ children }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    
-    store.dispatch( getHomeProducts('search?page=1&limit=8') )
 
     
     // CADA VEZ QUE SE RECARGA LA PÁGINA SE PIERDE EL ESTADO GLOBAL.

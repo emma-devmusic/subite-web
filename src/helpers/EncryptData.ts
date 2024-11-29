@@ -1,9 +1,12 @@
+
 import * as crypto from 'crypto-js';
+import { server_secret } from './envs';
 
 
 
 export default class EncryptData {
-    constructor(private key: string) {
+    
+    constructor(private key: string = `${server_secret}`) {
         this.key = key;
         this.encrypt = this.encrypt.bind(this);
         this.decrypt = this.decrypt.bind(this);

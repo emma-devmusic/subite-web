@@ -47,7 +47,7 @@ export default function AllAuctionsPage() {
                     )
                 }
             </TableLayout>
-            <HandlePage setPagesSearch={setQueryObject} limit={10} stop={homeProducts.length < 10}/>
+            <HandlePage setPagesSearch={setQueryObject} limit={10} stop={homeProducts.length < 10 }/>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import { redirect, useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 import { logout } from "@/store/slices/authSlice";
+import PrelineScript from "../prelineScript/PrelineScript";
 
 interface Props {
     show?: boolean;
@@ -18,26 +19,35 @@ export const MenuItem = ({ text, link, icon, show }: Props) => {
     const router = useRouter()
 
     const handleLogout = () => {
-        dispatch( logout() );
+        dispatch(logout());
         router.push('/');
     }
-
+    const handleGoTo = () => {
+        router.push(link)
+    }
 
     if (!show) return
     if (link === '/close-session') return (
+        <>
             <li onClick={handleLogout}>
                 <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
                     {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
                     <span className="ml-3">{text}</span>
                 </div>
             </li>
-        )
-    return (
-        <li>
-            <Link href={link} className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100">
-                {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
-                <span className="ml-3">{text}</span>
-            </Link>
-        </li>
+            <PrelineScript />
+        </>
     )
+    return (
+        <>
+            <li onClick={handleGoTo}>
+                <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
+                    {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
+                    <span className="ml-3">{text}</span>
+                </div>
+            </li>
+            <PrelineScript />
+        </>
+    )
+
 }

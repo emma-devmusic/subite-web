@@ -48,7 +48,7 @@ export const CardProduct = ({ itemProduct }: Props) => {
         };
     }, []);
 
-    //IMPOLEMENTAR EL CONTADOR
+    //IMPLEMENTAR EL CONTADOR
 
 
     return (

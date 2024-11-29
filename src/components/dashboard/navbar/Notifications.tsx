@@ -33,7 +33,7 @@ export const Notifications = () => {
         <PopoverApp
             button={
                 <div className="relative">
-                    <BellAlertIcon />
+                    <BellAlertIcon className="w-7 h-7 text-cyan-600" />
                     {
                         notifications.length > 0 &&
                         <div className="absolute top-0 left-0 text-white text-xs bg-red-500 font-extralight rounded-full w-4 h-4 flex justify-center items-center" >

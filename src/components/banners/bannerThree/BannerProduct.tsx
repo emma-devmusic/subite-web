@@ -79,7 +79,7 @@ export const BannerProduct = ({ itemProduct }: Props) => {
                 </div>
 
                 <div className="absolute w-full rounded-xl h-full bg-gradient-to-t from-gray-900 from-5% via-transparent to-transparent to-95% z-10"></div>
-                <Image src={itemProduct.product_variations[0].productImages[0].url_image} height={600} width={1200} alt="textimg" className="rounded-lg m-auto min-h-[400px] w-full object-cover max-h-[500px] relative" />
+                <Image src={itemProduct.product_variations[0].productImages[0].url_image} height={600} width={1200} alt="textimg" className="rounded-lg m-auto min-h-[400px] w-full object-cover max-h-[500px] relative h-full" />
             </div>
         </div>
     );

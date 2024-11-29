@@ -2,6 +2,7 @@
 import { CreateUserDataRedux, DataUserLoginResponse, FormNewPassword, LoginResponse, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks, User, UserLoginResponse, UserPermissionsDecrypted } from "@/types"
 import EncryptData from "./EncryptData";
 import DecryptedSession from "./Permissions";
+import * as env from "./envs";
 
 
 
@@ -15,7 +16,7 @@ export const path_role = (roleId: number) => {
 //
 export const getUSID = () => {
     const userData = decryptLoginData();
-    const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
+    const encryptData = new EncryptData();
     if (userData) return encryptData.decrypt(userData.data.access.conn)
 }
 
@@ -27,8 +28,8 @@ export const getUSID = () => {
 export const getSession = () => {
     (typeof window !== 'undefined')
     const userData = decryptLoginData();
-    const encryptData = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
-    if(userData) return encryptData.decrypt(userData.data.permissions)
+    const encryptData = new EncryptData();
+    if (userData) return encryptData.decrypt(userData.data.permissions)
 }
 
 
@@ -49,7 +50,7 @@ export const setInSessionStorage = (id: string, data: any) => (typeof window !==
 // ENCRIPTA LOS DATOS DE LA SESION EN EL SESSION STORAGE
 export const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) => {
     (typeof window !== 'undefined')
-    const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`)
+    const encrypter = new EncryptData()
     const encryptData = encrypter.encrypt(
         JSON.stringify(data)
     )
@@ -60,11 +61,11 @@ export const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) =>
 
 
 /// TRAE LOS DATOS DE LA SESIÓN DEL SESSION STORAGE
-export const decryptLoginData = ()  => {
+export const decryptLoginData = () => {
     (typeof window !== 'undefined')
-    const encrypter = new EncryptData(`${process.env.NEXT_PUBLIC_SERVER_SECRET}`);
+    const encrypter = new EncryptData();
     const loginDataEncrypt = getFromSessionStorage('user-login-data');
-    if (loginDataEncrypt) return encrypter.decrypt( JSON.parse(loginDataEncrypt) ) as {error: boolean; message?: string; data: DataUserLoginResponse}
+    if (loginDataEncrypt) return encrypter.decrypt(JSON.parse(loginDataEncrypt)) as { error: boolean; message?: string; data: DataUserLoginResponse }
 }
 
 

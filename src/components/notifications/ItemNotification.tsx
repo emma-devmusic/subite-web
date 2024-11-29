@@ -3,15 +3,20 @@
 import { ObjectNotification } from "@/types"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
+import { useRouter } from "next/navigation";
 
 
 
 export const ItemNotification = ({ title, details, error, message, icon, link }: ObjectNotification) => {
 
+    const router = useRouter()
+    const handleGoTo = () => {
+        router.push(link)
+    }
 
     if (title === 'Actualización del estado de tu cuenta')
-        return <li className="">
-            <a href={link} className="">
+        return <li className="" onClick={handleGoTo}>
+            <div className="">
                 <div className="flex gap-6 px-7 py-4 items-center hover:bg-gray-100">
                     <Icon
                         icon={icon}
@@ -26,14 +31,12 @@ export const ItemNotification = ({ title, details, error, message, icon, link }:
                         </p>
                     </div>
                 </div>
-            </a>
+            </div>
         </li>
 
-
-
     return (
-        <li className="">
-            <Link href={link} className="">
+        <li className="" onClick={handleGoTo}>
+            <div className="">
                 <div className="flex gap-6 px-7 py-4 items-center hover:bg-gray-100">
                     <Icon
                         icon={icon}
@@ -48,7 +51,7 @@ export const ItemNotification = ({ title, details, error, message, icon, link }:
                         </p>
                     </div>
                 </div>
-            </Link>
+            </div>
         </li>
     );
 };

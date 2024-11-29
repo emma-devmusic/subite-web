@@ -9,15 +9,17 @@ import { deleteProductFromDB, getProductById } from "@/store/slices/productSlice
 import { uiModal } from "@/store/slices/uiSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuctionCounter } from "../../main/components/AuctionCounter";
 import dayjs from "dayjs";
 
-export default function ProductPage() {
+interface Props {
+    params: { product_id: string };
+}
 
-    const params = useParams()
+export default function ProductPage({ params }: Props) {
+
     const dispatch = useAppDispatch()
     const { productSelected } = useAppSelector(state => state.product)
     const { categories } = useAppSelector(state => state.category)
