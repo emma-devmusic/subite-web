@@ -1,18 +1,6 @@
 
-
-/* .truncate {
-    position: relative;
-    .truncate-hover {
-        z-index: 20;
-        position: absolute;
-        visibility: hidden;
-        top: 40px;
-        background-color: white;
-        border-radius: 10px;
-        padding: .6rem;
-        text-wrap: wrap;
-    }
-    &:hover .truncate-hover {
-        visibility: visible;
-    }
-} */
+.container-auction {
+    max-width: 1100px;
+    padding: 1rem;
+    background-color: var(--primary);
+}

@@ -2,7 +2,7 @@
 import Image from "next/image"
 import { MenuItem } from "@/components/menuItem"
 import { PopoverApp } from "@/components/popover"
-import { SmallSpinner, Spinner } from "@/components/spinner/Spinner"
+import { SmallSpinner } from "@/components/spinner/Spinner"
 import { accountMenuData } from "@/mocks/mocks"
 import { useAppDispatch, useAppSelector } from "@/store"
 import { getUserProfile } from "@/store/slices/authSlice"
@@ -79,7 +79,6 @@ export const AccountMenu = () => {
                 {userProfile && <MenuItemVerify />}
             </ul>
             <PrelineScript />
-
         </PopoverApp>
     )
 }

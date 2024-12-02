@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, League_Spartan } from "next/font/google";
 import { Providers } from "@/store/Providers";
 import { Modal } from "@/components/modal/Modal";
 import { Footer, Navbar } from "@/components/ecommerce";
 import PrelineScript from "@/components/prelineScript/PrelineScript";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+export const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
+ 
+export const league_spartan = League_Spartan({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "SubastasApp",
@@ -20,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="">
-      <body className={`${inter.className} `}>
+      <body className={`${inter.className}`}>
         <Providers>
           <Navbar />
             {children}

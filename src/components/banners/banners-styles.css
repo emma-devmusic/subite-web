@@ -64,3 +64,32 @@
         padding: .5rem 0;
     }
 }
+
+
+
+/*
+================================================
+BANNER PAGES
+================================================
+*/
+
+#banner-pages {
+    background-image: url('../../assets/img/bg-login.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 400px;
+    .div-backdrop{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+        width: 100%;
+        min-height: 400px;
+    }
+    h1 {
+        font-size: 3rem;
+        color: white;
+    }
+}

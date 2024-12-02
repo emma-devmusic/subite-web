@@ -25,7 +25,7 @@ export const Navbar = () => {
         <div className="bg-white">
 
             <header className="relative bg-[#ff8232]">
-                <div className="flex h-12 items-center justify-between w-full bg-white px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+                <div className="flex h-12 items-center justify-between w-full bg-white px-4 text-sm font-medium text-white sm:px-6 lg:px-44">
 
                     {/* Logo */}
                     <div className="flex justify-between items-center md:justify-start lg:ml-0 w-full">

@@ -5,45 +5,26 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary: '#FF8232';
+  --secondary: '#737373';
+  --white: '#FFFFFF';
 }
-/* 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-    }
-    } */
-    
-    body {
-      color: rgb(var(--foreground-rgb));
-      /* background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-        )
-    rgb(var(--background-start-rgb)); */
-    background: var(--background-end-rgb);
+body {
+  color: rgb(var(--foreground-rgb));
+  background: var(--background-end-rgb);
+}
+  
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
+}
+
+p {
+  margin: 1rem;
+}
+
   
-  @layer utilities {
-    .text-balance {
-      text-wrap: balance;
-    }
-  }
-  
-  
-  
-  .hoverImage {
-    overflow: hidden;
-  }
-  .hoverImage:hover img {
-    transform: scale(1.2) rotate(8deg);
-    transition: all .4s ease-out;
-  }
-  
-  .hoverImage img {
-    transition: all .4s ease-out;
-  }
-  
-  @import '../assets/styles/main.css';
+@import '../assets/styles/home.css';
+@import '../assets/styles/about-us.css';
+@import '../assets/styles/utilities.css';
