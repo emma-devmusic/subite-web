@@ -1,8 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
-import logoNav from '../../assets/img/logo/logo-nav.png'
+import logoNav from '../../assets/img/logo/logo-footer.png'
 
-export const Logo = ({ classLogo }: { classLogo?: string }) => {
+export const LogoTwo = ({ classLogo }: { classLogo?: string }) => {
 
     return (
         <div className="inline-block">

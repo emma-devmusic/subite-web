@@ -25,7 +25,7 @@ export default function AboutPage() {
 
 
                 <section id="our-mission">
-                    <h2 className={`${league_spartan.className} text-secondary text-4xl mb-12 text-center sm:text-start sm:text-5xl md:text-6xl`}>Nuestra <span className={`text-primary`}>Misión</span></h2>
+                    <h2 className={`${league_spartan.className} text-secondary text-4xl mb-12 text-center sm:text-start sm:text-5xl md:text-6xl`}>Nuestra <strong className={`text-primary`}>Misión</strong></h2>
                     <p className="text-base sm:text-xl">
                         Facilitar el proceso de compra y venta mediante subastas en línea, brindando una experiencia accesible, transparente y segura para nuestros usuarios.
                     </p>
@@ -35,12 +35,12 @@ export default function AboutPage() {
 
 
                 <section id="our-values">
-                    <h2>Nuestros Valores</h2>
+                <h2 className={`${league_spartan.className} text-secondary text-4xl mb-12 text-center sm:text-start sm:text-5xl md:text-6xl`}>Nuestros <strong className={`text-primary`}>Valores</strong></h2>
                     <ul className="text-base sm:text-xl">
-                        <li><strong>Transparencia:</strong> Ofrecemos un proceso de subasta claro y justo para todos los participantes.</li>
-                        <li><strong>Seguridad:</strong> Protegemos tus datos y transacciones con tecnología de vanguardia.</li>
-                        <li><strong>Innovación:</strong> Innovamos constantemente para mejorar la experiencia de usuario.</li>
-                        <li><strong>Compromiso:</strong> Estamos siempre disponibles para ayudarte y resolver tus inquietudes.</li>
+                        <li><strong className="text-primary">Transparencia:</strong> Ofrecemos un proceso de subasta claro y justo para todos los participantes.</li>
+                        <li><strong className="text-primary">Seguridad:</strong> Protegemos tus datos y transacciones con tecnología de vanguardia.</li>
+                        <li><strong className="text-primary">Innovación:</strong> Innovamos constantemente para mejorar la experiencia de usuario.</li>
+                        <li><strong className="text-primary">Compromiso:</strong> Estamos siempre disponibles para ayudarte y resolver tus inquietudes.</li>
                     </ul>
                 </section>
 
@@ -48,7 +48,7 @@ export default function AboutPage() {
 
 
                 <section id="team">
-                    <h2>Conoce a Nuestro Equipo</h2>
+                <h2 className={`${league_spartan.className} text-secondary text-4xl mb-12 text-center sm:text-start sm:text-5xl md:text-6xl`}>Conocé a nuestro <strong className={`text-primary`}>equipo</strong></h2>
                     <p className="text-base sm:text-xl">
                         Nuestro equipo está formado por expertos en tecnología, marketing y atención al cliente, todos comprometidos con ofrecerte la mejor experiencia en subastas en línea.
                     </p>
@@ -59,7 +59,7 @@ export default function AboutPage() {
 
 
                 <section id="sara-seccini">
-                    <h2>La Garantía de Sara Seccini</h2>
+                <h2 className={`${league_spartan.className} text-secondary text-4xl mb-12 text-center sm:text-start sm:text-5xl md:text-6xl`}>La garantía de <strong className={`text-primary`}>Sara</strong></h2>
                     <p className="text-base sm:text-xl">
                         Todos los productos subastados en nuestra plataforma pasan por las manos de <strong>Sara Seccini</strong>, martillera pública y dueña de <strong>TuNombreDeSubasta</strong>. Sara es la encargada de verificar la autenticidad de cada producto y la veracidad de los usuarios registrados, garantizando así una experiencia segura y confiable para todos.
                     </p>
@@ -70,7 +70,7 @@ export default function AboutPage() {
 
 
                 <section id="contact">
-                    <h2>Contáctanos</h2>
+                <h2 className={`${league_spartan.className} text-secondary text-4xl mb-12 text-center sm:text-start sm:text-5xl md:text-6xl`}><strong className={`text-primary`}>Contáctanos</strong></h2>
                     <p className="text-base sm:text-xl">
                         ¿Tienes preguntas o necesitas ayuda? Visita nuestra <a href="/contacto">página de contacto</a> o escríbenos a <a href="mailto:info@tunombrede-subasta.com">info@tunombrede-subasta.com</a>.
                     </p>
