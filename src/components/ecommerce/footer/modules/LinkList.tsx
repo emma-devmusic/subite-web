@@ -13,7 +13,7 @@ interface Props {
 export const LinkList = ({ titleLinks, links }: Props) => {
     return (
         <div className="col-span-2 lg:col-span-1">
-            <h4 className="font-semibold text-gray-100">{titleLinks}</h4>
+            <h4 className="font-semibold text-gray-500">{titleLinks}</h4>
             <div className="mt-3 grid space-y-3">
                 {
                     links.map( item => <LinkTo link={item.link} name={item.name} key={item.name}/>)

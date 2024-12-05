@@ -3,9 +3,9 @@
 export const Subscribe = () => {
     return (
         <div className="col-span-2">
-            <h4 className="font-semibold text-gray-100">Stay up to date</h4>
+            <h4 className="font-semibold text-gray-500">Stay up to date</h4>
             <form>
-                <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-3 bg-white rounded-lg p-2 ">
+                <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-3 bg-white rounded-lg p-2 border-2 border-primary">
                     <div className="w-full">
                         <label htmlFor="hero-input" className="sr-only">
                             Subscríbete

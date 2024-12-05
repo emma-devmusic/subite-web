@@ -1,7 +1,7 @@
 
+import * as apiProducts from '@/services/products';
 import { BannerThree } from "@/components/banners";
 import { CardListProducts } from "@/components/cards";
-import * as apiProducts from '@/services/products';
 import { league_spartan } from "./layout";
 
 export default async function HomePage() {
