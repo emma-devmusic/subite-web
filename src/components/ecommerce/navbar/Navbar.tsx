@@ -1,13 +1,9 @@
 'use client'
-import { Fragment, useState } from 'react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { MobileMenu } from './MobileMenu'
-import { classNames, navigation } from './data'
-import Link from 'next/link'
+import { useState } from 'react'
+import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { navigation } from './data'
 import { SocialIcons } from '@/components/socialIcons/SocialIcons'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { PopoverApp } from '@/components/popover'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
 
@@ -22,9 +18,9 @@ export const Navbar = () => {
     if (pathname.includes('dashboard')) return
 
     return (
-        <div className="bg-white">
+        <div className="">
 
-            <header className="relative bg-[#ff8232]">
+            <header className="relative bg-primary max-w-[90%] m-auto rounded-lg shadow">
                 <div className="flex h-12 items-center justify-between w-full bg-white px-4 text-sm font-medium text-white sm:px-6 lg:px-44">
 
                     {/* Logo */}
@@ -59,7 +55,7 @@ export const Navbar = () => {
                                     <a
                                         key={page.name}
                                         href={page.href}
-                                        className="flex text-nowrap items-center text-sm font-medium text-white hover:text-indigo-600"
+                                        className="flex text-nowrap items-center text-sm font-medium text-white hover:text-gray-200 transition"
                                     >
                                         {page.name}
                                     </a>

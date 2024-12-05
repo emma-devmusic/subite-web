@@ -10,7 +10,7 @@ export const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
- 
+
 export const league_spartan = League_Spartan({
   subsets: ['latin'],
   display: 'swap',
@@ -28,10 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="">
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} bg-gray-50`}>
         <Providers>
           <Navbar />
-            {children}
+            <div className="">
+              {children}
+            </div>
           <Modal />
         </Providers>
         <Footer />

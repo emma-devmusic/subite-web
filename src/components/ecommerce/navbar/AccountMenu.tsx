@@ -13,10 +13,10 @@ import { useEffect, useState } from "react"
 import { MenuItemVerify } from "./MenuItemVerify"
 import { menuAccountStyles } from "./styles"
 import PrelineScript from "@/components/prelineScript/PrelineScript"
+import { alternativeImage } from "@/helpers/constants"
 
 export const AccountMenu = () => {
 
-    const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonnie-green.png"
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
     const { isLogged, userProfile } = useAppSelector(state => state.auth)
     const { loading } = useAppSelector(state => state.ui)

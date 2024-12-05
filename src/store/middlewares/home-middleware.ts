@@ -31,7 +31,5 @@ export const homeMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(uiSetLoading(false))
             }
         }
-
-
     }
 }

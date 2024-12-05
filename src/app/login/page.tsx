@@ -13,7 +13,6 @@ export default function LoginPage() {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
-    
     const { loading } = useAppSelector(state => state.ui)
     const { isLogged } = useAppSelector(state => state.auth)
 
@@ -35,7 +34,7 @@ export default function LoginPage() {
 
     return (
         <div className={`mx-auto flex flex-col justify-between px-5 pt-4 pb-4 overflow-auto ${styles.loginPage} `}>
-   
+
             <div className={`${styles.image} bg-white mx-auto shadow-lg rounded-lg md:mt-12 w-full min-h-[600px] md:min-h-full md:h-full sm:max-w-screen-lg flex flex-col md:flex-row justify-between items-center xl:p-0 `}>
                 <div className="basis-3/6"></div>
                 <div className="p-6 sm:p-8 lg:px-8 space-y-8 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none">
@@ -51,7 +50,7 @@ export default function LoginPage() {
                                 type="email" 
                                 name="email" 
                                 id="email" 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" 
                                 placeholder="name@company.com"
                             />
                         </div>
@@ -64,33 +63,33 @@ export default function LoginPage() {
                                 name="password" 
                                 id="password" 
                                 placeholder="••••••••" 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" 
                             />
                         </div>
                         <div className=" flex items-start">
                             <div className="flex items-center h-5">
-                                <input id="remember" aria-describedby="remember" name="remember" type="checkbox" className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded" required/>
+                                <input id="remember" aria-describedby="remember" name="remember" type="checkbox" className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-primaryHover h-4 w-4 rounded" required/>
                             </div>
                             <div className="text-sm ml-3">
                                 <label htmlFor="remember" className="font-medium text-gray-900">Recordarme</label>
                             </div>
-                            <a href="#" className="text-sm text-teal-500 hover:underline ml-auto">¿Olvidó su contraseña?</a>
+                            <a href="#" className="text-sm text-primary hover:underline ml-auto">¿Olvidó su contraseña?</a>
                         </div>
                         <div>
                             <button 
-                                className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
+                                className="text-white bg-primary hover:bg-primaryHover focus:ring-4 focus:ring-primaryHover font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
                                 onClick={handleLogin}
                             >
                                 Ingresar
                             </button>
                         </div>
                         <div className="text-sm font-medium text-gray-500">
-                            ¿No está registrado? <Link href="/register" className="text-teal-500 hover:underline">Crear cuenta</Link>
+                            ¿No está registrado? <Link href="/register" className="text-primary hover:underline">Crear cuenta</Link>
                         </div>
                     </form>
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
