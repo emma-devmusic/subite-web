@@ -1,10 +1,10 @@
-
 import dayjs from "dayjs"
 import Image from "next/image"
-import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 import Link from "next/link"
+import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 import { CounterCardProduct } from "../dayCounter/CounterCardProduct"
 import { league_spartan } from "@/app/layout"
+import { LinkProduct } from "./LinkProduct"
 
 
 interface Props {
@@ -34,14 +34,7 @@ export const CardProduct = ({ itemProduct }: Props) => {
                     <p className="m-0 mt-2 text-sm text-gray-500">Fecha de inicio: <span>{dayjs(auction?.init_date).format('DD/MM/YYYY')}</span></p>
                 </div>
             </div>
-            <div className="card-box-button mt-3">
-                <Link
-                    className="card-product-link block text-center text-primary hover:text-white hover:bg-primary transition-all"
-                    href={`/product/${itemProduct.id}`}
-                >
-                    Ver Subasta
-                </Link>
-            </div>
+            <LinkProduct product={itemProduct} />
         </div>
     )
 }

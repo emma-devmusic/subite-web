@@ -13,18 +13,14 @@ body {
   color: rgb(var(--foreground-rgb));
   background: var(--background-end-rgb);
 }
-  
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
 
-p {
-  margin: 1rem;
-}
 
-  
 @import '../assets/styles/home.css';
 @import '../assets/styles/about-us.css';
 @import '../assets/styles/utilities.css';

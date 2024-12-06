@@ -30,7 +30,7 @@ interface ActionsProps {
 // Componente Principal Card
 export const Card = ({ children, className = "" }: CardProps) => {
     return (
-        <div className={`rounded-lg shadow bg-white  ${className}`}>
+        <div className={`rounded-lg shadow bg-white ${className}`}>
             {children}
         </div>
     )
@@ -48,7 +48,7 @@ Card.Header = function CardHeader({ children, className = "" }: HeaderProps) {
 // Subcomponente Body
 Card.Body = function CardBody({ children, className = "" }: BodyProps) {
     return (
-        <div className={`p-2 ${className}`}>
+        <div className={`p-4 ${className}`}>
             {children}
         </div>
     )

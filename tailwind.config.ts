@@ -19,6 +19,7 @@ const config: Config = {
         primaryHover: '#fc8942',    // Color principal personalizado
         secondary: '#373737',  // Color secundario personalizado
         white: '#FFFFFF',      // Color blanco personalizado
+        success: 'rgb(5 150 105)'
       }
     },
   },

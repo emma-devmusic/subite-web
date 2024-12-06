@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 
 interface Props {
-    text: string;
-    classColor: string;
+    children: ReactNode;
+    tagClass: string;
 }
 
-export const Tag = ({text, classColor}: Props) => {
+export const Tag = ({children, tagClass}: Props) => {
 
     return (
-        <span className={`inline-block ms-1 text-xs text-white py-1 px-2 rounded-lg ${classColor}`}>
-            {text}
+        <span className={`inline-block ms-1 text-xs text-white py-1 px-2 rounded-lg ${tagClass}`}>
+            {children}
         </span>
     )
 }

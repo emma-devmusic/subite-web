@@ -40,7 +40,9 @@ export const Offers = () => {
     }, [productSelected])
 
 
-    const handleRefresh = () => dispatch(getOffers(`${auctionSelected.id}`))
+    const handleRefresh = () => {
+        dispatch(getOffers(`${auctionSelected.id}`))
+    }
 
     const handleNewOffer = () => {
 
