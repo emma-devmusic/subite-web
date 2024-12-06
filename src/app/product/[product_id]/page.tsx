@@ -19,10 +19,11 @@ export default async function ProductHomePage({ params }: Props) {
     const firstImageProduct = specific_prod.productImages[0]
     const imageProduct = specific_prod.productImages.find(img => img.main_image) || firstImageProduct
     const auction = product.products_acutions.find(s => !s.data_deleted)
+
     return (
-        <div className='my-16 flex flex-col gap-10'>
+        <div className='container-auction my-16 flex flex-col gap-10'>
             <div>
-                <h1 className={`${league_spartan.className} text-5xl text-secondary`}>{product.name}</h1>
+                <h1 className={`${league_spartan.className} text-3xl sm:text-5xl text-secondary`}>{product.name}</h1>
             </div>
             <hr />
             <div className='max-h-[400px] h-full w-full rounded-lg overflow-hidden'>

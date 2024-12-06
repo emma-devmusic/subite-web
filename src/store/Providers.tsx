@@ -23,7 +23,7 @@ export const Providers = ({ children }: Props) => {
 
   useEffect(() => {
 
-    
+
     // CADA VEZ QUE SE RECARGA LA PÁGINA SE PIERDE EL ESTADO GLOBAL.
     // POR LO TANTO DEBEMOS TRAER LA INFORMACIÓN DE LA SESIÓN ALMACENADA EN EL SESSION STORAGE
     // PARA HIDRATAR TODA LA APLICACIÓN CON LA MISMA.
@@ -31,20 +31,19 @@ export const Providers = ({ children }: Props) => {
       const user = getSession()
       if (!user?.error) {
         store.dispatch(setAuthState(user?.data))
-        store.dispatch( getUserProfile() )
+        store.dispatch(getUserProfile())
 
-        if(store.getState().category.categories.length === 0) {
-          store.dispatch( getCategories('search?page=1&limit=30') )
+        if (store.getState().category.categories.length === 0) {
+          store.dispatch(getCategories('search?page=1&limit=30'))
         }
-        if(store.getState().product.productAuditsStatuses.length === 0){
-          store.dispatch( getProductAuditsStatuses() )
+        if (store.getState().product.productAuditsStatuses.length === 0) {
+          store.dispatch(getProductAuditsStatuses())
         }
-        if(store.getState().manageUser.userStatusArray.length === 0){
-          store.dispatch( getStatus() )
+        if (store.getState().manageUser.userStatusArray.length === 0) {
+          store.dispatch(getStatus())
         }
-        
       } else {
-        store.dispatch( clearRedux() )
+        store.dispatch(clearRedux())
         store.dispatch(
           uiModal({
             modalFor: 'message',

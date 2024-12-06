@@ -1,5 +1,29 @@
 
 .container-auction {
     max-width: 1200px;
-    /* color: #fc8942; */
+    margin: 0 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+==========================================
+SWAL
+==========================================
+
+*/
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    background-color: #FF8232 !important;
 }

@@ -20,7 +20,7 @@ export const Navbar = () => {
     return (
         <div className="">
 
-            <header className="relative bg-primary max-w-[90%] m-auto rounded-lg shadow">
+            <header className="relative bg-primary mx-4 m-auto rounded-lg shadow">
                 <div className="flex h-12 items-center justify-between w-full bg-white px-4 text-sm font-medium text-white sm:px-6 lg:px-44">
 
                     {/* Logo */}
