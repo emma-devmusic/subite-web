@@ -18,7 +18,7 @@ export const Button = ({ text, classes, variant, action }: Props) => {
 
     return (
         <button
-            className={`py-2 px-10 border-[1px] rounded transition-all ${buttonVariant} ${classes}`}
+            className={`py-2 px-4 border-[1px] rounded transition-all ${buttonVariant} ${classes}`}
             onClick={action}
         >
             {text}

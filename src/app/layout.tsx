@@ -31,9 +31,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-gray-50`}>
         <Providers>
           <Navbar />
-            <div className="">
-              {children}
-            </div>
+            {children}
           <Modal />
         </Providers>
         <Footer />

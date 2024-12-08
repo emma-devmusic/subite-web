@@ -36,7 +36,7 @@ export const NewProduct = () => {
         values.category = parseInt(values.category)
         values.quantity = parseInt(values.quantity)
         values.price = parseInt(values.price)
-        
+
         if (productSelected.id) {
             const productUpdating = createObjProductUpdating(productSelected, values, imageUpdatingState, initialStateUpdtProd, isAdmin)
             console.log(productUpdating)
@@ -44,9 +44,8 @@ export const NewProduct = () => {
             return
             productUpdating
                 ? dispatch(updateProduct(productUpdating))
-                : Swal.fire('No hay cambios en el producto', 'Debes realizar cambios en tu producto para poder actualizarlo', 'info') 
+                : Swal.fire('No hay cambios en el producto', 'Debes realizar cambios en tu producto para poder actualizarlo', 'info')
         } else {
-            return
             dispatch(newProductSubmit(values))
         }
     }

@@ -1,10 +1,12 @@
+import { CategoriesHomeState } from "@/types";
+import { ItemDataCategoriesHomeResponse } from "@/types/categoriesHome";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
-const initialState = {
+const initialState:CategoriesHomeState = {
     homeCategories: [],
-    homeCategorySelected: {},
-    homeSubcategorySelected: {}
+    homeCategorySelected: {} as ItemDataCategoriesHomeResponse,
+    homeSubcategorySelected: {} as ItemDataCategoriesHomeResponse,
 }
 
 
@@ -13,18 +15,15 @@ const homeCategories = createSlice({
     name: 'homeCategories',
     initialState,
     reducers: {
-        // Add reducers here
-        getHomeCategories(state, action: PayloadAction) {
-
+        getHomeCategories(state, action: PayloadAction) {},
+        setHomeCategories(state, action: PayloadAction<ItemDataCategoriesHomeResponse[]>) {
+            state.homeCategories = action.payload;
         },
-        setHomeCategories(state, action: PayloadAction) {
-
+        selectHomeCategory(state, action: PayloadAction<ItemDataCategoriesHomeResponse>) {
+            state.homeCategorySelected = action.payload;
         },
-        selectHomeCategory(state, action: PayloadAction) {
-
-        },
-        selectHomeSubcategory(state, action: PayloadAction) {
-            
+        selectHomeSubcategory(state, action: PayloadAction<ItemDataCategoriesHomeResponse>) {
+            state.homeSubcategorySelected = action.payload;
         }
     }
 })
@@ -32,6 +31,9 @@ const homeCategories = createSlice({
 
 export const {
     getHomeCategories,
+    setHomeCategories,
+    selectHomeCategory,
+    selectHomeSubcategory
 } = homeCategories.actions
 
 export default homeCategories.reducer;

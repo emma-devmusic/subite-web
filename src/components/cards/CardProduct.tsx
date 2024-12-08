@@ -1,6 +1,5 @@
 import dayjs from "dayjs"
 import Image from "next/image"
-import Link from "next/link"
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 import { CounterCardProduct } from "../dayCounter/CounterCardProduct"
 import { league_spartan } from "@/app/layout"

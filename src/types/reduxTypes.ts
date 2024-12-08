@@ -1,5 +1,6 @@
 
 import { DataOffersAuctionSearchInterface, ItemOffersAuctionSearchInterface, MetaDataOffersAuctionSearchInterface } from './auction';
+import { ItemDataCategoriesHomeResponse } from './categoriesHome';
 import { DataAuditDocumentResponse, DataUserState, DataUserStatus, UserItem } from './dataFetching';
 import { AuctionProductItem } from './products';
 import { BasicData } from './user';
@@ -54,4 +55,11 @@ export interface UserState {
 export interface AuctionState {
     auctions: AuctionProductItem[];
     auctionSelected: AuctionProductItem
+}
+
+
+export interface CategoriesHomeState {
+    homeCategories: ItemDataCategoriesHomeResponse[];
+    homeCategorySelected: ItemDataCategoriesHomeResponse;
+    homeSubcategorySelected: ItemDataCategoriesHomeResponse;
 }

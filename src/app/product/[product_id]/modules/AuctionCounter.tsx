@@ -1,5 +1,5 @@
-
 'use client'
+
 import { Tag } from '@/components/tags/Tag';
 import { getAuctionStatus } from '@/helpers/auctions';
 import { AuctionProductItem } from '@/types/products';
@@ -13,12 +13,10 @@ interface TimeRemaining {
     seconds: number;
 }
 
-
 interface AuctionStatus {
     status: 'pending' | 'running' | 'finish';
     timeRemaining?: TimeRemaining;
 }
-
 
 interface Props {
     auction: AuctionProductItem;

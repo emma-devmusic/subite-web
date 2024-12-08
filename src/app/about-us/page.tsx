@@ -8,7 +8,7 @@ export default function AboutPage() {
     return (
         <>
         <BannerPages title={'Sobre Nosotros'} bg={'about-us'} />
-            <main className="container-auction m-auto grid grid-cols-1 gap-y-20 mt-20">
+            <main className="container-auction">
 
 
                 <section id="about-us-content">

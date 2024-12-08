@@ -1,20 +1,27 @@
 
 .container-auction {
     max-width: 1200px;
-    margin: 0 1rem;
+    margin: 4rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.link-standard {
+    color:#FF8232;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover {
+        color: #FFB84D;
+    }
 }
 
 
-
-
-
-
-
-
-
-
-
-
+@media (min-width:1200px) {
+    .container-auction {
+        margin: 4rem auto;
+    }
+}
 
 /*
 
@@ -24,6 +31,11 @@ SWAL
 
 */
 
-div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+button:where(.swal2-styled).swal2-confirm {
     background-color: #FF8232 !important;
+}
+
+button:where(.swal2-styled).swal2-confirm:focus {
+    outline-color: #ffbe96 !important;
+    outline-style: solid !important;
 }

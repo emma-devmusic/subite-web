@@ -4,7 +4,7 @@ import React from 'react'
 export const ProductDetails = ({description}:{description: string}) => {
     return (
         <Card>
-            <Card.Header className={`!text-3xl`}>
+            <Card.Header className={`!text-2xl md:!text-3xl`}>
                 Descripción
             </Card.Header>
             <Card.Body>
