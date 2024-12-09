@@ -1,15 +1,25 @@
 
+import { getProductByPage, getProductBySearchParams, getProductsFromDB } from '@/actions/products'
 import { ProductsList } from '@/components/cards'
-import { getProductsFromDB } from '@/services/products'
 import React from 'react'
 
-export const AuctionsSection = async () => {
+interface Props {
+    searchParams: {
+        page: number;
+        limit: number;
+        category_id: string;
+        subcategory_id: string;
+        term: string;
+    }
+}
 
-    const homeProd = (await getProductsFromDB('search?page=1&limit=10')).items
+export const AuctionsSection = async ({ searchParams }: Props) => {
+
+
+    const homeProd = (await getProductBySearchParams(searchParams)).items
 
     return (
         <>
-            <h3>Buscador</h3>
             <ProductsList homeProd={homeProd} />
         </>
     )

@@ -6,6 +6,7 @@ import { SocialIcons } from '@/components/socialIcons/SocialIcons'
 import { usePathname } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
+import { Search } from './Search'
 
 
 
@@ -62,13 +63,7 @@ export const Navbar = () => {
                                 ))}
                             </div>
 
-                            <div className="flex lg:ml-6 w-full max-w-xl text-gray-700">
-                                <span className="sr-only">Search</span>
-                                <div className='relative w-full flex items-center'>
-                                    <MagnifyingGlassIcon className="h-6 w-6 absolute right-3" aria-hidden="true" />
-                                    <input type="text" placeholder='Televisor 32"' className='rounded-sm shadow-sm shadow-gray-400 py-2 px-4 w-full outline-slate-300' />
-                                </div>
-                            </div>
+                            <Search />
                             <div className=" flex items-center justify-end ml-3">
                                 <div className='hidden md:block'>
                                     <SocialIcons color='white' />

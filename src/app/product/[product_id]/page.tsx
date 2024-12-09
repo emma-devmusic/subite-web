@@ -2,11 +2,11 @@
 import { league_spartan } from '@/app/layout';
 import { ProductDetails } from './modules/ProductDetails';
 import { AuctionDetails } from './modules/auctionDetails/AuctionDetails';
-import * as apiProducts from '@/services/products';
 import { AuctionCounter } from './modules/AuctionCounter';
 import { OffersCard } from './modules/auctionDetails/OffersCard';
 import { ChargesCommissions } from './modules/auctionDetails/ChargesCommissions';
 import { ImageProduct } from './modules/imageProduct/ImageProduct';
+import { getProductById } from '@/actions/products';
 
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 
 export default async function ProductHomePage({ params }: Props) {
 
-    const product = (await apiProducts.getProductById(params.product_id))
+    const product = (await getProductById(params.product_id))
     const specific_prod = product.product_variations[0]
     const auction = product.products_acutions.find(s => !s.data_deleted)
 

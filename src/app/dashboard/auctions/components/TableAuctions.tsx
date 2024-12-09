@@ -18,9 +18,9 @@ interface Props {
     // products: ItemProductSearchResponse[]
 }
 
-export const TableAuctions = ({auctionStatus, tableTitle}: Props) => {
+export const TableAuctions = ({ auctionStatus, tableTitle }: Props) => {
 
-    
+
     const dispatch = useAppDispatch()
     const { products } = useAppSelector(state => state.product)
     const { categories } = useAppSelector(state => state.category)
@@ -55,9 +55,9 @@ export const TableAuctions = ({auctionStatus, tableTitle}: Props) => {
                     )
                 }
             </TableLayout>
-            <HandlePage 
-                setPagesSearch={setQueryObject} 
-                limit={10} 
+            <HandlePage
+                setPagesSearch={setQueryObject}
+                limit={10}
                 extraQuery={`with_auction=${auctionStatus}`}
                 stop={products.length < 10}
             />

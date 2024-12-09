@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@/components/buttons/Button'
 import { getFromSessionStorage } from '@/helpers'
-import * as apiProducts from '@/services/products'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { selectAuction } from '@/store/slices/auctionSlice'
 import { getOffers } from '@/store/slices/offersSlice'

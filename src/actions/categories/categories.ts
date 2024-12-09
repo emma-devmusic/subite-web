@@ -1,6 +1,7 @@
+'use server'
 import Swal from "sweetalert2"
 import { CategoriesHomeResponse, DataCategoriesHomeResponse } from "@/types/categoriesHome"
-import { fetchData } from "../fetchData"
+import { fetchData } from "@/services/fetchData"
 
 export const getCategoriesFromDB = async (): Promise<DataCategoriesHomeResponse> => {
     let categories:DataCategoriesHomeResponse = { items: [], meta: {} as any } as DataCategoriesHomeResponse

@@ -1,12 +1,14 @@
 
-import * as apiProducts from '@/services/products';
 import { BannerThree } from "@/components/banners";
 import { ProductsList } from "@/components/cards";
 import { league_spartan } from "./layout";
+import { revalidatePath } from 'next/cache';
+import Link from 'next/link';
+import { getProductsFromDB } from "@/actions/products";
 
 export default async function HomePage() {
 
-  const homeProd = (await apiProducts.getProductsFromDB('search?page=1&limit=8')).items
+  const homeProd = (await getProductsFromDB('search?page=1&limit=8')).items
 
   return (
     <div className="container-auction !gap-24">
@@ -16,6 +18,11 @@ export default async function HomePage() {
       </div>
       <div className="">
         <ProductsList homeProd={homeProd}/>
+      </div>
+      <div className='flex justify-center'>
+        <Link href={'/auctions'} className='py-2 px-6 border-[1px] rounded-3xl transition-all border-primary bg-primary text-white  hover:border-primary hover:bg-primaryHover hover:text-white'>
+          Ver más
+        </Link>
       </div>
     </div>
   );

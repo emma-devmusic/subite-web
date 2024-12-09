@@ -1,9 +1,8 @@
 'use client'
-import { ProductImageProductSearchIDResponse } from '@/types/products';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import Zoom from 'react-medium-image-zoom';
+import { ProductImageProductSearchIDResponse } from '@/types/products';
 import 'react-medium-image-zoom/dist/styles.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
