@@ -1,6 +1,7 @@
 'use client'
+
 import { useState } from 'react'
-import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon } from '@heroicons/react/24/outline'
 import { navigation } from './data'
 import { SocialIcons } from '@/components/socialIcons/SocialIcons'
 import { usePathname } from 'next/navigation'

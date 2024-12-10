@@ -1,7 +1,8 @@
+'use client'
 import { Spinner } from "@/components/spinner/Spinner";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getCategories } from "@/store/slices/categorySlice";
-import { getProductAuditsStatuses, getProducts } from "@/store/slices/productSlice";
+import { getProducts } from "@/store/slices/productSlice";
 import { QueryObject } from "@/types";
 import { auctionColumns } from "@/utils/objects";
 import { useEffect, useState } from "react";
@@ -9,7 +10,6 @@ import { SearchBar } from "../../products/components/SearchBar";
 import { TableLayout } from "@/components/tables/TableLayout";
 import { TableAuctionsRow } from "./TableAuctionsRow";
 import { HandlePage } from "../../users/components/HandlePage";
-import { ItemProductSearchResponse } from "@/types/products";
 
 
 interface Props {

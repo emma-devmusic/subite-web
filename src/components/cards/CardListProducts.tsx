@@ -4,12 +4,10 @@ import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 
 interface Props {
     homeProd: ItemHomeProductsSearchResponse[];
-    numberColumns?: number;
+    cols?: 'lg:grid-cols-4' | 'lg:grid-cols-3';
 }
 
-export const ProductsList = ({ homeProd, numberColumns = 4 }: Props) => {
-
-    const cols = `lg:grid-cols-${numberColumns}`
+export const ProductsList = ({ homeProd, cols = `lg:grid-cols-4` }: Props) => {
 
     return (
         <div className="w-full max-w-2xl sm:px-6 lg:max-w-7xl">

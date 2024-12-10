@@ -1,28 +1,24 @@
 'use client'
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 export const Search = () => {
     const router = useRouter(); // Router para actualizar la URL
     const path = usePathname()
-    const searchParams = useSearchParams(); // Obtener parámetros actuales de la URL
     const [inputValue, setInputValue] = useState<string>(''); // Estado del input
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         // Crear nuevos parámetros desde cero
         const params = new URLSearchParams();
         if (inputValue) {
             params.set('term', inputValue); // Añadir "term" como parámetro
         }
-
         // Añadir parámetros estáticos
         params.set('page', '1');
         params.set('limit', '8');
-
         // Determinar la ruta
         if (path.includes('auctions')) {
             router.push(`?${params.toString()}`);

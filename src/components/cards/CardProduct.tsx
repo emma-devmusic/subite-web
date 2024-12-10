@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import Image from "next/image"
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 import { CounterCardProduct } from "../dayCounter/CounterCardProduct"
-import { league_spartan } from "@/app/layout"
+// import { league_spartan } from "@/app/layout"
 import { LinkProduct } from "./LinkProduct"
 
 
@@ -25,7 +25,7 @@ export const CardProduct = ({ itemProduct }: Props) => {
             </div>
             <div className="p-3">
                 <div>
-                    <h3 className={`${league_spartan.className} font-semibold text-xl text-gray-700 mb-3 mt-1`}>
+                    <h3 className={` font-semibold text-xl text-gray-700 mb-3 mt-1`}>
                         {itemProduct.name}
                     </h3>
                     <p className="m-0 mt-2 text-sm text-gray-500">Precio inicial: <strong>${itemProduct.product_variations[0].price}</strong></p>
