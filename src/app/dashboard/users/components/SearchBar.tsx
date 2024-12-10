@@ -16,7 +16,7 @@ const initialQueryState = 'search?page=1&limit=30'
 export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     const dispatch = useAppDispatch()
-    
+
     const [paramState, setParamState] = useState(pagesSearch.searchQuerys)
 
     const [filters, setFilters] = useState({
@@ -36,7 +36,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
         })
     }
 
-    
+
     const createQueryParams = () => {
         let text = ''
         let inputText = filters.term
@@ -66,10 +66,10 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
         })
     }, [filters])
 
-    const handleSearch = (e:any) => {
+    const handleSearch = (e: any) => {
         e.preventDefault()
-        dispatch( getUsers(initialQueryState + paramState) )
-    }   
+        dispatch(getUsers(initialQueryState + paramState))
+    }
 
     return (
         <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 ">

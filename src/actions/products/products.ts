@@ -1,8 +1,21 @@
 'use server'
-import { DataHomeProductsSearchResponse, HomeProductsSearchResponse } from "@/types/homeResponse"
+
 import Swal from "sweetalert2"
+import { DataHomeProductsSearchResponse, HomeProductsSearchResponse } from "@/types/homeResponse"
 import { DataHomeProductResponse, HomeProductResponse } from "@/types/homeProductResponse"
 import { fetchData } from "@/services/fetchData"
+
+export interface SearchParams {
+    page: number;
+    limit: number;
+    categories_id: string;
+    sub_categories_id: string;
+    term: string;
+    max_price: number | string,
+    min_price: number | string,
+    product_audit_statuses: number | string,
+    with_auction: 'FINISHED' | 'INACTIVE' | 'ACTIVE'
+}
 
 export const getProductsFromDB = async (query: string): Promise<DataHomeProductsSearchResponse> => {
     let products: DataHomeProductsSearchResponse = { items: [], meta: {} as any } as DataHomeProductsSearchResponse
@@ -41,7 +54,7 @@ export const getProductById = async (id: string | number): Promise<DataHomeProdu
 export const getProductByPage = async (page: number): Promise<DataHomeProductsSearchResponse> => {
     let products: DataHomeProductsSearchResponse = { items: [], meta: {} as any } as DataHomeProductsSearchResponse
 
-    if(page === undefined || page < 1) {
+    if (page === undefined || page < 1) {
         page = 1
     }
     try {
@@ -59,23 +72,29 @@ export const getProductByPage = async (page: number): Promise<DataHomeProductsSe
 }
 
 
-interface SearchParams {
-    page: number;
-    limit: number;
-    category_id: string;
-    subcategory_id: string;
-    term: string;
-}
 
 export const getProductBySearchParams = async (searchParams: SearchParams): Promise<DataHomeProductsSearchResponse> => {
     let products: DataHomeProductsSearchResponse = { items: [], meta: {} as any } as DataHomeProductsSearchResponse
 
-    if(searchParams.page === undefined || searchParams.page < 1) {
+    if (searchParams.page === undefined || searchParams.page < 1) {
         searchParams.page = 1
+    }
+
+
+    const newUrl = new URLSearchParams()
+    for (let param in searchParams) {
+        if(param === 'limit' && searchParams.limit > 20) {
+            //@ts-ignore
+            newUrl.append(param, 20)
+        } else {
+            //@ts-ignore
+            newUrl.append(param, searchParams[param])
+
+        }
     }
     try {
         const searchResponse: HomeProductsSearchResponse = await fetchData(
-            `/home-template/commons-products/search?page=${searchParams.page}&limit=8&term=${searchParams.term}`,
+            `/home-template/commons-products/search?${newUrl.toString()}`,
             "GET",
             null,
             ''
@@ -86,4 +105,3 @@ export const getProductBySearchParams = async (searchParams: SearchParams): Prom
     }
     return products;
 }
-

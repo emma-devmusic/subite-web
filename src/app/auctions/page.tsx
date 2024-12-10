@@ -1,23 +1,22 @@
 
+import { SearchParams } from "@/actions/products";
 import { league_spartan } from "../layout";
 import { AuctionsSection } from "./modules/AuctionsSection";
+import { MenuFilters } from "./modules/MenuFilters/MenuFilters";
 
 interface Props {
-    searchParams: {
-        page: number;
-        limit: number;
-        category_id: string;
-        subcategory_id: string;
-        term: string;
-    }
+    searchParams: SearchParams;
 }
 export default function NamePage({searchParams}: Props) {
     return (
-        <div className="container-auction ">
+        <div className="container-auctions-with-filters">
             <div className={`${league_spartan.className}`}>
                 <h1 className="text-center text-6xl text-secondary">¡Subite a las <span className="text-primary">subastas!</span></h1>
             </div>
-            <AuctionsSection searchParams={searchParams}/>
+            <div className="flex flex-col items-center lg:items-stretch lg:flex-row gap-4">
+                <MenuFilters />
+                <AuctionsSection searchParams={searchParams} numberColumns={3}/>
+            </div>
         </div>
     );
 }
