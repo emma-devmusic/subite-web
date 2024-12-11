@@ -1,5 +1,6 @@
 import React from 'react'
 import { Selects } from './filtersItems/Selects'
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 export const FiltersOffcanvas = () => {
     return (
@@ -11,12 +12,13 @@ export const FiltersOffcanvas = () => {
             aria-labelledby="hs-offcanvas-example-label"
         >
             <div className="flex justify-between items-center py-3 px-4 border-b">
-                <h3
+                <div
                     id="hs-offcanvas-example-label"
-                    className="font-bold text-gray-800"
+                    className="font-bold text-gray-800 flex items-center gap-2"
                 >
+                    <AdjustmentsHorizontalIcon className="text-secondary h-5 w-auto" />
                     Filtra tu búsqueda
-                </h3>
+                </div>
                 <button
                     type="button"
                     className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none "

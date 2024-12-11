@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { navigation } from './data'
 import { SocialIcons } from '@/components/socialIcons/SocialIcons'
@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
 import { Search } from './Search'
+import { Spinner } from '@/components/spinner/Spinner'
 
 
 
@@ -63,8 +64,9 @@ export const Navbar = () => {
                                     </a>
                                 ))}
                             </div>
-
-                            <Search />
+                            <Suspense fallback={<Spinner />}>
+                                <Search />
+                            </Suspense>
                             <div className=" flex items-center justify-end ml-3">
                                 <div className='hidden md:block'>
                                     <SocialIcons color='white' />
