@@ -16,17 +16,15 @@ interface Props {
     homeProd: ItemHomeProductsSearchResponse[]
 }
 
-export const BannerThree = ({homeProd}: Props) => {
+export const BannerThree = ({ homeProd }: Props) => {
 
     return (
-        <div className="m-auto min-h-[500px] max-h-[500px] max-w-[1184px] banner3">
-            <Slider {...settings} arrows>
-                {homeProd.map(item =>
-                    <div className="min-h-[500px] max-h-[500px] object-cover max-w-[1184px]" key={item.id}>
-                        <BannerProduct key={item.id} itemProduct={item} />
-                    </div>)}
-            </Slider>
-        </div>
+        <Slider {...settings} className="banner3">
+            {homeProd.map(item =>
+                <div className="max-h-[500px] object-cover max-w-[1184px]" key={item.id}>
+                    <BannerProduct key={item.id} itemProduct={item} />
+                </div>)}
+        </Slider>
     );
 };
 

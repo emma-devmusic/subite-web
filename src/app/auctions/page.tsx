@@ -18,7 +18,7 @@ export default function NamePage({ searchParams }: Props) {
                 <h1 className="text-center text-6xl text-secondary">¡Subite a las <span className="text-primary">subastas!</span></h1>
             </div>
             <div className="flex flex-col items-center lg:items-stretch lg:flex-row gap-4">
-                <Suspense fallback={<Spinner />}>
+                <Suspense>
                     <MenuFilters />
                 </Suspense>
                 <Suspense fallback={<Spinner />}>

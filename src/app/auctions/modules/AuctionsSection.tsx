@@ -12,5 +12,4 @@ const AuctionsSection = async ({ searchParams }: Props) => {
     return <ProductsList homeProd={homeProd} cols={'lg:grid-cols-3'}/>
 }
 
-
 export  default AuctionsSection

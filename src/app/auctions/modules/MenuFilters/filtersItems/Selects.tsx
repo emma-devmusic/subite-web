@@ -6,17 +6,27 @@ import { ItemDataCategoriesHomeResponse } from '@/types/categoriesHome';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-const AUCTION_STATUS = ['FINISHED', 'ACTIVE', 'NOT_STARTED']
+const AUCTION_STATUS = [{ id: 0, name: 'FINISHED' }, { id: 1, name: 'ACTIVE' }, { id: 2, name: 'NOT_STARTED' }]
 
 
 export const Selects = () => {
+
     const params = useSearchParams();
     const pathname = usePathname()
     const router = useRouter();
+
+    const [auctionsTypes] = useState([{ id: 'FINISHED', name: 'Finalizadas' }, { id: 'ACTIVE', name: 'Activas' }, { id: 'NOT_STARTED', name: 'No iniciadas' }])
+    const [initialCategory] = useState<ItemDataCategoriesHomeResponse>({ id: 0, name: 'Selecciona una categoría' } as ItemDataCategoriesHomeResponse)
+    const [categorySelected, setCategorySelected] = useState<ItemDataCategoriesHomeResponse>(initialCategory)
+    const [subcategorySelected, setSubcategorySelected] = useState<ItemDataCategoriesHomeResponse>(initialCategory)
+
     const [categories, setCategories] = useState<ItemDataCategoriesHomeResponse[]>([])
-    const [ , setCategorySelected] = useState(0)
     const [subcategories, setSubcategories] = useState<ItemDataCategoriesHomeResponse[]>([])
-    const [ , setSubcategorySelected] = useState(0)
+
+    const [withAuctionState, setAuctionState] = useState({id: '0', name: 'Selecciona un estado'})
+
+
+
 
     const createQueryString = useCallback((name: string, value: string, forDelete?: string) => {
         const newUrl = new URLSearchParams(params.toString())
@@ -38,6 +48,10 @@ export const Selects = () => {
         setCategories(categories.items);
     }
 
+
+
+
+
     const handleSelectCategory = (e: any) => {
         setCategorySelected(e.target.value);
         if (!Number(parseInt(e.target.value))) {
@@ -52,13 +66,26 @@ export const Selects = () => {
         router.push(pathname + '?' + createQueryString('categories_id', `${e.target.value}`, 'sub_categories_id'))
     }
 
+
+
+
+
     const handleSelectSubategory = (e: any) => {
         setSubcategorySelected(e.target.value);
+        if (!Number(parseInt(e.target.value))) {
+            router.push(pathname + '?' + deleteQueryString(['sub_categories_id']))
+            return
+        }
         router.push(pathname + '?' + createQueryString('sub_categories_id', `${e.target.value}`))
     }
 
+
+
+
+
     const handleAuctionStatusChange = (e: any) => {
-        if (!AUCTION_STATUS.includes(e.target.value)) {
+        setAuctionState({ id: e.target.value, name: e.target.options[e.target.selectedIndex].text });
+        if (e.target.value === 'Selecciona un estado') {
             router.push(pathname + '?' + deleteQueryString(['with_auction']))
             return
         }
@@ -66,9 +93,45 @@ export const Selects = () => {
     }
 
 
+
+
     useEffect(() => {
         fetchCategories();
     }, [])
+
+    useEffect(() => {
+        if (categories.length > 0) {
+            let categoryOnParams: ItemDataCategoriesHomeResponse | undefined;
+            if (params.has('categories_id')) {
+                categoryOnParams = categories.find(c => c.id === parseInt(params.get('categories_id')!))
+                if (categoryOnParams) {
+                    setCategorySelected(categoryOnParams);
+                    setSubcategories(categoryOnParams.subcategories as ItemDataCategoriesHomeResponse[]);
+                    if (params.has('sub_categories_id')) {
+                        const subcategoryOnParams = categoryOnParams.subcategories?.find(subc => subc.id === parseInt(params.get('sub_categories_id')!))
+                        if (subcategoryOnParams) {
+                            setSubcategorySelected(subcategoryOnParams);
+                        } else {
+                            router.push(pathname + '?' + deleteQueryString(['sub_categories_id']))
+                        }
+                    }
+                } else {
+                    router.push(pathname + '?' + deleteQueryString(['categories_id', 'sub_categories_id']))
+                    return;
+                }
+            } else {
+                router.push(pathname + '?' + deleteQueryString(['categories_id', 'sub_categories_id']))
+            }
+        }
+        if (params.has('with_auction')) {
+            let auctionStatus = auctionsTypes.find( a => a.id === params.get('with_auction'))
+            if (auctionStatus) {
+                setAuctionState(auctionStatus);
+            } else {
+                router.push(pathname + '?' + deleteQueryString(['with_auction']))
+            }
+        }
+    }, [categories])
 
     return (
         <>
@@ -77,9 +140,10 @@ export const Selects = () => {
                 <select
                     id='categories'
                     onChange={handleSelectCategory}
+                    value={categorySelected.id}
                     className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none "
                 >
-                    <option defaultValue="0">Selecciona una categoría</option>
+                    <option defaultValue={initialCategory.id}>{initialCategory.name}</option>
                     {
                         categories.map((cat) => {
                             return (
@@ -94,9 +158,10 @@ export const Selects = () => {
                 <select
                     id='subcategories'
                     onChange={handleSelectSubategory}
+                    value={subcategorySelected.id}
                     className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none "
                 >
-                    <option defaultValue="0">Selecciona una subacategoría</option>
+                    <option defaultValue={initialCategory.id}>{initialCategory.name}</option>
                     {
                         subcategories.map((subcat) => {
                             return (
@@ -111,12 +176,17 @@ export const Selects = () => {
                 <select
                     id='auction-status'
                     onChange={handleAuctionStatusChange}
+                    value={withAuctionState.id}
                     className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none "
                 >
-                    <option defaultValue="0">Selecciona un estado</option>
-                    <option value="ACTIVE">Activas</option>
-                    <option value="FINISHED">Finalizadas</option>
-                    <option value="NOT_STARTED">No iniciadas</option>
+                    <option defaultValue={'0'}>Selecciona un estado</option>
+                    {
+                        auctionsTypes.map((status) => {
+                            return (
+                                <option key={status.id} value={status.id}>{status.name}</option>
+                            )
+                        })
+                    }
                 </select>
             </div>
             <PrelineScript />
