@@ -1,79 +1,65 @@
 'use client'
 
-import { Suspense, useState } from 'react'
-import { Bars3Icon } from '@heroicons/react/24/outline'
+import { Suspense } from 'react'
 import { navigation } from './data'
-import { SocialIcons } from '@/components/socialIcons/SocialIcons'
 import { usePathname } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
 import { Search } from './Search'
 import { Spinner } from '@/components/spinner/Spinner'
-
-
-
-
+import { MobileMenu } from './MobileMenu'
+import { Button } from '@/components/buttons/Button'
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 
 export const Navbar = () => {
 
-    const pathname = usePathname()
-    const [open, setOpen] = useState(false)
+    const pathname = usePathname();
     if (pathname.includes('dashboard')) return
 
     return (
-        <div className="">
-
-            <header className="relative bg-primary mx-4 m-auto rounded-lg shadow">
-                <div className="flex h-12 items-center justify-between w-full bg-white px-4 text-sm font-medium text-white sm:px-6 lg:px-44">
-
-                    {/* Logo */}
-                    <div className="flex justify-between items-center md:justify-start lg:ml-0 w-full">
-                        <button
-                            type="button"
-                            className="relative rounded-md mr-3  text-white lg:hidden"
-                            onClick={() => setOpen(true)}
-                        >
-                            <span className="absolute -inset-0.5" />
-                            <span className="sr-only">Open menu</span>
-                            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                        </button>
-                        <Logo />
-                    </div>
-                    <div className='hidden md:flex w-full justify-end'>
-                        <div className='hidden md:block'>
-                            <AccountMenu />
+        <div className="mx-4">
+            <header className="relative bg-white rounded-lg shadow container mx-auto w-full max-w-[1350px] px-4">
+                <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
+                    <div className="flex justify-between items-center  w-full gap-3">
+                        <div className='flex items-center justify-between w-full'>
+                            <div className='lg:hidden'>
+                                <MobileMenu />
+                            </div>
+                            <Logo />
                         </div>
-                        <div className='block md:hidden'>
-                            <SocialIcons color='white' />
+                        <div className="h-full space-x-8 hidden lg:flex">
+                            <div className='hidden sm:block'>
+                                <Button
+                                    variant='outline-primary'
+                                    text='Ingresar'
+                                    classes='!border-2 rounded-lg text-secondary'
+                                    // icon={<ArrowRightEndOnRectangleIcon className='text-primary h-6' />}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <nav aria-label="Top" className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-                    <div className="">
-                        <div className="flex h-16 items-center justify-center flex-1">
-
-                            <div className="h-full space-x-8 hidden lg:flex">
-                                {navigation.pages.map((page) => (
-                                    <a
-                                        key={page.name}
-                                        href={page.href}
-                                        className="flex text-nowrap items-center text-sm font-medium text-white hover:text-gray-200 transition"
-                                    >
-                                        {page.name}
-                                    </a>
-                                ))}
+                <nav aria-label="Top" className="max-w-full ">
+                    <div className="flex h-16 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
+                        <div className="h-full space-x-8 hidden lg:flex">
+                            {navigation.pages.map((page) => (
+                                <a
+                                    key={page.name}
+                                    href={page.href}
+                                    className="flex text-nowrap items-center text-sm font-medium text-gray-500 hover:text-secondary transition"
+                                >
+                                    {page.name}
+                                </a>
+                            ))}
+                        </div>
+                        <div className='flex justify-between items-center w-full gap-2 max-w-[615px]'>
+                            <div className='w-full max-w-[576px]'>
+                                <Suspense fallback={<Spinner />}>
+                                    <Search />
+                                </Suspense>
                             </div>
-                            <Suspense fallback={<Spinner />}>
-                                <Search />
-                            </Suspense>
-                            <div className=" flex items-center justify-end ml-3">
-                                <div className='hidden md:block'>
-                                    <SocialIcons color='white' />
-                                </div>
-                                <div className='block md:hidden'>
-                                    <AccountMenu />
-                                </div>
+                            <div className="flex items-center justify-end min-w-[40px]">
+                                <AccountMenu />
                             </div>
                         </div>
                     </div>

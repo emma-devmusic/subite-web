@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import { LinkTo } from './LinkTo';
 
-type Link = { link: string, name: string }
+type Link = { href: string, name: string }
 
 interface Props {
     links: Link[];
@@ -16,7 +16,7 @@ export const LinkList = ({ titleLinks, links }: Props) => {
             <h4 className="font-semibold text-gray-500">{titleLinks}</h4>
             <div className="mt-3 grid space-y-3">
                 {
-                    links.map( item => <LinkTo link={item.link} name={item.name} key={item.name}/>)
+                    links.map( item => <LinkTo link={item.href} name={item.name} key={item.name}/>)
                 }
             </div>
         </div>

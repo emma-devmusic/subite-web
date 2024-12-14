@@ -18,7 +18,7 @@ export const Navbar = () => {
                      <span className="hidden sm:flex self-center text-cyan-900 whitespace-nowrap">Administrador</span>
                   </div>
                </div>
-               <div className="flex items-center">
+               <div className="flex items-center gap-3">
                   <WelcomeMessage />
                   <Notifications />
                   <AccountMenu />

@@ -13,7 +13,6 @@ export const Notifications = () => {
 
     const [usid] = useState(getUSID()?.data)
     const [notifications, setNotifications] = useState<ObjectNotification[]>([])
-    console.log(notifications)
     useEffect(() => {
         const socketConection = io(`https://notifystage.ding.com.ar?usid=${usid}`, {autoConnect: false})
         if (typeof usid !== 'undefined') {
@@ -42,8 +41,8 @@ export const Notifications = () => {
                     }
                 </div>
             }
-            classOpen='w-7 mr-4 text-cyan-800'
-            classClose='text-cyan-600 hover:text-cyan-700 hover:cursor-pointer w-7 mr-4'
+            classOpen='w-7text-cyan-800'
+            classClose='text-cyan-600 hover:text-cyan-700 hover:cursor-pointer w-7'
             position='end'
         >
             <ul className='flex flex-col'>

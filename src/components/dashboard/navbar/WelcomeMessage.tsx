@@ -11,7 +11,7 @@ export const WelcomeMessage = () => {
 
     return (
         <div className="hidden lg:flex items-center">
-            <span className="text-base font-medium text-gray-600 mr-5 text-nowrap">¡Hola, {user?.basic_data.name}!</span>
+            <span className="text-base font-medium text-gray-600 text-nowrap">¡Hola, {user?.basic_data.name}!</span>
         </div>
     )
 }

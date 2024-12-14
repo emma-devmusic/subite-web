@@ -97,6 +97,7 @@ export const navigation = {
     ],
     pages: [
         { name: 'Sobre Nosotros', href: '/about-us' },
-        { name: 'Contacto', href: '/contact' }
+        { name: 'Contacto', href: '/contact' },
+        { name: '¿Cómo Subastar?', href: '#' }
     ],
 }

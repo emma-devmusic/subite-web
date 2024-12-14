@@ -1,11 +1,17 @@
-import React from 'react'
-import { Selects } from './filtersItems/Selects'
-import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
+import React, { ReactNode } from 'react'
 
-export const FiltersOffcanvas = () => {
+interface Props {
+    children: ReactNode;
+    title: string;
+    icon?: ReactNode;
+    canvasId: string;
+}
+
+export const OffCanvas = ({ children, title, icon, canvasId }: Props) => {
+
     return (
         <div
-            id="hs-offcanvas-example"
+            id={canvasId}
             className="hs-overlay hs-overlay-open:translate-x-0 hidden -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs w-full z-[80] bg-white border-e "
             role="dialog"
             tabIndex={-1}
@@ -16,14 +22,14 @@ export const FiltersOffcanvas = () => {
                     id="hs-offcanvas-example-label"
                     className="font-bold text-gray-800 flex items-center gap-2"
                 >
-                    <AdjustmentsHorizontalIcon className="text-secondary h-5 w-auto" />
-                    Filtra tu búsqueda
+                    {icon}
+                    {title}
                 </div>
                 <button
                     type="button"
                     className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none "
                     aria-label="Close"
-                    data-hs-overlay="#hs-offcanvas-example"
+                    data-hs-overlay={`#${canvasId}`}
                 >
                     <span className="sr-only">Close</span>
                     <svg
@@ -44,7 +50,7 @@ export const FiltersOffcanvas = () => {
                 </button>
             </div>
             <div className="p-4 flex flex-col gap-4 ">
-                <Selects />
+                {children}
             </div>
         </div>
     )

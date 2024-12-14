@@ -1,5 +1,6 @@
 import { Logo } from "@/components/logo"
 import { LogoTwo } from "@/components/logo/LogoTwo"
+import Link from "next/link"
 
 export const Brand = () => {
     return (

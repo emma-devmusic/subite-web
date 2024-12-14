@@ -40,12 +40,12 @@ export const Search = () => {
     }
     return (
         <form
-            className="flex lg:ml-6 w-full max-w-xl text-gray-700"
+            className="flex w-full max-w-xl text-gray-700"
             onSubmit={handleSubmit}
         >
             <span className="sr-only">Search</span>
             <div className='relative w-full flex items-center'>
-                <div className='flex rounded-sm shadow-sm shadow-gray-400 bg-white py-2 px-4 w-full outline-slate-300'>
+                <div className='flex rounded-lg bg-white py-2 px-4 w-full border-2 border-primary '>
                     <input
                         type="text"
                         placeholder='Busca tu subasta...'// Actualizar estado local
