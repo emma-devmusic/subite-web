@@ -22,18 +22,20 @@ export const Navbar = () => {
                 <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
                     <div className="flex justify-between items-center  w-full gap-3">
                         <div className='flex items-center justify-between w-full'>
-                            <div className='lg:hidden'>
+                            <div className=' relative top-[6px] lg:hidden'>
                                 <MobileMenu />
                             </div>
-                            <Logo />
+                            <div className='relative top-[10px]'>
+                                <Logo />
+                            </div>
                         </div>
                         <div className="h-full space-x-8 hidden lg:flex">
                             <div className='hidden sm:block'>
                                 <Button
                                     variant='outline-primary'
                                     text='Ingresar'
-                                    classes='!border-2 rounded-lg text-secondary'
-                                    // icon={<ArrowRightEndOnRectangleIcon className='text-primary h-6' />}
+                                    classes='!border-2 rounded-lg text-secondary group'
+                                    icon={<ArrowRightEndOnRectangleIcon className='text-primary h-6 group-hover:text-white transition-all' />}
                                 />
                             </div>
                         </div>
@@ -41,12 +43,12 @@ export const Navbar = () => {
                 </div>
                 <nav aria-label="Top" className="max-w-full ">
                     <div className="flex h-16 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
-                        <div className="h-full space-x-8 hidden lg:flex">
+                        <div className="hidden lg:flex ">
                             {navigation.pages.map((page) => (
                                 <a
                                     key={page.name}
                                     href={page.href}
-                                    className="flex text-nowrap items-center text-sm font-medium text-gray-500 hover:text-secondary transition"
+                                    className="flex text-nowrap px-4 py-2 items-center text-sm font-medium text-gray-500 hover:text-secondary transition border-r-2 border-gray-200 last-of-type:border-none"
                                 >
                                     {page.name}
                                 </a>

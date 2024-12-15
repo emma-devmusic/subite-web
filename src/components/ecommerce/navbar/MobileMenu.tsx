@@ -20,7 +20,7 @@ export const MobileMenu = () => {
             <ButtonOffCanvas
                 buttonClass='bg-transparent hover:bg-transparent shadow-none !p-4 lg:hidden'
                 canvasFor="navbar"
-                icon={<Bars3Icon className="h-6 w-6 text-secondary hover:text-primary" aria-hidden="true" />}
+                icon={<Bars3Icon className="h-7 w-7 text-secondary hover:text-primary" aria-hidden="true" />}
             />
             <OffCanvas
                 canvasId="navbar"
