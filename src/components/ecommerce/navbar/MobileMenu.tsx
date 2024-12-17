@@ -1,8 +1,7 @@
 // import { Dialog, Tab, Transition } from "@headlessui/react"
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Dispatch, Fragment, SetStateAction } from "react"
-import { classNames, navigation } from "./data";
-import Image from "next/image";
+import { Bars3Icon } from "@heroicons/react/24/outline"
+import { Dispatch, SetStateAction } from "react"
+import { navigation } from "./data";
 import { ButtonOffCanvas } from "@/components/buttons/ButtonOffCanvas";
 import { OffCanvas } from "@/components/OffCanvas/OffCanvas";
 import Link from "next/link";

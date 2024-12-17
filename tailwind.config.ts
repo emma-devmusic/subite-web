@@ -16,7 +16,8 @@ const config: Config = {
       },
       colors: {
         primary: '#FF8232',
-        primaryHover: '#fc8942',    // Color principal personalizado
+        primaryHover: '#e26a20',    // Color principal personalizado
+        primaryLight: '#fc8942',    // Color principal personalizado
         secondary: '#373737',  // Color secundario personalizado
         white: '#FFFFFF',      // Color blanco personalizado
         success: 'rgb(5 150 105)'
