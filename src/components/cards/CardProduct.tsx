@@ -15,7 +15,9 @@ export const CardProduct = ({ itemProduct }: Props) => {
     const auction = itemProduct.products_acutions.find(s => !s.data_deleted)
 
     return (
-        <div className="group relative rounded-lg shadow bg-white overflow-hidden">
+        <div
+            className="group/card relative rounded-lg shadow bg-white overflow-hidden"
+        >
             <div className="relative">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 relative transition-all">
                     <Image width={300} height={300} src={itemProduct.product_variations[0].productImages[0].url_image} alt="Front of men&#039;s Basic Tee in black." className="h-full w-full object-cover object-center lg:h-full lg:w-full" />

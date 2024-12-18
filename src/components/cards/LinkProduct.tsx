@@ -18,7 +18,7 @@ export const LinkProduct = ({ product }: { product: ItemHomeProductsSearchRespon
     return (
         <div className="card-box-button mt-3">
             <Link
-                className="card-product-link block text-center text-primary hover:text-white hover:bg-primary transition-all"
+                className="card-product-link block text-center text-secondary group-hover/card:text-white group-hover/card:bg-primary transition-all"
                 href={`/product/${product.id}`}
                 onClick={handleSelectProduct}
             >
