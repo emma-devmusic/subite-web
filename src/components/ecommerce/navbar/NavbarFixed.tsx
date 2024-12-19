@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { navigation } from './data'
 import { usePathname, useRouter } from 'next/navigation'
 import { Logo } from '@/components/logo'
@@ -13,10 +13,25 @@ import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
 
-export const Navbar = () => {
+export const NavbarFixed = () => {
 
 
     const { isLogged } = useAppSelector(state => state.auth)
+
+    const [showNavbar, setShowNavbar] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 400) {
+                setShowNavbar(true);
+            } else {
+                setShowNavbar(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     const router = useRouter()
     const handleGoTo = () => {
         router.push('/login')
@@ -24,8 +39,9 @@ export const Navbar = () => {
     const pathname = usePathname();
     if (pathname.includes('dashboard')) return
 
+
     return (
-        <div className="sm:mx-4">
+        <div className={`sm:mx-4 sticky transition-all z-50 top-0 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
             <header className="relative bg-white sm:rounded-lg shadow container mx-auto w-full max-w-[1350px] sm:px-4">
                 <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
                     <div className="flex justify-between items-center  w-full gap-3">

@@ -4,7 +4,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 export const Filters = () => {
     return (
-        <div className='hidden lg:flex flex-col gap-4 sticky top-10 bg-white rounded-md shadow-sm p-4'>
+        <div className='hidden lg:flex flex-col gap-4 sticky top-[130px] bg-white rounded-md shadow-sm p-4'>
             <div
                 id="hs-offcanvas-example-label"
                 className="font-bold text-gray-800 flex items-center gap-2"

@@ -1,6 +1,8 @@
 .container-auctions-with-filters {
     max-width: 1350px;
     margin: 4rem 1rem;
+    position: relative;
+    top: -114.98px;
     display: flex;
     flex-direction: column;
     gap: 3rem;
@@ -8,6 +10,8 @@
 .container-auction {
     max-width: 1200px;
     margin: 4rem 1rem;
+    position: relative;
+    top: -114.98px;
     display: flex;
     flex-direction: column;
     gap: 3rem;
