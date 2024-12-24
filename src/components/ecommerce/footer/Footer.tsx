@@ -2,16 +2,14 @@
 import { SocialIcons } from "@/components/socialIcons/SocialIcons";
 import { Brand } from "./modules/Brand"
 import { LinkList } from "./modules/LinkList"
-import { Subscribe } from "./modules/Subscribe";
 import { Rights } from "./modules/Rights";
-import { links1 } from "./data/linksMock";
 import { usePathname } from "next/navigation";
 import { navigation } from "../navbar/data";
 
 export const Footer = () => {
     const pathname = usePathname()
 
-    if (pathname.includes('dashboard')) return
+    if (pathname.includes('dashboard') || pathname.includes('login') || pathname.includes('register')) return
     return (
         <footer className=" bg-white w-[90%] shadow-md rounded-lg m-auto mb-5 ">
             <div className="mt-auto w-full max-w-[85rem] pt-10 pb-5 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">

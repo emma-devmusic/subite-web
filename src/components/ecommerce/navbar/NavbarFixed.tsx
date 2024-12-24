@@ -22,7 +22,7 @@ export const NavbarFixed = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 400) {
+            if (window.scrollY > 700) {
                 setShowNavbar(true);
             } else {
                 setShowNavbar(false);
@@ -41,8 +41,8 @@ export const NavbarFixed = () => {
 
 
     return (
-        <div className={`sm:mx-4 sticky transition-all z-50 top-0 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
-            <header className="relative bg-white sm:rounded-lg shadow container mx-auto w-full max-w-[1350px] sm:px-4">
+        <div className={`fixed transition-all ease-in-out [transition-duration:.5s] top-0 w-full z-50 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
+            <header className="relative bg-white shadow container mx-auto w-full min-[1350px]:rounded-md max-w-[1350px] sm:px-4">
                 <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
                     <div className="flex justify-between items-center  w-full gap-3">
                         <div className='flex items-center justify-between w-full lg:w-auto '>
@@ -72,7 +72,7 @@ export const NavbarFixed = () => {
                                             action={handleGoTo}
                                             variant='outline-primary'
                                             text='Ingresar'
-                                            classes='!border-2 rounded-lg text-secondary group'
+                                            classes='!border-2 border-primary rounded-lg text-secondary group'
                                             icon={<ArrowRightEndOnRectangleIcon className='text-primary h-6 group-hover:text-white transition-all' />}
                                         />
                                     </div>

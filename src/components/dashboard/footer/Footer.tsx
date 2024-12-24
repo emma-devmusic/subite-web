@@ -10,10 +10,10 @@ export const Footer = () => {
                     <li><a href="#" className="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Licencia</a></li>
                     <li><a href="#" className="text-sm font-normal text-gray-500 hover:underline">Soporte</a></li>
                 </ul>
-                <SocialIcons color='grey-500' />
+                <SocialIcons color='primary' />
             </footer>
             <p className="text-center text-sm text-gray-500 my-10">
-                © 2024 <a href="https://themesberg.com" className="hover:underline" target="_blank">Subastas App</a>. All rights reserved. <i>Powered by <Link href={'https://ding.com.ar/'} target='_blank' className='text-blue-700'>Ding</Link></i>
+                © 2024 <a href="https://themesberg.com" className="hover:underline" target="_blank">Subite Subastas</a>. All rights reserved. <i>Powered by <Link href={'https://ding.com.ar/'} target='_blank' className='text-blue-700'>Ding</Link></i>
             </p>
         </div>
     )

@@ -3,9 +3,9 @@ import { Inter, League_Spartan } from "next/font/google";
 import { Providers } from "@/store/Providers";
 import { Modal } from "@/components/modal/Modal";
 import { Footer, Navbar } from "@/components/ecommerce";
+import { NavbarFixed } from "@/components/ecommerce/navbar/NavbarFixed";
 import PrelineScript from "@/components/prelineScript/PrelineScript";
 import "./globals.css";
-import { NavbarFixed } from "@/components/ecommerce/navbar/NavbarFixed";
 
 export const inter = Inter({
   subsets: ['latin'],

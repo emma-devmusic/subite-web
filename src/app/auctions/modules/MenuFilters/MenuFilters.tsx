@@ -15,7 +15,7 @@ export const MenuFilters = () => {
     
         useEffect(() => {
             const handleScroll = () => {
-                if (window.scrollY > 400) {
+                if (window.scrollY > 700) {
                     setShowNavbar(true);
                 } else {
                     setShowNavbar(false);
@@ -27,13 +27,13 @@ export const MenuFilters = () => {
     
 
     return (
-        <div className="lg:min-w-[300px] relative">
+        <div className="lg:min-w-[300px] relative ">
             <ButtonOffCanvas
                 canvasFor="filters"
                 icon={<AdjustmentsHorizontalIcon className="text-secondary h-5 w-auto" />}
                 text="Filtros"
                 textClass="text-lg"
-                buttonClass={`fixed top-[59.90px] right-0 sm:right-5 z-50 lg:hidden transition-all !bg-gray-100 hover:bg-gray-300 ${showNavbar ? "translate-y-0" : "-translate-y-[110px]"}`}
+                buttonClass={`fixed top-[59.90px] right-0 sm:right-5 z-[45] lg:hidden transition-all !rounded-t-none ease-in-out [transition-duration:.5s] !bg-gray-100 hover:bg-gray-300 ${showNavbar ? "translate-y-0" : "-translate-y-[110px]"}`}
             />
             <div className="lg:hidden">
                 <OffCanvas
