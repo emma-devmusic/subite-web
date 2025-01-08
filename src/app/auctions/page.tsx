@@ -1,4 +1,4 @@
-export const reavalidat = 60
+export const revalidate = 60
 
 import { SearchParams } from "@/services-actions/home/products";
 import { league_spartan } from "../layout";
