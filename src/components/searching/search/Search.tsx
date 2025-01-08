@@ -4,7 +4,14 @@ import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
-export const Search = () => {
+interface Props {
+    initRoute?: string;
+    inputClassName?: string;
+}
+
+
+
+export const Search = ({ initRoute = '/auctions', inputClassName }: Props) => {
 
     const params = useSearchParams();
     const router = useRouter();
@@ -27,20 +34,26 @@ export const Search = () => {
 
     const handleClean = () => {
         setInputValue('')
-        router.push('/auctions' + '?' + deleteQueryString(['term']))
+        router.push(
+            initRoute + `${ initRoute.includes('?') ? '&' : '?' }` + deleteQueryString(['term'])
+        )
     }
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        if(inputValue === '') {
-            router.push('/auctions' + '?' + deleteQueryString(['term']))
+        if (inputValue === '') {
+            router.push(
+                initRoute + `${ initRoute.includes('?') ? '&' : '?' }` + deleteQueryString(['term'])
+            )
             return
         }
-        router.push('/auctions' + '?' + createQueryString('term', e.target.elements[0].value))
+        router.push(
+            initRoute + `${ initRoute.includes('?') ? '&' : '?' }` + createQueryString('term', e.target.elements[0].value)
+        )
     }
     return (
         <form
-            className="flex w-full max-w-xl text-gray-700"
+            className={`${inputClassName} flex w-full max-w-xl text-gray-700`}
             onSubmit={handleSubmit}
         >
             <span className="sr-only">Search</span>

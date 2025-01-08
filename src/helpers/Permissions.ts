@@ -49,25 +49,26 @@ export default class DecryptedSession {
         this.getPermissionsId = this.getPermissionsId.bind(this);
     }
 
-    sessionDecrypted: User = (typeof window !== 'undefined') && getSession()?.data  ;
-    getArrayPermissions() {
+    sessionDecrypted: User = (typeof window !== 'undefined') && getSession()?.data;
+
+    public getArrayPermissions() {
         return objToArray(
             objPermissions(this.sessionDecrypted.permission)
         )
     }
-    getModuleById(id: number) {
+    public getModuleById(id: number) {
         return objPermissions(this.sessionDecrypted.permission)[id]
     }
-    getData() {
+    public getData() {
         return this.sessionDecrypted.basic_data
     }
-    getRoleId() {
+    public getRoleId() {
         return this.sessionDecrypted?.role_id
     }
-    getPermissionsId() {
+    public getPermissionsId() {
         return objPermissionsId(this.sessionDecrypted.permission)
     }
-    getAccessToken() {
+    public getAccessToken() {
         const userDecrypt = decryptLoginData()
         if(userDecrypt) return userDecrypt.data.access.accessToken
     }

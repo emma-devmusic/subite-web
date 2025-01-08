@@ -6,7 +6,7 @@ import { AuctionCounter } from './modules/AuctionCounter';
 import { OffersCard } from './modules/auctionDetails/OffersCard';
 import { ChargesCommissions } from './modules/auctionDetails/ChargesCommissions';
 import { ImageProduct } from './modules/imageProduct/ImageProduct';
-import { getProductById } from '@/actions/products';
+import { getProductById } from '@/services-actions/home/products';
 
 
 interface Props {

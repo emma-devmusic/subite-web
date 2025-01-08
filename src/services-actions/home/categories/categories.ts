@@ -1,4 +1,5 @@
 'use server'
+
 import Swal from "sweetalert2"
 import { CategoriesHomeResponse, DataCategoriesHomeResponse } from "@/types/categoriesHome"
 import { fetchData } from "@/services/fetchData"

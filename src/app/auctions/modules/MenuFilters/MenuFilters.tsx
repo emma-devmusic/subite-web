@@ -3,7 +3,7 @@
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline"
 import { Filters } from "./Filters"
 import { OffCanvas } from "@/components/OffCanvas/OffCanvas"
-import { Selects } from "./filtersItems/Selects"
+import { Selects } from "../../../../components/searching/filtersItems/Selects"
 import { ButtonOffCanvas } from "@/components/buttons/ButtonOffCanvas"
 import { useEffect, useState } from "react"
 

@@ -7,9 +7,10 @@ interface Props {
     variant: 'outline-primary' | 'primary' | 'plain';
     action?: (e?:any) => void;
     icon?: ReactNode;
+    type?: 'button' | 'submit'
 }
 
-export const Button = ({ text, classes, variant, action, icon }: Props) => {
+export const Button = ({ text, classes, variant, action, icon, type = "button" }: Props) => {
 
     const variants = {
         ['outline-primary']: 'border-primary text-primary  hover:border-primary hover:bg-primary hover:text-white ',
@@ -20,7 +21,8 @@ export const Button = ({ text, classes, variant, action, icon }: Props) => {
 
     return (
         <button
-            className={`py-2 px-4 border-[1px] flex items-center gap-2 rounded transition-all ${buttonVariant} ${classes}`}
+            type={type}
+            className={`py-2 px-4 border-[1px] flex items-center gap-2 rounded-lg transition-all ${buttonVariant} ${classes}`}
             onClick={action}
         >
             {icon}

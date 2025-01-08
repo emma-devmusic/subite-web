@@ -1,5 +1,6 @@
+export const reavalidat = 60
 
-import { SearchParams } from "@/actions/products";
+import { SearchParams } from "@/services-actions/home/products";
 import { league_spartan } from "../layout";
 import { MenuFilters } from "./modules/MenuFilters/MenuFilters";
 import { Suspense } from "react";

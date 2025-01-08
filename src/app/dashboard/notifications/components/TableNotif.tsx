@@ -28,7 +28,7 @@ export const TableNotif = ({ notifications }: { notifications: ObjectNotificatio
                             )
                         }
                     </TableLayout>
-                    : 
+                    :
                     <div className="mt-24">
                         <p className="text-center text-gray-400 text-sm">Aún no tienes notificaciones.</p>
                     </div>

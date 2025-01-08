@@ -1,7 +1,7 @@
 'use client'
 
 import PrelineScript from '@/components/prelineScript/PrelineScript';
-import { getCategoriesFromDB } from '@/actions/categories';
+import { getCategoriesFromDB } from '@/services-actions/home/categories';
 import { ItemDataCategoriesHomeResponse } from '@/types/categoriesHome';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -9,24 +9,40 @@ import { useCallback, useEffect, useState } from 'react';
 const AUCTION_STATUS = [{ id: 0, name: 'FINISHED' }, { id: 1, name: 'ACTIVE' }, { id: 2, name: 'NOT_STARTED' }]
 
 
-export const Selects = () => {
+interface Props {
+    labels?: boolean;
+    withSelectAuctionState?: boolean;
+    withCategory?: boolean;
+    withSubcategory?: boolean;
+    selectClassname?: string;
+    labelCategory?: string;
+    labelSubcategory?: string;
+    labelAuctionState?: string;
+}
+
+export const Selects = ({
+    labels = true,
+    labelCategory = 'Selecciona una categoría',
+    labelSubcategory = 'Selecciona una subcategoría',
+    labelAuctionState = 'Selecciona un estado',
+    withCategory = true,
+    withSubcategory = true,
+    withSelectAuctionState = true,
+    selectClassname = ''
+}: Props) => {
 
     const params = useSearchParams();
     const pathname = usePathname()
     const router = useRouter();
 
     const [auctionsTypes] = useState([{ id: 'FINISHED', name: 'Finalizadas' }, { id: 'ACTIVE', name: 'Activas' }, { id: 'NOT_STARTED', name: 'No iniciadas' }])
-    const [initialCategory] = useState<ItemDataCategoriesHomeResponse>({ id: 0, name: 'Selecciona una categoría' } as ItemDataCategoriesHomeResponse)
+    const [initialCategory] = useState<ItemDataCategoriesHomeResponse>({ id: 0, name: `${labelCategory}` } as ItemDataCategoriesHomeResponse)
+    const [initialSubcategory] = useState<ItemDataCategoriesHomeResponse>({ id: 0, name: `${labelSubcategory}` } as ItemDataCategoriesHomeResponse)
     const [categorySelected, setCategorySelected] = useState<ItemDataCategoriesHomeResponse>(initialCategory)
-    const [subcategorySelected, setSubcategorySelected] = useState<ItemDataCategoriesHomeResponse>(initialCategory)
-
+    const [subcategorySelected, setSubcategorySelected] = useState<ItemDataCategoriesHomeResponse>(initialSubcategory)
     const [categories, setCategories] = useState<ItemDataCategoriesHomeResponse[]>([])
     const [subcategories, setSubcategories] = useState<ItemDataCategoriesHomeResponse[]>([])
-
-    const [withAuctionState, setAuctionState] = useState({id: '0', name: 'Selecciona un estado'})
-
-
-
+    const [withAuctionState, setAuctionState] = useState({ id: '0', name: `${labelAuctionState}` })
 
     const createQueryString = useCallback((name: string, value: string, forDelete?: string) => {
         const newUrl = new URLSearchParams(params.toString())
@@ -48,10 +64,6 @@ export const Selects = () => {
         setCategories(categories.items);
     }
 
-
-
-
-
     const handleSelectCategory = (e: any) => {
         setCategorySelected(e.target.value);
         if (!Number(parseInt(e.target.value))) {
@@ -66,10 +78,6 @@ export const Selects = () => {
         router.push(pathname + '?' + createQueryString('categories_id', `${e.target.value}`, 'sub_categories_id'))
     }
 
-
-
-
-
     const handleSelectSubategory = (e: any) => {
         setSubcategorySelected(e.target.value);
         if (!Number(parseInt(e.target.value))) {
@@ -79,10 +87,6 @@ export const Selects = () => {
         router.push(pathname + '?' + createQueryString('sub_categories_id', `${e.target.value}`))
     }
 
-
-
-
-
     const handleAuctionStatusChange = (e: any) => {
         setAuctionState({ id: e.target.value, name: e.target.options[e.target.selectedIndex].text });
         if (e.target.value === 'Selecciona un estado') {
@@ -91,9 +95,6 @@ export const Selects = () => {
         }
         router.push(pathname + '?' + createQueryString('with_auction', `${e.target.value}`))
     }
-
-
-
 
     useEffect(() => {
         fetchCategories();
@@ -124,7 +125,7 @@ export const Selects = () => {
             }
         }
         if (params.has('with_auction')) {
-            let auctionStatus = auctionsTypes.find( a => a.id === params.get('with_auction'))
+            let auctionStatus = auctionsTypes.find(a => a.id === params.get('with_auction'))
             if (auctionStatus) {
                 setAuctionState(auctionStatus);
             } else {
@@ -135,60 +136,75 @@ export const Selects = () => {
 
     return (
         <>
-            <div>
-                <label htmlFor="categories" className="block text-sm font-medium mb-2">Categoría</label>
-                <select
-                    id='categories'
-                    onChange={handleSelectCategory}
-                    value={categorySelected.id}
-                    className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none "
-                >
-                    <option defaultValue={initialCategory.id}>{initialCategory.name}</option>
+            {
+                withCategory &&
+                <div>
                     {
-                        categories.map((cat) => {
-                            return (
-                                <option key={cat.id} value={cat.id}>{cat.name}</option>
-                            )
-                        })
+                        labels && <label htmlFor="categories" className="block text-sm font-medium mb-2">Categoría</label>
                     }
-                </select>
-            </div>
-            <div>
-                <label htmlFor="subcategories" className="block text-sm font-medium mb-2">Subcategoría</label>
-                <select
-                    id='subcategories'
-                    onChange={handleSelectSubategory}
-                    value={subcategorySelected.id}
-                    className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none "
-                >
-                    <option defaultValue={initialCategory.id}>{initialCategory.name}</option>
+                    <select
+                        id='categories'
+                        onChange={handleSelectCategory}
+                        value={categorySelected.id}
+                        className={`${selectClassname} py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none`}
+                    >
+                        <option defaultValue={initialCategory.id}>{initialCategory.name}</option>
+                        {
+                            categories.map((cat) => {
+                                return (
+                                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                )
+                            })
+                        }
+                    </select>
+                </div>
+            }
+            {
+                withSubcategory &&
+                <div>
                     {
-                        subcategories.map((subcat) => {
-                            return (
-                                <option key={subcat.id} value={subcat.id}>{subcat.name}</option>
-                            )
-                        })
+                        labels && <label htmlFor="subcategories" className="block text-sm font-medium mb-2">Subcategoría</label>
                     }
-                </select>
-            </div>
-            <div>
-                <label htmlFor="auction-status" className="block text-sm font-medium mb-2">Estado de Subasta</label>
-                <select
-                    id='auction-status'
-                    onChange={handleAuctionStatusChange}
-                    value={withAuctionState.id}
-                    className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none "
-                >
-                    <option defaultValue={'0'}>Selecciona un estado</option>
+                    <select
+                        id='subcategories'
+                        onChange={handleSelectSubategory}
+                        value={subcategorySelected.id}
+                        className={`${selectClassname} py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none`}
+                    >
+                        <option defaultValue={initialCategory.id}>{initialSubcategory.name}</option>
+                        {
+                            subcategories.map((subcat) => {
+                                return (
+                                    <option key={subcat.id} value={subcat.id}>{subcat.name}</option>
+                                )
+                            })
+                        }
+                    </select>
+                </div>
+            }
+            {
+                withSelectAuctionState &&
+                <div>
                     {
-                        auctionsTypes.map((status) => {
-                            return (
-                                <option key={status.id} value={status.id}>{status.name}</option>
-                            )
-                        })
+                        labels && <label htmlFor="auction-status" className="block text-sm font-medium mb-2">Estado de Subasta</label>
                     }
-                </select>
-            </div>
+                    <select
+                        id='auction-status'
+                        onChange={handleAuctionStatusChange}
+                        value={withAuctionState.id}
+                        className={`${selectClassname} py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none`}
+                    >
+                        <option defaultValue={'0'}>{labelAuctionState}</option>
+                        {
+                            auctionsTypes.map((status) => {
+                                return (
+                                    <option key={status.id} value={status.id}>{status.name}</option>
+                                )
+                            })
+                        }
+                    </select>
+                </div>
+            }
             <PrelineScript />
         </>
     )

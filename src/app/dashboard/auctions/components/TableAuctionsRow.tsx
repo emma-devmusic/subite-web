@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import dayjs from "dayjs";
 import { findCategoriesByIds } from "@/helpers/products";
 import { useAppDispatch } from "@/store";
 import { ItemProductSearchResponse } from "@/types/products";
@@ -13,7 +14,6 @@ import { uiModal } from "@/store/slices/uiSlice";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { deleteAuction, selectAuction } from "@/store/slices/auctionSlice";
-import dayjs from "dayjs";
 import { AuctionCounter } from "../../main/components/AuctionCounter";
 import { TableAuctionImage } from "./TableAuctionImage";
 

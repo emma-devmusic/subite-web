@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/buttons/Button";
 import { useAppDispatch } from "@/store";
 import { filteringInPage } from "@/store/slices/categorySlice";
 import { QueryObject } from "@/types";
@@ -26,30 +27,27 @@ export const SearchCategoriesBar = ({ pagesSearch, setPagesSearch }: Props) => {
 
     useEffect(() => {
         dispatch(filteringInPage(inputSearch))
-    },[inputSearch])
-   
+    }, [inputSearch])
 
     return (
-                <div className="block sm:flex items-center md:divide-x md:divide-gray-100 ">
-                    <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2" onSubmit={(e) => {e.preventDefault()}}>
-                        <div className="mt-1 relative flex gap-2">
-                            <input
-                                type="text"
-                                name="term"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5 sm:min-w-96"
-                                placeholder="Búsqueda por paginado"
-                                value={inputSearch.term}
-                                onChange={(e) => setInputSearch({ term: e.target.value })}
-                            />
-                            <button
-                                type="submit"
-                                className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
-                            >
-                                Buscar
-                            </button>
-                        </div>
-                        
-                    </form>
+        <div className="block sm:flex items-center md:divide-x md:divide-gray-100 ">
+            <form className="sm:pr-3 mb-4 sm:mb-0 flex flex-col gap-2" onSubmit={(e) => { e.preventDefault() }}>
+                <div className="mt-1 relative flex gap-2">
+                    <input
+                        type="text"
+                        name="term"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 sm:min-w-96"
+                        placeholder="Búsqueda por paginado"
+                        value={inputSearch.term}
+                        onChange={(e) => setInputSearch({ term: e.target.value })}
+                    />
+                    <Button
+                        text="Buscar"
+                        variant="primary"
+                        type="submit"
+                    />
                 </div>
+            </form>
+        </div>
     );
 };

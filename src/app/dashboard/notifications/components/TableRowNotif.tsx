@@ -13,11 +13,11 @@ export const TableRowNotif = (notif:ObjectNotification) => {
             setLinkTo('/dashboard/products/' + notif?.product_id)
         }
     },[])
-console.log(notif)
+
     return (
         <tr className="hover:bg-gray-100">
-            <td className="p-4 items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0">
-                <Icon icon={notif.icon} className="text-gray-600 text-2xl" />
+            <td className="p-4 whitespace-nowrap space-x-6 mr-12 lg:mr-0">
+                <Icon icon={notif.icon} className="text-gray-600 text-2xl mx-auto" />
             </td>
             <td className="p-4 items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0">
                 <div className="flex flex-col gap-2">
@@ -36,7 +36,7 @@ console.log(notif)
                 <div className="flex items-center gap-1 justify-center">
                     <Link
                         href={linkTo}
-                        className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
+                        className="text-white bg-primary hover:bg-primaryHover focus:ring-4 focus:ring-primaryLight font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
                     >
                         Ver
                     </Link>

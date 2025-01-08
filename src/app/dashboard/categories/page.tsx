@@ -12,6 +12,7 @@ import { HandlePage } from "../users/components/HandlePage";
 import { Spinner } from "@/components/spinner/Spinner";
 import PrelineScript from "@/components/prelineScript/PrelineScript";
 import './stylesCategories.css';
+import { Button } from "@/components/buttons/Button";
 
 const initialQueryState = 'search?page=1&limit=10'
 
@@ -43,11 +44,11 @@ export default function CatgoriesPage() {
 
     useEffect(() => {
         dispatch(filteringInPage({ term: '' }))
-    },[categories])
+    }, [categories])
 
     useEffect(() => {
         setStopNextPage(categories.length < 10)
-    },[categories.length])
+    }, [categories.length])
 
 
     if (!isAdmin) return <p className="mt-10 text-center">¿Eres Administrador?</p>
@@ -57,7 +58,12 @@ export default function CatgoriesPage() {
             <HeaderLayout title="Categorias" >
                 <div className="flex flex-col sm:flex-row sm:justify-between items-center w-full gap-2">
                     <p className="text-xs sm:text-sm text-gray-500 max-w-xl">Crea y personaliza categorías y subcategorías según tus preferencias y necesidades. Estas estarán accesibles para todos los usuarios.</p>
-                    <button className={`${btnPrimary}`} onClick={handleNewCategory}>Nueva Categoría</button>
+
+                    <Button
+                        text="Nueva Categoría"
+                        variant="primary"
+                        action={handleNewCategory}
+                    />
                 </div>
             </HeaderLayout>
 

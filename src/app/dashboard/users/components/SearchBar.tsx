@@ -1,4 +1,5 @@
 'use client'
+import { Button } from "@/components/buttons/Button"
 import { useAppDispatch } from "@/store"
 import { getUsers } from "@/store/slices/manageUserSlice"
 import { QueryObject } from "@/types"
@@ -88,13 +89,11 @@ export const SearchBar = ({ pagesSearch, setPagesSearch }: Props) => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                 placeholder="Búsqueda"
                             />
-                            <button
-                                type="submit"
-                                className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
-                                onClick={handleSearch}
-                            >
-                                Buscar
-                            </button>
+                            <Button
+                                text="Buscar"
+                                variant="primary"
+                                action={handleSearch}
+                            />
                         </div>
                         <div className="flex gap-2 items-center flex-wrap">
                             <strong className="text-sm mt-2 text-gray-500">Filtrar:</strong>

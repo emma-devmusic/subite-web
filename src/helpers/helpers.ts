@@ -21,9 +21,6 @@ export const getUSID = () => {
 }
 
 
-
-
-
 /// DEVUELVE LOS PERMISOS ENCRYPTADOS ALMACENADOS EN LA BASE DE DATO - INFORMACIÓN IMPORTANTE DEL USUARIO
 export const getSession = () => {
     (typeof window !== 'undefined')
@@ -33,18 +30,12 @@ export const getSession = () => {
 }
 
 
-
 // TRAE INFORMACIÓN DEL SESSION STORAGE
 export const getFromSessionStorage = (id: string): string | null | false => (typeof window !== "undefined") && sessionStorage.getItem(id)
 
 
-
-
 // SETEA INFORMACIÓN EN EL SESSION STORAGE
 export const setInSessionStorage = (id: string, data: any) => (typeof window !== "undefined") && sessionStorage.setItem(id, JSON.stringify(data))
-
-
-
 
 
 // ENCRIPTA LOS DATOS DE LA SESION EN EL SESSION STORAGE
@@ -56,8 +47,6 @@ export const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) =>
     )
     setInSessionStorage('user-login-data', encryptData);
 }
-
-
 
 
 /// TRAE LOS DATOS DE LA SESIÓN DEL SESSION STORAGE

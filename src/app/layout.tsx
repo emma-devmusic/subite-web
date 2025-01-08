@@ -33,7 +33,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <NavbarFixed />
-          <div className=" inset-0 fixed -z-10 h-full w-full bg-white [background:radial-gradient(25%_25%_at_80%_10%,#ff813244_1%,#f8f8f8_125%)]"></div>
+          <div className=" inset-0 fixed -z-10 h-full w-full bg-white [background:radial-gradient(25%_25%_at_80%_10%,#ff813244_1%,#fff_125%)]"></div>
           <div className=" inset-0 fixed -z-10 h-full w-full bg-white [background:radial-gradient(25%_25%_at_10%_80%,#ff813244_1%,transparent_125%)]"></div>
           {children}
           <Modal />

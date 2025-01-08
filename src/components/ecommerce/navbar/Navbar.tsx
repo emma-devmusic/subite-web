@@ -5,7 +5,7 @@ import { navigation } from './data'
 import { usePathname, useRouter } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
-import { Search } from './Search'
+import { Search } from '../../searching/search/Search'
 import { Spinner } from '@/components/spinner/Spinner'
 import { MobileMenu } from './MobileMenu'
 import { Button } from '@/components/buttons/Button'
@@ -26,7 +26,7 @@ export const Navbar = () => {
 
     return (
         <div className="sm:mx-4">
-            <header className="relative bg-white sm:rounded-lg shadow container mx-auto w-full max-w-[1350px] sm:px-4">
+            <header className="relative bg-white lg:pt-2 sm:rounded-lg z-[50] shadow container mx-auto w-full max-w-[1350px] sm:px-4">
                 <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
                     <div className="flex justify-between items-center  w-full gap-3">
                         <div className='flex items-center justify-between w-full lg:w-auto '>
@@ -38,7 +38,7 @@ export const Navbar = () => {
                                     <Search />
                                 </Suspense>
                             </div>
-                            <div className='relative flex justify-center sm:top-[6px] min-w-[60px] sm:min-w-[128px]'>
+                            <div className='relative flex justify-center min-w-[60px] sm:min-w-[128px]'>
                                 <Logo />
                             </div>
                         </div>

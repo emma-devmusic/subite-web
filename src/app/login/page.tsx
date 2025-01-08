@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react";
 import { Footer } from "@/components/dashboard";
 import Link from "next/link";
-import styles from './login.module.css';
 import imageLogin from '../../assets/img/login.png'
 import Image from "next/image";
 
@@ -37,7 +36,7 @@ export default function LoginPage() {
                 <div className="overflow-hidden h-full flex items-center md:basis-3/6">
                     <Image src={imageLogin} alt="Logo Subite Subastas" width={500} height={500} />
                 </div>
-                <div className="p-6 sm:p-8 lg:px-8 space-y-8 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none md:border-l-[1px] border-gray-300">
+                <div className="p-6 sm:p-8 lg:px-8 space-y-8 w-full  bg-white md:basis-3/6 rounded-b-lg md:rounded-e-lg md:rounded-none md:border-l-[1px] border-gray-200">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
                         ¡Bienvenido!
                     </h2>

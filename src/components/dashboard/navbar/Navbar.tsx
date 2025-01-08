@@ -1,9 +1,9 @@
 
 import { ButtonMenu } from '@/components/buttons'
-import Image from 'next/image'
 import { WelcomeMessage } from '.';
 import { AccountMenu } from '@/components/ecommerce/navbar/AccountMenu';
 import { Notifications } from '@/components/notifications/Notifications';
+import { Logo } from '@/components/logo';
 
 export const Navbar = () => {
 
@@ -15,8 +15,8 @@ export const Navbar = () => {
                <div className="flex items-center justify-start">
                   <ButtonMenu />
                   <div className="text-xl font-bold flex items-center lg:ml-2.5">
-                     <Image width={48} height={48} src="https://demo.themesberg.com/windster/images/logo.svg" className="h-6 w-auto mr-2 hidden lg:block" alt="Windster Logo" />
-                     <span className="hidden sm:flex self-center text-cyan-900 whitespace-nowrap">Administrador</span>
+                     <Logo onlyHammer hammerClass='!h-[38px] mr-4' />
+                     <span className={`hidden sm:flex self-center text-cyan-900 whitespace-nowrap`}>Bienvenido/a</span>
                   </div>
                </div>
                <div className="flex items-center gap-3">

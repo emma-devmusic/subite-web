@@ -14,7 +14,7 @@ export interface SearchParams {
     max_price: number | string,
     min_price: number | string,
     product_audit_statuses: number | string,
-    with_auction: 'FINISHED' | 'INACTIVE' | 'ACTIVE'
+    with_auction: 'FINISHED' | 'NOT_STARTED' | 'ACTIVE'
 }
 
 export const getProductsFromDB = async (query: string): Promise<DataHomeProductsSearchResponse> => {
@@ -74,12 +74,11 @@ export const getProductByPage = async (page: number): Promise<DataHomeProductsSe
 
 
 export const getProductBySearchParams = async (searchParams: SearchParams): Promise<DataHomeProductsSearchResponse> => {
-    let products: DataHomeProductsSearchResponse = { items: [], meta: {} as any } as DataHomeProductsSearchResponse
 
+    let products: DataHomeProductsSearchResponse = { items: [], meta: {} as any } as DataHomeProductsSearchResponse
     if (searchParams.page === undefined || searchParams.page < 1) {
         searchParams.page = 1
     }
-
 
     const newUrl = new URLSearchParams()
     for (let param in searchParams) {
@@ -92,6 +91,7 @@ export const getProductBySearchParams = async (searchParams: SearchParams): Prom
 
         }
     }
+
     try {
         const searchResponse: HomeProductsSearchResponse = await fetchData(
             `/home-template/commons-products/search?${newUrl.toString()}`,

@@ -6,6 +6,7 @@ import { getIdFromUSID, getNotificationsFromLocalStorage, getUSID } from "@/help
 import { useAppSelector } from "@/store";
 import { useEffect, useState } from "react";
 import { ObjectNotification } from "@/types";
+import { Button } from "@/components/buttons/Button";
 
 
 export default function NotificationsPage() {
@@ -34,22 +35,16 @@ export default function NotificationsPage() {
         <div>
             <HeaderLayout title={'Notificaciones'}>
                 <div className="flex justify-between sm:justify-end gap-2">
-                    <button
-                        type="button"
-                        data-modal-toggle="add-product-modal"
-                        className="text-cyan-600 w-[100px] flex justify-center bg-white border-[1px] border-cyan-600 hover:bg-cyan-700 focus:ring-4 hover:text-white transition-all focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
-                        onClick={handleUpdate}
-                    >
-                        Actualizar
-                    </button>
-                    <button
-                        type="button"
-                        data-modal-toggle="add-product-modal"
-                        className="text-white w-[100px] flex justify-center bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
-                        onClick={handleClean}
-                    >
-                        Limpiar
-                    </button>
+                    <Button
+                        text="Actualizar"
+                        variant="outline-primary"
+                        action={handleUpdate}
+                    />
+                    <Button
+                        text="Limpiar"
+                        variant="primary"
+                        action={handleClean}
+                    />
                 </div>
             </HeaderLayout>
             <TableNotif notifications={notifications} />

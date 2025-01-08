@@ -2,7 +2,7 @@ import React from 'react'
 import { findCategoriesByIds } from '@/helpers/products';
 import { DataHomeProductResponse } from '@/types/homeProductResponse'
 import dayjs from 'dayjs';
-import { getCategoriesFromDB } from '@/actions/categories';
+import { getCategoriesFromDB } from '@/services-actions/home/categories';
 
 interface Props {
     product: DataHomeProductResponse;

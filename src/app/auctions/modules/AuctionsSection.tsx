@@ -1,5 +1,5 @@
 
-import { getProductBySearchParams, SearchParams } from '@/actions/products'
+import { getProductBySearchParams, SearchParams } from '@/services-actions/home/products'
 import { ProductsList } from '@/components/cards'
 
 interface Props {
@@ -12,4 +12,4 @@ const AuctionsSection = async ({ searchParams }: Props) => {
     return <ProductsList homeProd={homeProd} cols={'lg:grid-cols-3'}/>
 }
 
-export  default AuctionsSection
+export default AuctionsSection

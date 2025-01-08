@@ -3,7 +3,7 @@ import React from 'react'
 
 export const Rights = () => {
     return (
-        <div className="sm:flex gap-1 justify-between items-center">
+        <div className="sm:flex gap-1 justify-between items-center m-4">
             <p className="text-sm text-gray-400">
                 2025 &copy; Subite Subastas.
             </p>

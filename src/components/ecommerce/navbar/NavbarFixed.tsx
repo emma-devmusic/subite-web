@@ -5,7 +5,7 @@ import { navigation } from './data'
 import { usePathname, useRouter } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
-import { Search } from './Search'
+import { Search } from '../../searching/search/Search'
 import { Spinner } from '@/components/spinner/Spinner'
 import { MobileMenu } from './MobileMenu'
 import { Button } from '@/components/buttons/Button'
@@ -54,7 +54,7 @@ export const NavbarFixed = () => {
                                     <Search />
                                 </Suspense>
                             </div>
-                            <div className='relative flex justify-center sm:top-[6px] min-w-[60px] sm:min-w-[128px]'>
+                            <div className='relative flex justify-center min-w-[60px] sm:min-w-[128px]'>
                                 <Logo />
                             </div>
                         </div>
@@ -82,7 +82,7 @@ export const NavbarFixed = () => {
                 </div>
 
                 <nav aria-label="Top" className="max-w-full hidden lg:block">
-                    <div className="flex h-16 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
+                    <div className="flex h-14 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
                         <div className="hidden lg:flex ">
                             {navigation.pages.map((page) => (
                                 <a

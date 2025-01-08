@@ -10,8 +10,6 @@ interface AuctionStatus {
     timeRemaining?: TimeRemaining;
 }
 
-
-
 export const getParamsAuctionState = (str: string): string => {
 
     let param = ''

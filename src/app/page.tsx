@@ -1,9 +1,10 @@
+export const revalidate = 60 * 60
 
 import { BannerThree } from "@/components/banners";
 import { ProductsList } from "@/components/cards";
 import { league_spartan } from "./layout";
 import Link from 'next/link';
-import { getProductsFromDB } from "@/actions/products";
+import { getProductsFromDB } from "@/services-actions/home/products";
 
 export default async function HomePage() {
 
@@ -15,7 +16,7 @@ export default async function HomePage() {
       <div className={`${league_spartan.className}`}>
         <h1 className="text-center text-6xl text-secondary">¡Subite a las <span className="text-primary">subastas!</span></h1>
       </div>
-      <div className="">
+      <div className="flex justify-center">
         <ProductsList homeProd={homeProd} cols="lg:grid-cols-4"/>
       </div>
       <div className='flex justify-center'>

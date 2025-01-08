@@ -109,7 +109,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Producto
                     {
                         !forHome &&
                         <button
-                            className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
+                            className="text-white bg-primary hover:bg-primaryHover focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
                             onClick={handleNewProduct}
                         >{forAuction ? 'Nueva Subasta' : 'Nuevo Producto'}</button>
                     }
@@ -122,12 +122,12 @@ export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Producto
                                 name="term"
                                 value={filters.term}
                                 onChange={handleFilter}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                                 placeholder="Búsqueda"
                             />
                             <button
                                 type="submit"
-                                className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
+                                className="text-white bg-primary hover:bg-primaryHover focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto"
                                 onClick={handleSearch}
                             >
                                 Buscar
@@ -147,7 +147,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Producto
                                 {
                                     !forHome &&
                                     <>
-                                        <select value={filters.categories_id} onChange={handleFilter} name="categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                        <select value={filters.categories_id} onChange={handleFilter} name="categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary focus:border-primary block w-auto p-1">
                                             <option value="">Categorías</option>
                                             {
                                                 categories.length > 0 && categories.map(cat => <option value={cat.id} key={cat.id}>{cat.name}</option>)
@@ -155,7 +155,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Producto
                                         </select>
                                         {
                                             categoriesSelected?.id &&
-                                            <select value={filters.sub_categories_id} onChange={handleFilter} name="sub_categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                            <select value={filters.sub_categories_id} onChange={handleFilter} name="sub_categories_id" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary focus:border-primary block w-auto p-1">
                                                 <option value="">Subcategorías</option>
                                                 {
                                                     categoriesSelected.subcategories && categoriesSelected.subcategories.map(scat => <option value={scat.id} key={scat.id}>{scat.name}</option>)
@@ -163,7 +163,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Producto
                                             </select>
                                         }
                                         {
-                                            !forAuction && <select value={filters.product_audit_statuses} onChange={handleFilter} name="product_audit_statuses" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                            !forAuction && <select value={filters.product_audit_statuses} onChange={handleFilter} name="product_audit_statuses" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary focus:border-primary block w-auto p-1">
                                                 <option value="">Estado</option>
                                                 {
                                                     productAuditsStatuses.length > 0 && productAuditsStatuses.map(status => <option value={status.id} key={status.id}>{status.description}</option>)
@@ -173,7 +173,7 @@ export const SearchBar = ({ pagesSearch, setPagesSearch, titleSearch = 'Producto
                                     </>
                                 }
                                 {
-                                    forHome && <select value={filters.with_auction} onChange={handleFilter} name="with_auction" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-auto p-1">
+                                    forHome && <select value={filters.with_auction} onChange={handleFilter} name="with_auction" className="border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary focus:border-primary block w-auto p-1">
                                         <option value="">Estado de subasta</option>
                                         <option value="ACTIVE">Activa</option>
                                         <option value="NOT_STARTED">No Iniciada</option>

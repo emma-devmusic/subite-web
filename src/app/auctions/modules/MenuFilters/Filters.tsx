@@ -1,5 +1,5 @@
 import React from 'react'
-import { Selects } from './filtersItems/Selects'
+import { Selects } from '../../../../components/searching/filtersItems/Selects'
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 
 export const Filters = () => {

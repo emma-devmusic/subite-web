@@ -304,7 +304,7 @@ export interface ProductsAudit {
 
 export interface Meta {
     currentPage:    number;
-    nextPage:       null;
+    nextPage:       null | number;
     totalRecords:   number;
     recordsPerPage: number;
     totalPages:     number;
