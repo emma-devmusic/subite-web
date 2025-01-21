@@ -66,7 +66,7 @@ export const Modal = () => {
     if (modalFor === 'audit_document') return <AuditDocument close={handleCloseModal} />
     return (
         <div className="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
-            <div className="fixed inset-0 z-10 bg-gray-500 bg-opacity-75 transition-opacity" >
+            <div aria-hidden="true" className="fixed inset-0 z-10 bg-gray-500 bg-opacity-75 transition-opacity" >
             </div>
             <div className="fixed inset-0 w-screen z-10 overflow-y-auto min-w-80">
                 <div className="flex min-h-full justify-center p-4 text-center items-center sm:p-0 min-w-80">

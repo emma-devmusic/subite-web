@@ -49,6 +49,9 @@ const manageUsersSlice = createSlice({
         },
         deleteUser(state, action: PayloadAction<number | string>) {
             //middleware
+        },
+        deleteUsersSelect(state, action:PayloadAction<number[]>) {
+            //middleware
         }
     }
 });
@@ -65,7 +68,8 @@ export const {
     setUsers,
     setSelectStatus,
     setStatusAccount,
-    deleteUser
+    deleteUser,
+    deleteUsersSelect
 } = manageUsersSlice.actions;
 
 

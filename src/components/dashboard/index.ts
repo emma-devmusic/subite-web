@@ -1,5 +1,4 @@
 export * from './footer/Footer'
 export * from './navbar/Navbar'
 export * from './sidebar/Sidebar'
-export * from './views/index'
 export * from './tabs/TabsMenu'

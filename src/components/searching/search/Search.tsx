@@ -58,13 +58,13 @@ export const Search = ({ initRoute = '/auctions', inputClassName }: Props) => {
         >
             <span className="sr-only">Search</span>
             <div className='relative w-full flex items-center'>
-                <div className='flex rounded-lg bg-white py-2 px-4 w-full border-2 border-primary '>
+                <div className='flex rounded-lg bg-white bg-opacity-50 py-2 px-4 w-full border-2 border-primary '>
                     <input
                         type="text"
                         placeholder='Busca tu subasta...'// Actualizar estado local
                         value={inputValue}
                         onChange={e => setInputValue(e.target.value)}
-                        className='w-full outline-none text-secondary'
+                        className='w-full outline-none text-secondary bg-transparent'
                     />
                     <div className='flex items-center'>
                         <XMarkIcon

@@ -69,7 +69,7 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
                     <div >
                         <div {...getRootProps()} className={`w-100  inputImage ${false ? 'hover:cursor-default' : 'hover:cursor-pointer'}`}>
                             <input {...getInputProps()} />
-                            <p className={`w-full rounded-md border-[1px]  ${false && 'text-gray-400'} ${false && 'hover:text-gray-500 '} transition-all  text-center border-dashed py-4 px-4 ${imageState?.images?.length > 0 && 'border-b-0'}  text-sm  bg-gray-50 ${isDragActive && 'text-gray-400 border-cyan-600'}`}>
+                            <p className={`w-full rounded-md border-[1px]  ${false && 'text-gray-400'} ${false && 'hover:text-gray-500 '} transition-all  text-center border-dashed py-4 px-4 ${imageState?.images?.length > 0 && 'border-b-0'}  text-sm  bg-gray-50 ${isDragActive && 'text-gray-400 border-primary'}`}>
                                 Click aquí o arrastra los archivos
                             </p>
                         </div>
@@ -110,7 +110,7 @@ export const ImageProductModal = ({ idImagesProduct }: Props) => {
                                         disabled={false}
                                         onClick={handleSubmitImageToS3}
                                         type="button"
-                                        className="w-full self-start sm:w-20 rounded-md bg-white border-[1px] boder-solid transition-all border-cyan-600 px-3 py-2 text-sm font-semibold text-cyan-600 shadow-sm hover:text-white hover:bg-cyan-500 disabled:bg-slate-500 disabled:text-white disabled:border-white"
+                                        className="w-full self-start sm:w-20 rounded-md bg-white border-[1px] boder-solid transition-all border-primary px-3 py-2 text-sm font-semibold text-primary shadow-sm hover:text-white hover:bg-primaryHover disabled:bg-slate-500 disabled:text-white disabled:border-white"
                                     >
                                         Subir
                                     </button>

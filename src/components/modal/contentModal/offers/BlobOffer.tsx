@@ -150,7 +150,7 @@ export const BlobOffer = ({ offer }: { offer: ItemGetOffersResponse }) => {
                                 <span className="text-gray-500">Cerrar</span>
                                 <button
                                     type="button"
-                                    className="py-1.5 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-transparent bg-cyan-600 text-white hover:bg-cyan-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                                    className="py-1.5 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-transparent bg-primary text-white hover:bg-primaryHover focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                                     onClick={handleSeeUser}
                                 >
                                     Ver <Icon icon={'mdi:user'} className="text-white text-lg" />

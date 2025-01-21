@@ -8,11 +8,12 @@ interface Props {
     imagesOnS3: ImageProduct[];
     handleInputChange: () => void; // Función para manejar el cambio en los inputs del formulario
     request_audit: boolean;
-    dispatchImageUpdating:  any;
+    dispatchImageUpdating: any;
     imageUpdatingState: ImageUpdatingReducer;
+    step: number;
 }
 
-export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInputChange, request_audit, dispatchImageUpdating, imageUpdatingState }: Props) => {
+export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInputChange, request_audit, dispatchImageUpdating, imageUpdatingState, step }: Props) => {
 
 
     return (
@@ -22,6 +23,7 @@ export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInpu
                 <div className="bg-slate-100 p-4 border-l-2 border-gray-400 flex gap-2">
                     <p className="text-xs text-gray-600">Solicitar auditoría de producto para subastar</p>
                     <input
+                        tabIndex={step === 3 ? 1 : -1}
                         name='request_audit'
                         onChange={handleInputChange}
                         checked={request_audit}
@@ -31,14 +33,18 @@ export const ThirdStepProductManage = ({ idImagesProduct, imagesOnS3, handleInpu
                 </div>
             </div>
             <div className='w-100 my-4'>
-                <label htmlFor="images" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Imagenes</label>
-                <ImageProductModal 
-                    idImagesProduct={idImagesProduct} 
+                <label
+                    tabIndex={step === 3 ? 1 : -1} 
+                    htmlFor="images" 
+                    className='mb-1 block text-sm font-medium leading-6 text-gray-800'
+                >Imagenes</label>
+                <ImageProductModal
+                    idImagesProduct={idImagesProduct}
                 />
             </div>
             <div className='w-100 my-4'>
                 {
-                    imagesOnS3.length > 0 && <ImagesOnS3 imagesOnS3={imagesOnS3} dispatchImageUpdating={dispatchImageUpdating} imageUpdatingState={imageUpdatingState}/>
+                    imagesOnS3.length > 0 && <ImagesOnS3 imagesOnS3={imagesOnS3} dispatchImageUpdating={dispatchImageUpdating} imageUpdatingState={imageUpdatingState} />
                 }
             </div>
         </form>

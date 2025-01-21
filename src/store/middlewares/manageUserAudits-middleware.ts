@@ -15,7 +15,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
         const userData = new DecryptedSession()
         const token = userData.getAccessToken()
         const role_id = userData.getRoleId()
-        
+
         if (action.type === 'manageUser/getUsers') {
             state.dispatch(uiSetLoading(true))
             try {
@@ -36,7 +36,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
 
         if (action.type === 'manageUser/getPermissions') {
-            if(typeof window.localStorage !== 'undefined') {
+            if (typeof window.localStorage !== 'undefined') {
                 state.dispatch(setRole(role_id === 1))
             }
         }
@@ -120,7 +120,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 }
 
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - SET STATUS ACCOUNT')
-                const resp: SetNewUserStatusResponse = await fetchData(`/manage-users-audits/audit-identity/${userIdToChangeStatus}`, 'PATCH', dataBody , token)
+                const resp: SetNewUserStatusResponse = await fetchData(`/manage-users-audits/audit-identity/${userIdToChangeStatus}`, 'PATCH', dataBody, token)
                 if (!resp.error) {
                     Swal.fire('Estado de Cuenta Actualizado', resp.message, 'success')
                 } else {
@@ -136,23 +136,56 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'manageUser/deleteUser') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 console.log('Llamada a la Api - MANAGE-USER-AUDITS - DELETE USER')
-                const resp: any = await fetchData(`/manage-users/delete-user/${action.payload}`, 'DELETE', null , userData.data.access.accessToken)
+                const resp: any = await fetchData(`/manage-users/delete-user/${action.payload}`, 'DELETE', null, token)
                 if (!resp.error) {
+                    state.dispatch(uiSetLoading(false))
                     Swal.fire('Baja de Usuario', resp.message, 'success')
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload()
+                            }
+                        });
                 } else {
                     Swal.fire('Error', resp.message, 'error')
+                    state.dispatch(uiSetLoading(false))
                 }
-                state.dispatch(uiSetLoading(false))
-                location.reload()
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
                 Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
             }
         }
-        
+
+        if (action.type === 'manageUser/deleteUsersSelect') {
+            state.dispatch(uiSetLoading(true))
+            try {
+                console.log('Llamada a la Api - MANAGE-USER-AUDITS - DELETE SELECTED USERS')
+                let error = false
+                action.payload.forEach(async (userId: number) => {
+                    const resp: any = await fetchData(`/manage-users/delete-user/${userId}`, 'DELETE', null, token)
+                    if (resp.error) {
+                        error = true
+                        return
+                    }
+                })
+                if (!error) {
+                    state.dispatch(uiSetLoading(false))
+                    Swal.fire("Baja de Usuarios", "Usuarios eliminados correctamente.", "success")
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload()
+                            }
+                        });
+                } else {
+                    Swal.fire('Error', 'Error al borrar usuarios.', 'error')
+                    state.dispatch(uiSetLoading(false))
+                }
+            } catch (error) {
+                state.dispatch(uiSetLoading(false))
+                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+            }
+        }
 
     }
 }

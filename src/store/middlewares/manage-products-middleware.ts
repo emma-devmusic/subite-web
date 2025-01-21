@@ -42,6 +42,7 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'product/getProducts') {
             state.dispatch(uiSetLoading(true))
+            console.log(`/manage-auction-products/${path_role(role_id)}/${action.payload}`);
             try {
                 console.log('Llamada a la Api - MANAGE-PRODUCT - GET PRODUCTS')
                 const searchResponse: ProductSearchResponse = await fetchData(

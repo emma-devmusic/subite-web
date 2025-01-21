@@ -1,0 +1,24 @@
+.how-auction {
+    .items {
+        font-size: 1.5rem;
+    }
+    ul li {
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .how-auction {
+        .items {
+            font-size: 1.2rem;
+        }
+        ul li {
+            font-size: .9rem;
+        }
+        p {
+            font-size: .8rem;
+        }
+
+    }
+}
+

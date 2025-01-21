@@ -11,7 +11,6 @@ export const CategoryModal = () => {
     const [isSubcategory, setIsSubcategory] = useState(false)
     const dispatch = useAppDispatch()
 
-
     const [values, handleInputChange, reset] = useAppForm({
         name: '',
         description: '',
@@ -55,7 +54,7 @@ export const CategoryModal = () => {
                             placeholder='Electrónica...'
                             name='name'
                             type="text"
-                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
                             value={values.name}
                             onChange={handleInputChange}
                         />
@@ -66,7 +65,7 @@ export const CategoryModal = () => {
                             rows={4}
                             placeholder='Describe tu categoría...'
                             name='description'
-                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
                             value={values.description}
                             onChange={handleInputChange}
                         />
@@ -89,7 +88,7 @@ export const CategoryModal = () => {
                             <select
                                 onChange={handleInputChange}
                                 name="category_id"
-                                className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50'
+                                className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50'
                             >
                                 <option value={''}>Seleccionar</option>
                                 {
@@ -104,7 +103,7 @@ export const CategoryModal = () => {
                 <div className="bg-gray-100 px-4 py-4 pb-6 flex sm:px-6 justify-between gap-2">
                     <button
                         type="submit"
-                        className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto `}
+                        className={`w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primaryHover sm:mr-3 sm:w-auto `}
                     >Guardar</button>
                 </div>
             </form>

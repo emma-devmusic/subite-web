@@ -9,9 +9,10 @@ interface Props {
     price: number;
     stock: number;
     handleInputChange: () => void;
+    step: number;
 }
 
-export const SecondStepProductManage = ({ category, subcategory, handleInputChange, stock, price }: Props) => {
+export const SecondStepProductManage = ({ category, subcategory, handleInputChange, stock, price, step }: Props) => {
 
 
     const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
             <div className='w-100 my-4'>
                 <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Categoría</label>
                 <select
+                    tabIndex={step === 2 ? 1 : -1}
                     required
                     name="category"
                     defaultValue={category}
@@ -55,6 +57,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                 <div className='w-100 my-4'>
                     <label htmlFor="category" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Subcategoría</label>
                     <select
+                        tabIndex={step === 2 ? 1 : -1}
                         required
                         defaultValue={sub_categoryDef}
                         // disabled={categoriesSelected.subcategories === undefined || categoriesSelected.subcategories.length === 0}
@@ -75,6 +78,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
             <div className='w-100 my-4'>
                 <label htmlFor="price" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Precio ($)</label>
                 <input
+                    tabIndex={step === 2 ? 1 : -1}
                     required
                     placeholder='2300'
                     name='price'
@@ -88,6 +92,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
             <div className='w-100 my-4'>
                 <label htmlFor="quantity" className='mb-1 block text-sm font-medium leading-6 text-gray-800'>Stock</label>
                 <input
+                    tabIndex={step === 2 ? 1 : -1}
                     required
                     placeholder='8'
                     name='quantity'

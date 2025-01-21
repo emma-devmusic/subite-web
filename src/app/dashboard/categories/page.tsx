@@ -1,6 +1,5 @@
 'use client'
 import { HeaderLayout } from "@/components/dashboard/headerLayout/HeaderLayout";
-import { btnPrimary, cardBasic } from "@/StylesTailwind/classNames";
 import { TreeCategories } from "./components/TreeCategories";
 import { SearchCategoriesBar } from "./components/SearchCategoriesBar";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -67,7 +66,7 @@ export default function CatgoriesPage() {
                 </div>
             </HeaderLayout>
 
-            <div className={`${cardBasic} m-2`}>
+            <div className={`bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 m-2`}>
                 <SearchCategoriesBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
                 <hr className="mt-6 mb-3" />
                 {
@@ -83,7 +82,7 @@ export default function CatgoriesPage() {
                                 : <p className="my-10 text-start">No existe esa categoría en esta página.</p>
                 }
                 <PrelineScript />
-                <HandlePage limit={10} setPagesSearch={setQueryObject} stop={stopNextPage} />
+                <HandlePage elementsLength={categories.length} limit={10} setPagesSearch={setQueryObject} stop={stopNextPage} />
             </div>
         </div>
     );

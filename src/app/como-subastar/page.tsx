@@ -1,0 +1,9 @@
+import { Subastar } from "./components/Subastar";
+
+export default function ComoSubastarPage() {
+    return (
+        <div className="container-auction max-w-[95%] sm:!max-w-[92%] lg:!max-w-screen-lg mx-auto my-10">
+            <Subastar />
+        </div>
+    );
+}

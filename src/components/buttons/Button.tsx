@@ -4,18 +4,23 @@ import React, { ReactNode } from 'react'
 interface Props {
     text: string;
     classes?: string;
-    variant: 'outline-primary' | 'primary' | 'plain';
+    variant: 'outline-primary' | 'primary' | 'plain' | 'danger';
     action?: (e?:any) => void;
     icon?: ReactNode;
     type?: 'button' | 'submit'
 }
 
+interface VariantsButton {
+    [key: string]: string
+}
+
 export const Button = ({ text, classes, variant, action, icon, type = "button" }: Props) => {
 
-    const variants = {
+    const variants:VariantsButton = {
         ['outline-primary']: 'border-primary text-primary  hover:border-primary hover:bg-primary hover:text-white ',
         primary: 'border-primary bg-primary text-white  hover:border-primary hover:bg-primaryHover hover:text-white',
-        plain: 'border-none bg-white shadow text-secondary hover:bg-gray-50'
+        plain: 'border-none bg-white shadow text-secondary hover:bg-gray-50',
+        danger: 'bg-red-700 hover:bg-red-800 text-white'
     }
     const buttonVariant = variants[variant]
 

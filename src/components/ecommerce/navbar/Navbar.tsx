@@ -12,6 +12,8 @@ import { Button } from '@/components/buttons/Button'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
+import Link from 'next/link'
+import { InstructiveMenu } from './InstructiveMenu'
 
 export const Navbar = () => {
 
@@ -26,14 +28,14 @@ export const Navbar = () => {
 
     return (
         <div className="sm:mx-4">
-            <header className="relative bg-white lg:pt-2 sm:rounded-lg z-[50] shadow container mx-auto w-full max-w-[1350px] sm:px-4">
+            <header className="relative bg-white bg-opacity-50 lg:pt-2 sm:rounded-lg z-10 shadow container mx-auto w-full max-w-[1350px] sm:px-4">
                 <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
                     <div className="flex justify-between items-center  w-full gap-3">
                         <div className='flex items-center justify-between w-full lg:w-auto '>
                             <div className='relative sm:top-0 lg:hidden'>
                                 <MobileMenu />
                             </div>
-                            <div className='flex items-end w-full justify-center lg:hidden'>
+                            <div className='flex items-end w-full justify-center lg:hidden '>
                                 <Suspense fallback={<Spinner />}>
                                     <Search />
                                 </Suspense>
@@ -69,14 +71,15 @@ export const Navbar = () => {
                     <div className="flex h-16 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
                         <div className="hidden lg:flex ">
                             {navigation.pages.map((page) => (
-                                <a
+                                <Link
                                     key={page.name}
                                     href={page.href}
-                                    className="flex text-nowrap px-4 py-2 items-center text-sm font-medium text-gray-500 hover:text-secondary transition border-r-2 border-gray-200 last-of-type:border-none"
+                                    className={`flex text-nowrap px-4 py-2 items-center text-sm font-medium text-gray-500 hover:text-secondary transition border-r-2 border-gray-200 ${ pathname === page.href ? 'text-primary' : 'text-gray-500' }`}
                                 >
                                     {page.name}
-                                </a>
+                                </Link>
                             ))}
+                            <InstructiveMenu />
                         </div>
                         <div className='hidden lg:flex items-center justify-center lg:justify-end w-full gap-2 max-w-[655px]'>
                             <Suspense fallback={<Spinner />}>

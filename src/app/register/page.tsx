@@ -8,7 +8,6 @@ import { formValidate, userToRegister } from "@/helpers";
 import { useEffect, useState } from 'react';
 import { fetchData } from "@/services/fetchData";
 import { GenderTypes } from "@/types/dataFetching";
-import { Footer } from "@/components/dashboard";
 import { registerUser } from "@/store/slices/authSlice";
 
 export default function RegisterPage() {
@@ -168,7 +167,7 @@ export default function RegisterPage() {
                     <div className="flex flex-col gap-4 my-6">
                         <div className="flex items-start">
                             <div className="flex items-center h-5">
-                                <input value={values.items} onChange={handleInputChange} id="remember" aria-describedby="remember" name="remember" type="checkbox" className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded" required />
+                                <input value={values.items} onChange={handleInputChange} id="remember" aria-describedby="remember" name="remember" type="checkbox" className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-primaryLight h-4 w-4 rounded" required />
                             </div>
                             <div className="text-sm ml-3">
                                 <label htmlFor="remember" className="font-medium text-gray-900">Acepto los <a href="#" className="text-primary hover:underline">Términos y Condiciones</a> del servicio</label>
@@ -176,7 +175,7 @@ export default function RegisterPage() {
                         </div>
                         <button
                             type="submit"
-                            className="text-white bg-primary hover:bg-primaryHover transition-all focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
+                            className="text-white bg-primary hover:bg-primaryHover transition-all focus:ring-4 focus:ring-primaryLight font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
                         >
                             Crear Cuenta
                         </button>

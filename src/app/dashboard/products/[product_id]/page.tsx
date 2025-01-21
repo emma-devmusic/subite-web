@@ -193,7 +193,10 @@ export default function ProductPage({ params }: Props) {
                     <div>
                         <h3 className="text-gray-500 mt-4">Descripción:</h3>
                         <div className="gap-2 mt-1 text-sm border rounded-md p-3 min-h-32">
-                            <p className="m-0 overflow-hidden text-ellipsis">{productSelected.product_variations[0].description}</p>
+                            <div
+                                className="m-0 overflow-hidden text-ellipsis"
+                                dangerouslySetInnerHTML={{ __html: productSelected.product_variations[0].description }}
+                            />
                         </div>
                     </div>
                 </div>

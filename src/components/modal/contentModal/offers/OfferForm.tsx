@@ -73,7 +73,7 @@ export const OfferForm = () => {
                             value={price}
                             onChange={handlePriceChange}
                         />
-                        <span className="text-xs">Puja mínima <span className="text-cyan-600">($){auctionSelected.bid_amount}</span></span>
+                        <span className="text-xs">Puja mínima <span className="text-primaryHover">($){auctionSelected.bid_amount}</span></span>
                     </div>
                     <div className='w-100 my-4'>
                         <div className="bg-slate-100 p-4 border-l-2 border-gray-400 flex gap-2">

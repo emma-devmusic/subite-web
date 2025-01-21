@@ -3,7 +3,6 @@ import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { UserProfileToRedux } from "../slices/authSlice";
 import { ImagesProfileUpdateResponse, SendEmailVerificationResponse } from "@/types/dataFetching";
 import { fetchData } from "@/services/fetchData";
-import { decryptLoginData } from "@/helpers";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
@@ -33,18 +32,10 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                         })
                     )
                 })
-            if (!user.error) {
+            if (user) {
                 state.dispatch(
                     UserProfileToRedux(user.data)
                 )
-                // state.dispatch(
-                //     uiModal({
-                //         modalFor: 'message',
-                //         modalOpen: true,
-                //         typeMsg: 'success',
-                //         msg: 'Datos cargados correctamente'
-                //     })
-                // )
             } else {
                 state.dispatch(
                     uiModal({

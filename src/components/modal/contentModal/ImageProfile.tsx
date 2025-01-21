@@ -106,7 +106,7 @@ export const ImageProfileModal = () => {
             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className='m-3'>
                     <p className='text-center'>Puedes tener un máximo de 3 fotos almacenadas.</p>
-                    <div className={`w-100 mb-4 inputImage flex gap-2  flex-col items-center border-[1px]  rounded-md p-3 my-4 ${editProfile && 'border-cyan-500'}`}>
+                    <div className={`w-100 mb-4 inputImage flex gap-2  flex-col items-center border-[1px]  rounded-md p-3 my-4 ${editProfile && 'border-primary'}`}>
                         <p className='text-xs my-2'>Imagenes en almacenadas</p>
                         <div className='flex gap-2 flex-wrap justify-center'>
                             {
@@ -142,14 +142,14 @@ export const ImageProfileModal = () => {
                             <button
                                 onClick={handleEdit}
                                 type="button"
-                                className={`w-full flex justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-20 disabled:bg-slate-500 ${editProfile && 'bg-blue-600'} ${imagesProfile.images.length === 0 && !editProfile ? 'hidden' : ''}`}
+                                className={`w-full flex justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primaryHover sm:mr-3 sm:w-20 disabled:bg-slate-500 ${editProfile && 'bg-blue-600'} ${imagesProfile.images.length === 0 && !editProfile ? 'hidden' : ''}`}
                             >
                                 {editProfile ? 'Cancelar' : 'Editar'}
                             </button>
                             <button
                                 onClick={handleUpdate}
                                 type="button"
-                                className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:w-auto disabled:bg-slate-500 ${!editProfile && 'hidden'}`}
+                                className={`w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primaryHover sm:w-auto disabled:bg-slate-500 ${!editProfile && 'hidden'}`}
                             >
                                 Guardar
                             </button>
@@ -159,7 +159,7 @@ export const ImageProfileModal = () => {
                     <form action="">
                         <div {...getRootProps()} className={`w-100 mt-4 inputImage ${userProfile?.image_profiles.length === 3 || editProfile ? 'hover:cursor-default' : 'hover:cursor-pointer'}`}>
                             <input {...getInputProps()} />
-                            <p className={`w-full rounded-md border-[1px]  ${editProfile && 'text-gray-400'} ${userProfile?.image_profiles.length !== 3 || !editProfile && 'hover:text-gray-500 '} transition-all  text-center border-dashed py-4 px-4 ${imageState?.images?.length > 0 && 'border-b-0'}  text-sm  bg-gray-50 ${isDragActive && 'text-gray-400 border-cyan-600'}`}>
+                            <p className={`w-full rounded-md border-[1px]  ${editProfile && 'text-gray-400'} ${userProfile?.image_profiles.length !== 3 || !editProfile && 'hover:text-gray-500 '} transition-all  text-center border-dashed py-4 px-4 ${imageState?.images?.length > 0 && 'border-b-0'}  text-sm  bg-gray-50 ${isDragActive && 'text-gray-400 border-primary'}`}>
                                 Click aquí o arrastra los archivos
                             </p>
                         </div>
@@ -201,7 +201,7 @@ export const ImageProfileModal = () => {
                                         disabled={userProfile?.image_profiles.length === 3 || editProfile}
                                         onClick={handleSubmit}
                                         type="button"
-                                        className="w-full self-start sm:w-20 rounded-md bg-white border-[1px] boder-solid transition-all border-cyan-600 px-3 py-2 text-sm font-semibold text-cyan-600 shadow-sm hover:text-white hover:bg-cyan-500 disabled:bg-slate-500 disabled:text-white disabled:border-white"
+                                        className="w-full self-start sm:w-20 rounded-md bg-white border-[1px] boder-solid transition-all border-primary px-3 py-2 text-sm font-semibold text-primary shadow-sm hover:text-white hover:bg-primary disabled:bg-slate-500 disabled:text-white disabled:border-white"
                                     >
                                         Subir
                                     </button>

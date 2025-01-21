@@ -59,7 +59,7 @@ export const EditAuction = () => {
                         value={dayjs(init_date).format('YYYY-MM-DDTHH:mm')}
                         min={dayjs().format('YYYY-MM-DDTHH:mm')}
                         type="datetime-local"
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -71,7 +71,7 @@ export const EditAuction = () => {
                         value={dayjs(end_date).format('YYYY-MM-DDTHH:mm')}
                         min={dayjs(init_date).add(1, 'day').format('YYYY-MM-DDTHH:mm')}
                         type="datetime-local"
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -82,7 +82,7 @@ export const EditAuction = () => {
                         type="number"
                         value={values.price}
                         onChange={handleInputChange}
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -93,14 +93,14 @@ export const EditAuction = () => {
                         type="number"
                         value={values.bid_amount}
                         onChange={handleInputChange}
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
             </div>
             <div className="bg-gray-50 px-4 py-4 pb-6 flex sm:px-6 justify-between gap-2">
                 <button
                     type="button"
-                    className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto`}
+                    className={`w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primaryHover sm:mr-3 sm:w-auto`}
                     onClick={handleNewAuction}
                 >
                     Editar

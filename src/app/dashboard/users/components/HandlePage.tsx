@@ -1,4 +1,5 @@
 
+import { useAppSelector } from "@/store";
 import { QueryObject } from "@/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 // import { QueryObject } from "../page";
@@ -8,9 +9,10 @@ interface Props {
     limit: number;
     stop?: boolean;
     extraQuery?: string;
+    elementsLength: number;
 }
 
-export const HandlePage = ({ setPagesSearch, limit, stop = false, extraQuery }: Props) => {
+export const HandlePage = ({ setPagesSearch, limit, stop = false, extraQuery, elementsLength }: Props) => {
 
     const [pageNumber, setPageNumber] = useState(1);
     const [countPage, setCountPage] = useState(`1-${limit}`)
@@ -46,7 +48,7 @@ export const HandlePage = ({ setPagesSearch, limit, stop = false, extraQuery }: 
                 <span className="text-sm font-normal text-gray-500">Página <span className="text-gray-900 font-semibold">{pageNumber}</span></span>
             </div>
             <div>
-                <span className="text-sm font-normal text-gray-500">Se muestran <span className="text-gray-900 font-semibold">{countPage}</span> elementos</span>
+                <span className="text-sm font-normal text-gray-500">Se muestran <span className="text-gray-900 font-semibold">{ elementsLength }</span> elementos</span>
             </div>
         </div >
     );

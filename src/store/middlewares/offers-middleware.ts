@@ -1,9 +1,8 @@
-import { Action, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { RootState, store } from "..";
+import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
+import { store } from "..";
 import { fetchData } from "@/services/fetchData";
-import { uiMenu, uiModal, uiModalMessage, uiSetLoading } from "../slices/uiSlice";
+import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import Swal from 'sweetalert2'
-import { errorMsg } from "@/mocks/mocks";
 import DecryptedSession from "@/helpers/Permissions";
 import { path_role } from "@/helpers";
 import { NewOfferResponse } from "@/types/offers";
@@ -47,8 +46,6 @@ export const offersMiddleware = (state: MiddlewareAPI) => {
             const path = path_role(role_id) === 'admin'
                 ? `/auction-process/admin/offers`
                 : `/auction/clients/offers`
-            console.log(action.payload)
-            console.log(path)
             try {
                 const offers: NewOfferResponse = await fetchData(
                     path,

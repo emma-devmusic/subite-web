@@ -1,6 +1,8 @@
 'use client'
 
 import Swal from "sweetalert2";
+import Link from "next/link";
+import Image from "next/image";
 import { findCategoriesByIds } from "@/helpers/products";
 import { useAppDispatch } from "@/store";
 import { ItemProductSearchResponse } from "@/types/products";
@@ -8,7 +10,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from '../../../../store/index';
 import { deleteProductFromDB, getProductById, selectProduct } from "@/store/slices/productSlice";
 import { uiModal } from "@/store/slices/uiSlice";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 
@@ -19,6 +20,7 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
     const { isAdmin } = useAppSelector(state => state.manageUser)
     const [urlImg, setUrlImg] = useState('')
     const productCategory = useMemo(() => findCategoriesByIds(categories, product.category_id, product.sub_category_id), [categories, product]);
+
     useEffect(() => {
         const mainImage = product.product_variations[0]?.productImages.find(img => img.main_image) || product.product_variations[0]?.productImages[0];
         setUrlImg(mainImage?.url_image || '');
@@ -75,8 +77,11 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
             <td className="p-4 flex items-center whitespace-nowrap space-x-6 mr-12 lg:mr-0 w-full min-w-52">
                 {
                     urlImg &&
-                    <img
-                        className={`h-10 w-10 rounded-full border-2 ${
+                    <Image
+                        width={75}
+                        height={75}
+                        className={
+                            `h-10 w-10 min-w-[40px] rounded-full border-2 ${
                             (product.products_audits.filter(st => !st.data_deleted)[0].product_audit_status.description === 'aprobado')
                             ? 'border-cyan-400'
                             : 'border-yellow-500'
@@ -110,7 +115,7 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
                     isAdmin
                     &&
                     <button
-                        disabled={!(product.products_acutions && product.products_acutions.length > 0)}
+                        disabled={(product.products_acutions && product.products_acutions.length > 0)}
                         className=" text-primary hover:text-primaryHover disabled:text-gray-300 focus:ring-4 focus:ring-transparent font-medium rounded-lg text-sm inline-flex items-center px-1 py-1 text-center"
                         onClick={handleNewAuction}
                     >
@@ -119,7 +124,7 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
                 }
 
                 <button
-                    className=" text-cyan-600 hover:text-cyan-700 focus:ring-4 focus:ring-transparent font-medium rounded-lg text-sm inline-flex items-center px-1 py-1 text-center"
+                    className="text-cyan-600 hover:text-cyan-700 focus:ring-4 focus:ring-transparent font-medium rounded-lg text-sm inline-flex items-center px-1 py-1 text-center"
                     onClick={handleEditProduct}
                 >
                     <svg className=" h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd"></path></svg>
@@ -134,7 +139,7 @@ export const TableProductsRow = (product: ItemProductSearchResponse) => {
                         </button>
                         :
                         <button
-                            disabled={!(product.products_acutions && product.products_acutions.length > 0)}
+                            disabled={(product.products_acutions && product.products_acutions.length > 0)}
                             className=" text-red-700 hover:text-red-800 focus:ring-4 focus:ring-red-300 disabled:text-gray-300 font-medium rounded-lg text-sm inline-flex items-center px-1 py-1 text-center"
                             onClick={handleUserDelete}
                         >

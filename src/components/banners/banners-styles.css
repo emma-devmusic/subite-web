@@ -79,17 +79,17 @@ BANNER PAGES
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    min-height: 400px;
+    min-height: 300px;
     .div-backdrop{
         display: flex;
         justify-content: center;
         align-items: center;
         backdrop-filter: blur(5px);
         width: 100%;
-        min-height: 400px;
+        min-height: 300px;
     }
     h1 {
-        font-size: 3rem;
+        /* font-size: 3rem; */
         color: white;
     }
 }

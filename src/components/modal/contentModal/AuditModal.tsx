@@ -36,7 +36,7 @@ export const AuditModal = () => {
     return (
         <div className="flex flex-col gap-4 p-5 py-6">
             <div>
-                <h4 className="text-xl text-center text-cyan-700">Decide sobre este {modalFor === 'audit_user' ? 'usuario' : 'producto'}.</h4>
+                <h4 className="text-xl text-center text-primary">Decide sobre este {modalFor === 'audit_user' ? 'usuario' : 'producto'}.</h4>
             </div>
 
             <form className="flex flex-col gap-3" onSubmit={handleStatus}>

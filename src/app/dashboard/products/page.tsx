@@ -1,6 +1,5 @@
 'use client'
 
-import { ProductsView } from "@/components/dashboard/views";
 import { SearchBar } from "./components/SearchBar";
 import { useEffect, useState } from "react";
 import { QueryObject } from "@/types";
@@ -11,8 +10,6 @@ import { getProductAuditsStatuses, getProducts } from "@/store/slices/productSli
 import { getCategories } from "@/store/slices/categorySlice";
 import { Spinner } from "@/components/spinner/Spinner";
 import { HandlePage } from "../users/components/HandlePage";
-
-const initialQueryState = 'search?page=1&limit=10'
 
 const columns = ['Titulo', 'Subcategoría', 'Descripción', 'Precio', 'Stock', 'Acciones']
 
@@ -41,7 +38,7 @@ export default function ProductsPage() {
 
 
     if (categories.length === 0) return <Spinner />
-    
+
     return (
         <div>
             <SearchBar pagesSearch={queryObject} setPagesSearch={setQueryObject} />
@@ -52,7 +49,12 @@ export default function ProductsPage() {
                     )
                 }
             </TableLayout>
-            <HandlePage limit={10} stop={products.length < 10} setPagesSearch={setQueryObject} />
+            <HandlePage
+                limit={10}
+                stop={products.length < 10}
+                setPagesSearch={setQueryObject}
+                elementsLength={products.length}
+            />
         </div>
     );
 }

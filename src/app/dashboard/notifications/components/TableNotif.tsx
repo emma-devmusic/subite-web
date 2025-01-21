@@ -1,9 +1,6 @@
 
 import { TableLayout } from "@/components/tables/TableLayout";
 import { ObjectNotification } from "@/types";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { TableRowNotif } from "./TableRowNotif";
 
 const columns = [
@@ -20,7 +17,8 @@ export const TableNotif = ({ notifications }: { notifications: ObjectNotificatio
     return (
         <>
             {
-                notifications.length !== 0 ?
+                notifications.length !== 0 
+                ?
                     <TableLayout withCheckbox={false} columns={columns} >
                         {
                             notifications.map((notif, i) =>
@@ -28,7 +26,7 @@ export const TableNotif = ({ notifications }: { notifications: ObjectNotificatio
                             )
                         }
                     </TableLayout>
-                    :
+                :
                     <div className="mt-24">
                         <p className="text-center text-gray-400 text-sm">Aún no tienes notificaciones.</p>
                     </div>

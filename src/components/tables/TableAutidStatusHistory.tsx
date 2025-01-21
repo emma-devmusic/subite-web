@@ -36,7 +36,6 @@ export const TableAutidStatusHistory = ({ auditHistory }: Props) => {
 
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {
-                                    
                                     auditHistory.products 
                                     && auditHistory.products.map( (e,i) => (<tr className="hover:bg-gray-100" key={i}>
                                     <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{flu(e.product_audit_status.description)}</td>

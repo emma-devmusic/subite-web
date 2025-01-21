@@ -1,9 +1,9 @@
 import DecryptedSession from "@/helpers/Permissions";
+import Swal from "sweetalert2";
 import { Dispatch, MiddlewareAPI, PayloadAction } from "@reduxjs/toolkit";
 import { uiCloseModal, uiSetLoading } from "../slices/uiSlice";
 import { fetchData } from "@/services/fetchData";
 import { path_role } from "@/helpers";
-import Swal from "sweetalert2";
 import { getProducts } from "../slices/productSlice";
 import { getParamsAuctionState } from "@/helpers/auctions";
 
@@ -31,8 +31,9 @@ export const auctionMiddleware = (state: MiddlewareAPI) => {
                             product_id: parseInt(action.payload.product_id),
                             product_variation_id: parseInt(action.payload.product_variation_id),
                         },
-                        token)
-                        delete action.payload.price
+                        token
+                    )
+                    delete action.payload.price
                 }
                 delete action.payload.user_id
                 delete action.payload.product_variation_id

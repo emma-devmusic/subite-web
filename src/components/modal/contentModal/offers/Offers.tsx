@@ -62,10 +62,10 @@ export const Offers = () => {
         <form action="" >
             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div>
-                    <h6 className="text-center mb-6">Revisa las <span className="text-cyan-700">ofertas</span> minuto a minuto.</h6>
+                    <h6 className="text-center mb-6">Revisa las <span className="text-primaryHover">ofertas</span> minuto a minuto.</h6>
                 </div>
                 {/* <div className='bg-slate-100 p-4 border-l-2 border-gray-400'>
-                    <p className='text-gray-600 text-xs'>Si lo deseas puedes crear una <span className="text-cyan-700 hover:cursor-pointer hover:text-cyan-600">nueva oferta</span> para algún usuario en particular.</p>
+                    <p className='text-gray-600 text-xs'>Si lo deseas puedes crear una <span className="text-primaryHover hover:cursor-pointer hover:text-primary">nueva oferta</span> para algún usuario en particular.</p>
                 </div> */}
                 <div className="flex my-6 justify-between items-center">
                     {
@@ -78,7 +78,7 @@ export const Offers = () => {
                             Ofertar
                         </button>
                     }
-                    <h6 className="text-end "><span className="text-cyan-700">Mejor</span> oferta: ${bestOffer.amount}</h6>
+                    <h6 className="text-end "><span className="text-primaryHover">Mejor</span> oferta: ${bestOffer.amount}</h6>
                 </div>
 
                 <div className="flex flex-col gap-2 overflow-auto max-h-80 ">
@@ -94,7 +94,7 @@ export const Offers = () => {
             <div className="bg-gray-50 px-4 py-4 pb-6 flex sm:px-6 justify-between gap-2">
                 <button
                     type="button"
-                    className={`w-full rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:mr-3 sm:w-auto`}
+                    className={`w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primaryHover sm:mr-3 sm:w-auto`}
                     onClick={handleRefresh}
                 >
                     Refrescar

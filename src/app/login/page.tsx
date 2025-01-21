@@ -31,7 +31,6 @@ export default function LoginPage() {
 
     return (
         <div className={`flex flex-col justify-between overflow-auto`}>
-
             <div className={`min-w-[320px] mx-4 mt-6 bg-white sm:mx-6 shadow-lg rounded-lg md:my-10  min-h-[600px] md:min-h-full md:h-full md:w-full md:max-w-screen-lg md:mx-auto flex flex-col md:flex-row justify-between items-center xl:p-0 overflow-hidden`}>
                 <div className="overflow-hidden h-full flex items-center md:basis-3/6">
                     <Image src={imageLogin} alt="Logo Subite Subastas" width={500} height={500} />

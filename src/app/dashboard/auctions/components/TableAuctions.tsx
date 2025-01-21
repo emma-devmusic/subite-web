@@ -60,6 +60,7 @@ export const TableAuctions = ({ auctionStatus, tableTitle }: Props) => {
                 limit={10}
                 extraQuery={`with_auction=${auctionStatus}`}
                 stop={products.length < 10}
+                elementsLength={productsState.length}
             />
         </div>
     );

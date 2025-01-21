@@ -10,11 +10,13 @@ import "./globals.css";
 export const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
+  variable: '--inter'
 })
 
 export const league_spartan = League_Spartan({
   subsets: ['latin'],
   display: 'swap',
+  variable: '--league_spartan'
 })
 
 export const metadata: Metadata = {
@@ -29,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="">
-      <body className={`${inter.className} bg-gray-50 relative`}>
+      <body className={`${inter.variable} !font-sans bg-gray-50 relative`}>
         <Providers>
           <Navbar />
           <NavbarFixed />

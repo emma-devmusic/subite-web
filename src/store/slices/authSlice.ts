@@ -11,6 +11,7 @@ interface AuthSlice {
     loginData: LoginData;
     user: User | null;
     userProfile: DataUserProfile | null
+    usersSelected: number[]
 }
 
 
@@ -20,7 +21,8 @@ const initialState: AuthSlice = {
     isLogged: false,
     loginData: { email: '', password: '' },
     user: null,
-    userProfile: null
+    userProfile: null,
+    usersSelected: []
 }
 
 const authSlice = createSlice({
@@ -100,6 +102,23 @@ const authSlice = createSlice({
         },
         verify_account(state, action: PayloadAction<{ document: any[], file: any[] }>) {
             //for middleware
+        },
+        selectUserToggle(state, action: PayloadAction<number>) {
+            if(!state.usersSelected.find( userId => userId === action.payload)){
+                state.usersSelected = [ ...state.usersSelected, action.payload]
+            } else {
+                state.usersSelected = state.usersSelected.filter( userId => userId !== action.payload)
+            }
+        },
+        selectUser(state, action:PayloadAction<number>) {
+            if(!state.usersSelected.find( userId => userId === action.payload)){
+                state.usersSelected = [ ...state.usersSelected, action.payload]
+            }
+        },
+        unselectUser(state, action:PayloadAction<number>) {
+            if(state.usersSelected.find( userId => userId === action.payload)){
+                state.usersSelected = state.usersSelected.filter( userId => userId !== action.payload)
+            }
         }
     }
 });
@@ -125,7 +144,10 @@ export const {
     two_factor_change,
     send_two_factor_code_change,
     delete_account,
-    verify_account
+    verify_account,
+    selectUserToggle,
+    selectUser,
+    unselectUser
 } = authSlice.actions;
 
 export default authSlice.reducer;

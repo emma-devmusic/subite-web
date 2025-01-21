@@ -10,10 +10,6 @@ import { getHomeProducts } from "@/store/slices/homeSlice";
 import { getHomeCategories } from "@/store/slices/homeCategoriesSlice";
 import { TableRowHomeAuctions } from "../components/TableRowHomeAuctions";
 
-
-
-const initialQueryState = 'search?page=1&limit=10'
-
 const columns = ['Producto', 'Fecha de inicio', 'Fecha de finalización', 'Precio', 'Acciones']
 
 export default function AllAuctionsPage() {
@@ -47,7 +43,7 @@ export default function AllAuctionsPage() {
                     )
                 }
             </TableLayout>
-            <HandlePage setPagesSearch={setQueryObject} limit={10} stop={homeProducts.length < 10 }/>
+            <HandlePage elementsLength={homeProducts.length} setPagesSearch={setQueryObject} limit={10} stop={homeProducts.length < 10 }/>
         </div>
     );
 }
