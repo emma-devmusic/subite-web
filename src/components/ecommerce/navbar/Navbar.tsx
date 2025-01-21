@@ -12,11 +12,10 @@ import { Button } from '@/components/buttons/Button'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
-import Link from 'next/link'
 import { InstructiveMenu } from './InstructiveMenu'
+import Link from 'next/link'
 
 export const Navbar = () => {
-
 
     const { isLogged } = useAppSelector(state => state.auth)
     const router = useRouter()
@@ -28,7 +27,7 @@ export const Navbar = () => {
 
     return (
         <div className="sm:mx-4">
-            <header className="relative bg-white bg-opacity-50 lg:pt-2 sm:rounded-lg z-10 shadow container mx-auto w-full max-w-[1350px] sm:px-4">
+            <header className="relative bg-white lg:pt-2 sm:rounded-lg z-10 shadow container mx-auto w-full max-w-[1350px] sm:px-4">
                 <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
                     <div className="flex justify-between items-center  w-full gap-3">
                         <div className='flex items-center justify-between w-full lg:w-auto '>

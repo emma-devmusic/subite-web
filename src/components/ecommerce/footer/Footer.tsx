@@ -11,15 +11,17 @@ export const Footer = () => {
 
     if (pathname.includes('dashboard') || pathname.includes('login') || pathname.includes('register')) return
     return (
-        <footer className=" bg-white bg-opacity-50 w-[90%] shadow-md rounded-lg m-auto mb-5 ">
-            <div className="mt-auto w-full max-w-[85rem] pt-10 pb-5 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">
-                <div className="grid grid-cols-2  gap-6">
-                    <Brand />
-                    <LinkList titleLinks="Visitá" links={navigation.pages}/>
-                </div>
-                <div className="mt-5 sm:mt-12 grid gap-y-0 sm:flex sm:justify-between sm:items-center border-2 border-primary rounded-lg p-4 sm:p-7">
-                    <Rights />
-                    <SocialIcons color='primary' />
+        <footer className="pb-5">
+            <div className="bg-white w-[90%] shadow-md border-[1px] rounded-lg m-auto">
+                <div className="mt-auto w-full max-w-[85rem] pt-10 pb-5 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">
+                    <div className="grid grid-cols-2  gap-6">
+                        <Brand />
+                        <LinkList titleLinks="Visitá" links={navigation.pages} />
+                    </div>
+                    <div className="mt-5 sm:mt-12 grid gap-y-0 sm:flex sm:justify-between sm:items-center border-2 border-primary rounded-lg p-4 sm:p-7">
+                        <Rights />
+                        <SocialIcons color='primary' />
+                    </div>
                 </div>
             </div>
         </footer>

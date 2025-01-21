@@ -9,9 +9,7 @@
     display: flex;
     .banner3-box-button {
         position: absolute;
-        z-index: 50;
-        opacity: 0;
-        transform: translateY(-50px);
+        z-index: 20;
     }
     &:hover {
         /* background: red !important; */
@@ -19,8 +17,6 @@
         .banner3-box-button {
             position: absolute;
             z-index: 50;
-            opacity: 1;
-            transform: translateY(100px);
         }
     }
 }
