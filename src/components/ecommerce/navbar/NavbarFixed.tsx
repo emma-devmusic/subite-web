@@ -103,7 +103,8 @@ export const NavbarFixed = () => {
                     <nav aria-label="Top" className="max-w-full hidden lg:block">
                         <div className="flex h-14 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
                             <div className="hidden lg:flex ">
-                                {navigation.pages.map((page) => (
+                                {navigationMobile(false).pages.map((page) => (
+                                    page.name !== 'Ingresar' &&
                                     <Link
                                         key={page.name}
                                         href={page.href}
@@ -112,7 +113,6 @@ export const NavbarFixed = () => {
                                         {page.name}
                                     </Link>
                                 ))}
-                                <InstructiveMenu />
                             </div>
                             <div className='hidden lg:flex items-center justify-center lg:justify-end w-full gap-2 max-w-[655px]'>
                                 <Suspense fallback={<Spinner />}>

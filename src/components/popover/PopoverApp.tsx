@@ -12,7 +12,6 @@ interface Props {
 
 export const PopoverApp = ({ children, button, classOpen, classClose, position = 'end' }: Props) => {
 
-
     return (
         <>
             <div className="hs-tooltip [--trigger:focus] [--placement:bottom]">
