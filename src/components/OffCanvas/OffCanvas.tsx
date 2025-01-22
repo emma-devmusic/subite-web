@@ -30,6 +30,7 @@ export const OffCanvas = ({ children, title, icon, canvasId }: Props) => {
                     className="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none "
                     aria-label="Close"
                     data-hs-overlay={`#${canvasId}`}
+                    id={`close-offcanvas-${canvasId}`}
                 >
                     <span className="sr-only">Close</span>
                     <svg

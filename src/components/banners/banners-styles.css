@@ -22,15 +22,6 @@
 }
 
 
-@media (max-width: 768px) {
-    .banner3-box {
-        &:hover {
-            .banner3-box-button {
-                transform: translateY(40px);
-            }
-        }
-    }
-}
 
 .banner-auction-status {
     .banner-auction-status__time{

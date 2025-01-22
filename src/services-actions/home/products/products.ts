@@ -79,6 +79,9 @@ export const getProductBySearchParams = async (searchParams: SearchParams): Prom
     if (searchParams.page === undefined || searchParams.page < 1) {
         searchParams.page = 1
     }
+    if(searchParams.limit === undefined || searchParams.limit < 1) {
+        searchParams.limit = 9
+    }
 
     const newUrl = new URLSearchParams()
     for (let param in searchParams) {

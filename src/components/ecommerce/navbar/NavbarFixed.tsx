@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
-import { navigation, navigationMobile } from './data'
+import { navigationMobile } from './data'
 import { usePathname, useRouter } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
@@ -13,12 +13,12 @@ import { Button } from '@/components/buttons/Button'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
-import { InstructiveMenu } from './InstructiveMenu'
 import { OffCanvas } from '@/components/OffCanvas/OffCanvas'
 
 export const NavbarFixed = () => {
 
-
+    const pathname = usePathname();
+    const router = useRouter()
     const { isLogged } = useAppSelector(state => state.auth)
     const [showNavbar, setShowNavbar] = useState(false);
 
@@ -34,13 +34,11 @@ export const NavbarFixed = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const router = useRouter()
     const handleGoTo = () => {
         router.push('/login')
     }
-    const pathname = usePathname();
-    if (pathname.includes('dashboard')) return
 
+    if (pathname.includes('dashboard')) return
 
     return (
         <>
@@ -53,76 +51,70 @@ export const NavbarFixed = () => {
                         <Link
                             key={index}
                             href={navItem.href}
-                            className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'} ${ pathname === navItem.href ? 'text-primary' : 'text-gray-500' }`}
+                            className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'} ${pathname === navItem.href ? 'text-primary' : 'text-gray-500'}`}
                         >
                             {navItem.name}
                         </Link>
                     ))}
                 </div>
             </OffCanvas>
-            <div className={`fixed transition-all ease-in-out [transition-duration:.5s] top-0 w-full z-40 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
-                <header className="relative bg-white bg-opacity-80 backdrop-blur-md shadow container mx-auto w-full min-[1350px]:rounded-md max-w-[1350px] sm:px-4">
-                    <div className="flex mx-auto items-center justify-between w-full text-sm font-medium text-white max-w-[1300px]">
-                        <div className="flex justify-between items-center  w-full gap-3">
-                            <div className='flex items-center justify-between w-full lg:w-auto '>
-                                <div className='relative sm:top-0 lg:hidden'>
-                                    <MobileMenu />
-                                </div>
-                                <div className='flex items-end w-full justify-center lg:hidden'>
-                                    <Suspense fallback={<Spinner />}>
-                                        <Search />
-                                    </Suspense>
-                                </div>
-                                <div className='relative flex justify-center min-w-[60px] sm:min-w-[128px]'>
-                                    <Logo />
-                                </div>
+            <header className={`bg-white backdrop-blur-md bg-opacity-80 lg:pt-2 shadow sm:px-4 fixed transition-all ease-in-out [transition-duration:.5s] top-0 w-full z-40 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
+                <div className="flex items-center justify-between w-full text-sm font-medium text-white ">
+                    <div className="flex justify-between items-center mx-auto max-w-[1250px] w-full gap-3">
+                        <div className='flex items-center justify-between w-full '>
+                            <div className='relative sm:top-0 lg:hidden'>
+                                <MobileMenu />
                             </div>
-                            <div className="h-full hidden lg:flex ">
-                                {
-                                    isLogged
-                                        ?
-                                        <div className="flex items-center justify-end gap-3 min-w-[80px]">
-                                            <Notifications />
-                                            <AccountMenu />
-                                        </div>
-                                        :
-                                        <div className='hidden sm:block'>
-                                            <Button
-                                                action={handleGoTo}
-                                                variant='outline-primary'
-                                                text='Ingresar'
-                                                classes='!border-2 border-primary rounded-lg text-secondary group'
-                                                icon={<ArrowRightEndOnRectangleIcon className='text-primary h-6 group-hover:text-white transition-all' />}
-                                            />
-                                        </div>
-                                }
+                            <div className='flex flex-row-reverse lg:flex-row items-center justify-between sm:gap-4 w-full'>
+                                <div className='flex items-center gap-4'>
+                                    <div className='relative flex justify-center min-w-[60px] sm:min-w-[128px]'>
+                                        <Logo />
+                                    </div>
+                                    <div className="hidden lg:flex h-16 mx-auto items-center justify-center lg:justify-between w-full flex-1">
+                                        {navigationMobile(false).pages.map((page) => (
+                                            page.name !== 'Ingresar' &&
+                                            <Link
+                                                key={page.name}
+                                                href={page.href}
+                                                className={`flex text-nowrap px-4 py-2 items-center text-sm font-medium hover:text-secondary transition border-r-2 border-gray-200 last-of-type:border-none last-of-type:pr-0 ${pathname === page.href ? 'text-primary' : 'text-gray-500'}`}
+                                            >
+                                                {page.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className='flex justify-center items-center gap-4 w-full lg:w-auto'>
+                                    <div className='flex justify-center w-full max-w-[655px]'>
+                                        <Suspense fallback={<Spinner />}>
+                                            <Search />
+                                        </Suspense>
+                                    </div>
+                                    <div className="h-full hidden lg:flex ">
+                                        {
+                                            isLogged
+                                                ?
+                                                <div className="flex items-center justify-end gap-3 min-w-[80px]">
+                                                    <Notifications />
+                                                    <AccountMenu />
+                                                </div>
+                                                :
+                                                <div className='hidden sm:block'>
+                                                    <Button
+                                                        action={handleGoTo}
+                                                        variant='outline-primary'
+                                                        text='Ingresar'
+                                                        classes='!border-2 !py-[6px] rounded-lg text-secondary group'
+                                                        icon={<ArrowRightEndOnRectangleIcon className='text-primary h-6 group-hover:text-white transition-all' />}
+                                                    />
+                                                </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <nav aria-label="Top" className="max-w-full hidden lg:block">
-                        <div className="flex h-14 mx-auto items-center justify-center lg:justify-between w-full max-w-[1300px] flex-1 gap-3">
-                            <div className="hidden lg:flex ">
-                                {navigationMobile(false).pages.map((page) => (
-                                    page.name !== 'Ingresar' &&
-                                    <Link
-                                        key={page.name}
-                                        href={page.href}
-                                        className={`flex text-nowrap px-4 py-2 items-center text-sm font-medium hover:text-secondary transition border-r-2 border-gray-200 ${ pathname === page.href ? 'text-primary' : 'text-gray-500' }`}
-                                    >
-                                        {page.name}
-                                    </Link>
-                                ))}
-                            </div>
-                            <div className='hidden lg:flex items-center justify-center lg:justify-end w-full gap-2 max-w-[655px]'>
-                                <Suspense fallback={<Spinner />}>
-                                    <Search />
-                                </Suspense>
-                            </div>
-                        </div>
-                    </nav>
-                </header>
-            </div>
+                </div>
+            </header>
         </>
     )
 }

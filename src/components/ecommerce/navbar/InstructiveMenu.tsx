@@ -4,7 +4,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-export const InstructiveMenu = () => {
+interface Props {
+    popoverId?: string
+}
+
+export const InstructiveMenu = ({popoverId = 'instructive-menu'}: Props) => {
 
     const router = useRouter()
 
@@ -25,6 +29,7 @@ export const InstructiveMenu = () => {
                         <ArrowDownIcon className='w-3 ml-1' />
                     </div>
                 }
+                popoverId={popoverId}
             >
                 <ul className='flex flex-col w-[200px] z-20'>
                     <li onClick={() => handleGoTo('/como-ofertar')}>

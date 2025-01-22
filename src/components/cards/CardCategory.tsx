@@ -1,23 +1,30 @@
+'use client'
+
 import React, { ReactNode } from 'react'
 import { Card } from './Card'
+import { useRouter } from 'next/navigation';
 
 interface Props {
     name?: string;
     icon?: ReactNode;
+    category_id ?: number;
 }
 
-export const CardCategory = ({name = 'Category', icon}: Props) => {
+export const CardCategory = ({name = 'Digital', icon, category_id = 5}: Props) => {
+
+    const router = useRouter()
+
 
     return (
-        <Card className='p-8'>
-            <div className="flex flex-col items-center justify-center">
-                <div>
+        <div className='rounded-lg shadow bg-white p-8 transition-all hover:cursor-pointer hover:shadow-primaryLight hover:translate-y-[-1px]' onClick={() => router.push(`/auctions?categories_id=${category_id}`)}>
+            <div className="flex flex-col items-center justify-center gap-4">
+                <div className='text-slate-400'>
                     {
-                        icon ? icon : <svg className='text-slate-400' xmlns="http://www.w3.org/2000/svg" width="7rem" height="7rem" viewBox="0 0 24 24"><path fill="currentColor" d="m8.637 8.994l2.667-4.402q.13-.211.312-.295T12 4.213t.384.084t.312.295l2.667 4.402q.131.202.131.424t-.106.409t-.284.295t-.418.109H9.314q-.241 0-.422-.111t-.28-.293q-.106-.18-.106-.4t.13-.433M17.5 21.231q-1.567 0-2.649-1.082T13.769 17.5t1.082-2.649t2.649-1.082t2.649 1.082t1.082 2.649t-1.082 2.649t-2.649 1.082M3.77 19.922v-4.85q0-.343.231-.573q.233-.23.576-.23h4.85q.344 0 .574.232q.23.233.23.577v4.85q0 .343-.233.573q-.232.23-.576.23h-4.85q-.343 0-.573-.233q-.23-.232-.23-.576m13.73.309q1.147 0 1.94-.792t.792-1.939t-.792-1.939t-1.939-.792t-1.939.792t-.792 1.939t.792 1.939t1.938.792m-12.73-.5h4.462v-4.462H4.769zm4.858-10.5h4.746L12 5.427zM17.5 17.5"></path></svg>
+                        icon ? icon : <svg xmlns="http://www.w3.org/2000/svg" width="7rem" height="7rem" viewBox="0 0 24 24"><path fill="currentColor" d="m8.637 8.994l2.667-4.402q.13-.211.312-.295T12 4.213t.384.084t.312.295l2.667 4.402q.131.202.131.424t-.106.409t-.284.295t-.418.109H9.314q-.241 0-.422-.111t-.28-.293q-.106-.18-.106-.4t.13-.433M17.5 21.231q-1.567 0-2.649-1.082T13.769 17.5t1.082-2.649t2.649-1.082t2.649 1.082t1.082 2.649t-1.082 2.649t-2.649 1.082M3.77 19.922v-4.85q0-.343.231-.573q.233-.23.576-.23h4.85q.344 0 .574.232q.23.233.23.577v4.85q0 .343-.233.573q-.232.23-.576.23h-4.85q-.343 0-.573-.233q-.23-.232-.23-.576m13.73.309q1.147 0 1.94-.792t.792-1.939t-.792-1.939t-1.939-.792t-1.939.792t-.792 1.939t.792 1.939t1.938.792m-12.73-.5h4.462v-4.462H4.769zm4.858-10.5h4.746L12 5.427zM17.5 17.5"></path></svg>
                     }
                 </div>
                 <h3 className="text-lg text-gray-700 text-center">{name}</h3>
             </div>
-        </Card>
+        </div>
     )
 }

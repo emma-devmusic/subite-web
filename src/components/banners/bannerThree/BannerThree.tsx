@@ -44,7 +44,7 @@ export const BannerThree = ({ homeProd }: Props) => {
                 }}
             >
                 {
-                    homeProd.length > 0
+                    homeProd.length > 1
                         ? homeProd.map(item =>
                             <div className="max-h-[500px]" key={item.id}>
                                 <BannerProduct itemProduct={item} />

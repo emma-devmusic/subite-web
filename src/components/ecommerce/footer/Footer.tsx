@@ -18,7 +18,7 @@ export const Footer = () => {
                         <Brand />
                         <LinkList titleLinks="Visitá" links={navigation.pages} />
                     </div>
-                    <div className="mt-5 sm:mt-12 grid gap-y-0 sm:flex sm:justify-between sm:items-center border-2 border-primary rounded-lg p-4 sm:p-7">
+                    <div className="mt-5 sm:mt-12 grid gap-y-0 sm:flex sm:justify-between sm:items-center border-2 border-primary rounded-lg py-2 px-4">
                         <Rights />
                         <SocialIcons color='primary' />
                     </div>
