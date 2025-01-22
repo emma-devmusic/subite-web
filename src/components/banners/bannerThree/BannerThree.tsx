@@ -10,9 +10,13 @@ import { useRef } from "react";
 const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 700,
     slidesToShow: 1,
+    slidesToScroll: 1,
     arrows: false,
+    autoplaySpeed: 3000,
+    autoplay: true,
+    easing: "ease-in-out",
 };
 
 interface Props {
@@ -39,9 +43,7 @@ export const BannerThree = ({ homeProd }: Props) => {
             <Slider
                 {...settings}
                 className="banner3 mx-auto"
-                ref={slider => {
-                    sliderRef = slider;
-                }}
+                ref={slider => { sliderRef = slider}}
             >
                 {
                     homeProd.length > 1
