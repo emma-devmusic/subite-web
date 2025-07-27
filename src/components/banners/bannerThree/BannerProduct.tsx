@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import Image from "next/image";
-import { getAuctionStatus } from "@/helpers/auctions";
+import { getAuctionStatus } from "@/commons/helpers/auctions";
 import { useAppSelector } from "@/store";
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse";
 import { useEffect, useRef, useState } from "react";

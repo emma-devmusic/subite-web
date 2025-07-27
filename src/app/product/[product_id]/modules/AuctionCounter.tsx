@@ -1,7 +1,7 @@
 'use client'
 
 import { Tag } from '@/components/tags/Tag';
-import { getAuctionStatus } from '@/helpers/auctions';
+import { getAuctionStatus } from '@/commons/helpers/auctions';
 import { AuctionProductItem } from '@/types/products';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react'

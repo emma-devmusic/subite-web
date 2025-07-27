@@ -1,5 +1,5 @@
 'use client'
-import { getAuctionStatus } from '@/helpers/auctions';
+import { getAuctionStatus } from '@/commons/helpers/auctions';
 import { ItemHomeProductsSearchResponse } from '@/types/homeResponse';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react'

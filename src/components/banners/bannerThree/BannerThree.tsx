@@ -3,7 +3,7 @@
 import Slider from "react-slick";
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse";
 import { BannerProduct } from "./BannerProduct";
-import { alternativesBannerImages } from "@/helpers/constants";
+import { alternativesBannerImages } from "@/commons/helpers/constants";
 import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
 

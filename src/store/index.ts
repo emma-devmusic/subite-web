@@ -11,7 +11,7 @@ import homeCategoriesReducer from './slices/homeCategoriesSlice';
 import offersReducer from './slices/offersSlice';
 
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
-import { sessionStorageMiddleware } from './middlewares/sessionStorage-middleware';
+import { authMiddleware } from './middlewares/auth-middleware';
 import { registerUserMiddleware } from './middlewares/registerUser-middleware';
 import { profileUserMiddleware } from './middlewares/profileUser-middleware';
 import { configUserMiddleware } from './middlewares/configUser-middleware';
@@ -24,7 +24,7 @@ import { homeCategoriesMiddleware } from './middlewares/home-categories-middlewa
 import { homeMiddleware } from './middlewares/home-middleware';
 
 const middlewares = [
-  sessionStorageMiddleware,
+  authMiddleware,
   registerUserMiddleware,
   profileUserMiddleware,
   configUserMiddleware,

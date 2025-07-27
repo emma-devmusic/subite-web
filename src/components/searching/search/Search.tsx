@@ -35,7 +35,7 @@ export const Search = ({ initRoute = '/auctions', inputClassName }: Props) => {
     const handleClean = () => {
         setInputValue('')
         router.push(
-            initRoute + `${ initRoute.includes('?') ? '&' : '?' }` + deleteQueryString(['term'])
+            initRoute + `${initRoute.includes('?') ? '&' : '?'}` + deleteQueryString(['term'])
         )
     }
 
@@ -43,12 +43,12 @@ export const Search = ({ initRoute = '/auctions', inputClassName }: Props) => {
         e.preventDefault()
         if (inputValue === '') {
             router.push(
-                initRoute + `${ initRoute.includes('?') ? '&' : '?' }` + deleteQueryString(['term'])
+                initRoute + `${initRoute.includes('?') ? '&' : '?'}` + deleteQueryString(['term'])
             )
             return
         }
         router.push(
-            initRoute + `${ initRoute.includes('?') ? '&' : '?' }` + createQueryString('term', e.target.elements[0].value)
+            initRoute + `${initRoute.includes('?') ? '&' : '?'}` + createQueryString('term', e.target.elements[0].value)
         )
     }
     return (
@@ -71,11 +71,12 @@ export const Search = ({ initRoute = '/auctions', inputClassName }: Props) => {
                             onClick={handleClean}
                             className='h-5 w-auto px-2 text-gray-300 border-r-2 hover:cursor-pointer hover:text-gray-400 transition-all'
                         />
-                        <MagnifyingGlassIcon
-                            onClick={handleSubmit}
-                            className="h-5 w-auto pl-2 text-gray-400 border-gray-300 hover:cursor-pointer hover:text-primary transition-all"
-                            aria-hidden="true"
-                        />
+                        <button type='submit'>
+                            <MagnifyingGlassIcon
+                                className="h-5 w-auto pl-2 text-gray-400 border-gray-300 hover:cursor-pointer hover:text-primary transition-all"
+                                aria-hidden="true"
+                            />
+                        </button>
                     </div>
                 </div>
             </div>

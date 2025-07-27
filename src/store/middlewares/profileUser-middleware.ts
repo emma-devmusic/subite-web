@@ -6,20 +6,37 @@ import { fetchData } from "@/services/fetchData";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
-import DecryptedSession from "@/helpers/Permissions";
+import SessionManager from "@/commons/Classes/SessionManager";
 
 export const profileUserMiddleware = (state: MiddlewareAPI) => {
+    const session = SessionManager.getInstance();
     return (next: Dispatch) => async (action: any) => {
 
         next(action);
 
-        const userData = new DecryptedSession()
-        const token = userData.getAccessToken()
-        const role_id = userData.getRoleId()
-
         if (action.type === 'auth/getUserProfile') {
             state.dispatch(uiSetLoading(true))
             console.log('Llamada a la Api - USER PROFILE')
+
+            // Asegurar que la sesión esté cargada
+            const token = session.getToken()
+
+            if (!token) {
+                console.error('No hay token disponible')
+                state.dispatch(uiSetLoading(false))
+                state.dispatch(
+                    uiModal({
+                        modalFor: 'message',
+                        modalOpen: true,
+                        typeMsg: 'error',
+                        msg: 'No hay sesión activa'
+                    })
+                )
+                window.location.replace('/login')
+                return
+            }
+
+            debugger
             const user: GetUserProfile = await fetchData('/user-profile/search', 'GET', null, token)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
@@ -46,6 +63,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     })
                 )
                 window.location.replace('/login')
+                console.log('llamada 1');
                 sessionStorage.clear()
             }
             state.dispatch(uiSetLoading(false))
@@ -58,6 +76,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/sendMailVerification') {
             state.dispatch(uiSetLoading(true))
             console.log('Llamada a la Api - USER PROFILE - ENVIO DE EMAIL PARA VERIFICACION')
+            const token = session.getToken()
             const resp: SendEmailVerificationResponse = await fetchData('/user-profile/verify-email', 'GET', null, token)
                 .catch(err => {
                     state.dispatch(
@@ -94,6 +113,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'auth/savingImages') {
             state.dispatch(uiSetLoading(true))
+            const token = session.getToken()
             const formData = new FormData();
             action.payload.images.forEach((file: any) => formData.append('files', file) )
             formData.append('default', action.payload.imageSelected.name)
@@ -148,6 +168,7 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
         if (action.type === 'auth/updateImageProfile') {
             const imgState: ImageProfileState = action.payload
             state.dispatch(uiSetLoading(true))
+            const token = session.getToken()
             const imgProfileUpdate = {
                 ...(imgState.imageProfileSelected && { default: imgState.imageProfileSelected?.id }),
                 ...(imgState.imagesToDelete.length > 0 && { delete: imgState.imagesToDelete })

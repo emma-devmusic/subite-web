@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { flu } from "@/helpers";
+import { flu } from "@/commons/helpers";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { selectUserToggle } from "@/store/slices/authSlice";
 import { deleteUser, getUser } from "@/store/slices/manageUserSlice";

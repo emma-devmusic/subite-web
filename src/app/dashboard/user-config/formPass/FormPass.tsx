@@ -1,4 +1,4 @@
-import { validateNewPassword } from "@/helpers";
+import { validateNewPassword } from "@/commons/helpers";
 import { useAppForm } from "@/hooks/useAppForm";
 // import { useForm } from "@/hooks/useAppForm";
 import { useAppDispatch } from "@/store";

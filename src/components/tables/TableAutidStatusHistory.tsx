@@ -1,4 +1,4 @@
-import { flu } from "@/helpers";
+import { flu } from "@/commons/helpers";
 import { AuditStatusHistory } from "@/types";
 import { ProductsAudit } from "@/types/products";
 import { useEffect, useState } from "react";

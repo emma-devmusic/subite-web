@@ -2,7 +2,7 @@ import { useReducer, useState } from 'react';
 import { useDropzone } from 'react-dropzone'
 import { imageInitialState, imageReducer } from '@/reducers';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { fileIntoSW3 } from '@/helpers/imageProductManager';
+import { fileIntoSW3 } from '@/commons/helpers/imageProductManager';
 import { Spinner } from '@/components/spinner/Spinner';
 import { setImagesNewProduct } from '@/store/slices/productSlice';
 import Image from 'next/image';

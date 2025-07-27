@@ -2,21 +2,22 @@ import { fetchData } from "@/services/fetchData";
 import { EmailChangeResponse, PasswordChangeResponse, TwoFactorChangeResponse, ValidateNewEmailResponse } from "@/types";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
-import { decryptLoginData } from "@/helpers";
 import { clearRedux } from "../slices/authSlice";
+import SessionManager from "@/commons/Classes/SessionManager";
 
 
 export const configUserMiddleware = (state: MiddlewareAPI) => {
+    const session = SessionManager.getInstance()
     return (next: Dispatch) => async (action: any) => {
 
         next(action);
+        const token = session.getToken()
 
         if (action.type === 'auth/newPassword') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 console.log('Llamada a la Api - NEW PASSWORD')
-                const resp: PasswordChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, userData.data.access.accessToken)
+                const resp: PasswordChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, token)
                 if (!resp.error) {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -43,9 +44,8 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'auth/changeEmail') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
-                const resp: EmailChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, userData.data.access.accessToken)
+                const resp: EmailChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, token)
                 if (!resp.error) {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -73,9 +73,8 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'auth/validate_email') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
-                const resp: ValidateNewEmailResponse = await fetchData('/user-config/validate-email', 'POST', action.payload, userData.data.access.accessToken)
+                const resp: ValidateNewEmailResponse = await fetchData('/user-config/validate-email', 'POST', action.payload, token)
                 if (!resp.error) {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -103,9 +102,8 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
         //********************************ENVIO DEL TRUE O FALSE DEL SEGUNDO FACTOR DE AUTETICACION */
         if (action.type === 'auth/two_factor_change') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
-                const resp: TwoFactorChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, userData.data.access.accessToken)
+                const resp: TwoFactorChangeResponse = await fetchData('/user-config/auth-data', 'PATCH', action.payload, token)
                 if (!resp.error) {
                     state.dispatch(uiSetLoading(false))
                     state.dispatch(
@@ -139,14 +137,13 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
         //******************ENVÍO DEL CÓDIGO */
         if (action.type === 'auth/send_two_factor_code_change') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
 
             try {
                 const resp = await fetchData(
                     '/user-config/validate-sec',
                     'POST',
                     action.payload,
-                    userData.data.access.accessToken,
+                    token,
                     { verify: `${process.env.NEXT_PUBLIC_VERIFY}` }
                 )
 
@@ -177,13 +174,12 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
 
         if (action.type === 'auth/delete_account') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             try {
                 const resp = await fetchData(
                     '/user-config/delete-user',
                     'DELETE',
                     null,
-                    userData.data.access.accessToken
+                    token
                 )
 
                 if (!resp.error) {
@@ -209,13 +205,11 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
                         typeMsg: 'error',
                         msg: `${error}`
                     }))
-                
             }
         }
 
         if(action.type === 'auth/verify_account') {
             state.dispatch(uiSetLoading(true))
-            const userData: any = decryptLoginData()
             const formData = new FormData();
             action.payload.document.forEach((file: any) => {
                 formData.append('document', file)
@@ -226,7 +220,7 @@ export const configUserMiddleware = (state: MiddlewareAPI) => {
                 const response: any = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-users-audits/request-validation`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${userData.data.access.accessToken}`
+                        'Authorization': `Bearer ${token}`
                     },
                     body: formData
                 });

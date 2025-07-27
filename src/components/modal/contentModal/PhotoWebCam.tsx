@@ -1,4 +1,4 @@
-import { base64ToBlob } from "@/helpers";
+import { base64ToBlob } from "@/commons/helpers";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRef, useState, Suspense } from 'react';
 import Webcam from "react-webcam";

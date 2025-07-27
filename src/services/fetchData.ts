@@ -1,11 +1,11 @@
-import { access } from "@/helpers/envs";
+import { access } from "@/commons/helpers/envs";
 import { errorMsg } from "@/mocks/mocks";
 
 export const fetchData = async (
     path: string,
     method: 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH',
     body: any | null,
-    authorization?: string, // Hacer que authorization sea opcional
+    authorization?: string | null, // Hacer que authorization sea opcional
     header?: { [key:string]: string; }
 ) => {
     // Configurar las cabeceras iniciales

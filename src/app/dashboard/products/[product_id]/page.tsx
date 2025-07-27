@@ -2,8 +2,8 @@
 import { GalleryImages } from "@/components/gallery/GalleryImages";
 import { Spinner } from "@/components/spinner/Spinner";
 import { TableAutidStatusHistory } from "@/components/tables/TableAutidStatusHistory";
-import { flu } from "@/helpers";
-import { findCategoriesByIds } from "@/helpers/products";
+import { flu } from "@/commons/helpers";
+import { findCategoriesByIds } from "@/commons/helpers/products";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { deleteProductFromDB, getProductById } from "@/store/slices/productSlice";
 import { uiModal } from "@/store/slices/uiSlice";

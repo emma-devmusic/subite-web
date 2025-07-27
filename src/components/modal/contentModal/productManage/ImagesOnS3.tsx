@@ -1,5 +1,5 @@
 import { Spinner } from "@/components/spinner/Spinner";
-import { deleteImageFromSW3 } from "@/helpers/imageProductManager";
+import { deleteImageFromSW3 } from "@/commons/helpers/imageProductManager";
 import { ImageUpdatingReducer } from "@/reducers/imageUpdatingReducer";
 import { useAppDispatch } from "@/store";
 import { deleteImageNewProduct, selectingImagesNewProduct } from "@/store/slices/productSlice";

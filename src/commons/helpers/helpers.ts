@@ -1,8 +1,8 @@
 'use client'
 import { CreateUserDataRedux, DataUserLoginResponse, FormNewPassword, LoginResponse, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks, User, UserLoginResponse, UserPermissionsDecrypted } from "@/types"
 import EncryptData from "./EncryptData";
-import DecryptedSession from "./Permissions";
 import * as env from "./envs";
+import SessionManager from "../Classes/SessionManager";
 
 
 
@@ -22,7 +22,7 @@ export const getUSID = () => {
 
 
 /// DEVUELVE LOS PERMISOS ENCRYPTADOS ALMACENADOS EN LA BASE DE DATO - INFORMACIÓN IMPORTANTE DEL USUARIO
-export const getSession = () => {
+const getSession = () => {
     (typeof window !== 'undefined')
     const userData = decryptLoginData();
     const encryptData = new EncryptData();
@@ -39,7 +39,7 @@ export const setInSessionStorage = (id: string, data: any) => (typeof window !==
 
 
 // ENCRIPTA LOS DATOS DE LA SESION EN EL SESSION STORAGE
-export const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) => {
+const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) => {
     (typeof window !== 'undefined')
     const encrypter = new EncryptData()
     const encryptData = encrypter.encrypt(
@@ -50,7 +50,7 @@ export const encryptLoginDataInSessionStorage = (data: DataUserLoginResponse) =>
 
 
 /// TRAE LOS DATOS DE LA SESIÓN DEL SESSION STORAGE
-export const decryptLoginData = () => {
+const decryptLoginData = () => {
     (typeof window !== 'undefined')
     const encrypter = new EncryptData();
     const loginDataEncrypt = getFromSessionStorage('user-login-data');
@@ -62,7 +62,7 @@ export const decryptLoginData = () => {
 //// TRAE LOS PERMISOS DEL USUARIO DE UN MODULO EN ESPECIFICO
 export const getPermissionsOf = (module: string) => {
     (typeof window !== 'undefined')
-    const session = new DecryptedSession();
+    const session = SessionManager.getInstance()
     const userConfigId = session.getPermissionsId()[module]
     const permissionsUserConfig = session.getModuleById(userConfigId)
     return permissionsUserConfig
@@ -191,7 +191,7 @@ export const base64ToBlob = (dataURI: string) => {
 
 //REVISA QUE SI UN USUARIO TIENE PERMISOS DE ADMINISTRADOR SEGUN EL MODULO
 export const isAdmin = (module: string) => {
-    const session = new DecryptedSession();
+    const session = SessionManager.getInstance();
     const userConfigId = session.getPermissionsId()[module]
     const permissionsUserConfig: ModulesPermissions = session.getModuleById(userConfigId)
     let isAdmin = false

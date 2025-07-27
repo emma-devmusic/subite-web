@@ -3,30 +3,43 @@
 import { PopoverApp } from "@/components/popover"
 import { BellAlertIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
-import { getIdFromUSID, getUSID, objectNotification, setNotificationOnLocalStorage } from "@/helpers"
+import { getIdFromUSID, objectNotification, setNotificationOnLocalStorage } from "@/commons/helpers"
 import { io } from 'socket.io-client'
 import { ObjectNotification } from "@/types"
 import { ItemNotification } from "@/components/notifications/ItemNotification"
+import SessionManager from "@/commons/Classes/SessionManager"
 
 
 export const Notifications = () => {
 
-    const [usid] = useState(getUSID()?.data)
+    const [usid, setUsid] = useState<string | null>(null)
     const [notifications, setNotifications] = useState<ObjectNotification[]>([])
+
     useEffect(() => {
+        const session = SessionManager.getInstance();
+        const sessionUsid = session.getUSID();
+        setUsid(sessionUsid);
+    }, []);
+
+    useEffect(() => {
+        if (!usid) return;
+
         const socketConection = io(`https://notifystage.ding.com.ar?usid=${usid}`, {autoConnect: false})
-        if (typeof usid !== 'undefined') {
-            socketConection.connect()
-            socketConection.on(`${usid}`, (data: any) => {
-                setNotificationOnLocalStorage(`${getIdFromUSID(usid)}`, data)
+        
+        socketConection.connect()
+        socketConection.on(`${usid}`, (data: any) => {
+            const userId = getIdFromUSID(usid);
+            if (userId) {
+                setNotificationOnLocalStorage(userId, data)
                 setNotifications(state => [...state, objectNotification(data)])
-            })
-        }
+            }
+        })
+
         return () => {
             socketConection.off(`${usid}`)
             socketConection.disconnect()
         }
-    }, [])
+    }, [usid])
 
     return (
         <PopoverApp

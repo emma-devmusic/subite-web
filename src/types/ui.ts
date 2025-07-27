@@ -27,10 +27,14 @@ export interface Modal {
         | 'offers'
         | 'new_offer'
         | 'edit_auction';
-        modalOpen: boolean;
+        modalOpen?: boolean;
         modalTitle?: string;
         typeMsg?: null | 'error' | 'info' | 'success' | 'warning' | 'spinner';
         msg?: null | string | ReactElement;
+        onAccept?: null | (() => void);
+        onClose?: null | (() => void);
+        onCancel?: null | (() => void);
+        data?: unknown;
 }
 
 export interface FormNewPassword {

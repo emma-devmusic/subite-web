@@ -3,7 +3,7 @@ import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { loginData } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "@/components/dashboard";
 import Link from "next/link";
 import imageLogin from '../../assets/img/login.png'
@@ -13,6 +13,7 @@ export default function LoginPage() {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false)
     const { isLogged } = useAppSelector(state => state.auth)
 
     useEffect(() => {
@@ -26,7 +27,11 @@ export default function LoginPage() {
 
     const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        dispatch(loginData(values));
+        dispatch(loginData({
+            path: '',
+            setIsLoading,
+            user: values
+        }));
     }
 
     return (

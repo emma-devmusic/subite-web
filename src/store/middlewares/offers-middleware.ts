@@ -3,19 +3,20 @@ import { store } from "..";
 import { fetchData } from "@/services/fetchData";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import Swal from 'sweetalert2'
-import DecryptedSession from "@/helpers/Permissions";
-import { path_role } from "@/helpers";
+import { path_role } from "@/commons/helpers";
 import { NewOfferResponse } from "@/types/offers";
 import { GetOffersResponse } from "@/types/offersResponse";
 import { getOffers, setOffers } from "../slices/offersSlice";
+import SessionManager from "@/commons/Classes/SessionManager";
 
 export const offersMiddleware = (state: MiddlewareAPI) => {
+    const session = SessionManager.getInstance();
+
     return (next: Dispatch) => async (action: any) => {
 
         next(action);
-        const userData = new DecryptedSession()
-        const token = userData.getAccessToken()
-        const role_id = userData.getRoleId()
+        const token = session.getToken()
+        const role_id = session.getRole() ?? 0
 
         if (action.type === 'offers/getOffers') {
 

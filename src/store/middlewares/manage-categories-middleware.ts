@@ -1,22 +1,17 @@
 
-import { decryptLoginData } from "@/helpers";
 import { fetchData } from "@/services/fetchData";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { NewCategoryResponse, SearchCategoriesResponse } from "@/types/category";
 import { setCategories } from "../slices/categorySlice";
-import DecryptedSession from "@/helpers/Permissions";
+import SessionManager from "@/commons/Classes/SessionManager";
 
 export const manageCategoryMiddleware = (state: MiddlewareAPI) => {
+    const session = SessionManager.getInstance();
+
     return (next: Dispatch) => async (action: any) => {
         next(action);
-
-
-        const userData = new DecryptedSession()
-        const token = userData.getAccessToken()
-        const role_id = userData.getRoleId()
-
-
+        const token = session.getToken()
         if (action.type === 'category/getCategories') {
             state.dispatch(uiSetLoading(true))
             const query: string = action.payload

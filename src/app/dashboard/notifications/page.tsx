@@ -2,11 +2,12 @@
 
 import { TableNotif } from "./components/TableNotif";
 import { HeaderLayout } from "@/components/dashboard/headerLayout/HeaderLayout";
-import { getIdFromUSID, getNotificationsFromLocalStorage, getUSID } from "@/helpers";
+import { getIdFromUSID, getNotificationsFromLocalStorage } from "@/commons/helpers";
 import { useAppSelector } from "@/store";
 import { useEffect, useState } from "react";
 import { ObjectNotification } from "@/types";
 import { Button } from "@/components/buttons/Button";
+import SessionManager from "@/commons/Classes/SessionManager";
 
 
 export default function NotificationsPage() {
@@ -24,8 +25,11 @@ export default function NotificationsPage() {
     }
 
     const handleUpdate = () => {
-        const usid = getUSID()?.data
-        if (typeof usid !== 'undefined') {
+        (typeof window !== 'undefined')
+        const session = SessionManager.getInstance();
+        const usid = session.getUSID();
+
+        if (usid) {
             const notif = getNotificationsFromLocalStorage(getIdFromUSID(usid))
             setNotifications(notif)
         }

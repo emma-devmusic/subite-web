@@ -1,5 +1,5 @@
 
-import { access_key_id, s3_region, secret_access_key } from "@/helpers/envs";
+import { access_key_id, s3_region, secret_access_key } from "@/commons/helpers/envs";
 import { FileManagerBucket } from "./file-manager.bucket";
 import { FileManagerFactoryAbstract } from "./manage-files.abstract";
 

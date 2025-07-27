@@ -4,7 +4,8 @@ import { server_secret } from './envs';
 
 
 
-export default class EncryptData {
+export default class EncryptData<T> {
+    /* eslint-disable */
 
     constructor(private key: string = `${server_secret}`) {
         this.key = key;
@@ -27,13 +28,15 @@ export default class EncryptData {
             }
             return {
                 error: false,
-                data: datadecrypted,
+                data: datadecrypted as T,
             };
         } catch (e: any) {
             return { error: true, message: e.message };
         }
     }
 }
+
+
 
 
 

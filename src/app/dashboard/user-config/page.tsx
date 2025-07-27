@@ -21,11 +21,10 @@ const alternativeImage = "https://demo.themesberg.com/windster/images/users/bonn
 export default function UserConfigPage() {
 
     const dispatch = useAppDispatch()
-    const { userProfile, isLogged } = useAppSelector(state => state.auth)
-    const [imageProfile, setImageProfile] = useState<ImageProfile>()
-    const { loading } = useAppSelector(state => state.ui)
     const router = useRouter()
-
+    const { loading } = useAppSelector(state => state.ui)
+    const { userProfile, isLogged } = useAppSelector(state => state.auth)
+    const [ imageProfile, setImageProfile ] = useState<ImageProfile>()
 
     useEffect(() => {
         setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
@@ -90,7 +89,6 @@ export default function UserConfigPage() {
                         <AccountStatusButton userProfileStatus={userProfile.auth_user_audits_status_description} />
                     </div>
                 </div>
-
 
                 {/* CAMBIO DE CONTRASEÑA */}
                 <FormPass />

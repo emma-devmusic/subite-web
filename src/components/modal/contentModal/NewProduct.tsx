@@ -10,7 +10,7 @@ import { useAppForm } from '@/hooks/useAppForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { newProductSubmit, updateProduct } from '@/store/slices/productSlice';
-import { createObjProductUpdating, formProduct, getIdProductImageFolder } from '@/helpers/products';
+import { createObjProductUpdating, formProduct, getIdProductImageFolder } from '@/commons/helpers/products';
 import { imageUpdatingProductInitialState, imageUpdatingReducer } from '@/reducers/imageUpdatingReducer';
 import './newProductModalStyle.css'
 

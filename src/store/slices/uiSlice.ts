@@ -31,6 +31,7 @@ const uiSlice = createSlice({
         },
         uiModal(state, action: PayloadAction<Modal>) {
             state.modal = action.payload
+            state.modal.modalOpen = true
         },
         uiCloseModal(state) {
             state.modal = initialState.modal

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import dayjs from "dayjs";
-import { findCategoriesByIds } from "@/helpers/products";
+import { findCategoriesByIds } from "@/commons/helpers/products";
 import { useAppDispatch } from "@/store";
 import { ItemProductSearchResponse } from "@/types/products";
 import { useEffect, useMemo, useState } from "react";

@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from './register.module.css';
 import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch } from "@/store";
-import { formValidate, userToRegister } from "@/helpers";
+import { formValidate, userToRegister } from "@/commons/helpers";
 import { useEffect, useState } from 'react';
 import { fetchData } from "@/services/fetchData";
 import { GenderTypes } from "@/types/dataFetching";

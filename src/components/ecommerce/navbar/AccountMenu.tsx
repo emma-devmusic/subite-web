@@ -13,7 +13,7 @@ import { useEffect, useState } from "react"
 import { MenuItemVerify } from "./MenuItemVerify"
 import { menuAccountStyles } from "./styles"
 import PrelineScript from "@/components/prelineScript/PrelineScript"
-import { alternativeImage } from "@/helpers/constants"
+import { alternativeImage } from "@/commons/helpers/constants"
 
 export const AccountMenu = () => {
 

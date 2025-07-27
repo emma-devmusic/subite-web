@@ -1,27 +1,27 @@
 import Swal from "sweetalert2";
-import DecryptedSession from "@/helpers/Permissions";
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { uiCloseModal, uiModal, uiSetLoading } from "../slices/uiSlice";
 import { RootState } from "..";
-import { deleteImageFromSW3 } from "@/helpers/imageProductManager";
+import { deleteImageFromSW3 } from "@/commons/helpers/imageProductManager";
 import { deleteImageNewProduct, getProductById, getProducts, selectProduct, setProductAuditsStatuses, setProducts } from "../slices/productSlice";
 import { fetchData } from "@/services/fetchData";
 import { ItemProductSearchResponse, ProductSearchIDResponse, ProductSearchResponse } from "@/types/products";
-import { path_role } from "@/helpers";
+import { path_role } from "@/commons/helpers";
 import { ProductAuditsStatuses } from "@/types";
+import SessionManager from "@/commons/Classes/SessionManager";
 
 
 
 
 
 export const manageProductMiddleware = (state: MiddlewareAPI) => {
+    const session = SessionManager.getInstance();
+
+    const { product } = state.getState() as RootState
     return (next: Dispatch) => async (action: any) => {
         next(action);
-
-        const userData = new DecryptedSession()
-        const token = userData.getAccessToken()
-        const role_id = userData.getRoleId()
-        const { product } = state.getState() as RootState
+        const token = session.getToken()
+        const role_id = session.getRole()
 
         const deleteArrayImages = (arr: any[]) => {
             arr.forEach(async (image: any, i) => {

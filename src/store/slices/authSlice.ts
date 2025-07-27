@@ -1,5 +1,6 @@
 
 import { CreateUserData, DataUserProfile, ImageProfileState, LoginData, StateImagesProfile, User, ValidateUserData } from '@/types';
+import { LoginActionPayload } from '@/types/authPayloads';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 
@@ -8,7 +9,6 @@ interface AuthSlice {
     validateUserData: ValidateUserData;
     newUser: CreateUserData
     isLogged: boolean;
-    loginData: LoginData;
     user: User | null;
     userProfile: DataUserProfile | null
     usersSelected: number[]
@@ -19,7 +19,6 @@ const initialState: AuthSlice = {
     validateUserData: { email: '', code: '' },
     newUser: {} as CreateUserData,
     isLogged: false,
-    loginData: { email: '', password: '' },
     user: null,
     userProfile: null,
     usersSelected: []
@@ -32,7 +31,7 @@ const authSlice = createSlice({
         registerUser(state, action: PayloadAction<CreateUserData>) {
             state.newUser = action.payload
         },
-        loginData(state, action: PayloadAction<LoginData>) {
+        loginData(state, action: PayloadAction<LoginActionPayload>) {
             // state.loginData = action.payload
         },
         login(state, action: PayloadAction<User>) {
@@ -54,7 +53,6 @@ const authSlice = createSlice({
             state.validateUserData = { email: '', code: '' }
             state.newUser = {} as CreateUserData
             state.isLogged = false
-            state.loginData = { email: '', password: '' }
             state.user = null
             state.userProfile = null
         },
