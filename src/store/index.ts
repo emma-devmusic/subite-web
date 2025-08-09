@@ -22,8 +22,12 @@ import { auctionMiddleware } from './middlewares/auction-middleware';
 import { offersMiddleware } from './middlewares/offers-middleware';
 import { homeCategoriesMiddleware } from './middlewares/home-categories-middleware';
 import { homeMiddleware } from './middlewares/home-middleware';
+import { initializationMiddleware } from './middlewares/initialization-middleware';
+import { cookieSyncMiddleware } from './middlewares/cookieSync-middleware';
 
 const middlewares = [
+  initializationMiddleware, // Debe ser el primero
+  cookieSyncMiddleware,     // Debe ser el segundo
   authMiddleware,
   registerUserMiddleware,
   profileUserMiddleware,

@@ -3,6 +3,7 @@ import { fetchData } from "../../services/fetchData";
 import EncryptData from "../helpers/EncryptData";
 import { ResponseApiDing } from "@/types/api";
 import { objToArray } from "../helpers";
+import { CookieUtils } from "./CookiesUtils";
 
 const objPermissions = (data: Permission[]) => {
 
@@ -54,20 +55,38 @@ class SessionManager {
     private permission: Permission[] = [];
     private two_factor: boolean = false
 
-    private gettingSessionFromSessionStorage():void {
-        const storedUser = sessionStorage.getItem("session");
-        if (storedUser) {
-            const {data, error} = SessionManager.encrypter.decrypt(storedUser)
-            if (!error) {
-                this.userSession = data as DataUserLoginResponse | null;
-                this.token = this.userSession!.access.accessToken as string
-                this.conn = this.userSession!.access.conn as string
-                const permissions =  SessionManager.encrypter.decrypt(this.userSession!.permissions)?.data as unknown as User
-                this.authData = permissions
-                this.basicData = permissions.basic_data;
-                this.role = permissions.role_id
-                this.permission = permissions.permission
-            }
+    private gettingSessionFromCookies(): void {
+        const storedSessionData = CookieUtils.getSessionData();
+
+        // Obtener datos desde cookies individuales (estrategia principal)
+        const cookieToken = CookieUtils.getAccessToken();
+        const cookieUserData = CookieUtils.getUserData();
+        const cookieUSID = CookieUtils.getUSID();
+
+        // Verificar que tenemos los datos esenciales
+        if (
+            cookieToken &&
+            cookieUserData &&
+            storedSessionData?.isAuthenticated
+        ) {
+            this.token = cookieToken;
+            this.conn = cookieUSID || '';
+            this.authData = cookieUserData;
+            this.basicData = cookieUserData.basic_data;
+            this.role = cookieUserData.role_id;
+
+            // Si no tenemos permisos en la cookie (porque se redujeron), usar array vacío
+            this.permission = cookieUserData.permission || [];
+
+            // Reconstruir userSession básica
+            this.userSession = {
+                access: {
+                    accessToken: this.token,
+                    conn: this.conn,
+                },
+                permissions: cookieUserData,
+                user: cookieUserData,
+            } as any;
         }
     }
 
@@ -75,6 +94,8 @@ class SessionManager {
         if (!SessionManager.instance) {
             console.log('GetInstance Shooting');
             SessionManager.instance = new SessionManager();
+            // Cargar datos de cookies inmediatamente
+            SessionManager.instance.gettingSessionFromCookies();
         }
         return SessionManager.instance;
     }
@@ -94,8 +115,16 @@ class SessionManager {
                 this.role = permissions.role_id
                 this.permission = permissions.permission
             }
-            const userEncryted = SessionManager.encrypter.encrypt(JSON.stringify(this.userSession))
-            sessionStorage.setItem("session", userEncryted);
+            
+            // Guardar en cookies en lugar de sessionStorage
+            CookieUtils.setSessionData({
+                isAuthenticated: true,
+                timestamp: Date.now()
+            }, 7);
+            
+            CookieUtils.setAccessToken(this.token, 7);
+            CookieUtils.setUSID(this.conn, 7);
+            CookieUtils.setUserData(permissions, 7);
 
         } catch (error) {
             console.error(error, 'Nivel 1');
@@ -105,12 +134,12 @@ class SessionManager {
 
     public async logout() {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         try {
             await fetchData('/manage-auth/signout', 'GET', null, this.token)
             this.userSession = null;
-            sessionStorage.removeItem("session");
+            CookieUtils.clearSessionCookies();
             this.authData = null
             this.conn =''
             this.token = ''
@@ -119,7 +148,7 @@ class SessionManager {
             this.permission = []
             return true;
         } catch (error) {
-            sessionStorage.clear()
+            CookieUtils.clearSessionCookies();
             console.error(error, 'SessionManager-Logout');
             return false;
         }
@@ -127,21 +156,21 @@ class SessionManager {
 
     public getSessionData():DataUserLoginResponse | null {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.userSession;
     }
 
     public getToken(): string | null {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.token
     }
 
     public getConn(): string | null {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.conn
     }
@@ -152,7 +181,7 @@ class SessionManager {
 
     public getPermissions() {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
 
         return this.permission
@@ -160,7 +189,7 @@ class SessionManager {
 
     public getRole() {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.role;
     }
@@ -168,21 +197,21 @@ class SessionManager {
     public getAuthData(): User | null {
         debugger
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.authData;
     }
 
     public getBasicData(): BasicData | null {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.basicData;
     }
 
     public hasTwoFactorAuthenticate(): boolean {
         if (!this.userSession) {
-            this.gettingSessionFromSessionStorage()
+            this.gettingSessionFromCookies()
         }
         return this.two_factor
     }

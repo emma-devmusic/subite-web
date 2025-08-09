@@ -2,8 +2,47 @@
 import { CreateUserData, DataUserProfile, ImageProfileState, LoginData, StateImagesProfile, User, ValidateUserData } from '@/types';
 import { LoginActionPayload } from '@/types/authPayloads';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import SessionManager from '@/commons/Classes/SessionManager';
 
+// Función para obtener el estado inicial desde cookies
+const getInitialAuthState = () => {
+    // Solo en el cliente (navegador)
+    if (typeof window === 'undefined') {
+        return {
+            validateUserData: { email: '', code: '' },
+            newUser: {} as CreateUserData,
+            isLogged: false,
+            user: null,
+            userProfile: null,
+            usersSelected: []
+        };
+    }
 
+    try {
+        const session = SessionManager.getInstance();
+        const user = session.getAuthData();
+        const isLogged = session.isAuthenticated();
+        
+        return {
+            validateUserData: { email: '', code: '' },
+            newUser: {} as CreateUserData,
+            isLogged,
+            user,
+            userProfile: null,
+            usersSelected: []
+        };
+    } catch (error) {
+        console.error('Error loading initial auth state from cookies:', error);
+        return {
+            validateUserData: { email: '', code: '' },
+            newUser: {} as CreateUserData,
+            isLogged: false,
+            user: null,
+            userProfile: null,
+            usersSelected: []
+        };
+    }
+};
 
 interface AuthSlice {
     validateUserData: ValidateUserData;
@@ -15,14 +54,7 @@ interface AuthSlice {
 }
 
 
-const initialState: AuthSlice = {
-    validateUserData: { email: '', code: '' },
-    newUser: {} as CreateUserData,
-    isLogged: false,
-    user: null,
-    userProfile: null,
-    usersSelected: []
-}
+const initialState: AuthSlice = getInitialAuthState();
 
 const authSlice = createSlice({
     name: 'auth',

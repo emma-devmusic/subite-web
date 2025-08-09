@@ -1,7 +1,4 @@
 import { BannerPages } from "@/components/banners/BannerPages"
-import { league_spartan } from "../layout";
-import img from '../../assets/img/bg-login.jpg'
-import Image from "next/image";
 import { WhoWeAre } from "./sections/WhoWeAre";
 import { OurMission } from "./sections/OurMission";
 import { OurValues } from "./sections/OurValues";

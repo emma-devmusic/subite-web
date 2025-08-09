@@ -3,6 +3,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { clearRedux } from '@/store/slices/authSlice';
 import { uiModal } from '@/store/slices/uiSlice';
 import { ResponseApiDing } from '@/types/api';
+import { CookieUtils } from '@/commons/Classes/CookiesUtils';
 
 export async function executeApiCall<T>(
     setIsLoading: (loading: boolean) => void,
@@ -14,7 +15,7 @@ export async function executeApiCall<T>(
 ): Promise<ResponseApiDing<T> | void> {
     const redirectToLogin = () => {
         dispatch(clearRedux());
-        sessionStorage.clear();
+        CookieUtils.clearSessionCookies();
         window.location.href = '/login';
     };
     const onOutOfSession = () => {

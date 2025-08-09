@@ -12,10 +12,12 @@ import { clearOffers } from "../slices/offersSlice";
 import { clearAuctionState } from "../slices/auctionSlice";
 import SessionManager from "@/commons/Classes/SessionManager";
 import { LoginActionPayload } from "@/types/authPayloads";
+import { CookieUtils } from "@/commons/Classes/CookiesUtils";
 
 
 export const authMiddleware = (state: MiddlewareAPI) => {
-    const session = SessionManager.getInstance();
+    // Solo inicializar SessionManager en el cliente
+    const session = typeof window !== 'undefined' ? SessionManager.getInstance() : null;
     
     const showError = (
         message: string,
@@ -36,6 +38,12 @@ export const authMiddleware = (state: MiddlewareAPI) => {
     const setIsLoading = (loading: boolean) => state.dispatch(uiSetLoading(loading));
     return (next: Dispatch) => async (action: any) => {
         next(action);
+        
+        // Si no estamos en el cliente, no ejecutar lógica de autenticación
+        if (typeof window === 'undefined' || !session) {
+            return;
+        }
+        
         const token = session.getToken()
         if (action.type === 'auth/loginData') {
             const { path, setIsLoading, user, navigate } = action.payload as LoginActionPayload
@@ -76,7 +84,7 @@ export const authMiddleware = (state: MiddlewareAPI) => {
                             })
                         )
                         console.log('llamada 3');
-                        sessionStorage.clear();
+                        CookieUtils.clearSessionCookies();
                     } else if (codeResponse && !codeResponse.error) {
                         state.dispatch(loggear())
                     }
@@ -120,7 +128,7 @@ export const authMiddleware = (state: MiddlewareAPI) => {
                         state.dispatch(clearOffers())
                         state.dispatch(clearAuctionState())
                         console.log('llamada 5');
-                        sessionStorage.clear();
+                        CookieUtils.clearSessionCookies();
                     }
                 },
                 'Saliendo...'
@@ -128,7 +136,7 @@ export const authMiddleware = (state: MiddlewareAPI) => {
                 console.log(err)
                 state.dispatch(cleanProducts())
                 console.log('llamada 4');
-                sessionStorage.clear();
+                CookieUtils.clearSessionCookies();
                 window.location.reload()
             });
         }
