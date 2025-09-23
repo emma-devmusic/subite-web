@@ -10,20 +10,27 @@ import { useEffect, useState } from "react"
 
 export const MenuFilters = () => {
 
-
     const [showNavbar, setShowNavbar] = useState(false);
+    const [isClient, setIsClient] = useState(false);
     
-        useEffect(() => {
-            const handleScroll = () => {
-                if (window.scrollY > 700) {
-                    setShowNavbar(true);
-                } else {
-                    setShowNavbar(false);
-                }
-            };
-            window.addEventListener("scroll", handleScroll);
-            return () => window.removeEventListener("scroll", handleScroll);
-        }, []);
+    useEffect(() => {
+        // Marcar que estamos en el cliente
+        setIsClient(true);
+    }, []);
+    
+    useEffect(() => {
+        if (!isClient) return;
+        
+        const handleScroll = () => {
+            if (window.scrollY > 700) {
+                setShowNavbar(true);
+            } else {
+                setShowNavbar(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isClient]);
     
 
     return (

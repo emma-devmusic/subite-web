@@ -1,3 +1,4 @@
+'use client'
 import dayjs from "dayjs";
 import Image from "next/image";
 import { getAuctionStatus } from "@/commons/helpers/auctions";
@@ -24,6 +25,7 @@ interface Props {
 export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
 
     const { isLogged } = useAppSelector(state => state.auth)
+    const [isClient, setIsClient] = useState(false);
 
     const [auctionStatus, setAuctionStatus] = useState<AuctionStatus>({
         status: 'pending',
@@ -33,6 +35,13 @@ export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
+        // Marcar que estamos en el cliente
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (!isClient || !auction) return;
+
         const updateStatus = () => {
             const status = getAuctionStatus(dayjs(auction?.init_date).format('DD/MM/YYYY'), dayjs(auction?.end_date).format('DD/MM/YYYY'));
             setAuctionStatus(status);
@@ -46,7 +55,7 @@ export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, []);
+    }, [isClient, auction]);
 
 
 
@@ -58,7 +67,7 @@ export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
             <div className="flex flex-col md:flex-row items-center md:items-end absolute z-20 w-11/12 text-center m-auto h-[90%] justify-end md:justify-between text-white gap-4">
                 <h4 className="text-3xl font-semibold">{itemProduct?.name || itemAlternative?.name}</h4>
                 {
-                    itemProduct &&
+                    itemProduct && isClient &&
                     <div className="banner-auction-status bottom-0 py-2">
                         <p className="banner-auction-status__text mb-2">
                             {auctionStatus.status === 'pending' && 'Comienza en...'}

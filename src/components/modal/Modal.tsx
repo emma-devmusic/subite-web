@@ -47,7 +47,7 @@ export const Modal = () => {
             }
             dispatch(cleanSelectCategories())
         }
-        if (modalFor === '2F_code') sessionStorage.clear();
+        if (modalFor === '2F_code' && typeof window !== 'undefined') sessionStorage.clear();
         if (modalFor === 'validate_code' && path.includes('register')) router.push('./login');
         if (modalFor === 'offers') dispatch(clearOffers())
     }

@@ -1,6 +1,5 @@
 'use client'
 import { Button } from '@/components/buttons/Button'
-import { getFromSessionStorage } from '@/commons/helpers'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { selectAuction } from '@/store/slices/auctionSlice'
 import { getOffers } from '@/store/slices/offersSlice'
@@ -17,14 +16,31 @@ interface Props {
 export const ButtonOffers = ({ product }: Props) => {
 
     const { auctionSelected } = useAppSelector(state => state.auction)
+    const { isLogged } = useAppSelector(state => state.auth)
+    const dispatch = useAppDispatch()
+
+    // Verificar si la subasta ha terminado
+    const isAuctionEnded = () => {
+        if (!product.products_acutions || product.products_acutions.length === 0) {
+            return true; // Si no hay subasta activa, considerar como terminada
+        }
+
+        const currentAuction = product.products_acutions[0];
+        const currentDate = new Date();
+        const endDate = new Date(currentAuction.end_date);
+
+        return currentDate > endDate;
+    }
+
+    const auctionEnded = isAuctionEnded();
+
     useEffect(() => {
         dispatch(selectAuction(product as any))
         dispatch(selectProduct(product as any))
-    }, [])
+    }, [dispatch, product])
 
-    const dispatch = useAppDispatch()
     const handleSeeOffers = () => {
-        if(getFromSessionStorage('user-login-data')){
+        if(isLogged){
             dispatch(getOffers(`${auctionSelected.id}`))
             dispatch(uiModal({
                 modalFor: 'offers',
@@ -39,9 +55,10 @@ export const ButtonOffers = ({ product }: Props) => {
     return (
         <div>
             <Button
-                text='Historial de ofertas'
-                variant='primary'
+                text={auctionEnded ? 'Subasta finalizada' : 'Historial de ofertas'}
+                variant={auctionEnded ? 'outline-primary' : 'primary'}
                 action={handleSeeOffers}
+                disabled={auctionEnded}
             />
         </div>
     )

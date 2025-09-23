@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "@/store"
 import { getUserProfile } from "@/store/slices/authSlice"
 import { ImageProfile } from "@/types"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { MenuItemVerify } from "./MenuItemVerify"
 import { menuAccountStyles } from "./styles"
@@ -20,12 +19,6 @@ export const AccountMenu = () => {
     const [imageProfile, setImageProfile] = useState<ImageProfile>()
     const { isLogged, userProfile } = useAppSelector(state => state.auth)
     const { loading } = useAppSelector(state => state.ui)
-    const path = usePathname();
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        if (!userProfile && isLogged) dispatch(getUserProfile())
-    }, [])
 
     useEffect(() => {
         setImageProfile({ ...userProfile?.image_profiles.filter(e => e.default)[0] } as ImageProfile)
@@ -62,10 +55,6 @@ export const AccountMenu = () => {
                 {
                     accountMenuData.map(item => {
                         let showItem = (item.isLogged === isLogged) ? true : false
-                        if (
-                            path.includes('dashboard') && item.link === '/dashboard' ||
-                            !path.includes('dashboard') && item.link === '/'
-                        ) showItem = false
                         return <MenuItem
                             link={item.link}
                             show={showItem}

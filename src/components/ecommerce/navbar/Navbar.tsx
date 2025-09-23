@@ -1,4 +1,3 @@
-'use client'
 
 import { Suspense, useEffect, useState } from 'react'
 import { navigation } from './data'
@@ -14,39 +13,19 @@ import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
 import { InstructiveMenu } from './InstructiveMenu'
 import Link from 'next/link'
+import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
 
 export const Navbar = () => {
 
-    const router = useRouter()
     const pathname = usePathname();
     const { isLogged } = useAppSelector(state => state.auth)
-    // const [showNavbar, setShowNavbar] = useState(false);
-    // const [isRelative, setIsRelative] = useState(false);
 
     const handleGoTo = () => {
-        router.push('/login')
+        window.location.href = DASHBOARD_BASE_URL + '/login';
     }
-
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         const scrollY = window.scrollY;
-    //         setShowNavbar(scrollY > 700);
-    //         setIsRelative(scrollY <= 200);
-    //     };
-
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    // }, []);
-
-    if (pathname.includes('dashboard')) return
 
     return (
         <header className="relative bg-white lg:pt-2 z-10 shadow w-full sm:px-4">
-            {/* // <header
-        //     className={`bg-white lg:pt-2 shadow sm:px-4 transition-all ease-in-out duration-500 top-0 w-full z-40 
-        //             ${isRelative ? 'relative !translate-y-0' : 'fixed -translate-y-full'}
-        //             ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
-        // > */}
             <div className="flex items-center justify-between w-full text-sm font-medium text-white ">
                 <div className="flex justify-between items-center mx-auto max-w-[1250px] w-full gap-3">
                     <div className='flex items-center justify-between w-full '>

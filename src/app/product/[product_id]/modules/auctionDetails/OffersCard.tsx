@@ -1,7 +1,9 @@
+'use client'
 import { Card } from '@/components/cards/Card'
 import { ButtonOffers } from './ButtonOffers'
 import { DataHomeProductResponse } from '@/types/homeProductResponse'
-import Link from 'next/link'
+import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
+import { useAppSelector } from '@/store'
 
 interface Props {
   product: DataHomeProductResponse
@@ -11,6 +13,8 @@ export const OffersCard = ({ product }: Props) => {
 
   const specific_prod = product.product_variations[0]
   const auction = product.products_acutions.find(s => !s.data_deleted)
+
+  const { isLogged } = useAppSelector(state => state.auth)
 
   return (
     <Card>
@@ -25,10 +29,16 @@ export const OffersCard = ({ product }: Props) => {
         <div className='flex flex-col items-center '>
           <ButtonOffers product={product} />
           <p className='text-xs text-gray-600 mt-1'>
-            <Link href={'/login'} className='mr-[4px] link-standard'>
-              Inicia sesión
-            </Link>
-            para ver el historial
+            {
+              !isLogged ?
+              <>
+                <a href={DASHBOARD_BASE_URL + '/login'} className='mr-[4px] link-standard'>
+                  Inicia sesión
+                </a>
+              para ver el historial
+              </>
+              : 'Ver historial de ofertas'
+            }
           </p>
         </div>
         <div className='flex items-center gap-2'>

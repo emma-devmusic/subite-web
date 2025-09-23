@@ -38,8 +38,10 @@ export const VerifyProcess = () => {
         dispatch(verify_account(auditImage))
     }
     const slideNow = () => {
+        if (typeof window === 'undefined') return;
+        
         const arrow: any = document.querySelector('.slick-next')
-        arrow.click()
+        if (arrow) arrow.click()
     }
 
     return (

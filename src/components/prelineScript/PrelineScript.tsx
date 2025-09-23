@@ -14,9 +14,18 @@ export default function PrelineScript() {
 
   const path = usePathname();
   useEffect(() => {
+    // Solo ejecutar en el cliente después de la hidratación
+    if (typeof window === 'undefined') return;
+    
     const loadPreline = async () => {
-      await import("preline/preline");
-      window.HSStaticMethods.autoInit();
+      try {
+        await import("preline/preline");
+        if (window.HSStaticMethods) {
+          window.HSStaticMethods.autoInit();
+        }
+      } catch (error) {
+        console.error('Error loading preline:', error);
+      }
     };
 
     loadPreline();

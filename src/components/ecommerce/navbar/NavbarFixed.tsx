@@ -35,7 +35,7 @@ export const NavbarFixed = () => {
     }, []);
 
     const handleGoTo = () => {
-        router.push('/login')
+        window.location.href = 'http://localhost:3001/login';
     }
 
     if (pathname.includes('dashboard')) return
@@ -48,13 +48,23 @@ export const NavbarFixed = () => {
             >
                 <div className="flex flex-col gap-4">
                     {navigationMobile(isLogged).pages.map((navItem, index) => (
-                        <Link
-                            key={index}
-                            href={navItem.href}
-                            className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'} ${pathname === navItem.href ? 'text-primary' : 'text-gray-500'}`}
-                        >
-                            {navItem.name}
-                        </Link>
+                        navItem.external ? (
+                            <a
+                                key={index}
+                                href={navItem.href}
+                                className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'}`}
+                            >
+                                {navItem.name}
+                            </a>
+                        ) : (
+                            <Link
+                                key={index}
+                                href={navItem.href}
+                                className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'} ${pathname === navItem.href ? 'text-primary' : 'text-gray-500'}`}
+                            >
+                                {navItem.name}
+                            </Link>
+                        )
                     ))}
                 </div>
             </OffCanvas>

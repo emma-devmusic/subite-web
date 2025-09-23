@@ -4,6 +4,10 @@ import { clearRedux } from '@/store/slices/authSlice';
 import { uiModal } from '@/store/slices/uiSlice';
 import { ResponseApiDing } from '@/types/api';
 import { CookieUtils } from '@/commons/Classes/CookiesUtils';
+import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs';
+
+// Flag global para evitar múltiples redirecciones por token expirado
+let isRedirecting = false;
 
 export async function executeApiCall<T>(
     setIsLoading: (loading: boolean) => void,
@@ -14,16 +18,31 @@ export async function executeApiCall<T>(
     onAccept?: () => void
 ): Promise<ResponseApiDing<T> | void> {
     const redirectToLogin = () => {
+        if (isRedirecting) return; // Evitar múltiples redirecciones
+        
+        isRedirecting = true;
         dispatch(clearRedux());
         CookieUtils.clearSessionCookies();
-        window.location.href = '/login';
+        
+        if (typeof window !== 'undefined') {
+            window.location.href = DASHBOARD_BASE_URL + '/login';
+        }
     };
+    
     const onOutOfSession = () => {
+        if (isRedirecting) return; // Evitar múltiples timeouts
+        
         setTimeout(() => {
             redirectToLogin();
         }, 3000);
     };
-    const showError = (message: string, onAccept?: () => void, onClose?: () => void) =>
+    
+    const showError = (message: string, onAccept?: () => void, onClose?: () => void) => {
+        // No mostrar múltiples modales de sesión expirada
+        if (isRedirecting && message.includes('sesión ha expirado')) {
+            return;
+        }
+        
         dispatch(
             uiModal({
                 modalFor: 'message',
@@ -33,6 +52,7 @@ export async function executeApiCall<T>(
                 modalTitle: 'Ups!'
             })
         );
+    };
 
     setIsLoading(true);
     try {

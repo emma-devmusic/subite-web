@@ -1,3 +1,4 @@
+import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
 import { SidebarMenuItem, MenuItem, NotificationApp, User, NotificationFromDB  } from "@/types";
 
 export const sidebarData : SidebarMenuItem[] = [
@@ -50,43 +51,36 @@ export const accountMenuData: MenuItem[] = [
         isBoth: false,
         isLogged: false,
         text: 'Ingresar',
-        link: '/login',
+        link: DASHBOARD_BASE_URL + '/login',
         icon: 'ic:round-log-in'
     },
     {
         isBoth: false,
         isLogged: false,
         text: 'Regisrarse',
-        link: '/register',
+        link: DASHBOARD_BASE_URL + '/register',
         icon: 'mdi:register',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Perfil',
-        link: '/dashboard/user-profile',
+        link: DASHBOARD_BASE_URL + '/user-profile',
         icon: 'gg:profile',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Ajustes',
-        link: '/dashboard/user-config',
+        link: DASHBOARD_BASE_URL + '/user-config',
         icon: 'solar:settings-bold',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Plataforma',
-        link: '/dashboard',
+        link: DASHBOARD_BASE_URL + '',
         icon: 'mage:dashboard-check-fill'
-    },
-    {
-        isBoth: false,
-        isLogged: true,
-        text: 'Ir a la Web',
-        link: '/',
-        icon: 'mdi:web'
     },
     {
         isBoth: false,

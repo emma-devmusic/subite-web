@@ -26,18 +26,22 @@ const settings = {
 };
 
 const slideNext = (step: any, setStep: any) => {
+    if (typeof window === 'undefined') return;
+    
     const arrow: any = document.querySelector('.slick-next')
     if (step <= 3) {
         setStep(step + 1)
-        arrow.click()
+        if (arrow) arrow.click()
     }
 }
 
 const slidePrev = (step: any, setStep: any) => {
+    if (typeof window === 'undefined') return;
+    
     const arrow: any = document.querySelector('.slick-prev')
     if (step >= 1) {
         setStep(step - 1)
-        arrow.click()
+        if (arrow) arrow.click()
     }
 }
 

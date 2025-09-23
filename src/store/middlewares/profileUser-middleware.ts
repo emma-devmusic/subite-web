@@ -32,11 +32,9 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                         msg: 'No hay sesión activa'
                     })
                 )
-                window.location.replace('/login')
                 return
             }
 
-            debugger
             const user: GetUserProfile = await fetchData('/user-profile/search', 'GET', null, token)
                 .catch(err => {
                     state.dispatch(uiSetLoading(false))
@@ -62,7 +60,6 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                         msg: 'No se puede cargar el usuario'
                     })
                 )
-                window.location.replace('/login')
                 console.log('llamada 1');
                 sessionStorage.clear()
             }

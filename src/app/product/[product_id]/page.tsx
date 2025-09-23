@@ -1,5 +1,5 @@
 
-import { league_spartan } from '@/app/layout';
+import { league_spartan } from '@/app/fonts';
 import { ProductDetails } from './modules/ProductDetails';
 import { AuctionDetails } from './modules/auctionDetails/AuctionDetails';
 import { AuctionCounter } from './modules/AuctionCounter';
@@ -7,12 +7,17 @@ import { OffersCard } from './modules/auctionDetails/OffersCard';
 import { ChargesCommissions } from './modules/auctionDetails/ChargesCommissions';
 import { ImageProduct } from './modules/imageProduct/ImageProduct';
 import { getProductById } from '@/services-actions/home/products';
+import dynamic from 'next/dynamic';
+import { Spinner } from '@/components/spinner/Spinner';
 
+const ClientLayout = dynamic(() => import('@/components/ClientLayout'), {
+  ssr: false,
+  loading: () => <div className='h-screen w-full place-content-center'><Spinner /></div>
+});
 
 interface Props {
     params: { product_id: string };
 }
-
 
 export default async function ProductHomePage({ params }: Props) {
 
@@ -21,13 +26,14 @@ export default async function ProductHomePage({ params }: Props) {
     const auction = product.products_acutions.find(s => !s.data_deleted)
 
     return (
-        <div className='container-auction'>
-            <div>
-                <h1 className={`${league_spartan.className} text-3xl sm:text-5xl text-secondary font-bold`}>{product.name}</h1>
-            </div>
-            <hr />
+        <ClientLayout>
+            <div className='container-auction'>
+                <div>
+                    <h1 className={`${league_spartan.className} text-3xl sm:text-5xl text-secondary font-bold`}>{product.name}</h1>
+                </div>
+                <hr />
 
-            <ImageProduct productImages={specific_prod.productImages} />
+                <ImageProduct productImages={specific_prod.productImages} />
 
             <hr />
             <div>
@@ -44,5 +50,6 @@ export default async function ProductHomePage({ params }: Props) {
                 </div>
             </div>
         </div>
+        </ClientLayout>
     );
 }

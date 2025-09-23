@@ -27,11 +27,19 @@ export const CounterCardProduct = ({ itemProduct }: Props) => {
     const [auctionStatus, setAuctionStatus] = useState<AuctionStatus>({
         status: 'pending',
     });
+    const [isClient, setIsClient] = useState(false);
 
     const [auction] = useState(itemProduct.products_acutions.find(s => !s.data_deleted))
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
+        // Marcar que estamos en el cliente
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (!isClient) return;
+        
         const updateStatus = () => {
             const status = getAuctionStatus(dayjs(auction?.init_date).format('DD/MM/YYYY'), dayjs(auction?.end_date).format('DD/MM/YYYY'));
             setAuctionStatus(status);
@@ -47,7 +55,7 @@ export const CounterCardProduct = ({ itemProduct }: Props) => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, []);
+    }, [isClient, auction]);
 
     return (
         <div>
@@ -62,7 +70,7 @@ export const CounterCardProduct = ({ itemProduct }: Props) => {
                     {auctionStatus.status === 'running' && 'Termina en...'}
                     {auctionStatus.status === 'finish' && 'Finalizada'}
                 </p>
-                {auctionStatus.timeRemaining && (
+                {isClient && auctionStatus.timeRemaining && (
                     <div className="card-auction-status__time">
                         <div className="card-auction-status__time-box">
                             <span className="numb">{auctionStatus.timeRemaining.days} </span> <span className="text-xs">días</span>

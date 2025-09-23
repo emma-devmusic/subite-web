@@ -1,4 +1,4 @@
-import { league_spartan } from "@/app/layout"
+import { league_spartan } from "@/app/fonts"
 import React, { ReactNode } from "react"
 
 // Tipos de Props

@@ -1,8 +1,10 @@
+'use client'
 import dayjs from "dayjs"
 import Image from "next/image"
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 import { CounterCardProduct } from "../dayCounter/CounterCardProduct"
 import { LinkProduct } from "./LinkProduct"
+import { useState, useEffect } from "react"
 
 
 interface Props {
@@ -13,6 +15,11 @@ interface Props {
 export const CardProduct = ({ itemProduct }: Props) => {
 
     const auction = itemProduct.products_acutions.find(s => !s.data_deleted)
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     return (
         <div
@@ -32,7 +39,7 @@ export const CardProduct = ({ itemProduct }: Props) => {
                         </h3>
                         <p className="m-0 mt-2 text-sm text-gray-500">Precio inicial: <strong>${itemProduct.product_variations[0].price}</strong></p>
                         <p className="m-0 mt-2 text-sm text-gray-500">Puja mínima: <strong>${auction?.bid_amount}</strong></p>
-                        <p className="m-0 mt-2 text-sm text-gray-500">Fecha de inicio: <span>{dayjs(auction?.init_date).format('DD/MM/YYYY')}</span></p>
+                        {isClient && <p className="m-0 mt-2 text-sm text-gray-500">Fecha de inicio: <span>{dayjs(auction?.init_date).format('DD/MM/YYYY')}</span></p>}
                     </div>
                 </div>
             </div>

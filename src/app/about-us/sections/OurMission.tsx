@@ -1,7 +1,7 @@
 import { BannerLayout } from '@/components/banners/BannerLayout'
 import React from 'react'
 import img from '../../../assets/img/bg-login.jpg'
-import { league_spartan } from '@/app/layout'
+import { league_spartan } from '@/app/fonts'
 export const OurMission = () => {
     return (
         <section className=''>

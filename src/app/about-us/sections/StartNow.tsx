@@ -16,13 +16,13 @@ export const StartNow = () => {
                     heading='¡Comienza Ahora!'
                 />
                 <P className='max-w-[700px] text-center'>¡El momento de aprovechar el mundo de las subastas es ahora! Encuentra productos únicos, haz ofertas en tiempo real y también subasta lo que quieras. Todo en un solo lugar, con seguridad y transparencia garantizadas.</P>
-                <Link href={'/register'}>
+                <a href={'http://localhost:3001/register'}>
                     <Button
                         text='¡Registrarme!'
                         variant='outline-primary'
                         classes='!mt-10'
                     />
-                </Link>
+                </a>
             </div>
             <hr />
         </section>

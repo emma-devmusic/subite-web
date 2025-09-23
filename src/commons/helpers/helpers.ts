@@ -1,5 +1,5 @@
 'use client'
-import { CreateUserDataRedux, DataUserLoginResponse, FormNewPassword, LoginResponse, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks, User, UserLoginResponse, UserPermissionsDecrypted } from "@/types"
+import { CreateUserDataRedux, DataUserLoginResponse, FormNewPassword, LoginResponse, ModulesPermissions, NotificationFromDB, NotificationTitle, ObjectNotification, PasswordChecks, User, UserLoginResponse } from "@/types"
 import EncryptData from "./EncryptData";
 import * as env from "./envs";
 import SessionManager from "../Classes/SessionManager";
@@ -216,6 +216,8 @@ export const flu = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 // GUARDA LAS NOTIFICACIONES EN EL LOCAL STORAGE
 export const setNotificationOnLocalStorage = (userId: number | string, data: NotificationFromDB) => {
+    if (typeof window === 'undefined') return;
+    
     const dataToSave = objectNotification(data);
 
     let arrayNotifications = []
@@ -236,6 +238,8 @@ export const setNotificationOnLocalStorage = (userId: number | string, data: Not
 
 // TRAE LAS NOTIFICACIONES DEL LOCAL STORAGE
 export const getNotificationsFromLocalStorage = (userId: number | string): ObjectNotification[] => {
+    if (typeof window === 'undefined') return [];
+    
     const strNotifications = localStorage.getItem(`notif-${userId}`)
     if (strNotifications) {
         return JSON.parse(strNotifications)

@@ -1,10 +1,8 @@
 'use client'
-import Link from "next/link"
 import { Icon } from '@iconify/react';
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 import { logout } from "@/store/slices/authSlice";
-import PrelineScript from "../prelineScript/PrelineScript";
 
 interface Props {
     show?: boolean;
@@ -20,34 +18,24 @@ export const MenuItem = ({ text, link, icon, show }: Props) => {
 
     const handleLogout = () => {
         dispatch(logout());
-        router.push('/');
-    }
-    const handleGoTo = () => {
-        router.push(link)
     }
 
     if (!show) return
     if (link === '/close-session') return (
-        <>
-            <li onClick={handleLogout}>
-                <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
-                    {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
-                    <span className="ml-3">{text}</span>
-                </div>
-            </li>
-            <PrelineScript />
-        </>
+        <li onClick={handleLogout}>
+            <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
+                {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
+                <span className="ml-3">{text}</span>
+            </div>
+        </li>
     )
     return (
-        <>
-            <li onClick={handleGoTo}>
-                <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
-                    {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
-                    <span className="ml-3">{text}</span>
-                </div>
-            </li>
-            <PrelineScript />
-        </>
+        <a href={link}>
+            <div className="text-base text-gray-900 font-normal rounded-lg flex p-3 hover:bg-gray-100 hover:cursor-pointer">
+                {icon && <Icon icon={`${icon}`} className='w-6 h-6 text-gray-500' />}
+                <span className="ml-3">{text}</span>
+            </div>
+        </a>
     )
 
 }

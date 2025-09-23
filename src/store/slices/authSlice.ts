@@ -60,16 +60,11 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        // Mantener solo para compatibilidad con otros middlewares si es necesario
         registerUser(state, action: PayloadAction<CreateUserData>) {
             state.newUser = action.payload
         },
-        loginData(state, action: PayloadAction<LoginActionPayload>) {
-            // state.loginData = action.payload
-        },
-        login(state, action: PayloadAction<User>) {
-            state.user = action.payload;
-            state.isLogged = true;
-        },
+        // setAuthState se usa para sincronización con cookies del dashboard
         setAuthState(state, action: PayloadAction<User>) {
             state.user = action.payload;
             if (action.payload?.basic_data?.email) {
@@ -79,7 +74,7 @@ const authSlice = createSlice({
             }
         },
         logout(state) {
-            //for middleware
+            //for middleware - solo logout disponible en cliente
         },
         clearRedux(state) {
             state.validateUserData = { email: '', code: '' }
@@ -90,12 +85,6 @@ const authSlice = createSlice({
         },
         email_validation(state, action: PayloadAction<ValidateUserData>) {
             state.validateUserData = action.payload
-        },
-        twoFactorAuthentication(state, action: PayloadAction<{ code: string; }>) {
-            //for middleware
-        },
-        loggear() {
-            //for middleware
         },
         getUserProfile() {
             //for middleware
@@ -154,14 +143,10 @@ const authSlice = createSlice({
 });
 
 export const {
-    login,
-    loginData,
     logout,
     setAuthState,
     registerUser,
     email_validation,
-    twoFactorAuthentication,
-    loggear,
     getUserProfile,
     UserProfileToRedux,
     sendMailVerification,

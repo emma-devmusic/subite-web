@@ -4,6 +4,7 @@ import EncryptData from "../helpers/EncryptData";
 import { ResponseApiDing } from "@/types/api";
 import { objToArray } from "../helpers";
 import { CookieUtils } from "./CookiesUtils";
+import CrossTabCookieManager from "./CrossTabCookieManager";
 
 const objPermissions = (data: Permission[]) => {
 
@@ -109,7 +110,6 @@ class SessionManager {
             this.two_factor = data.two_factor
             this.conn = SessionManager.encrypter.decrypt(data.access.conn)!.data as string
             const permissions =  SessionManager.encrypter.decrypt(this.userSession.permissions)?.data as User
-            debugger
             if( permissions ){
                 this.authData = permissions
                 this.role = permissions.role_id
@@ -126,6 +126,10 @@ class SessionManager {
             CookieUtils.setUSID(this.conn, 7);
             CookieUtils.setUserData(permissions, 7);
 
+            // Notificar a otras pestañas sobre el login
+            const crossTabManager = CrossTabCookieManager.getInstance();
+            crossTabManager.broadcastLogin();
+
         } catch (error) {
             console.error(error, 'Nivel 1');
             throw error;
@@ -137,6 +141,10 @@ class SessionManager {
             this.gettingSessionFromCookies()
         }
         try {
+            // Notificar a otras pestañas antes del logout
+            const crossTabManager = CrossTabCookieManager.getInstance();
+            crossTabManager.broadcastLogout();
+            
             await fetchData('/manage-auth/signout', 'GET', null, this.token)
             this.userSession = null;
             CookieUtils.clearSessionCookies();
@@ -195,7 +203,6 @@ class SessionManager {
     }
 
     public getAuthData(): User | null {
-        debugger
         if (!this.userSession) {
             this.gettingSessionFromCookies()
         }

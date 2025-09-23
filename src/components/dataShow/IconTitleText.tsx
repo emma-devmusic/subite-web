@@ -1,4 +1,4 @@
-import { league_spartan } from '@/app/layout'
+import { league_spartan } from '@/app/fonts'
 import { IconAuction } from '@/assets/icons/IconAuction'
 import React, { ReactNode } from 'react'
 import { P } from '../text/P'

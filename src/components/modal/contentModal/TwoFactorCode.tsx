@@ -1,9 +1,9 @@
+import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs"
 import { useAppForm } from "@/hooks/useAppForm"
 import { useAppDispatch, useAppSelector } from "@/store"
-import { send_two_factor_code_change, twoFactorAuthentication } from "@/store/slices/authSlice"
+import { send_two_factor_code_change } from "@/store/slices/authSlice"
 
 export const TwoFactorCode = () => {
-
 
     const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const dispatch = useAppDispatch()
@@ -19,9 +19,9 @@ export const TwoFactorCode = () => {
             )
             return
         } else {
-            dispatch(
-                twoFactorAuthentication(values)
-            )
+            // La autenticación de dos factores para login ahora se maneja desde el dashboard
+            console.log('2FA para login debe manejarse desde el dashboard');
+            window.location.href = DASHBOARD_BASE_URL + '/login';
         }
     }
 
