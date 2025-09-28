@@ -1,3 +1,5 @@
+import { cookie_domain } from '../helpers/envs';
+
 /**
  * CrossTabCookieManager
  * Maneja la sincronización de logout/login entre pestañas usando cookies
@@ -11,8 +13,11 @@ class CrossTabCookieManager {
     private lastSessionState: boolean = false;
     private readonly COOKIE_NAME = 'auction_session_sync';
     private readonly POLL_INTERVAL = 1000; // Verificar cada segundo
+    private readonly COOKIE_DOMAIN: string;
 
     private constructor() {
+        // Obtener el dominio desde las variables de entorno centralizadas
+        this.COOKIE_DOMAIN = cookie_domain;
         this.lastSessionState = this.getSessionState();
         this.startPolling();
     }
@@ -57,10 +62,10 @@ class CrossTabCookieManager {
         // Cookie que expire en 5 segundos (solo para sincronización)
         const expires = new Date(Date.now() + 5000).toUTCString();
         
-        // Con domain=localhost para compartir entre puertos diferentes
-        document.cookie = `${this.COOKIE_NAME}=${value}; expires=${expires}; path=/; domain=localhost; SameSite=Lax`;
+        // Usar el dominio configurado desde las variables de entorno
+        document.cookie = `${this.COOKIE_NAME}=${value}; expires=${expires}; path=/; domain=${this.COOKIE_DOMAIN}; SameSite=Lax`;
         
-        console.log(`🍪 Cliente: Cookie de sincronización creada: ${action}`);
+        // console.log(`🍪 Cliente: Cookie de sincronización creada: ${action} para dominio: ${this.COOKIE_DOMAIN}`);
     }
 
     /**
@@ -148,7 +153,7 @@ class CrossTabCookieManager {
      * Notifica logout a otras pestañas
      */
     public broadcastLogout() {
-        console.log('📡 Notificando logout a otras pestañas via cookies');
+        // console.log('📡 Notificando logout a otras pestañas via cookies');
         this.setSyncCookie('logout');
     }
 
@@ -156,8 +161,15 @@ class CrossTabCookieManager {
      * Notifica login a otras pestañas
      */
     public broadcastLogin() {
-        console.log('📡 Notificando login a otras pestañas via cookies');
+        // console.log('📡 Notificando login a otras pestañas via cookies');
         this.setSyncCookie('login');
+    }
+
+    /**
+     * Obtiene el dominio configurado para las cookies
+     */
+    public getCookieDomain(): string {
+        return this.COOKIE_DOMAIN;
     }
 
     /**

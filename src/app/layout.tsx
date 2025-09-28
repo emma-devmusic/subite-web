@@ -3,8 +3,9 @@ import { inter } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SubastasApp",
-  description: "Aplicación de Sara",
+  title: "Subite Subastas",
+  description: "Plataforma de subastas en línea donde compradores y vendedores se conectan para pujar y adquirir productos únicos de manera segura y transparente.",
+  keywords: "subastas, compras, ventas, productos, pujas, mercado en línea",
 };
 
 export default function RootLayout({

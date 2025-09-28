@@ -5,6 +5,8 @@ import { getAuctionStatus } from "@/commons/helpers/auctions";
 import { useAppSelector } from "@/store";
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse";
 import { useEffect, useRef, useState } from "react";
+import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
+import Link from "next/link";
 
 interface TimeRemaining {
     days: number;
@@ -58,13 +60,16 @@ export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
     }, [isClient, auction]);
 
 
-
     return (
         <div className="relative flex justify-center items-center banner3-box w-full">
-            <button className="banner3-box-button border-2 rounded-md px-4 py-2 transition-all text-sm sm:w-auto md:text-xl text-white hover:bg-primaryHover hover:border-primaryHover">
-                {!isLogged ? '¡Registrate para participar!' : 'Ver Subasta'}
-            </button>
-            <div className="flex flex-col md:flex-row items-center md:items-end absolute z-20 w-11/12 text-center m-auto h-[90%] justify-end md:justify-between text-white gap-4">
+            {
+                itemProduct 
+                ?   <Link href={isLogged ? `/product/${itemProduct.id}` : DASHBOARD_BASE_URL} className={`banner3-box-button border-2 rounded-md px-4 py-2 transition-all text-sm sm:w-auto md:text-xl text-white hover:bg-primaryHover hover:border-primaryHover ${itemProduct ? '' : 'hidden'}`}>
+                        {!isLogged ? '¡Registrate para participar!' : 'Ver Subasta'}
+                    </Link>
+                :   <p className="banner3-box-button text-white text-center md:text-xl max-w-[250px] md:max-w-lg" >Descubre productos exclusivos en nuestras subastas en línea. ¡Regístrate y participa para llevarte increíbles ofertas!</p>
+            }
+            <div className="flex flex-col justify-between md:flex-row items-center md:items-end absolute z-20 w-11/12 text-center m-auto h-[90%] text-white gap-4">
                 <h4 className="text-3xl font-semibold">{itemProduct?.name || itemAlternative?.name}</h4>
                 {
                     itemProduct && isClient &&

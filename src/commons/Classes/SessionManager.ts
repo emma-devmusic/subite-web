@@ -93,7 +93,7 @@ class SessionManager {
 
     public static getInstance(): SessionManager {
         if (!SessionManager.instance) {
-            console.log('GetInstance Shooting');
+            // console.log('GetInstance Shooting');
             SessionManager.instance = new SessionManager();
             // Cargar datos de cookies inmediatamente
             SessionManager.instance.gettingSessionFromCookies();

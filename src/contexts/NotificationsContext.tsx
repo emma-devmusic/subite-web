@@ -35,11 +35,11 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('🔌 NotificationsProvider mounted, isInitialized:', isInitialized);
+    // console.log('🔌 NotificationsProvider mounted, isInitialized:', isInitialized);
     
     // Si ya está inicializado, solo actualizar el estado
     if (isInitialized && globalSocket && globalSocket.connected) {
-      console.log('🔌 Using existing socket connection');
+      // console.log('🔌 Using existing socket connection');
       setIsLoading(false);
       return;
     }
@@ -47,37 +47,37 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     const initializeSocket = async () => {
       try {
         if (typeof window === 'undefined') {
-          console.log('🔌 NotificationsProvider: Running on server side, skipping');
+          // console.log('🔌 NotificationsProvider: Running on server side, skipping');
           setIsLoading(false);
           return;
         }
 
         // Si ya existe una conexión global y está conectada, usarla
         if (globalSocket && globalSocket.connected) {
-          console.log('🔌 NotificationsProvider: Using existing connected socket');
+          // console.log('🔌 NotificationsProvider: Using existing connected socket');
           setIsLoading(false);
           return;
         }
 
         const session = SessionManager.getInstance();
         const usid = session.getUSID();
-        console.log('🔌 USID for socket connection:', usid);
+        // console.log('🔌 USID for socket connection:', usid);
 
         // Solo conectar si hay usuario autenticado
         if (!usid) {
-          console.log('🔌 No USID found, skipping socket connection');
+          // console.log('🔌 No USID found, skipping socket connection');
           setIsLoading(false);
           return;
         }
 
         // Limpiar cualquier conexión anterior
         if (globalSocket) {
-          console.log('🔌 Cleaning previous socket connection');
+          // console.log('🔌 Cleaning previous socket connection');
           globalSocket.disconnect();
           globalSocket.removeAllListeners();
         }
 
-        console.log('🔌 Creating new socket connection...');
+        // console.log('🔌 Creating new socket connection...');
         // Crear una única conexión de socket
         globalSocket = io(`https://notifystage.ding.com.ar?usid=${usid}`, {
           autoConnect: false,
@@ -86,7 +86,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         globalSocket.connect();
 
         globalSocket.on(`${usid}`, (data: any) => {
-          console.log('🔔 Notification received:', data);
+          // console.log('🔔 Notification received:', data);
           const userId = getIdFromUSID(usid);
           if (userId) {
             setNotificationOnLocalStorage(userId, data);
@@ -95,17 +95,17 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         globalSocket.on('connect', () => {
-          console.log('🔌 Socket connected successfully!');
+          // console.log('🔌 Socket connected successfully!');
           isInitialized = true;
         });
 
         globalSocket.on('disconnect', () => {
-          console.log('🔌 Socket disconnected');
+          // console.log('🔌 Socket disconnected');
           isInitialized = false;
         });
 
         globalSocket.on('connect_error', (error) => {
-          console.error('🔌 Socket connection error:', error);
+          // console.error('🔌 Socket connection error:', error);
         });
 
         setIsLoading(false);
@@ -125,7 +125,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const cleanup = () => {
-    console.log('🔌 Cleaning up socket connection');
+    // console.log('🔌 Cleaning up socket connection');
     if (globalSocket) {
       globalSocket.disconnect();
       globalSocket.removeAllListeners();

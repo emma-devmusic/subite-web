@@ -1,6 +1,7 @@
 'use client'
 
 import PrelineScript from '@/components/prelineScript/PrelineScript';
+import { Select } from '@/components/form';
 import { getCategoriesFromDB } from '@/services-actions/home/categories';
 import { ItemDataCategoriesHomeResponse } from '@/types/categoriesHome';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -132,78 +133,60 @@ export const Selects = ({
                 router.push(pathname + '?' + deleteQueryString(['with_auction']))
             }
         }
-    }, [categories])
+    }, [categories, auctionsTypes, deleteQueryString, params, pathname, router])
 
     return (
         <>
             {
                 withCategory &&
-                <div>
-                    {
-                        labels && <label htmlFor="categories" className="block text-sm font-medium mb-2">Categoría</label>
-                    }
-                    <select
-                        id='categories'
-                        onChange={handleSelectCategory}
-                        value={categorySelected.id}
-                        className={`${selectClassname} py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none`}
-                    >
-                        <option defaultValue={initialCategory.id}>{initialCategory.name}</option>
-                        {
-                            categories.map((cat) => {
-                                return (
-                                    <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
+                <Select
+                    label={labels ? "Categoría" : ""}
+                    name="categories"
+                    value={categorySelected?.id?.toString() || "0"}
+                    onChange={handleSelectCategory}
+                    className={selectClassname}
+                    options={[
+                        { value: initialCategory?.id?.toString() || "0", label: initialCategory?.name || "Selecciona categoría" },
+                        ...categories.map((cat) => ({
+                            value: cat?.id?.toString() || "0",
+                            label: cat?.name || "Sin nombre"
+                        }))
+                    ]}
+                />
             }
             {
                 withSubcategory &&
-                <div>
-                    {
-                        labels && <label htmlFor="subcategories" className="block text-sm font-medium mb-2">Subcategoría</label>
-                    }
-                    <select
-                        id='subcategories'
-                        onChange={handleSelectSubategory}
-                        value={subcategorySelected.id}
-                        className={`${selectClassname} py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none`}
-                    >
-                        <option defaultValue={initialCategory.id}>{initialSubcategory.name}</option>
-                        {
-                            subcategories.map((subcat) => {
-                                return (
-                                    <option key={subcat.id} value={subcat.id}>{subcat.name}</option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
+                <Select
+                    label={labels ? "Subcategoría" : ""}
+                    name="subcategories"
+                    value={subcategorySelected?.id?.toString() || "0"}
+                    onChange={handleSelectSubategory}
+                    className={selectClassname}
+                    options={[
+                        { value: initialSubcategory?.id?.toString() || "0", label: initialSubcategory?.name || "Selecciona subcategoría" },
+                        ...subcategories.map((subcat) => ({
+                            value: subcat?.id?.toString() || "0",
+                            label: subcat?.name || "Sin nombre"
+                        }))
+                    ]}
+                />
             }
             {
                 withSelectAuctionState &&
-                <div>
-                    {
-                        labels && <label htmlFor="auction-status" className="block text-sm font-medium mb-2">Estado de Subasta</label>
-                    }
-                    <select
-                        id='auction-status'
-                        onChange={handleAuctionStatusChange}
-                        value={withAuctionState.id}
-                        className={`${selectClassname} py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none`}
-                    >
-                        <option defaultValue={'0'}>{labelAuctionState}</option>
-                        {
-                            auctionsTypes.map((status) => {
-                                return (
-                                    <option key={status.id} value={status.id}>{status.name}</option>
-                                )
-                            })
-                        }
-                    </select>
-                </div>
+                <Select
+                    label={labels ? "Estado de Subasta" : ""}
+                    name="auction-status"
+                    value={withAuctionState?.id || "0"}
+                    onChange={handleAuctionStatusChange}
+                    className={selectClassname}
+                    options={[
+                        { value: '0', label: labelAuctionState },
+                        ...auctionsTypes.map((status) => ({
+                            value: status?.id || "0",
+                            label: status?.name || "Sin nombre"
+                        }))
+                    ]}
+                />
             }
             <PrelineScript />
         </>

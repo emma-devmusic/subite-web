@@ -23,13 +23,13 @@ export const initializationMiddleware: Middleware = (store) => {
 
                 // Si hay datos de sesión válidos, restaurar el estado
                 if (sessionData && token && userData) {
-                    console.log('🚀 Initialization: Restoring session from cookies');
+                    // console.log('🚀 Initialization: Restoring session from cookies');
                     
                     store.dispatch(setAuthState(userData));
                     
-                    console.log('✅ Initialization: Session restored successfully');
+                    // console.log('✅ Initialization: Session restored successfully');
                 } else {
-                    console.log('ℹ️ Initialization: No valid session found in cookies');
+                    // console.log('ℹ️ Initialization: No valid session found in cookies');
                 }
             } catch (error) {
                 console.error('❌ Initialization middleware error:', error);

@@ -39,19 +39,10 @@ export const ProductInfo = async ({ product }: Props) => {
                             </g>
                         </svg>
                     </strong>
+                    <strong className='text-gray-800'>
+                        Producto:
+                    </strong>
                     {product.name}
-                </li>
-                <li className='text-sm text-gray-600 flex items-center gap-1'>
-                    <strong className='text-gray-800'>
-                        Categoría:
-                    </strong>
-                    {productCategory.category}
-                </li>
-                <li className='text-sm text-gray-600 flex items-center gap-1'>
-                    <strong className='text-gray-800'>
-                        Subategoría:
-                    </strong>
-                    {productCategory.subcategory}
                 </li>
                 <li className='text-sm text-gray-600 flex items-center gap-1'>
                     <strong className='text-gray-800 flex items-center gap-1'>
@@ -89,6 +80,18 @@ export const ProductInfo = async ({ product }: Props) => {
                         Fin:
                     </strong>
                     {dayjs(auction?.end_date).format('DD/MM/YYYY')}
+                </li>
+                <li className='text-sm text-gray-600 flex items-center gap-1'>
+                    <strong className='text-gray-800'>
+                        Categoría:
+                    </strong>
+                    {productCategory.category}
+                </li>
+                <li className='text-sm text-gray-600 flex items-center gap-1'>
+                    <strong className='text-gray-800'>
+                        Subategoría:
+                    </strong>
+                    {productCategory.subcategory}
                 </li>
             </ul>
         </>

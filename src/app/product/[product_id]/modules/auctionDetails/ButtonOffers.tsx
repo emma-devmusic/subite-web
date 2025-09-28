@@ -34,6 +34,20 @@ export const ButtonOffers = ({ product }: Props) => {
 
     const auctionEnded = isAuctionEnded();
 
+    const isAuctionNotStarted = () => {
+        if (!product.products_acutions || product.products_acutions.length === 0) {
+            return true
+        }
+
+        const currentAuction = product.products_acutions[0]
+        const currentDate = new Date()
+        const startDate = new Date(currentAuction.init_date)
+
+        return currentDate < startDate
+    }
+
+    const auctionNotStarted = isAuctionNotStarted()
+
     useEffect(() => {
         dispatch(selectAuction(product as any))
         dispatch(selectProduct(product as any))
@@ -58,7 +72,8 @@ export const ButtonOffers = ({ product }: Props) => {
                 text={auctionEnded ? 'Subasta finalizada' : 'Historial de ofertas'}
                 variant={auctionEnded ? 'outline-primary' : 'primary'}
                 action={handleSeeOffers}
-                disabled={auctionEnded}
+                disabled={auctionEnded || auctionNotStarted || !isLogged}
+                tooltip={isLogged ? (auctionNotStarted ? 'La subasta aún no ha comenzado' : auctionEnded ? 'La subasta ha finalizado' : 'Ver historial de ofertas') : 'Inicia sesión para ver el historial de ofertas'}
             />
         </div>
     )

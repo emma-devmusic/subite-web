@@ -21,12 +21,12 @@ export default function HomePage() {
   const [bannerProd, setBannerProd] = useState<ItemHomeProductsSearchResponse[]>([]);
   const [loading, setLoading] = useState(true);
 
-  console.log('🔍 HomePage component rendered');
+  // console.log('🔍 HomePage component rendered');
 
   useEffect(() => {
     // Si hay cache disponible, usarlo inmediatamente
     if (homeProductsCache && bannerProductsCache) {
-      console.log('🔍 Using cached products');
+      // console.log('🔍 Using cached products');
       setHomeProd(homeProductsCache);
       setBannerProd(bannerProductsCache);
       setLoading(false);
@@ -35,25 +35,26 @@ export default function HomePage() {
 
     // Si ya está cargando en otra instancia, esperar
     if (isLoading) {
-      console.log('🔍 Products already loading, skipping...');
+      // console.log('🔍 Products already loading, skipping...');
       return;
     }
 
-    console.log('🔍 HomePage useEffect triggered - loading products...');
+    // console.log('🔍 HomePage useEffect triggered - loading products...');
     isLoading = true;
     
     const loadProducts = async () => {
       try {
-        const [homeProducts, bannerProducts] = await Promise.all([
+        const [homeProducts, bannerProducts, notStartedProducts] = await Promise.all([
           getProductsFromDB('search?page=1&limit=8'),
-          getProductsFromDB('search?page=1&limit=8&with_auction=ACTIVE')
+          getProductsFromDB('search?page=1&limit=8&with_auction=ACTIVE'),
+          getProductsFromDB('search?page=1&limit=8&with_auction=NOT_STARTED')
         ]);
 
-        console.log('🔍 Products loaded successfully');
+        // console.log('🔍 Products loaded successfully');
         
         // Guardar en cache
         homeProductsCache = homeProducts.items || [];
-        bannerProductsCache = bannerProducts.items || [];
+        bannerProductsCache = [...(bannerProducts.items || []), ...(notStartedProducts.items || [])];
         
         setHomeProd(homeProductsCache);
         setBannerProd(bannerProductsCache);

@@ -12,6 +12,7 @@ export const access = process.env.NEXT_PUBLIC_SESSION || ''
 export const server_secret = process.env.NEXT_PUBLIC_SERVER_SECRET || ''
 export const server_algorithm = process.env.NEXT_PUBLIC_SERVER_ALGORITHM || 'aes-256-cbc'
 export const verify = process.env.NEXT_PUBLIC_VERIFY || 'xx-em-xx'
+export const cookie_domain = process.env.NEXT_PUBLIC_COOKIE_DOMAIN || 'localhost'
 
 // Export for easier usage
 export const ENV = {
@@ -27,4 +28,5 @@ export const ENV = {
   server_secret,
   server_algorithm,
   verify,
+  cookie_domain,
 } as const

@@ -51,7 +51,7 @@ export const AccountMenu = () => {
                 </div>
             }
         >
-            <ul className='flex flex-col w-[200px] z-20'>
+            <ul className='flex flex-col w-[200px] z-40'>
                 {
                     accountMenuData.map(item => {
                         let showItem = (item.isLogged === isLogged) ? true : false

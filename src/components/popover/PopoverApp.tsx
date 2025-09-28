@@ -21,8 +21,11 @@ export const PopoverApp = ({ children, button, classOpen, classClose, position =
                 {button}
             </button>
             <div
-                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible group-hover:opacity-100 group-hover:visible hidden opacity-0 transition-opacity absolute invisible z-20 p-2 bg-white border text-sm text-gray-600 rounded-lg shadow-md"
+                className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible group-hover:opacity-100 group-hover:visible hidden opacity-0 transition-opacity absolute invisible z-40 p-2 bg-white border text-sm text-gray-600 rounded-lg shadow-md"
                 role="tooltip"
+                style={{
+                    zIndex: 1000,
+                }}
             >
                 {children}
             </div>

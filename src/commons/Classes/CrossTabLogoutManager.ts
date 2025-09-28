@@ -24,7 +24,7 @@ class CrossTabLogoutManager {
     private setupListener() {
         this.channel.addEventListener('message', (event) => {
             if (event.data.type === 'LOGOUT_REQUEST') {
-                console.log('🔄 Logout recibido desde otra pestaña/aplicación');
+                // console.log('🔄 Logout recibido desde otra pestaña/aplicación');
                 
                 // Solo ejecutar callback si esta pestaña NO fue la que inició el logout
                 if (!this.isCurrentTabInitiator) {
@@ -50,7 +50,7 @@ class CrossTabLogoutManager {
      * Envía una señal de logout a todas las otras pestañas
      */
     public broadcastLogout() {
-        console.log('📡 Enviando logout a otras pestañas/aplicaciones');
+        // console.log('📡 Enviando logout a otras pestañas/aplicaciones');
         
         // Marcar esta pestaña como la iniciadora del logout
         this.isCurrentTabInitiator = true;

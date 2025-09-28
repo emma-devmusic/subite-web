@@ -37,7 +37,7 @@ export const Navbar = () => {
                                 <div className='relative flex justify-center min-w-[60px] sm:min-w-[128px]'>
                                     <Logo />
                                 </div>
-                                <div className="hidden lg:flex  h-16 mx-auto items-center justify-center lg:justify-between w-full flex-1 gap-3">
+                                <div className="hidden lg:flex  h-16 mx-auto items-center justify-center lg:justify-between w-full flex-1">
                                     {navigation.pages.map((page) => (
                                         <Link
                                             key={page.name}

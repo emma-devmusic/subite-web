@@ -1,6 +1,7 @@
 'use client'
 import { getAuctionStatus } from '@/commons/helpers/auctions';
 import { ItemHomeProductsSearchResponse } from '@/types/homeResponse';
+import { AuctionStatusBadge } from '@/components/badges';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -59,11 +60,7 @@ export const CounterCardProduct = ({ itemProduct }: Props) => {
 
     return (
         <div>
-            <span className="absolute z-10 inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-secondary text-white top-2 right-2">
-                {auctionStatus.status === 'pending' && 'En espera'}
-                {auctionStatus.status === 'running' && 'Activa'}
-                {auctionStatus.status === 'finish' && 'Finalizada'}
-            </span>
+            <AuctionStatusBadge status={auctionStatus.status} />
             <div className="card-auction-status absolute w-full bottom-0 py-2">
                 <p className="card-auction-status__text mb-2">
                     {auctionStatus.status === 'pending' && 'Comienza en...'}
