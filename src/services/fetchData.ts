@@ -25,6 +25,7 @@ export const fetchData = async (
             method,
             headers,
             ...(body && { body: JSON.stringify(body) }),
+            cache: 'no-store' // Deshabilitar cache para obtener datos frescos
         });
 
         if (!response.ok) throw new Error(`${errorMsg[response.status]}`);

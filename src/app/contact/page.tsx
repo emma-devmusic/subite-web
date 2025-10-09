@@ -14,10 +14,11 @@ import {
   ShieldIcon 
 } from '@/components/icons/LegalIcons';
 import { league_spartan } from '../fonts';
+import { Spinner } from '@/components/spinner/Spinner';
 
 const ClientLayout = dynamic(() => import('@/components/ClientLayout'), {
   ssr: false,
-  loading: () => <div>Loading...</div>
+  loading: () => <div className='h-screen w-full place-content-center'><Spinner /></div>
 });
 
 export default function ContactPage() {

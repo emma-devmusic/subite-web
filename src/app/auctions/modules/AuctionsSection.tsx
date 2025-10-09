@@ -1,4 +1,4 @@
-export const revalidate = 60
+export const revalidate = 0 // Deshabilitamos el cache para subastas en tiempo real
 
 import { getProductBySearchParams, SearchParams } from '@/services-actions/home/products'
 import { ProductsList } from '@/components/cards'

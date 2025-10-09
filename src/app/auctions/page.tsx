@@ -1,4 +1,4 @@
-export const revalidate = 60
+export const revalidate = 0 // Deshabilitamos el cache para obtener subastas actualizadas
 
 import { SearchParams } from "@/services-actions/home/products";
 import { league_spartan } from "../fonts";
