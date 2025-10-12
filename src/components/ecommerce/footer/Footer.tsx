@@ -22,7 +22,7 @@ export const Footer = () => {
                         <LinkList titleLinks="Instructivos" links={navigation.instructives} />
                         <LinkList titleLinks="Legales" links={navigation.legals} />
                     </div>
-                    <div className="mt-5 sm:mt-12 grid gap-y-0 sm:flex sm:justify-between sm:items-center border-2 border-primary rounded-lg py-2 px-4">
+                    <div className="mt-5 sm:mt-12 grid gap-y-0 sm:flex sm:justify-between sm:items-center rounded-lg py-2 px-4">
                         <Rights />
                         <SocialIcons color='primary' />
                     </div>

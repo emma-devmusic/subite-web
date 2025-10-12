@@ -17,9 +17,9 @@ export const ImageProduct = ({ productImages }: Props) => {
     const settings = {
         customPaging: function (i: any) {
             return (
-                <a>
+                <span>
                     <img src={`${productImages[i].url_image}`} alt='imagen de producto para ver' />
-                </a>
+                </span>
             );
         },
         dots: true,

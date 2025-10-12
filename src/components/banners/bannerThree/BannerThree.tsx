@@ -25,7 +25,6 @@ interface Props {
 
 export const BannerThree = ({ homeProd }: Props) => {
     let sliderRef: any = useRef<any>(null);
-    console.log('productos', homeProd)
     const next = () => {
         sliderRef.slickNext();
     };

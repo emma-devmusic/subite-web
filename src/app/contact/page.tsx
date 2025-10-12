@@ -15,6 +15,7 @@ import {
 } from '@/components/icons/LegalIcons';
 import { league_spartan } from '../fonts';
 import { Spinner } from '@/components/spinner/Spinner';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 const ClientLayout = dynamic(() => import('@/components/ClientLayout'), {
   ssr: false,
@@ -54,7 +55,7 @@ export default function ContactPage() {
             </Head>
             <ClientLayout>
                 <div className="min-h-screen py-12 container-auction">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-24">
                     {/* Header */}
                     <div className={`text-center mb-12 ${league_spartan.className}`}>
                         <h1 className="text-center mt-10 lg:mt-0 text-4xl lg:text-6xl text-primary mb-4">Contactanos</h1>
@@ -66,10 +67,9 @@ export default function ContactPage() {
 
                     <div className="grid lg:grid-cols-2 gap-12">
                         {/* Contact Information */}
-                        <div className="space-y-8">
                             <div>
                                 <h2 className={`text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3 ${league_spartan.className}`}>
-                                    <PhoneIcon className="text-gray-500" size={28} />
+                                    {/* <PhoneIcon className="text-gray-500" size={28} /> */}
                                     Información de Contacto
                                 </h2>
                                 
@@ -100,7 +100,8 @@ export default function ContactPage() {
 
                                     {/* WhatsApp */}
                                     <div className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm">
-                                        <PhoneIcon className="text-gray-500 mt-1" size={20} />
+                                        {/* <PhoneIcon className="text-gray-500 mt-1" size={20} /> */}
+                                        <Icon icon="ic:baseline-whatsapp" className="text-gray-500 mt-1 h-6 w-6" />
                                         <div>
                                             <h3 className={`font-semibold text-gray-700 ${league_spartan.className}`}>WhatsApp</h3>
                                             <p className="text-gray-600">+54 9 11 1234-5678</p>
@@ -115,7 +116,7 @@ export default function ContactPage() {
                             {/* FAQ Section */}
                             <div>
                                 <h2 className={`text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3 ${league_spartan.className}`}>
-                                    <HelpCircleIcon className="text-gray-500" size={28} />
+                                    {/* <HelpCircleIcon className="text-gray-500" size={28} /> */}
                                     Preguntas Frecuentes
                                 </h2>
                                 
@@ -151,10 +152,9 @@ export default function ContactPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
                         {/* Contact Form */}
-                        <div>
+                        {/* <div>
                             <div className="bg-white rounded-lg shadow-lg p-8">
                                 <h2 className={`text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3 ${league_spartan.className}`}>
                                     <DocumentIcon className="text-gray-500" size={28} />
@@ -208,7 +208,6 @@ export default function ContactPage() {
                                         placeholder="Contanos en detalle tu consulta o problema..."
                                     />
 
-                                    {/* Privacy Notice */}
                                     <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
                                         <ShieldIcon className="text-blue-600 mt-1 flex-shrink-0" size={20} />
                                         <div>
@@ -222,7 +221,6 @@ export default function ContactPage() {
                                         </div>
                                     </div>
 
-                                    {/* Submit Button */}
                                     <Button
                                         text="Enviar Consulta"
                                         variant="primary"
@@ -237,7 +235,7 @@ export default function ContactPage() {
                                     </p>
                                 </form>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Additional Help Section */}
