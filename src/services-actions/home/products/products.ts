@@ -1,9 +1,8 @@
 'use server'
 
-import Swal from "sweetalert2"
 import { DataHomeProductsSearchResponse, HomeProductsSearchResponse } from "@/types/homeResponse"
 import { DataHomeProductResponse, HomeProductResponse } from "@/types/homeProductResponse"
-import { fetchData } from "@/services/fetchData"
+import { fetchDataServer } from "@/services/fetchDataServer"
 
 export interface SearchParams {
     page: number;
@@ -20,7 +19,7 @@ export interface SearchParams {
 export const getProductsFromDB = async (query: string): Promise<DataHomeProductsSearchResponse> => {
     let products: DataHomeProductsSearchResponse = { items: [], meta: {} as any } as DataHomeProductsSearchResponse
     try {
-        const searchResponse: HomeProductsSearchResponse = await fetchData(
+        const searchResponse: HomeProductsSearchResponse = await fetchDataServer(
             `/home-template/commons-products/${query}`,
             "GET",
             null,
@@ -28,7 +27,8 @@ export const getProductsFromDB = async (query: string): Promise<DataHomeProducts
         )
         products = searchResponse.data
     } catch (error: any) {
-        Swal.fire('Error al cargar productos', 'No fue posible cargar los productos desde la base de datos | ' + error, 'error')
+        console.error('[getProductsFromDB] Error:', error);
+        // En Server Actions no podemos usar Swal, los errores se manejan en el cliente
     }
     return products;
 }
@@ -37,7 +37,7 @@ export const getProductsFromDB = async (query: string): Promise<DataHomeProducts
 export const getProductById = async (id: string | number): Promise<DataHomeProductResponse> => {
     let product: DataHomeProductResponse = {} as DataHomeProductResponse
     try {
-        const searchResponse: HomeProductResponse = await fetchData(
+        const searchResponse: HomeProductResponse = await fetchDataServer(
             `/home-template/commons-products/search/${id}`,
             "GET",
             null,
@@ -45,7 +45,7 @@ export const getProductById = async (id: string | number): Promise<DataHomeProdu
         )
         product = searchResponse.data
     } catch (error: any) {
-        Swal.fire('Error al cargar productos', 'No fue posible cargar los productos desde la base de datos | ' + error, 'error')
+        console.error('[getProductById] Error:', error);
     }
     return product;
 }
@@ -58,7 +58,7 @@ export const getProductByPage = async (page: number): Promise<DataHomeProductsSe
         page = 1
     }
     try {
-        const searchResponse: HomeProductsSearchResponse = await fetchData(
+        const searchResponse: HomeProductsSearchResponse = await fetchDataServer(
             `/home-template/commons-products/search?page=${page}&limit=8`,
             "GET",
             null,
@@ -66,7 +66,7 @@ export const getProductByPage = async (page: number): Promise<DataHomeProductsSe
         )
         products = searchResponse.data
     } catch (error: any) {
-        Swal.fire('Error al cargar productos', 'No fue posible cargar los productos desde la base de datos | ' + error, 'error')
+        console.error('[getProductByPage] Error:', error);
     }
     return products;
 }
@@ -96,7 +96,7 @@ export const getProductBySearchParams = async (searchParams: SearchParams): Prom
     }
 
     try {
-        const searchResponse: HomeProductsSearchResponse = await fetchData(
+        const searchResponse: HomeProductsSearchResponse = await fetchDataServer(
             `/home-template/commons-products/search?${newUrl.toString()}`,
             "GET",
             null,
@@ -104,7 +104,7 @@ export const getProductBySearchParams = async (searchParams: SearchParams): Prom
         )
         products = searchResponse.data
     } catch (error: any) {
-        Swal.fire('Error al cargar productos', 'No fue posible cargar los productos desde la base de datos | ' + error, 'error')
+        console.error('[getProductBySearchParams] Error:', error);
     }
     return products;
 }
