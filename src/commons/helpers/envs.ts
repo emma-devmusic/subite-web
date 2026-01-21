@@ -1,8 +1,8 @@
 
 // Environment variables configuration for Client (Next.js)
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://auctionstgapi.ding.com.ar/api/v1'
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://acstapi.ding.com.ar/api/v1'
 export const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL || 'http://localhost:3000'
-export const DASHBOARD_BASE_URL = process.env.NEXT_PUBLIC_DASHBOARD_BASE_URL || 'http://localhost:3001'
+export const DASHBOARD_BASE_URL = process.env.NEXT_PUBLIC_DASHBOARD_BASE_URL || 'https://admin-auctions-three.vercel.app/'
 export const tenant_id = process.env.NEXT_PUBLIC_API_TENANT || '1'
 export const public_bucket = process.env.NEXT_PUBLIC_S3_PUBLIC_BUCKET || 'localpublic'
 export const access_key_id = process.env.NEXT_PUBLIC_S3_ACCESS_KEY || ''
