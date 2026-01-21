@@ -29,4 +29,5 @@ export interface ObjectNotification {
     icon: string;
     link: string;
     product_id?: number;
+    read: boolean; // indica si el usuario ya la abrió / navegó
 }

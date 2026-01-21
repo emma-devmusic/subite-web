@@ -5,12 +5,15 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
 
+type Props = ObjectNotification & {
+    onClick?: () => void;
+};
 
-
-export const ItemNotification = ({ title, details, error, message, icon, link }: ObjectNotification) => {
+export const ItemNotification = ({ title, details, error, message, icon, link, onClick }: Props) => {
 
     const router = useRouter()
     const handleGoTo = () => {
+        onClick?.();
         router.push(link)
     }
 

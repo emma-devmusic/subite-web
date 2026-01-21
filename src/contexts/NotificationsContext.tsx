@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { getIdFromUSID, objectNotification, setNotificationOnLocalStorage } from "@/commons/helpers";
 import { ObjectNotification } from "@/types";
@@ -9,12 +9,18 @@ import SessionManager from "@/commons/Classes/SessionManager";
 interface NotificationsContextType {
   notifications: ObjectNotification[];
   isLoading: boolean;
+  unreadCount: number;
+  markAsRead: (indexOrId: number | string) => void;
+  markAllAsRead: () => void;
   cleanup: () => void;
 }
 
 const NotificationsContext = createContext<NotificationsContextType>({
   notifications: [],
   isLoading: true,
+  unreadCount: 0,
+  markAsRead: () => {},
+  markAllAsRead: () => {},
   cleanup: () => {},
 });
 
@@ -33,6 +39,14 @@ let isInitialized = false;
 export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<ObjectNotification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const persistLocal = useCallback((userId: string | number, list: ObjectNotification[]) => {
+    try {
+      localStorage.setItem(`notif-${userId}`, JSON.stringify(list));
+    } catch (e) {
+      console.error('Persist error notifications', e);
+    }
+  }, []);
 
   useEffect(() => {
     // console.log('🔌 NotificationsProvider mounted, isInitialized:', isInitialized);
@@ -89,8 +103,19 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
           // console.log('🔔 Notification received:', data);
           const userId = getIdFromUSID(usid);
           if (userId) {
+            // guarda en storage (con read:false ya seteado en helper)
             setNotificationOnLocalStorage(userId, data);
-            setNotifications(state => [...state, objectNotification(data)]);
+            const newObj = objectNotification(data);
+            setNotifications((prev) => {
+              // evitar duplicados simples por título + fecha + mensaje
+              const exists = prev.some(
+                (n) => n.title === newObj.title && n.message === newObj.message && n.date === newObj.date
+              );
+              if (exists) return prev;
+              const next = [...prev, newObj];
+              persistLocal(userId, next);
+              return next;
+            });
           }
         });
 
@@ -122,7 +147,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       // Solo limpiar si realmente es necesario (ej: logout)
     };
-  }, []);
+  }, [persistLocal]);
 
   const cleanup = () => {
     // console.log('🔌 Cleaning up socket connection');
@@ -134,9 +159,63 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  // Rehidratación inicial desde localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const session = SessionManager.getInstance();
+    const usid = session.getUSID();
+    if (!usid) return;
+    const userId = getIdFromUSID(usid);
+    if (!userId) return;
+    try {
+      const raw = localStorage.getItem(`notif-${userId}`);
+      if (raw) {
+        const parsed: ObjectNotification[] = JSON.parse(raw);
+        // asegurar que tengan read (por si existían antes del cambio)
+        const normalized = parsed.map((n) => ({ ...n, read: n.read ?? false }));
+        setNotifications(normalized);
+      }
+    } catch (err) {
+      console.error('Error rehydrating notifications', err);
+    }
+  }, []);
+
+  const markAsRead = useCallback((indexOrId: number | string) => {
+    setNotifications((prev) => {
+      const session = SessionManager.getInstance();
+      const usid = session.getUSID();
+      const userId = getIdFromUSID(usid);
+      const next = prev.map((n, idx) => {
+        if (typeof indexOrId === 'number') return idx === indexOrId ? { ...n, read: true } : n;
+        return n.link === indexOrId || (n as any).id === indexOrId ? { ...n, read: true } : n;
+      });
+      if (userId) persistLocal(userId, next);
+      return next;
+    });
+  }, [persistLocal]);
+
+  const markAllAsRead = useCallback(() => {
+    setNotifications((prev) => {
+      const session = SessionManager.getInstance();
+      const usid = session.getUSID();
+      const userId = getIdFromUSID(usid);
+      const next = prev.map((n) => ({ ...n, read: true }));
+      if (userId) persistLocal(userId, next);
+      return next;
+    });
+  }, [persistLocal]);
+
+  const unreadCount = useMemo(
+    () => notifications.filter((n) => !n.read).length,
+    [notifications]
+  );
+
   const value = {
     notifications,
     isLoading,
+    unreadCount,
+    markAsRead,
+    markAllAsRead,
     cleanup,
   };
 

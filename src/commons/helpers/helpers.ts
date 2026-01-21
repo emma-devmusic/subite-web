@@ -265,7 +265,8 @@ export const objectNotification = (data: NotificationFromDB): ObjectNotification
         ...data,
         date: `${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}hs`,
         link: '',
-        icon: ''
+        icon: '',
+        read: false
     }
 
     const getLinkIcon = (title: NotificationTitle | ''): { link: string; icon: string } => {
