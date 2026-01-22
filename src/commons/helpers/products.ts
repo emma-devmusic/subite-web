@@ -14,8 +14,8 @@ export const findCategoriesByIds = (
     const cat = categories.filter(c => c.id === catId)
     const subcat = cat[0]?.subcategories && cat[0].subcategories.filter(subc => subc.id === subCatId)
     return {
-        category: cat[0].name,
-        subcategory: subcat ? subcat[0].name : ''
+        category: cat[0]?.name || '',
+        subcategory: subcat ? (subcat[0]?.name || '') : ''
     }
 }
 
