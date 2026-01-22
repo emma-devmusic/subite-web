@@ -24,7 +24,7 @@ export default async function ProductHomePage({ params }: Props) {
     const product = await getProductById(params.product_id);
     
     // Validar que el producto exista y tenga las propiedades necesarias
-    if (!product || !product?.name || !product.product_variations || product.product_variations.length === 0) {
+    if (!product || !product?.name || !product?.product_variations || product?.product_variations.length === 0) {
         return (
             <ClientLayout>
                 <div className='container-auction'>
@@ -40,9 +40,9 @@ export default async function ProductHomePage({ params }: Props) {
             </ClientLayout>
         );
     }
-    
-    const specific_prod = product.product_variations?.[0]
-    const auction = product.products_acutions?.find(s => !s.data_deleted)
+
+    const specific_prod = product?.product_variations?.[0]
+    const auction = product?.products_acutions?.find(s => !s.data_deleted)
 
     // Validación adicional para specific_prod
     if (!specific_prod) {

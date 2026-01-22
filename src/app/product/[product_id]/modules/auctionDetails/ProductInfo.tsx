@@ -3,6 +3,7 @@ import { findCategoriesByIds } from '@/commons/helpers/products';
 import { DataHomeProductResponse } from '@/types/homeProductResponse'
 import dayjs from 'dayjs';
 import { getCategoriesFromDB } from '@/services-actions/home/categories';
+import { Spinner } from '@/components/spinner/Spinner';
 
 interface Props {
     product: DataHomeProductResponse;
@@ -17,6 +18,8 @@ export const ProductInfo = async ({ product }: Props) => {
         product.sub_category?.id
     )
     const auction = product.products_acutions?.find(s => !s.data_deleted)
+
+    if(!product.name) return <Spinner />
 
     return (
         <>
