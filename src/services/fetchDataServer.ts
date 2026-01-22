@@ -19,7 +19,8 @@ export const fetchDataServer = async (
     const headers: Record<string, string> = {
         "Content-Type": "application/json",
         "access": ACCESS_KEY,
-        "tenant-id": TENANT_ID, // Agregar tenant-id que podría ser necesario
+        "tenant-id": TENANT_ID,
+        "User-Agent": "Mozilla/5.0 (compatible; NextJS/14.0; +https://subite.ar)", // Cloudflare suele bloquear sin User-Agent
         ...(header && header)
     };
 
@@ -42,8 +43,7 @@ export const fetchDataServer = async (
             method,
             headers,
             ...(body && { body: JSON.stringify(body) }),
-            cache: 'no-store',
-            next: { revalidate: 0 }
+            cache: 'no-store' // Suficiente para deshabilitar el cache
         });
 
         console.log(`[Server Action] Response status: ${response.status}`);
