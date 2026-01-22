@@ -44,8 +44,10 @@ export const getProductById = async (id: string | number): Promise<DataHomeProdu
             ''
         )
         product = searchResponse.data
+        console.log('[getProductById] Product fetched successfully:', product?.name || 'No name');
     } catch (error: any) {
-        console.error('[getProductById] Error:', error);
+        console.error('[getProductById] Error fetching product:', id);
+        console.error('[getProductById] Error details:', error.message || error);
     }
     return product;
 }

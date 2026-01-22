@@ -21,9 +21,28 @@ interface Props {
 
 export default async function ProductHomePage({ params }: Props) {
 
-    const product = (await getProductById(params.product_id))
+    const product = await getProductById(params.product_id);
+    
+    // Validar que el producto exista y tenga las propiedades necesarias
+    if (!product || !product.name || !product.product_variations || product.product_variations.length === 0) {
+        return (
+            <ClientLayout>
+                <div className='container-auction'>
+                    <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                        <h1 className={`${league_spartan.className} text-3xl text-secondary font-bold`}>
+                            Producto no encontrado
+                        </h1>
+                        <p className="text-gray-600">
+                            El producto que buscas no existe o no está disponible.
+                        </p>
+                    </div>
+                </div>
+            </ClientLayout>
+        );
+    }
+    
     const specific_prod = product.product_variations[0]
-    const auction = product.products_acutions.find(s => !s.data_deleted)
+    const auction = product.products_acutions?.find(s => !s.data_deleted)
 
     return (
         <ClientLayout>
