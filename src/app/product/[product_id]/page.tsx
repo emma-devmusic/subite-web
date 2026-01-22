@@ -24,7 +24,7 @@ export default async function ProductHomePage({ params }: Props) {
     const product = await getProductById(params.product_id);
     
     // Validar que el producto exista y tenga las propiedades necesarias
-    if (!product || !product.name || !product.product_variations || product.product_variations.length === 0) {
+    if (!product || !product?.name || !product.product_variations || product.product_variations.length === 0) {
         return (
             <ClientLayout>
                 <div className='container-auction'>
@@ -48,7 +48,7 @@ export default async function ProductHomePage({ params }: Props) {
         <ClientLayout>
             <div className='container-auction'>
                 <div>
-                    <h1 className={`${league_spartan.className} text-3xl sm:text-5xl text-secondary font-bold`}>{product.name}</h1>
+                    <h1 className={`${league_spartan.className} text-3xl sm:text-5xl text-secondary font-bold`}>{product?.name}</h1>
                 </div>
                 <hr />
 
