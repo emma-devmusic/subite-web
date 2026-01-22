@@ -19,7 +19,7 @@ export const ProductInfo = async ({ product }: Props) => {
     )
     const auction = product.products_acutions?.find(s => !s.data_deleted)
 
-    if(!product?.name) return <Spinner />
+    if(!product) return <Spinner />
 
     return (
         <>
