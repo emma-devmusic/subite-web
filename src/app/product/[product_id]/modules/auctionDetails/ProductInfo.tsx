@@ -11,8 +11,12 @@ interface Props {
 export const ProductInfo = async ({ product }: Props) => {
 
     const categories = (await getCategoriesFromDB()).items
-    const productCategory = findCategoriesByIds(categories, product.sub_category.category.id, product.sub_category.id)
-    const auction = product.products_acutions.find(s => !s.data_deleted)
+    const productCategory = findCategoriesByIds(
+        categories, 
+        product.sub_category?.category?.id, 
+        product.sub_category?.id
+    )
+    const auction = product.products_acutions?.find(s => !s.data_deleted)
 
     return (
         <>
@@ -42,7 +46,7 @@ export const ProductInfo = async ({ product }: Props) => {
                     <strong className='text-gray-800'>
                         Producto:
                     </strong>
-                    {product.name}
+                    {product?.name}
                 </li>
                 <li className='text-sm text-gray-600 flex items-center gap-1'>
                     <strong className='text-gray-800 flex items-center gap-1'>

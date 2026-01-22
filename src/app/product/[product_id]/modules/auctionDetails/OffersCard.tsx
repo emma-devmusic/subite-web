@@ -11,8 +11,8 @@ interface Props {
 
 export const OffersCard = ({ product }: Props) => {
 
-  const specific_prod = product.product_variations[0]
-  const auction = product.products_acutions.find(s => !s.data_deleted)
+  const specific_prod = product.product_variations?.[0]
+  const auction = product.products_acutions?.find(s => !s.data_deleted)
 
   const { isLogged } = useAppSelector(state => state.auth)
 
@@ -24,7 +24,7 @@ export const OffersCard = ({ product }: Props) => {
       <Card.Body className='flex flex-col gap-4 place-items-center'>
         <div>
           <p className='text-center text-sm'>Precio inicial</p>
-          <h3 className='text-center text-4xl text-success font-bold'>${specific_prod.price}</h3>
+          <h3 className='text-center text-4xl text-success font-bold'>${specific_prod?.price || 'N/A'}</h3>
         </div>
         <div className='flex flex-col items-center '>
           <ButtonOffers product={product} />

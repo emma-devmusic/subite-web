@@ -41,8 +41,26 @@ export default async function ProductHomePage({ params }: Props) {
         );
     }
     
-    const specific_prod = product.product_variations[0]
+    const specific_prod = product.product_variations?.[0]
     const auction = product.products_acutions?.find(s => !s.data_deleted)
+
+    // Validación adicional para specific_prod
+    if (!specific_prod) {
+        return (
+            <ClientLayout>
+                <div className='container-auction'>
+                    <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                        <h1 className={`${league_spartan.className} text-3xl text-secondary font-bold`}>
+                            Producto sin variaciones
+                        </h1>
+                        <p className="text-gray-600">
+                            Este producto no tiene variaciones disponibles.
+                        </p>
+                    </div>
+                </div>
+            </ClientLayout>
+        );
+    }
 
     return (
         <ClientLayout>
@@ -52,7 +70,7 @@ export default async function ProductHomePage({ params }: Props) {
                 </div>
                 <hr />
 
-                <ImageProduct productImages={specific_prod.productImages} />
+                <ImageProduct productImages={specific_prod?.productImages || []} />
 
             <hr />
             <div>
@@ -60,12 +78,12 @@ export default async function ProductHomePage({ params }: Props) {
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                 <div className='sm:col-span-1 lg:col-span-2'>
-                    <ProductDetails description={specific_prod.description} />
+                    <ProductDetails description={specific_prod?.description || ''} />
                 </div>
                 <div className='sm:col-span-1 lg:col-span-1 flex flex-col gap-4'>
                     <OffersCard product={product} />
                     <AuctionDetails product={product} />
-                    <ChargesCommissions price={Number(specific_prod.price)} />
+                    <ChargesCommissions price={Number(specific_prod?.price || 0)} />
                 </div>
             </div>
         </div>
