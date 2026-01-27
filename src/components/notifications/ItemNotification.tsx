@@ -1,5 +1,6 @@
 'use client'
 
+import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
 import { ObjectNotification } from "@/types"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
@@ -14,7 +15,8 @@ export const ItemNotification = ({ title, details, error, message, icon, link, o
     const router = useRouter()
     const handleGoTo = () => {
         onClick?.();
-        router.push(link)
+        window.location.href = DASHBOARD_BASE_URL + link!;
+        console.log(link)
     }
 
     if (title === 'Actualización del estado de tu cuenta')

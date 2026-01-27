@@ -3,9 +3,6 @@ import { CategoryItem } from "@/types/category"
 import { ItemProductSearchResponse } from "@/types/products"
 
 
-
-
-
 export const findCategoriesByIds = (
     categories: CategoryItem[],
     catId: number,
@@ -19,18 +16,10 @@ export const findCategoriesByIds = (
     }
 }
 
-
-
-
-
 export const getIdProductImageFolder = (url: string): string => {
     const urlParts = url.split('pd')
     return urlParts[0].split('ty')[3]
 }
-
-
-
-
 
 export const formProduct = (productSelected: ItemProductSearchResponse) => ({
     title: productSelected.name || "",

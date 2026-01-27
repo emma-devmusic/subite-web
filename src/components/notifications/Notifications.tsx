@@ -5,7 +5,8 @@ import { BellAlertIcon } from "@heroicons/react/24/outline"
 import { useNotifications } from "@/contexts/NotificationsContext"
 import { ItemNotification } from "@/components/notifications/ItemNotification"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
+import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
 
 
 export const Notifications = () => {
@@ -56,8 +57,7 @@ export const Notifications = () => {
                             type="button"
                             className="text-sm font-medium text-primary hover:underline"
                             onClick={() => {
-                                markAllAsRead();
-                                router.push('/dashboard/notifications');
+                                window.location.href = `${DASHBOARD_BASE_URL}/notifications`;
                             }}
                         >
                             Ver todas

@@ -5,6 +5,7 @@ import { io, Socket } from 'socket.io-client';
 import { getIdFromUSID, objectNotification, setNotificationOnLocalStorage } from "@/commons/helpers";
 import { ObjectNotification } from "@/types";
 import SessionManager from "@/commons/Classes/SessionManager";
+import { NOTIFICATIONS_WS_URL } from "@/commons/helpers/envs";
 
 interface NotificationsContextType {
   notifications: ObjectNotification[];
@@ -39,6 +40,7 @@ let isInitialized = false;
 export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<ObjectNotification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentUsid, setCurrentUsid] = useState<string | null>(null);
 
   const persistLocal = useCallback((userId: string | number, list: ObjectNotification[]) => {
     try {
@@ -48,12 +50,55 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+  // Detectar cambios en el USID (login/logout) con polling
   useEffect(() => {
-    // console.log('🔌 NotificationsProvider mounted, isInitialized:', isInitialized);
+    if (typeof window === 'undefined') return;
     
-    // Si ya está inicializado, solo actualizar el estado
-    if (isInitialized && globalSocket && globalSocket.connected) {
-      // console.log('🔌 Using existing socket connection');
+    // Verificar inmediatamente al montar
+    const session = SessionManager.getInstance();
+    const initialUsid = session.getUSID();
+    if (initialUsid !== currentUsid) {
+      console.log('🔌 Initial USID detected:', initialUsid);
+      setCurrentUsid(initialUsid);
+    }
+    
+    // Polling cada 2 segundos para detectar login/logout
+    const interval = setInterval(() => {
+      const usid = session.getUSID();
+      if (usid !== currentUsid) {
+        console.log('🔌 USID changed:', { from: currentUsid, to: usid });
+        
+        // Si cambió de tener USID a null = LOGOUT
+        if (currentUsid && !usid) {
+          console.log('🔌 Logout detected - cleaning up socket');
+          if (globalSocket) {
+            const socketToClean = globalSocket;
+            socketToClean.disconnect();
+            socketToClean.removeAllListeners();
+            globalSocket = null;
+            isInitialized = false;
+          }
+          setNotifications([]); // Limpiar notificaciones
+        }
+        
+        setCurrentUsid(usid);
+      }
+    }, 2000);
+    
+    return () => clearInterval(interval);
+  }, [currentUsid]);
+
+  useEffect(() => {
+    console.log(
+      '🔌 NotificationsProvider mounted, isInitialized:',
+      isInitialized,
+      'currentUsid:',
+      currentUsid
+    );
+    
+    // Si ya está inicializado con el mismo USID, solo actualizar el estado
+    if (isInitialized && globalSocket && globalSocket.connected && currentUsid) {
+      console.log('🔌 Using existing socket connection for same user');
       setIsLoading(false);
       return;
     }
@@ -61,47 +106,45 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     const initializeSocket = async () => {
       try {
         if (typeof window === 'undefined') {
-          // console.log('🔌 NotificationsProvider: Running on server side, skipping');
           setIsLoading(false);
           return;
         }
-
-        // Si ya existe una conexión global y está conectada, usarla
-        if (globalSocket && globalSocket.connected) {
-          // console.log('🔌 NotificationsProvider: Using existing connected socket');
-          setIsLoading(false);
-          return;
-        }
-
-        const session = SessionManager.getInstance();
-        const usid = session.getUSID();
-        // console.log('🔌 USID for socket connection:', usid);
 
         // Solo conectar si hay usuario autenticado
-        if (!usid) {
-          // console.log('🔌 No USID found, skipping socket connection');
+        if (!currentUsid) {
+          console.log('🔌 No USID found, skipping socket connection');
           setIsLoading(false);
           return;
         }
 
-        // Limpiar cualquier conexión anterior
+        // Si hay una conexión previa pero con diferente usuario, limpiarla
         if (globalSocket) {
-          // console.log('🔌 Cleaning previous socket connection');
-          globalSocket.disconnect();
-          globalSocket.removeAllListeners();
+          console.log('🔌 Cleaning previous socket connection for different user');
+          const socketToClean = globalSocket;
+          socketToClean.disconnect();
+          socketToClean.removeAllListeners();
+          globalSocket = null;
+          isInitialized = false;
         }
 
-        // console.log('🔌 Creating new socket connection...');
+        console.log('🔌 USID for socket connection:', currentUsid);
+
+        console.log('🔌 Creating new socket connection...');
         // Crear una única conexión de socket
-        globalSocket = io(`https://notifystage.ding.com.ar?usid=${usid}`, {
-          autoConnect: false,
-        });
+        globalSocket = io(
+          `${NOTIFICATIONS_WS_URL}?usid=${currentUsid}`,
+          {
+            autoConnect: false,
+            forceNew: true,
+            transports: ['websocket', 'polling'],
+          }
+        );
 
         globalSocket.connect();
 
-        globalSocket.on(`${usid}`, (data: any) => {
-          // console.log('🔔 Notification received:', data);
-          const userId = getIdFromUSID(usid);
+        globalSocket.on(`${currentUsid}`, (data: any) => {
+          console.log('🔔 Notification received:', data);
+          const userId = getIdFromUSID(currentUsid);
           if (userId) {
             // guarda en storage (con read:false ya seteado en helper)
             setNotificationOnLocalStorage(userId, data);
@@ -120,17 +163,17 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         globalSocket.on('connect', () => {
-          // console.log('🔌 Socket connected successfully!');
+          console.log('🔌 Socket connected successfully!');
           isInitialized = true;
         });
 
         globalSocket.on('disconnect', () => {
-          // console.log('🔌 Socket disconnected');
+          console.log('🔌 Socket disconnected');
           isInitialized = false;
         });
 
         globalSocket.on('connect_error', (error) => {
-          // console.error('🔌 Socket connection error:', error);
+          console.error('🔌 Socket connection error:', error);
         });
 
         setIsLoading(false);
@@ -147,26 +190,28 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       // Solo limpiar si realmente es necesario (ej: logout)
     };
-  }, [persistLocal]);
+  }, [currentUsid, persistLocal]); // Agregar currentUsid como dependencia
 
   const cleanup = () => {
-    // console.log('🔌 Cleaning up socket connection');
+    console.log('🔌 Cleaning up socket connection');
     if (globalSocket) {
-      globalSocket.disconnect();
-      globalSocket.removeAllListeners();
+      const socketToClean = globalSocket;
+      socketToClean.disconnect();
+      socketToClean.removeAllListeners();
       globalSocket = null;
       isInitialized = false;
     }
+    setCurrentUsid(null); // Reset del USID
   };
 
   // Rehidratación inicial desde localStorage
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const session = SessionManager.getInstance();
-    const usid = session.getUSID();
-    if (!usid) return;
-    const userId = getIdFromUSID(usid);
+    if (!currentUsid) return; // Esperar a tener USID
+    
+    const userId = getIdFromUSID(currentUsid);
     if (!userId) return;
+    
     try {
       const raw = localStorage.getItem(`notif-${userId}`);
       if (raw) {
@@ -178,32 +223,34 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     } catch (err) {
       console.error('Error rehydrating notifications', err);
     }
-  }, []);
+  }, [currentUsid]); // Rehidratar cuando cambie el USID
 
   const markAsRead = useCallback((indexOrId: number | string) => {
     setNotifications((prev) => {
-      const session = SessionManager.getInstance();
-      const usid = session.getUSID();
-      const userId = getIdFromUSID(usid);
+      if (!currentUsid) return prev;
+      const userId = getIdFromUSID(currentUsid);
+      if (!userId) return prev;
+      
       const next = prev.map((n, idx) => {
         if (typeof indexOrId === 'number') return idx === indexOrId ? { ...n, read: true } : n;
         return n.link === indexOrId || (n as any).id === indexOrId ? { ...n, read: true } : n;
       });
-      if (userId) persistLocal(userId, next);
+      persistLocal(userId, next);
       return next;
     });
-  }, [persistLocal]);
+  }, [currentUsid, persistLocal]);
 
   const markAllAsRead = useCallback(() => {
     setNotifications((prev) => {
-      const session = SessionManager.getInstance();
-      const usid = session.getUSID();
-      const userId = getIdFromUSID(usid);
+      if (!currentUsid) return prev;
+      const userId = getIdFromUSID(currentUsid);
+      if (!userId) return prev;
+      
       const next = prev.map((n) => ({ ...n, read: true }));
-      if (userId) persistLocal(userId, next);
+      persistLocal(userId, next);
       return next;
     });
-  }, [persistLocal]);
+  }, [currentUsid, persistLocal]);
 
   const unreadCount = useMemo(
     () => notifications.filter((n) => !n.read).length,
