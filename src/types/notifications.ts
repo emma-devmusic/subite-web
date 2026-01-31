@@ -15,10 +15,11 @@ export interface NotificationFromDB {
     details: string;
     error: boolean;
     message: string;
+    product_id?: number;
 }
 
 
-export type NotificationTitle = 'Actualización del estado de tu cuenta' | 'Nueva solicitud de Auditoría de Cliente' | 'Nueva Solicitud de Auditoría de Producto'
+export type NotificationTitle = 'Actualización del estado de tu cuenta.' | 'Nueva solicitud de Auditoria de Cliente' | 'Nueva Solicitud de Auditoría de Producto' | 'Solicitud de Auditoría Actualizada'
 
 export interface ObjectNotification {
     title: NotificationTitle;

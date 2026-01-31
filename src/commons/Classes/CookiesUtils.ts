@@ -1,4 +1,5 @@
 import EncryptData from '../helpers/EncryptData';
+import { cookie_domain } from '../helpers/envs';
 
 export class CookieUtils {
     private static encrypter = new EncryptData();
@@ -9,6 +10,7 @@ export class CookieUtils {
         TOKEN: 'auction_token',
         USID: 'auction_usid',
         USER_DATA: 'auction_user_data',
+        NOTIFICATIONS: 'auction_notifications',
     } as const;
 
     // Configuración segura para cookies
@@ -30,7 +32,12 @@ export class CookieUtils {
         expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
         const expiresString = `expires=${expires.toUTCString()}`;
 
-        const simpleCookieString = `${name}=${encodeURIComponent(value)}; ${expiresString}; Path=/`;
+        // Usar dominio compartido para cookies cross-subdomain
+        const domainString = cookie_domain && cookie_domain !== 'localhost' 
+            ? `; Domain=${cookie_domain}` 
+            : '';
+
+        const simpleCookieString = `${name}=${encodeURIComponent(value)}; ${expiresString}; Path=/${domainString}`;
         document.cookie = simpleCookieString;
 
         // Si no se guardó, intentar con configuración más básica
@@ -106,7 +113,13 @@ export class CookieUtils {
     // Eliminar cookie
     static deleteCookie(name: string): void {
         if (!this.isBrowser()) return;
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; Path=/;`;
+        
+        // Usar dominio compartido para eliminar cookies cross-subdomain
+        const domainString = cookie_domain && cookie_domain !== 'localhost' 
+            ? `; Domain=${cookie_domain}` 
+            : '';
+            
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; Path=/${domainString}`;
     }
 
     // Verificar si existe una cookie
@@ -202,6 +215,55 @@ export class CookieUtils {
         } catch (error) {
             console.error('Error parsing user data from cookie:', error);
             return null;
+        }
+    }
+
+    // ============ MÉTODOS PARA NOTIFICACIONES COMPARTIDAS ============
+
+    // Obtener la clave de notificaciones para un usuario
+    private static getNotificationKey(userId: string | number): string {
+        return `${this.COOKIE_NAMES.NOTIFICATIONS}_${userId}`;
+    }
+
+    // Guardar notificaciones en localStorage (compartido via mismo origen)
+    // y sincronizar con localStorage del dashboard si es posible
+    static setNotifications(userId: string | number, notifications: any[]): void {
+        if (!this.isBrowser()) return;
+        
+        try {
+            const key = `notif-${userId}`;
+            const value = JSON.stringify(notifications);
+            localStorage.setItem(key, value);
+        } catch (error) {
+            console.error('Error saving notifications:', error);
+        }
+    }
+
+    // Obtener notificaciones desde localStorage
+    static getNotifications(userId: string | number): any[] {
+        if (!this.isBrowser()) return [];
+        
+        try {
+            const key = `notif-${userId}`;
+            const value = localStorage.getItem(key);
+            if (value) {
+                return JSON.parse(value);
+            }
+        } catch (error) {
+            console.error('Error reading notifications:', error);
+        }
+        return [];
+    }
+
+    // Limpiar notificaciones
+    static clearNotifications(userId: string | number): void {
+        if (!this.isBrowser()) return;
+        
+        try {
+            const key = `notif-${userId}`;
+            localStorage.removeItem(key);
+        } catch (error) {
+            console.error('Error clearing notifications:', error);
         }
     }
 }

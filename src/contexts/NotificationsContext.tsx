@@ -13,6 +13,7 @@ interface NotificationsContextType {
   unreadCount: number;
   markAsRead: (indexOrId: number | string) => void;
   markAllAsRead: () => void;
+  clearNotifications: () => void;
   cleanup: () => void;
 }
 
@@ -22,6 +23,7 @@ const NotificationsContext = createContext<NotificationsContextType>({
   unreadCount: 0,
   markAsRead: () => {},
   markAllAsRead: () => {},
+  clearNotifications: () => {},
   cleanup: () => {},
 });
 
@@ -37,6 +39,50 @@ export const useNotifications = () => {
 let globalSocket: Socket | null = null;
 let isInitialized = false;
 
+// Función para sincronizar notificaciones a cookie compartida (cross-subdomain)
+const syncToCookie = (userId: string | number, notifications: ObjectNotification[]) => {
+  try {
+    // Guardamos solo las últimas 15 notificaciones para no exceder el límite de cookies
+    const notificationsForCookie = notifications.slice(0, 15).map((n: ObjectNotification) => ({
+      title: n.title,
+      message: n.message,
+      date: n.date,
+      link: n.link,
+      icon: n.icon,
+      read: n.read,
+      details: n.details,
+      error: n.error,
+      product_id: n.product_id,
+    }));
+    const cookieValue = JSON.stringify(notificationsForCookie);
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const cookieDomain = process.env.NEXT_PUBLIC_COOKIE_DOMAIN || '';
+    const domainString = cookieDomain && cookieDomain !== 'localhost' ? `; Domain=${cookieDomain}` : '';
+    document.cookie = `auction_notifications_${userId}=${encodeURIComponent(cookieValue)}; expires=${expires.toUTCString()}; Path=/${domainString}`;
+  } catch (e) {
+    // Silently ignore errors
+  }
+};
+
+// Función para leer notificaciones desde cookie compartida
+const readFromCookie = (userId: string | number): ObjectNotification[] | null => {
+  try {
+    const cookieName = `auction_notifications_${userId}=`;
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(cookieName)) {
+        const cookieValue = decodeURIComponent(cookie.substring(cookieName.length));
+        return JSON.parse(cookieValue);
+      }
+    }
+  } catch (e) {
+    // Silently ignore parse errors
+  }
+  return null;
+};
+
 export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<ObjectNotification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,8 +91,9 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   const persistLocal = useCallback((userId: string | number, list: ObjectNotification[]) => {
     try {
       localStorage.setItem(`notif-${userId}`, JSON.stringify(list));
+      syncToCookie(userId, list);
     } catch (e) {
-      console.error('Persist error notifications', e);
+      // Silently ignore errors
     }
   }, []);
 
@@ -56,21 +103,19 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     
     // Verificar inmediatamente al montar
     const session = SessionManager.getInstance();
+    session.refreshSessionFromCookies();
     const initialUsid = session.getUSID();
     if (initialUsid !== currentUsid) {
-      console.log('🔌 Initial USID detected:', initialUsid);
       setCurrentUsid(initialUsid);
     }
     
     // Polling cada 2 segundos para detectar login/logout
     const interval = setInterval(() => {
+      session.refreshSessionFromCookies();
       const usid = session.getUSID();
       if (usid !== currentUsid) {
-        console.log('🔌 USID changed:', { from: currentUsid, to: usid });
-        
         // Si cambió de tener USID a null = LOGOUT
         if (currentUsid && !usid) {
-          console.log('🔌 Logout detected - cleaning up socket');
           if (globalSocket) {
             const socketToClean = globalSocket;
             socketToClean.disconnect();
@@ -78,7 +123,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
             globalSocket = null;
             isInitialized = false;
           }
-          setNotifications([]); // Limpiar notificaciones
+          setNotifications([]);
         }
         
         setCurrentUsid(usid);
@@ -88,17 +133,63 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => clearInterval(interval);
   }, [currentUsid]);
 
+  // Polling para sincronizar notificaciones desde cookie compartida (del dashboard)
   useEffect(() => {
-    console.log(
-      '🔌 NotificationsProvider mounted, isInitialized:',
-      isInitialized,
-      'currentUsid:',
-      currentUsid
-    );
+    if (typeof window === 'undefined') return;
+    if (!currentUsid) return;
     
+    const userId = getIdFromUSID(currentUsid);
+    if (!userId) return;
+
+    const syncFromCookie = () => {
+      const cookieNotifications = readFromCookie(userId);
+      if (!cookieNotifications) return;
+      
+      setNotifications((prev) => {
+        let updated = [...prev];
+        let hasChanges = false;
+        
+        for (const cookieNotif of cookieNotifications) {
+          const existingIndex = updated.findIndex(
+            (n) => n.title === cookieNotif.title && n.date === cookieNotif.date && n.message === cookieNotif.message
+          );
+          
+          if (existingIndex >= 0) {
+            // Si la cookie marca como leída y nosotros no, actualizar
+            if (cookieNotif.read && !updated[existingIndex].read) {
+              updated[existingIndex] = { ...updated[existingIndex], read: true };
+              hasChanges = true;
+            }
+          } else {
+            // Nueva notificación desde cookie
+            updated.unshift({ ...cookieNotif, read: cookieNotif.read ?? false });
+            hasChanges = true;
+          }
+        }
+        
+        // Verificar si se limpiaron todas las notificaciones desde el dashboard
+        if (cookieNotifications.length === 0 && prev.length > 0) {
+          hasChanges = true;
+          updated = [];
+        }
+        
+        if (hasChanges) {
+          localStorage.setItem(`notif-${userId}`, JSON.stringify(updated));
+          return updated;
+        }
+        return prev;
+      });
+    };
+
+    // Sincronizar cada 2 segundos
+    const syncInterval = setInterval(syncFromCookie, 2000);
+    
+    return () => clearInterval(syncInterval);
+  }, [currentUsid]);
+
+  useEffect(() => {
     // Si ya está inicializado con el mismo USID, solo actualizar el estado
     if (isInitialized && globalSocket && globalSocket.connected && currentUsid) {
-      console.log('🔌 Using existing socket connection for same user');
       setIsLoading(false);
       return;
     }
@@ -112,14 +203,12 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Solo conectar si hay usuario autenticado
         if (!currentUsid) {
-          console.log('🔌 No USID found, skipping socket connection');
           setIsLoading(false);
           return;
         }
 
         // Si hay una conexión previa pero con diferente usuario, limpiarla
         if (globalSocket) {
-          console.log('🔌 Cleaning previous socket connection for different user');
           const socketToClean = globalSocket;
           socketToClean.disconnect();
           socketToClean.removeAllListeners();
@@ -127,9 +216,6 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
           isInitialized = false;
         }
 
-        console.log('🔌 USID for socket connection:', currentUsid);
-
-        console.log('🔌 Creating new socket connection...');
         // Crear una única conexión de socket
         globalSocket = io(
           `${NOTIFICATIONS_WS_URL}?usid=${currentUsid}`,
@@ -143,19 +229,16 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         globalSocket.connect();
 
         globalSocket.on(`${currentUsid}`, (data: any) => {
-          console.log('🔔 Notification received:', data);
           const userId = getIdFromUSID(currentUsid);
           if (userId) {
-            // guarda en storage (con read:false ya seteado en helper)
             setNotificationOnLocalStorage(userId, data);
             const newObj = objectNotification(data);
             setNotifications((prev) => {
-              // evitar duplicados simples por título + fecha + mensaje
               const exists = prev.some(
                 (n) => n.title === newObj.title && n.message === newObj.message && n.date === newObj.date
               );
               if (exists) return prev;
-              const next = [...prev, newObj];
+              const next = [newObj, ...prev];
               persistLocal(userId, next);
               return next;
             });
@@ -163,37 +246,28 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         globalSocket.on('connect', () => {
-          console.log('🔌 Socket connected successfully!');
           isInitialized = true;
         });
 
         globalSocket.on('disconnect', () => {
-          console.log('🔌 Socket disconnected');
           isInitialized = false;
-        });
-
-        globalSocket.on('connect_error', (error) => {
-          console.error('🔌 Socket connection error:', error);
         });
 
         setIsLoading(false);
 
       } catch (error) {
-        console.error('🔌 Error initializing socket:', error);
         setIsLoading(false);
       }
     };
 
     initializeSocket();
 
-    // NO hacer cleanup en cada desmonte - mantener socket global
     return () => {
       // Solo limpiar si realmente es necesario (ej: logout)
     };
-  }, [currentUsid, persistLocal]); // Agregar currentUsid como dependencia
+  }, [currentUsid, persistLocal]);
 
   const cleanup = () => {
-    console.log('🔌 Cleaning up socket connection');
     if (globalSocket) {
       const socketToClean = globalSocket;
       socketToClean.disconnect();
@@ -201,29 +275,51 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
       globalSocket = null;
       isInitialized = false;
     }
-    setCurrentUsid(null); // Reset del USID
+    setCurrentUsid(null);
   };
 
-  // Rehidratación inicial desde localStorage
+  // Rehidratación inicial desde localStorage o cookies compartidas
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (!currentUsid) return; // Esperar a tener USID
+    if (!currentUsid) return;
     
     const userId = getIdFromUSID(currentUsid);
     if (!userId) return;
     
     try {
+      let notifications: ObjectNotification[] = [];
       const raw = localStorage.getItem(`notif-${userId}`);
+      
       if (raw) {
         const parsed: ObjectNotification[] = JSON.parse(raw);
-        // asegurar que tengan read (por si existían antes del cambio)
-        const normalized = parsed.map((n) => ({ ...n, read: n.read ?? false }));
-        setNotifications(normalized);
+        notifications = parsed.map((n) => ({ ...n, read: n.read ?? false }));
+      }
+      
+      const cookieNotifications = readFromCookie(userId);
+      if (cookieNotifications && cookieNotifications.length > 0) {
+        for (const cookieNotif of cookieNotifications) {
+          const existingIndex = notifications.findIndex(
+            (n) => n.title === cookieNotif.title && n.date === cookieNotif.date && n.message === cookieNotif.message
+          );
+          if (existingIndex >= 0) {
+            if (cookieNotif.read && !notifications[existingIndex].read) {
+              notifications[existingIndex].read = true;
+            }
+          } else {
+            notifications.unshift({ ...cookieNotif, read: cookieNotif.read ?? false });
+          }
+        }
+        
+        localStorage.setItem(`notif-${userId}`, JSON.stringify(notifications));
+      }
+      
+      if (notifications.length > 0) {
+        setNotifications(notifications);
       }
     } catch (err) {
-      console.error('Error rehydrating notifications', err);
+      // Silently ignore errors
     }
-  }, [currentUsid]); // Rehidratar cuando cambie el USID
+  }, [currentUsid]);
 
   const markAsRead = useCallback((indexOrId: number | string) => {
     setNotifications((prev) => {
@@ -252,6 +348,16 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, [currentUsid, persistLocal]);
 
+  const clearNotifications = useCallback(() => {
+    setNotifications([]);
+    if (currentUsid) {
+      const userId = getIdFromUSID(currentUsid);
+      if (userId) {
+        persistLocal(userId, []);
+      }
+    }
+  }, [currentUsid, persistLocal]);
+
   const unreadCount = useMemo(
     () => notifications.filter((n) => !n.read).length,
     [notifications]
@@ -263,6 +369,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     unreadCount,
     markAsRead,
     markAllAsRead,
+    clearNotifications,
     cleanup,
   };
 

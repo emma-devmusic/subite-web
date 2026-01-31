@@ -30,7 +30,6 @@ export const navigationMobile = (isLogged: boolean): { pages: NavigationItem[] }
             { name: '¿Cómo Subastar?', href: '/como-subastar' },
             { name: '¿Cómo Ofertar?', href: '/como-ofertar' },
             { name: 'Contacto', href: '/contact' },
-            isLogged ? { name: 'Mi Cuenta', href: DASHBOARD_BASE_URL + '/profile' } : { name: 'Ingresar', href: DASHBOARD_BASE_URL + '/login', external: true },
         ]
     }
 }

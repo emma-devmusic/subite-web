@@ -64,7 +64,7 @@ class SessionManager {
         const cookieUserData = CookieUtils.getUserData();
         const cookieUSID = CookieUtils.getUSID();
 
-        // Verificar que tenemos los datos esenciales
+        // Estrategia 1: Verificar que tenemos todos los datos esenciales
         if (
             cookieToken &&
             cookieUserData &&
@@ -88,6 +88,10 @@ class SessionManager {
                 permissions: cookieUserData,
                 user: cookieUserData,
             } as any;
+        } 
+        // Estrategia 2: Si tenemos al menos el USID (para notificaciones cross-subdomain)
+        else if (cookieUSID) {
+            this.conn = cookieUSID;
         }
     }
 
@@ -99,6 +103,12 @@ class SessionManager {
             SessionManager.instance.gettingSessionFromCookies();
         }
         return SessionManager.instance;
+    }
+
+    // Método público para refrescar la sesión desde cookies
+    // Útil para detectar cambios de sesión cross-tab o cross-subdomain
+    public refreshSessionFromCookies(): void {
+        this.gettingSessionFromCookies();
     }
 
     public async login(credentials: { email: string; password: string }) {

@@ -1,7 +1,7 @@
 
-import { Suspense, useEffect, useState } from 'react'
-import { navigation } from './data'
-import { usePathname, useRouter } from 'next/navigation'
+import { Suspense } from 'react'
+import { navigation, navigationMobile } from './data'
+import { usePathname } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
 import { Search } from '../../searching/search/Search'
@@ -14,6 +14,9 @@ import { useAppSelector } from '@/store'
 import { InstructiveMenu } from './InstructiveMenu'
 import Link from 'next/link'
 import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
+import { OffCanvas } from '@/components/OffCanvas/OffCanvas'
+import { accountMenuData } from '@/mocks/mocks'
+import { Icon } from '@iconify/react'
 
 export const Navbar = () => {
 
@@ -25,7 +28,50 @@ export const Navbar = () => {
     }
 
     return (
-        <header className="relative bg-white lg:pt-2 z-10 shadow w-full sm:px-4">
+        <>
+            <OffCanvas
+                canvasId="navbar-mobile"
+                title="Subite a tus subastas"
+            >
+                <div className="flex flex-col gap-4">
+                    {navigationMobile(isLogged).pages.map((navItem, index) => (
+                        <Link
+                            key={index}
+                            href={navItem.href}
+                            className={`hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'} ${pathname === navItem.href ? 'text-primary' : 'text-gray-500'}`}
+                        >
+                            {navItem.name}
+                        </Link>
+                    ))}
+                </div>
+                {/* Cuenta de usuario en móvil - items directos sin popover */}
+                {isLogged ? (
+                    <div className="border-t pt-4 mt-2 flex flex-col gap-3">
+                        <p className="text-xs text-gray-400 uppercase font-semibold">Mi Cuenta</p>
+                        {accountMenuData
+                            .filter(item => item.isLogged === true)
+                            .map((item, index) => (
+                                <a
+                                    key={index}
+                                    href={item.link}
+                                    className="flex items-center gap-3 text-gray-600 hover:text-primary transition-all"
+                                >
+                                    <Icon icon={item.icon} className="text-xl" />
+                                    {item.text}
+                                </a>
+                            ))
+                        }
+                    </div>
+                ) : (
+                    <Link
+                        href={DASHBOARD_BASE_URL + '/login'}
+                        className="block mt-4 bg-primary text-white px-4 py-2 rounded-md text-center"
+                    >
+                        Ingresar
+                    </Link>
+                )}
+            </OffCanvas>
+            <header className="relative bg-white lg:pt-2 z-[100] shadow w-full sm:px-4">
             <div className="flex items-center justify-between w-full text-sm font-medium text-white ">
                 <div className="flex justify-between items-center mx-auto max-w-[1250px] w-full gap-3">
                     <div className='flex items-center justify-between w-full '>
@@ -56,6 +102,12 @@ export const Navbar = () => {
                                         <Search />
                                     </Suspense>
                                 </div>
+                                {/* Notificaciones visibles en móvil cuando está logueado */}
+                                {isLogged && (
+                                    <div className="flex lg:hidden">
+                                        <Notifications />
+                                    </div>
+                                )}
                                 <div className="h-full hidden lg:flex ">
                                     {
                                         isLogged
@@ -82,5 +134,6 @@ export const Navbar = () => {
                 </div>
             </div>
         </header>
+        </>
     )
 }

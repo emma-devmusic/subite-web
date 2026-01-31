@@ -5,19 +5,7 @@ import { ItemHomeProductsSearchResponse } from "@/types/homeResponse";
 import { BannerProduct } from "./BannerProduct";
 import { alternativesBannerImages } from "@/commons/helpers/constants";
 import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from "@heroicons/react/24/outline";
-import { useRef } from "react";
-
-const settings = {
-    dots: true,
-    infinite: true,
-    speed: 700,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    autoplaySpeed: 3000,
-    autoplay: true,
-    easing: "ease-in-out",
-};
+import { useRef, useMemo } from "react";
 
 interface Props {
     homeProd: ItemHomeProductsSearchResponse[]
@@ -31,6 +19,39 @@ export const BannerThree = ({ homeProd }: Props) => {
     const previous = () => {
         sliderRef.slickPrev();
     };
+
+    // Determinar los items a mostrar
+    const items = homeProd.length > 0 ? homeProd : alternativesBannerImages;
+    const isSingleItem = items.length === 1;
+
+    // Configuración dinámica del slider
+    const settings = useMemo(() => ({
+        dots: !isSingleItem,
+        infinite: !isSingleItem,
+        speed: 700,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        autoplaySpeed: 3000,
+        autoplay: !isSingleItem,
+        easing: "ease-in-out",
+    }), [isSingleItem]);
+
+    // Si hay un solo item, renderizar sin slider
+    if (isSingleItem) {
+        return (
+            <div className="relative w-full group/banner sm:mb-24">
+                <div className="banner3 mx-auto">
+                    <div className="max-h-[500px]">
+                        {homeProd.length > 0 
+                            ? <BannerProduct itemProduct={homeProd[0]} />
+                            : <BannerProduct itemAlternative={alternativesBannerImages[0]} />
+                        }
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative w-full group/banner">

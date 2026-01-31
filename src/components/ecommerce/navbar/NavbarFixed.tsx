@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
 import { navigationMobile } from './data'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { Logo } from '@/components/logo'
 import { AccountMenu } from './AccountMenu'
 import { Search } from '../../searching/search/Search'
@@ -13,12 +13,10 @@ import { Button } from '@/components/buttons/Button'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
-import { OffCanvas } from '@/components/OffCanvas/OffCanvas'
 
 export const NavbarFixed = () => {
 
     const pathname = usePathname();
-    const router = useRouter()
     const { isLogged } = useAppSelector(state => state.auth)
     const [showNavbar, setShowNavbar] = useState(false);
 
@@ -42,33 +40,7 @@ export const NavbarFixed = () => {
 
     return (
         <>
-            <OffCanvas
-                canvasId="navbar-mobile"
-                title="Subite a tus subastas"
-            >
-                <div className="flex flex-col gap-4">
-                    {navigationMobile(isLogged).pages.map((navItem, index) => (
-                        navItem.external ? (
-                            <a
-                                key={index}
-                                href={navItem.href}
-                                className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'}`}
-                            >
-                                {navItem.name}
-                            </a>
-                        ) : (
-                            <Link
-                                key={index}
-                                href={navItem.href}
-                                className={` hover:text-primary transition-all ${navItem.name === 'Ingresar' ? 'bg-primary text-white px-2 py-2 rounded-md text-center' : 'text-gray-600'} ${pathname === navItem.href ? 'text-primary' : 'text-gray-500'}`}
-                            >
-                                {navItem.name}
-                            </Link>
-                        )
-                    ))}
-                </div>
-            </OffCanvas>
-            <header className={`bg-white backdrop-blur-md bg-opacity-80 lg:pt-2 shadow sm:px-4 fixed transition-all ease-in-out [transition-duration:.5s] top-0 w-full z-40 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
+            <header className={`bg-white backdrop-blur-md bg-opacity-80 lg:pt-2 shadow sm:px-4 fixed transition-all ease-in-out [transition-duration:.5s] top-0 w-full z-[100] ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
                 <div className="flex items-center justify-between w-full text-sm font-medium text-white ">
                     <div className="flex justify-between items-center mx-auto max-w-[1250px] w-full gap-3">
                         <div className='flex items-center justify-between w-full '>
@@ -99,6 +71,12 @@ export const NavbarFixed = () => {
                                             <Search />
                                         </Suspense>
                                     </div>
+                                    {/* Notificaciones visibles en móvil cuando está logueado */}
+                                    {isLogged && (
+                                        <div className="flex lg:hidden">
+                                            <Notifications />
+                                        </div>
+                                    )}
                                     <div className="h-full hidden lg:flex ">
                                         {
                                             isLogged

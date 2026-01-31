@@ -219,7 +219,7 @@ export default function PrivacyPolicyPage() {
               <PhoneIcon className="text-gray-600" size={16} /> Contactar Soporte
             </a>
             <a 
-              href="/terms-and-conditions" 
+              href="/terminos-y-condiciones" 
               className="inline-flex items-center px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 transition-colors"
             >
               <DocumentIcon className="text-gray-600" size={16} /> Términos y Condiciones

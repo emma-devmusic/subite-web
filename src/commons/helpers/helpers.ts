@@ -215,97 +215,101 @@ export const flu = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 
 // GUARDA LAS NOTIFICACIONES EN EL LOCAL STORAGE
-export const setNotificationOnLocalStorage = (userId: number | string, data: NotificationFromDB) => {
-    if (typeof window === 'undefined') return;
-    
+export const setNotificationOnLocalStorage = (
+    userId: number | string,
+    data: NotificationFromDB
+) => {
     const dataToSave = objectNotification(data);
 
-    let arrayNotifications = []
-    const strNotifications = localStorage.getItem(`notif-${userId}`)
+    let arrayNotifications = [];
+    const strNotifications = localStorage.getItem(`notif-${userId}`);
 
     if (strNotifications) {
-        arrayNotifications = [...JSON.parse(strNotifications), dataToSave]
+        arrayNotifications = [dataToSave, ...JSON.parse(strNotifications)];
         if (JSON.parse(strNotifications).length === 30) {
-            arrayNotifications.shift()
+            arrayNotifications.pop();
         }
     } else {
-        arrayNotifications = [dataToSave]
+        arrayNotifications = [dataToSave];
     }
-    localStorage.setItem(`notif-${userId}`, JSON.stringify(arrayNotifications))
-}
-
-
+    localStorage.setItem(`notif-${userId}`, JSON.stringify(arrayNotifications));
+};
 
 // TRAE LAS NOTIFICACIONES DEL LOCAL STORAGE
-export const getNotificationsFromLocalStorage = (userId: number | string): ObjectNotification[] => {
-    if (typeof window === 'undefined') return [];
-    
-    const strNotifications = localStorage.getItem(`notif-${userId}`)
+export const getNotificationsFromLocalStorage = (
+    userId: number | string
+): ObjectNotification[] => {
+    const strNotifications = localStorage.getItem(`notif-${userId}`);
     if (strNotifications) {
-        return JSON.parse(strNotifications)
+        return JSON.parse(strNotifications);
     }
-    return []
-}
-
-
-
+    return [];
+};
 
 export const getIdFromUSID = (usid: string) => {
-    const array = usid.split('*')
-    return array[2]
-}
+    const array = usid.split('*');
+    return array[2];
+};
 
-
-
-
-
-export const objectNotification = (data: NotificationFromDB): ObjectNotification => {
+export const objectNotification = (
+    data: NotificationFromDB
+): ObjectNotification => {
 
     let obj: ObjectNotification = {
         ...data,
         date: `${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}hs`,
         link: '',
         icon: '',
-        read: false
-    }
+        read: false,
+    };
 
-    const getLinkIcon = (title: NotificationTitle | ''): { link: string; icon: string } => {
+    const getLinkIcon = (
+        title: NotificationTitle | ''
+    ): { link: string; icon: string } => {
         switch (title) {
-            case 'Actualización del estado de tu cuenta':
-                return { link: '/dashboard/user-config', icon: 'simple-icons:authelia' };
+            case 'Actualización del estado de tu cuenta.':
+                return { link: '/user-config', icon: 'simple-icons:authelia' };
 
-            case 'Nueva solicitud de Auditoría de Cliente':
-                return { link: '/dashboard/notifications', icon: 'gridicons:user-add' }
+            case 'Nueva solicitud de Auditoria de Cliente':
+                const email = extractEmailFromDetails(data.details);
+                const emailUrl = buildUserSearchUrl(email!);
+                return { link: emailUrl, icon: 'gridicons:user-add' };
+
+            case 'Solicitud de Auditoría Actualizada':
+                return {
+                    link: `/products/${data.product_id}`,
+                    icon: 'mdi:update',
+                };
+
+            case 'Nueva Solicitud de Auditoría de Producto':
+                return {
+                    link: `/products/${data?.product_id}`,
+                    icon: 'mdi:package-search',
+                };
 
             default:
-                return { link: '/dashboard/notifications', icon: 'ic:round-notifications-active' };
+                return {
+                    link: '/notifications',
+                    icon: 'ic:round-notifications-active',
+                };
         }
-    }
+    };
 
-    switch (data.title) {
-        case 'Actualización del estado de tu cuenta':
-            obj = {
-                ...obj,
-                link: getLinkIcon(data.title).link,
-                icon: getLinkIcon(data.title).icon
-            }
-            break;
-        default:
-            obj = {
-                ...obj,
-                link: getLinkIcon('').link,
-                icon: getLinkIcon('').icon
-            };
-            break;
-    }
+    obj = {
+        ...obj,
+        link: getLinkIcon(data.title).link,
+        icon: getLinkIcon(data.title).icon,
+    };
 
-    return obj
+    return obj;
+};
+
+export function extractEmailFromDetails(details: string): string | null {
+    const match = details.match(/Email:\s*([^;]+)/i);
+    return match ? match[1].trim() : null;
 }
 
-
-
-
-
-
-
-
+export function buildUserSearchUrl(email: string): string {
+    const params = new URLSearchParams({ page: '1', limit: '10', term: email });
+    return `/users?${params.toString()}`;
+}

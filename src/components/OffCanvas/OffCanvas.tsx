@@ -12,7 +12,7 @@ export const OffCanvas = ({ children, title, icon, canvasId }: Props) => {
     return (
         <div
             id={canvasId}
-            className="hs-overlay hs-overlay-open:translate-x-0 hidden -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white border-e "
+            className="hs-overlay hs-overlay-open:translate-x-0 hidden -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs w-full z-[200] bg-white border-e "
             role="dialog"
             tabIndex={-1}
             aria-labelledby="hs-offcanvas-example-label"

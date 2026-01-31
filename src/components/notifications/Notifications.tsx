@@ -1,36 +1,33 @@
 'use client'
 
 import { PopoverApp } from "@/components/popover"
-import { BellAlertIcon } from "@heroicons/react/24/outline"
 import { useNotifications } from "@/contexts/NotificationsContext"
 import { ItemNotification } from "@/components/notifications/ItemNotification"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { useRouter } from "next/navigation"
 import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
 
+const NotificationsContent = () => {
+    const { notifications, isLoading, markAsRead, markAllAsRead, clearNotifications } = useNotifications();
 
-export const Notifications = () => {
-    const { notifications, isLoading, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-    const router = useRouter();
+    const MAX_VISIBLE_NOTIFICATIONS = 5;
+    const visibleNotifications = notifications.slice(0, MAX_VISIBLE_NOTIFICATIONS);
+    const hasMoreNotifications = notifications.length > MAX_VISIBLE_NOTIFICATIONS;
+
+    const handleNotificationClick = (index: number) => {
+        markAsRead(index);
+    };
 
     return (
-        <PopoverApp
-            button={
-                <div className="relative">
-                    <Icon icon="ic:round-notifications" className="w-8 h-8 text-primary" />
-                    {!isLoading && unreadCount > 0 && (
-                        <div className="absolute top-0 left-0 text-white text-xs bg-red-500 font-extralight rounded-full w-4 h-4 flex justify-center items-center">
-                            {unreadCount}
-                        </div>
-                    )}
-                </div>
-            }
-            classOpen='w-7text-cyan-800'
-            classClose='text-cyan-600 hover:text-cyan-700 hover:cursor-pointer w-7'
-            position='end'
-        >
-            <ul className='flex flex-col w-[320px]'>
-                {!isLoading && notifications.map((item, i) => (
+        <ul className="mt-2 flex max-h-[500px] w-[320px] flex-col overflow-y-auto">
+            {/* Título */}
+            <li className="border-b border-gray-200 px-4 py-3">
+                <h3 className="text-lg font-semibold text-gray-800">
+                    Notificaciones
+                </h3>
+            </li>
+
+            {!isLoading &&
+                visibleNotifications.map((item, i) => (
                     <ItemNotification
                         key={`${item.date}-${i}`}
                         details={item.details}
@@ -41,26 +38,41 @@ export const Notifications = () => {
                         date={item.date}
                         link={item.link}
                         read={item.read ?? false}
-                        onClick={() => markAsRead(i)}
+                        onClick={() => handleNotificationClick(i)}
                     />
                 ))}
 
-                {!isLoading && notifications.length === 0 && (
-                    <span className="p-3">Aún no hay notificaciones.</span>
-                )}
+            {!isLoading && hasMoreNotifications && (
+                <li className="border-gray-200 p-1 text-center">
+                    <button
+                        type="button"
+                        className="text-xs font-medium text-orange-600 hover:text-orange-700 hover:underline"
+                        onClick={() => {
+                            window.location.href = `${DASHBOARD_BASE_URL}/notifications`;
+                        }}
+                    >
+                        Ver más ({notifications.length})
+                    </button>
+                </li>
+            )}
 
-                {isLoading && <span className="p-3">Cargando...</span>}
+            {!isLoading && notifications.length === 0 && (
+                <span className="mx-auto p-3">
+                    Aún no hay notificaciones.
+                </span>
+            )}
 
-                <li className="mt-2 border-t px-3 py-2">
+            {isLoading && <span className="mx-auto p-3">Cargando...</span>}
+
+            {!isLoading && notifications.length > 0 && (
+                <li className="border-t border-gray-200 p-4 py-3">
                     <div className="flex items-center justify-between">
                         <button
                             type="button"
-                            className="text-sm font-medium text-primary hover:underline"
-                            onClick={() => {
-                                window.location.href = `${DASHBOARD_BASE_URL}/notifications`;
-                            }}
+                            className="text-sm font-medium text-red-600 hover:underline"
+                            onClick={clearNotifications}
                         >
-                            Ver todas
+                            Limpiar
                         </button>
                         <button
                             type="button"
@@ -71,7 +83,33 @@ export const Notifications = () => {
                         </button>
                     </div>
                 </li>
-            </ul>
+            )}
+        </ul>
+    );
+};
+
+export const Notifications = () => {
+    const { unreadCount, isLoading, notifications } = useNotifications();
+
+    console.log('🔔 Notifications component render:', { unreadCount, isLoading, notificationsCount: notifications.length });
+
+    return (
+        <PopoverApp
+            button={
+                <div className="relative">
+                    <Icon
+                        icon="ic:round-notifications"
+                        className="h-8 w-8 text-orange-500"
+                    />
+                    {!isLoading && unreadCount > 0 && (
+                        <div className="absolute top-0 left-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs font-extralight text-white">
+                            {unreadCount}
+                        </div>
+                    )}
+                </div>
+            }
+        >
+            <NotificationsContent />
         </PopoverApp>
-    )
-}
+    );
+};
