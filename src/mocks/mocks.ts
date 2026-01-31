@@ -120,7 +120,7 @@ export const dataNotifications: NotificationFromDB[] = [
         details: 'Detalles del mensaje',
         error: false,
         message: 'Mensaje',
-        title : 'Actualización del estado de tu cuenta'
+        title : 'Actualización del estado de tu cuenta.'
     }
 ]
 
