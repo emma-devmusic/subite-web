@@ -96,21 +96,21 @@ export const notificationsData: NotificationApp[] = [
         id: 'lkdsfgkjebg',
         title: 'Nuevo Usuario',
         body: 'Ingresa para autorizar.',
-        linkTo: '/dashboard/authorizations',
+        linkTo: '/authorizations',
         type: 'authorization'
     },
     {
         id: 'nlqeitadlfjjhee',
         title: 'Nuevo Mensaje',
         body: 'Léelo en el buzón.',
-        linkTo: '/dashboard/inbox',
+        linkTo: '/inbox',
         type: 'inbox'
     },
     {
         id: 'lkdsfgkjebsdfxg',
         title: 'No se pudo enviar un msj',
         body: 'Revisalo en las notificaciones',
-        linkTo: '/dashboard/authorizations',
+        linkTo: '/authorizations',
         type: 'alert'
     }
 ]

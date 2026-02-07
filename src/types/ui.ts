@@ -35,6 +35,8 @@ export interface Modal {
         onClose?: null | (() => void);
         onCancel?: null | (() => void);
         data?: unknown;
+        automaticClose?: boolean;
+        timeToClose?: number;
 }
 
 export interface FormNewPassword {

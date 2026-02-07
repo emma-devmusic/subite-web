@@ -3,7 +3,7 @@ import { Dispatch, MiddlewareAPI, PayloadAction } from "@reduxjs/toolkit";
 import { uiCloseModal, uiSetLoading } from "../slices/uiSlice";
 import { fetchData } from "@/services/fetchData";
 import { path_role } from "@/commons/helpers";
-import { getProducts } from "../slices/productSlice";
+import { getProductById, getProducts } from "../slices/productSlice";
 import { getParamsAuctionState } from "@/commons/helpers/auctions";
 import SessionManager from "@/commons/Classes/SessionManager";
 
@@ -44,6 +44,7 @@ export const auctionMiddleware = (state: MiddlewareAPI) => {
         );
         state.dispatch(uiCloseModal());
         state.dispatch(getProducts("search?page=1&limit=10"));
+        state.dispatch(getProductById(action.payload.product_id));
       } catch (error: any) {
         Swal.fire("Error", `${error.code}`, "error");
       }

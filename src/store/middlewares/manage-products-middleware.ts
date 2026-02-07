@@ -241,10 +241,7 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     token
                 )
                 Swal.fire('Hecho', 'Producto actualizado correctamente', 'success')
-                // state.dispatch(getProducts('search?page=1&limit=10'))
-                state.dispatch(uiSetLoading(false))
 
-                location.reload()
             } catch (error: any) {
                 state.dispatch(uiModal({
                     modalFor: 'message',
@@ -252,8 +249,8 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${error.code}`
                 }))
+            } finally {
                 state.dispatch(uiSetLoading(false))
-
             }
         }
 
