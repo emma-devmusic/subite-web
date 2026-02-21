@@ -1,4 +1,5 @@
 'use client'
+import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
 import { Button } from '@/components/buttons/Button'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { selectAuction } from '@/store/slices/auctionSlice'
@@ -55,12 +56,7 @@ export const ButtonOffers = ({ product }: Props) => {
 
     const handleSeeOffers = () => {
         if(isLogged){
-            dispatch(getOffers(`${auctionSelected.id}`))
-            dispatch(uiModal({
-                modalFor: 'offers',
-                modalOpen: true,
-                modalTitle: 'Ofertas'
-            }))
+            window.location.href = `${DASHBOARD_BASE_URL}/auctions/offers/${product.id}`
         } else {
             Swal.fire('Inicia Sesión', 'Para visualizar el historial de ofertas debes iniciar sesión.', 'info')
         }
