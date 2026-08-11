@@ -1,7 +1,7 @@
 import React from 'react'
 import { findCategoriesByIds } from '@/commons/helpers/products';
+import { formatAuctionDate } from '@/commons/helpers/auctions';
 import { DataHomeProductResponse } from '@/types/homeProductResponse'
-import dayjs from 'dayjs';
 import { getCategoriesFromDB } from '@/services-actions/home/categories';
 import { Spinner } from '@/components/spinner/Spinner';
 
@@ -66,7 +66,7 @@ export const ProductInfo = async ({ product }: Props) => {
                         </svg>
                         Inicio:
                     </strong>
-                    {dayjs(auction?.init_date).format('DD/MM/YYYY')}
+                    {formatAuctionDate(auction?.init_date)}
                 </li>
                 <li className='text-sm text-gray-600 flex items-center gap-1'>
                     <strong className='text-gray-800 flex items-center gap-1'>
@@ -86,7 +86,7 @@ export const ProductInfo = async ({ product }: Props) => {
                         </svg>
                         Fin:
                     </strong>
-                    {dayjs(auction?.end_date).format('DD/MM/YYYY')}
+                    {formatAuctionDate(auction?.end_date)}
                 </li>
                 <li className='text-sm text-gray-600 flex items-center gap-1'>
                     <strong className='text-gray-800'>

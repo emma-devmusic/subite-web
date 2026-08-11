@@ -5,8 +5,8 @@ import { getOffers } from "@/store/slices/offersSlice";
 import { SmallSpinner } from "@/components/spinner/Spinner";
 import { BlobOffer } from "./BlobOffer";
 import { uiModal } from "@/store/slices/uiSlice";
+import { parseAuctionDate } from "@/commons/helpers/auctions";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
 import Swal from "sweetalert2";
 
 export const Offers = () => {
@@ -22,13 +22,9 @@ export const Offers = () => {
 
     useEffect(() => {
         if (auctionSelected) {
-            const convertToDate = (dateString: string): Date => {
-                const [day, month, year] = dateString.split('/').map(Number);
-                return new Date(year, month - 1, day); // Crear fecha en formato válido
-            };
             const now = new Date();
-            const startDate = convertToDate(dayjs(auctionSelected?.init_date).format('DD/MM/YYYY'));
-            const endDate = convertToDate(dayjs(auctionSelected?.end_date).format('DD/MM/YYYY'));
+            const startDate = parseAuctionDate(auctionSelected.init_date);
+            const endDate = parseAuctionDate(auctionSelected.end_date);
             if (now < startDate) {
                 setStatus('waiting')
             } else if (now > endDate) {
@@ -37,7 +33,7 @@ export const Offers = () => {
                 setStatus('running')
             }
         }
-    }, [productSelected])
+    }, [auctionSelected])
 
 
     const handleRefresh = () => {

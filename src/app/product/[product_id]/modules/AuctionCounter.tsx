@@ -3,7 +3,6 @@
 import { Tag } from '@/components/tags/Tag';
 import { getAuctionStatus } from '@/commons/helpers/auctions';
 import { AuctionProductItem } from '@/types/products';
-import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react'
 
 interface TimeRemaining {
@@ -32,7 +31,7 @@ export const AuctionCounter = ({ auction }: Props) => {
 
     useEffect(() => {
         const updateStatus = () => {
-            const status = getAuctionStatus(dayjs(auction?.init_date).format('DD/MM/YYYY'), dayjs(auction?.end_date).format('DD/MM/YYYY'));
+            const status = getAuctionStatus(auction.init_date, auction.end_date);
             setAuctionStatus(status);
         };
 
@@ -46,7 +45,7 @@ export const AuctionCounter = ({ auction }: Props) => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, []);
+    }, [auction.init_date, auction.end_date]);
 
     return (
         <div className='flex flex-col sm:flex-row justify-between rounded-lg shadow bg-white p-4 gap-4'>

@@ -1,5 +1,4 @@
 'use client'
-import dayjs from "dayjs";
 import Image from "next/image";
 import { getAuctionStatus } from "@/commons/helpers/auctions";
 import { useAppSelector } from "@/store";
@@ -45,7 +44,7 @@ export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
         if (!isClient || !auction) return;
 
         const updateStatus = () => {
-            const status = getAuctionStatus(dayjs(auction?.init_date).format('DD/MM/YYYY'), dayjs(auction?.end_date).format('DD/MM/YYYY'));
+            const status = getAuctionStatus(auction.init_date, auction.end_date);
             setAuctionStatus(status);
         };
         // Actualizar cada segundo

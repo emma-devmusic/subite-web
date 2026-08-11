@@ -1,6 +1,6 @@
 'use client'
-import dayjs from "dayjs"
 import Image from "next/image"
+import { formatAuctionDate } from "@/commons/helpers/auctions"
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse"
 import { CounterCardProduct } from "../dayCounter/CounterCardProduct"
 import { LinkProduct } from "./LinkProduct"
@@ -39,7 +39,7 @@ export const CardProduct = ({ itemProduct }: Props) => {
                         </h3>
                         <p className="m-0 mt-2 text-sm text-gray-500">Precio inicial: <strong>${itemProduct.product_variations[0].price}</strong></p>
                         <p className="m-0 mt-2 text-sm text-gray-500">Puja mínima: <strong>${auction?.bid_amount}</strong></p>
-                        {isClient && <p className="m-0 mt-2 text-sm text-gray-500">Fecha de inicio: <span>{dayjs(auction?.init_date).format('DD/MM/YYYY')}</span></p>}
+                        {isClient && <p className="m-0 mt-2 text-sm text-gray-500">Fecha de inicio: <span>{formatAuctionDate(auction?.init_date)}</span></p>}
                     </div>
                 </div>
             </div>
@@ -47,4 +47,3 @@ export const CardProduct = ({ itemProduct }: Props) => {
         </div>
     )
 }
-

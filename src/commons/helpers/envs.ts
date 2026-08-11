@@ -21,7 +21,7 @@ export const verify = process.env.NEXT_PUBLIC_VERIFY || 'xx-em-xx'
 export const cookie_domain =
     process.env.NEXT_PUBLIC_COOKIE_DOMAIN || '.subite.ar'
 export const NOTIFICATIONS_WS_URL =
-    process.env.NEXT_PUBLIC_SOCKET_URL || 'https://actnotify.ding.com.ar'
+    process.env.NEXT_PUBLIC_SOCKET_URL || 'https://notify.subite.ar'
 
 // Export for easier usage
 export const ENV = {

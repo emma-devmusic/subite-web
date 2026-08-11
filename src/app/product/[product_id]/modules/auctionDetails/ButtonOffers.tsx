@@ -1,5 +1,6 @@
 'use client'
 import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
+import { parseAuctionDate } from '@/commons/helpers/auctions'
 import { Button } from '@/components/buttons/Button'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { selectAuction } from '@/store/slices/auctionSlice'
@@ -16,19 +17,20 @@ interface Props {
 }
 export const ButtonOffers = ({ product }: Props) => {
 
-    const { auctionSelected } = useAppSelector(state => state.auction)
     const { isLogged } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
+    const currentAuction = product.products_acutions?.find(
+        auction => !auction.data_deleted
+    )
 
     // Verificar si la subasta ha terminado
     const isAuctionEnded = () => {
-        if (!product.products_acutions || product.products_acutions.length === 0) {
+        if (!currentAuction) {
             return true; // Si no hay subasta activa, considerar como terminada
         }
 
-        const currentAuction = product.products_acutions[0];
         const currentDate = new Date();
-        const endDate = new Date(currentAuction.end_date);
+        const endDate = parseAuctionDate(currentAuction.end_date);
 
         return currentDate > endDate;
     }
@@ -36,13 +38,12 @@ export const ButtonOffers = ({ product }: Props) => {
     const auctionEnded = isAuctionEnded();
 
     const isAuctionNotStarted = () => {
-        if (!product.products_acutions || product.products_acutions.length === 0) {
+        if (!currentAuction) {
             return true
         }
 
-        const currentAuction = product.products_acutions[0]
         const currentDate = new Date()
-        const startDate = new Date(currentAuction.init_date)
+        const startDate = parseAuctionDate(currentAuction.init_date)
 
         return currentDate < startDate
     }

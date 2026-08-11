@@ -2,7 +2,6 @@
 import { getAuctionStatus } from '@/commons/helpers/auctions';
 import { ItemHomeProductsSearchResponse } from '@/types/homeResponse';
 import { AuctionStatusBadge } from '@/components/badges';
-import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react'
 
 interface TimeRemaining {
@@ -39,10 +38,10 @@ export const CounterCardProduct = ({ itemProduct }: Props) => {
     }, []);
 
     useEffect(() => {
-        if (!isClient) return;
+        if (!isClient || !auction) return;
         
         const updateStatus = () => {
-            const status = getAuctionStatus(dayjs(auction?.init_date).format('DD/MM/YYYY'), dayjs(auction?.end_date).format('DD/MM/YYYY'));
+            const status = getAuctionStatus(auction.init_date, auction.end_date);
             setAuctionStatus(status);
         };
 
