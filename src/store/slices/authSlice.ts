@@ -86,7 +86,7 @@ const authSlice = createSlice({
         email_validation(state, action: PayloadAction<ValidateUserData>) {
             state.validateUserData = action.payload
         },
-        getUserProfile() {
+        getUserProfile(_state, _action: PayloadAction<{ silent?: boolean } | undefined>) {
             //for middleware
         },
         UserProfileToRedux(state, action: PayloadAction<DataUserProfile>) {

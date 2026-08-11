@@ -6,6 +6,7 @@ import { getIdFromUSID, objectNotification, setNotificationOnLocalStorage } from
 import { ObjectNotification } from "@/types";
 import SessionManager from "@/commons/Classes/SessionManager";
 import { NOTIFICATIONS_WS_URL } from "@/commons/helpers/envs";
+import { useAppSelector } from "@/store";
 
 interface NotificationsContextType {
   notifications: ObjectNotification[];
@@ -38,6 +39,15 @@ export const useNotifications = () => {
 // Singleton para evitar múltiples instancias - FUERA del componente
 let globalSocket: Socket | null = null;
 let isInitialized = false;
+
+const disconnectGlobalSocket = () => {
+  if (!globalSocket) return;
+
+  globalSocket.disconnect();
+  globalSocket.removeAllListeners();
+  globalSocket = null;
+  isInitialized = false;
+};
 
 // Función para sincronizar notificaciones a cookie compartida (cross-subdomain)
 const syncToCookie = (userId: string | number, notifications: ObjectNotification[]) => {
@@ -84,9 +94,11 @@ const readFromCookie = (userId: string | number): ObjectNotification[] | null =>
 };
 
 export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isLogged, userProfile } = useAppSelector((state) => state.auth);
   const [notifications, setNotifications] = useState<ObjectNotification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUsid, setCurrentUsid] = useState<string | null>(null);
+  const hasVerifiedSession = isLogged && Boolean(userProfile);
 
   const persistLocal = useCallback((userId: string | number, list: ObjectNotification[]) => {
     try {
@@ -100,6 +112,16 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   // Detectar cambios en el USID (login/logout) con polling
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // El socket solo se inicia después de que /user-profile confirme la sesión.
+    // Así una cookie obsoleta no genera conexiones ni reintentos innecesarios.
+    if (!hasVerifiedSession) {
+      disconnectGlobalSocket();
+      setCurrentUsid(null);
+      setNotifications([]);
+      setIsLoading(false);
+      return;
+    }
     
     // Verificar inmediatamente al montar
     const session = SessionManager.getInstance();
@@ -116,13 +138,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
       if (usid !== currentUsid) {
         // Si cambió de tener USID a null = LOGOUT
         if (currentUsid && !usid) {
-          if (globalSocket) {
-            const socketToClean = globalSocket;
-            socketToClean.disconnect();
-            socketToClean.removeAllListeners();
-            globalSocket = null;
-            isInitialized = false;
-          }
+          disconnectGlobalSocket();
           setNotifications([]);
         }
         
@@ -131,7 +147,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     }, 2000);
     
     return () => clearInterval(interval);
-  }, [currentUsid]);
+  }, [currentUsid, hasVerifiedSession]);
 
   // Polling para sincronizar notificaciones desde cookie compartida (del dashboard)
   useEffect(() => {
@@ -209,11 +225,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Si hay una conexión previa pero con diferente usuario, limpiarla
         if (globalSocket) {
-          const socketToClean = globalSocket;
-          socketToClean.disconnect();
-          socketToClean.removeAllListeners();
-          globalSocket = null;
-          isInitialized = false;
+          disconnectGlobalSocket();
         }
 
         // Crear una única conexión de socket
@@ -268,13 +280,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [currentUsid, persistLocal]);
 
   const cleanup = () => {
-    if (globalSocket) {
-      const socketToClean = globalSocket;
-      socketToClean.disconnect();
-      socketToClean.removeAllListeners();
-      globalSocket = null;
-      isInitialized = false;
-    }
+    disconnectGlobalSocket();
     setCurrentUsid(null);
   };
 

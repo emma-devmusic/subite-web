@@ -4,15 +4,12 @@ import { Provider } from "react-redux";
 import { store, useAppDispatch, useAppSelector } from "./";
 import { useEffect } from "react";
 import { clearRedux, getUserProfile, setAuthState } from "./slices/authSlice";
-import { uiModal } from "./slices/uiSlice";
-import { useRouter } from "next/navigation";
 import { getCategories } from "./slices/categorySlice";
 import { getProductAuditsStatuses } from "./slices/productSlice";
 import { getStatus } from "./slices/manageUserSlice";
 import SessionManager from "@/commons/Classes/SessionManager";
 import { NotificationsProvider } from "@/contexts/NotificationsContext";
 import CrossTabCookieManager from "@/commons/Classes/CrossTabCookieManager";
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
 
 interface Props {
   children: React.ReactNode;
@@ -50,9 +47,6 @@ const AuthenticatedDataLoader = () => {
 };
 
 export const Providers = ({ children }: Props) => {
-
-  const router = useRouter()
-
   useEffect(() => {
     // CADA VEZ QUE SE RECARGA LA PÁGINA SE PIERDE EL ESTADO GLOBAL.
     // POR LO TANTO DEBEMOS TRAER LA INFORMACIÓN DE LA SESIÓN ALMACENADA EN EL SESSION STORAGE
@@ -68,9 +62,9 @@ export const Providers = ({ children }: Props) => {
         // Establecer el estado de autenticación con los datos del usuario
         store.dispatch(setAuthState(authData));
 
-        // Hacer una llamada simple para verificar si la sesión es válida
-        // Si falla, los interceptors manejarán la redirección
-        store.dispatch(getUserProfile());
+        // Validar e hidratar sin interrumpir la navegación pública si la cookie
+        // quedó obsoleta o la sesión fue cerrada en otro dispositivo.
+        store.dispatch(getUserProfile({ silent: true }));
 
       } else {
         // Si no hay datos válidos, limpiar el estado
@@ -81,7 +75,7 @@ export const Providers = ({ children }: Props) => {
       // Si no hay sesión autenticada, limpiar el estado
       store.dispatch(clearRedux());
     }
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     // Configurar sincronización de logout/login entre pestañas usando cookies
@@ -97,17 +91,7 @@ export const Providers = ({ children }: Props) => {
       
       // Limpiar sesión local (sin llamada API para evitar duplicados)
       try {
-        // Limpiar propiedades del SessionManager manualmente
-        (session as any).userSession = null;
-        (session as any).authData = null;
-        (session as any).token = '';
-        (session as any).role = 0;
-        (session as any).permission = [];
-        (session as any).conn = '';
-        
-        // Limpiar cookies
-        const { CookieUtils } = await import('@/commons/Classes/CookiesUtils');
-        CookieUtils.clearSessionCookies();
+        session.clearLocalSession();
       } catch (error) {
         console.error('Error limpiando sesión local:', error);
       }

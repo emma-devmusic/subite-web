@@ -1,6 +1,6 @@
 
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
-import { UserProfileToRedux } from "../slices/authSlice";
+import { clearRedux, UserProfileToRedux } from "../slices/authSlice";
 import { ImagesProfileUpdateResponse, SendEmailVerificationResponse } from "@/types/dataFetching";
 import { fetchData, getApiErrorMessage } from "@/services/fetchData";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
@@ -15,23 +15,20 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
         next(action);
 
         if (action.type === 'auth/getUserProfile') {
-            state.dispatch(uiSetLoading(true))
+            const silent = action.payload?.silent === true;
+
+            if (!silent) {
+                state.dispatch(uiSetLoading(true));
+            }
             console.log('Llamada a la Api - USER PROFILE')
 
             // Asegurar que la sesión esté cargada
             const token = session.getToken()
 
             if (!token) {
-                console.error('No hay token disponible')
-                state.dispatch(uiSetLoading(false))
-                state.dispatch(
-                    uiModal({
-                        modalFor: 'message',
-                        modalOpen: true,
-                        typeMsg: 'error',
-                        msg: 'No hay sesión activa'
-                    })
-                )
+                session.clearLocalSession();
+                state.dispatch(clearRedux());
+                if (!silent) state.dispatch(uiSetLoading(false));
                 return
             }
 
@@ -46,16 +43,29 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                     UserProfileToRedux(user.data),
                 );
             } catch (error) {
-                state.dispatch(
-                    uiModal({
-                        modalFor: 'message',
-                        modalOpen: true,
-                        typeMsg: 'error',
-                        msg: getApiErrorMessage(error),
-                    }),
-                );
+                const status =
+                    error && typeof error === 'object' && 'status' in error
+                        ? Number(error.status)
+                        : 0;
+
+                if (status === 401) {
+                    // Una cookie antigua no debe interrumpir la navegación pública.
+                    session.clearLocalSession();
+                    state.dispatch(clearRedux());
+                } else if (!silent) {
+                    state.dispatch(
+                        uiModal({
+                            modalFor: 'message',
+                            modalOpen: true,
+                            typeMsg: 'error',
+                            msg: getApiErrorMessage(error),
+                        }),
+                    );
+                } else {
+                    console.warn('No se pudo hidratar el perfil de usuario.', error);
+                }
             } finally {
-                state.dispatch(uiSetLoading(false));
+                if (!silent) state.dispatch(uiSetLoading(false));
             }
 
         }

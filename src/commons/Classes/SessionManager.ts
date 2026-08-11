@@ -56,6 +56,17 @@ class SessionManager {
     private permission: Permission[] = [];
     private two_factor: boolean = false
 
+    private resetInMemorySession(): void {
+        this.userSession = null;
+        this.token = '';
+        this.conn = '';
+        this.role = 0;
+        this.authData = null;
+        this.basicData = null;
+        this.permission = [];
+        this.two_factor = false;
+    }
+
     private gettingSessionFromCookies(): void {
         const storedSessionData = CookieUtils.getSessionData();
 
@@ -63,6 +74,10 @@ class SessionManager {
         const cookieToken = CookieUtils.getAccessToken();
         const cookieUserData = CookieUtils.getUserData();
         const cookieUSID = CookieUtils.getUSID();
+
+        // Las cookies son la fuente de verdad. Evita conservar en memoria una
+        // sesión que fue eliminada o invalidada en otra pestaña/aplicación.
+        this.resetInMemorySession();
 
         // Estrategia 1: Verificar que tenemos todos los datos esenciales
         if (
@@ -111,6 +126,15 @@ class SessionManager {
         this.gettingSessionFromCookies();
     }
 
+    /**
+     * Limpia la sesión del navegador sin llamar al endpoint de logout.
+     * Se utiliza cuando el backend confirma que una sesión local ya no es válida.
+     */
+    public clearLocalSession(): void {
+        this.resetInMemorySession();
+        CookieUtils.clearSessionCookies();
+    }
+
     public async login(credentials: { email: string; password: string }) {
         try {
             const { data }:ResponseApiDing<DataUserLoginResponse> = await fetchData('/manage-auth/signin', 'POST', credentials)
@@ -156,17 +180,10 @@ class SessionManager {
             crossTabManager.broadcastLogout();
             
             await fetchData('/manage-auth/signout', 'GET', null, this.token)
-            this.userSession = null;
-            CookieUtils.clearSessionCookies();
-            this.authData = null
-            this.conn =''
-            this.token = ''
-            this.role = 0
-            this.userSession = null
-            this.permission = []
+            this.clearLocalSession();
             return true;
         } catch (error) {
-            CookieUtils.clearSessionCookies();
+            this.clearLocalSession();
             console.error(error, 'SessionManager-Logout');
             return false;
         }
