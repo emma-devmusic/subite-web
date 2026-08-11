@@ -1,7 +1,7 @@
 'use client';
 
 import { Provider } from "react-redux";
-import { store } from "./";
+import { store, useAppDispatch, useAppSelector } from "./";
 import { useEffect } from "react";
 import { clearRedux, getUserProfile, setAuthState } from "./slices/authSlice";
 import { uiModal } from "./slices/uiSlice";
@@ -17,6 +17,37 @@ import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
 interface Props {
   children: React.ReactNode;
 }
+
+const AuthenticatedDataLoader = () => {
+  const dispatch = useAppDispatch();
+  const { isLogged, userProfile } = useAppSelector((state) => state.auth);
+  const { categories } = useAppSelector((state) => state.category);
+  const { productAuditsStatuses } = useAppSelector((state) => state.product);
+  const { userStatusArray } = useAppSelector((state) => state.manageUser);
+
+  useEffect(() => {
+    if (!isLogged || !userProfile) return;
+
+    if (categories.length === 0) {
+      dispatch(getCategories('search?page=1&limit=30'));
+    }
+    if (productAuditsStatuses.length === 0) {
+      dispatch(getProductAuditsStatuses());
+    }
+    if (userStatusArray.length === 0) {
+      dispatch(getStatus());
+    }
+  }, [
+    categories.length,
+    dispatch,
+    isLogged,
+    productAuditsStatuses.length,
+    userProfile,
+    userStatusArray.length,
+  ]);
+
+  return null;
+};
 
 export const Providers = ({ children }: Props) => {
 
@@ -41,20 +72,6 @@ export const Providers = ({ children }: Props) => {
         // Si falla, los interceptors manejarán la redirección
         store.dispatch(getUserProfile());
 
-        // Solo cargar datos adicionales después de que el perfil se cargue correctamente
-        // Esto evita múltiples llamadas si el token está expirado
-        const currentState = store.getState();
-        
-        // Estos se ejecutarán solo si la sesión es válida
-        if (currentState.category.categories.length === 0) {
-          store.dispatch(getCategories('search?page=1&limit=30'));
-        }
-        if (currentState.product.productAuditsStatuses.length === 0) {
-          store.dispatch(getProductAuditsStatuses());
-        }
-        if (currentState.manageUser.userStatusArray.length === 0) {
-          store.dispatch(getStatus());
-        }
       } else {
         // Si no hay datos válidos, limpiar el estado
         console.log('Datos de sesión inválidos, limpiando...');
@@ -117,6 +134,7 @@ export const Providers = ({ children }: Props) => {
 
   return (
     <Provider store={store}>
+      <AuthenticatedDataLoader />
       <NotificationsProvider>
         {children}
       </NotificationsProvider>

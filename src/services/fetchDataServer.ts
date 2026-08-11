@@ -12,7 +12,10 @@ export const fetchDataServer = async (
     header?: { [key:string]: string; }
 ) => {
     // Usar variables de entorno SIN NEXT_PUBLIC_ para el servidor
-    const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'https://acstapi.ding.com.ar/api/v1';
+    const API_BASE_URL =
+        process.env.API_BASE_URL ||
+        process.env.NEXT_PUBLIC_API_BASE_URL ||
+        'https://api.subite.ar/api/v1';
     const ACCESS_KEY = process.env.SESSION || process.env.NEXT_PUBLIC_SESSION || '';
     const TENANT_ID = process.env.TENANT_ID || process.env.NEXT_PUBLIC_API_TENANT || '1';
 
@@ -28,54 +31,46 @@ export const fetchDataServer = async (
         headers["Authorization"] = `Bearer ${authorization}`;
     }
 
-    let response: any = null;
     try {
         const url = `${API_BASE_URL}${path}`;
-        
-        console.log(`[Server Action] ========================================`);
-        console.log(`[Server Action] Fetching: ${method} ${url}`);
-        console.log(`[Server Action] Headers:`, {
-            ...headers,
-            access: headers.access ? `${headers.access.substring(0, 10)}...` : 'MISSING' // Mostrar solo inicio del token
-        });
-        
-        response = await fetch(url, {
+
+        const response = await fetch(url, {
             method,
             headers,
             ...(body && { body: JSON.stringify(body) }),
             cache: 'no-store' // Suficiente para deshabilitar el cache
         });
 
-        console.log(`[Server Action] Response status: ${response.status}`);
+        const rawBody = await response.text();
+        let responseBody: any = null;
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`[Server Action] Error response:`, errorText);
-            console.error(`[Server Action] Full headers sent:`, headers);
-            throw new Error(`${errorMsg[response.status] || 'Error en la petición'}: ${errorText}`);
-        }
-        
-        const data = await response.json();
-        console.log(`[Server Action] Success! Items count:`, data?.data?.items?.length || data?.data?.length || 'N/A');
-        console.log(`[Server Action] ========================================`);
-        
-        return data;
-    } catch (error: any) {
-        console.error('[Server Action] ========================================');
-        console.error('[Server Action] FETCH ERROR:', error.message);
-        console.error('[Server Action] Error details:', error);
-        console.error('[Server Action] ========================================');
-        
-        // Si hay response, intentar extraer el error
-        if (response) {
+        if (rawBody) {
             try {
-                const errorData = await response.json();
-                throw errorData;
+                responseBody = JSON.parse(rawBody);
             } catch {
-                throw new Error(error.message || 'Error desconocido en la petición');
+                responseBody = rawBody;
             }
         }
-        
+
+        if (!response.ok) {
+            const message =
+                (typeof responseBody === 'object' &&
+                    (responseBody?.message || responseBody?.detail)) ||
+                errorMsg[response.status] ||
+                `El servidor respondió con un error (${response.status}).`;
+
+            throw Object.assign(new Error(message), {
+                status: response.status,
+                code:
+                    typeof responseBody === 'object'
+                        ? responseBody?.code ?? response.status
+                        : response.status,
+            });
+        }
+
+        return responseBody;
+    } catch (error: any) {
+        console.error('[Server Action] API request failed:', error.message);
         throw error;
     }
 };

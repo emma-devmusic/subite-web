@@ -1,13 +1,12 @@
 'use server'
 
-import Swal from "sweetalert2"
 import { CategoriesHomeResponse, DataCategoriesHomeResponse } from "@/types/categoriesHome"
-import { fetchData } from "@/services/fetchData"
+import { fetchDataServer } from "@/services/fetchDataServer"
 
 export const getCategoriesFromDB = async (): Promise<DataCategoriesHomeResponse> => {
     let categories:DataCategoriesHomeResponse = { items: [], meta: {} as any } as DataCategoriesHomeResponse
     try {
-        const searchResponse: CategoriesHomeResponse = await fetchData(
+        const searchResponse: CategoriesHomeResponse = await fetchDataServer(
             `/home-template/commons-products/categories`,
             "GET",
             null,
@@ -15,7 +14,7 @@ export const getCategoriesFromDB = async (): Promise<DataCategoriesHomeResponse>
         )
         categories = searchResponse.data
     } catch (error: any) {
-        Swal.fire('Error al cargar productos','No fue posible cargar los productos desde la base de datos | ' + error, 'error')
+        console.error('[getCategoriesFromDB] Error:', error.message || error)
     }
     return categories;
 }

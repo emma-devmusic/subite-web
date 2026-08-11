@@ -5,6 +5,7 @@ import { uiModal } from '@/store/slices/uiSlice';
 import { ResponseApiDing } from '@/types/api';
 import { CookieUtils } from '@/commons/Classes/CookiesUtils';
 import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs';
+import { getApiErrorMessage } from './fetchData';
 
 // Flag global para evitar múltiples redirecciones por token expirado
 let isRedirecting = false;
@@ -95,7 +96,7 @@ export async function executeApiCall<T>(
             showError('Error del servidor. Ponte en contacto con soporte');
             return;
         }
-        showError(error.error.detail || error.message || 'Error desconocido');
+        showError(getApiErrorMessage(error));
     } finally {
         setIsLoading(false);
     }

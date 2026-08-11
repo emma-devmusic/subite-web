@@ -2,7 +2,7 @@
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import { UserProfileToRedux } from "../slices/authSlice";
 import { ImagesProfileUpdateResponse, SendEmailVerificationResponse } from "@/types/dataFetching";
-import { fetchData } from "@/services/fetchData";
+import { fetchData, getApiErrorMessage } from "@/services/fetchData";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { errorMsg } from "@/mocks/mocks";
 import { GetUserProfile, ImageProfileState } from "@/types";
@@ -35,35 +35,28 @@ export const profileUserMiddleware = (state: MiddlewareAPI) => {
                 return
             }
 
-            const user: GetUserProfile = await fetchData('/user-profile/search', 'GET', null, token)
-                .catch(err => {
-                    state.dispatch(uiSetLoading(false))
-                    state.dispatch(
-                        uiModal({
-                            modalFor: 'message',
-                            modalOpen: true,
-                            typeMsg: 'error',
-                            msg: `${err}`
-                        })
-                    )
-                })
-            if (user) {
+            try {
+                const user: GetUserProfile = await fetchData(
+                    '/user-profile/search',
+                    'GET',
+                    null,
+                    token,
+                );
                 state.dispatch(
-                    UserProfileToRedux(user.data)
-                )
-            } else {
+                    UserProfileToRedux(user.data),
+                );
+            } catch (error) {
                 state.dispatch(
                     uiModal({
                         modalFor: 'message',
                         modalOpen: true,
                         typeMsg: 'error',
-                        msg: 'No se puede cargar el usuario'
-                    })
-                )
-                console.log('llamada 1');
-                sessionStorage.clear()
+                        msg: getApiErrorMessage(error),
+                    }),
+                );
+            } finally {
+                state.dispatch(uiSetLoading(false));
             }
-            state.dispatch(uiSetLoading(false))
 
         }
 

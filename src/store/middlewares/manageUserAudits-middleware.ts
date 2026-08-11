@@ -2,7 +2,7 @@ import { AuditDocumentResponse, SearchUser, SearchUsersResponse, SetNewUserStatu
 import { Dispatch, MiddlewareAPI } from "@reduxjs/toolkit"
 import { setDocument, setRole, setSelectStatus, setUser, setUsers } from "../slices/manageUserSlice";
 import { uiModal, uiSetLoading } from "../slices/uiSlice";
-import { fetchData } from "@/services/fetchData";
+import { fetchData, getApiErrorMessage } from "@/services/fetchData";
 import Swal from "sweetalert2";
 import SessionManager from "@/commons/Classes/SessionManager";
 
@@ -26,7 +26,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(uiSetLoading(false))
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
             }
 
         }
@@ -55,7 +55,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(uiSetLoading(false))
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
                 location.replace('/dashboard/users')
 
             }
@@ -83,7 +83,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(uiSetLoading(false))
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
             }
         }
 
@@ -102,7 +102,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(uiSetLoading(false))
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
             }
         }
 
@@ -126,7 +126,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 state.dispatch(uiSetLoading(false))
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
             }
         }
 
@@ -150,7 +150,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 }
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
             }
         }
 
@@ -180,7 +180,7 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                 }
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
-                Swal.fire('Error', 'Ocurrió un error al conectar con la base de datos', 'error')
+                Swal.fire('Error', getApiErrorMessage(error), 'error')
             }
         }
 
