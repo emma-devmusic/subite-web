@@ -18,11 +18,11 @@
 }
 
 .link-standard {
-    color:#FF8232;
+    color:#fe8230;
     text-decoration: none;
     font-weight: bold;
     &:hover {
-        color: #FFB84D;
+        color: #e96f20;
     }
 }
 
@@ -45,10 +45,10 @@ SWAL
 */
 
 button:where(.swal2-styled).swal2-confirm {
-    background-color: #FF8232 !important;
+    background-color: #fe8230 !important;
 }
 
 button:where(.swal2-styled).swal2-confirm:focus {
-    outline-color: #ffbe96 !important;
+    outline-color: #ffc39b !important;
     outline-style: solid !important;
 }

@@ -25,9 +25,9 @@ export const Input = ({
 
     return (
         <div className={`w-full ${className}`}>
-            <label 
-                htmlFor={inputId} 
-                className={`block text-sm font-medium mb-2 ${errorMsg ? 'text-red-700' : 'text-gray-700'}`}
+            <label
+                htmlFor={inputId}
+                className={`mb-1 block text-sm font-medium ${errorMsg ? 'text-red-700' : 'text-gray-700'}`}
             >
                 {label} {required && '*'}
             </label>
@@ -37,12 +37,13 @@ export const Input = ({
                     name={name}
                     type={type}
                     required={required}
+                    aria-invalid={!!errorMsg}
                     className={`
-                        w-full px-4 py-3 border rounded-lg transition-colors
-                        focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                        ${errorMsg 
-                            ? 'border-red-300 focus:ring-red-500' 
-                            : 'border-gray-300'
+                        w-full rounded-md border bg-white px-2.5 py-2.5 text-sm text-gray-700 transition-all
+                        focus:outline-none focus:ring-2
+                        ${errorMsg
+                            ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+                            : 'border-gray-200 focus:border-primary focus:ring-primary/20'
                         }
                         ${icon ? (iconPosition === 'left' ? 'pl-10' : 'pr-10') : ''}
                         disabled:bg-gray-50 disabled:text-gray-500
@@ -50,7 +51,7 @@ export const Input = ({
                     {...rest}
                 />
                 {icon && (
-                    <div className={`absolute top-3.5 ${iconPosition === 'left' ? 'left-3' : 'right-3'}`}>
+                    <div className={`pointer-events-none absolute inset-y-0 flex items-center text-gray-400 ${iconPosition === 'left' ? 'left-3' : 'right-3'}`}>
                         {icon}
                     </div>
                 )}

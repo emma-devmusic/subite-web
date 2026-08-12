@@ -37,7 +37,7 @@ export const AuctionStatus = () => {
             <label htmlFor="hs-select-label" className="block text-sm font-medium mb-2">Categoría</label>
             <select
                 onChange={handleAuctionStatusChange}
-                className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none "
+                className="block w-full rounded-md border border-gray-200 bg-white px-2.5 py-2.5 text-sm text-gray-700 transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none disabled:pointer-events-none disabled:bg-gray-50 disabled:text-gray-400"
             >
                 <option defaultValue="0">Selecciona un estado</option>
                 <option value="ACTIVE">Activas</option>

@@ -38,7 +38,7 @@ export const FirstStepProductManage = ({ title, description, handleInputChange, 
                         value={title}
                         onChange={handleInputChange}
                         type="text"
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -49,7 +49,7 @@ export const FirstStepProductManage = ({ title, description, handleInputChange, 
                         value={description}
                         onChange={handleInputChange}
                         rows={4}
-                        placeholder='e.g. 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, Ram 16 GB DDR4 2300Mhz' className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        placeholder='e.g. 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, Ram 16 GB DDR4 2300Mhz' className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     /> */}
                     <ReactQuill
                         tabIndex={step === 1 ? 1 : -1} theme="snow" value={description} onChange={handleDescription} />

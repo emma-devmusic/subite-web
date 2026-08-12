@@ -36,7 +36,7 @@ export const TwoFactorCode = () => {
                                 value={values.code}
                                 onChange={handleInputChange}
                                 type="text" name="code" id="code"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block max-w-[250px] p-2.5"
+                                className="block max-w-[250px] rounded-md border border-gray-200 bg-gray-50 p-2.5 text-sm text-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                 placeholder="Ingresa aquí el código"
                                 required
                             />

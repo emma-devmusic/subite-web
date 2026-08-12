@@ -56,7 +56,7 @@ export const NewAuction = () => {
                         value={dayjs(init_date).format('YYYY-MM-DD')}
                         min={dayjs(init_date).format('YYYY-MM-DD')}
                         type="date"
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -68,7 +68,7 @@ export const NewAuction = () => {
                         value={dayjs(end_date).format('YYYY-MM-DD')}
                         min={dayjs(init_date).add(1, 'day').format('YYYY-MM-DD')}
                         type="date"
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -79,7 +79,7 @@ export const NewAuction = () => {
                         type="number"
                         value={values.price}
                         onChange={handleInputChange}
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
                 <div className='w-100 my-4'>
@@ -90,7 +90,7 @@ export const NewAuction = () => {
                         type="number"
                         value={values.bid_amount}
                         onChange={handleInputChange}
-                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     />
                 </div>
             </div>

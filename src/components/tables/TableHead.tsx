@@ -24,7 +24,7 @@ export const TableHead = ({ withCheckbox, columns }: Props) => {
                                 id="checkbox-all"
                                 aria-describedby="checkbox-1"
                                 type="checkbox"
-                                className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded"
+                                className="h-4 w-4 rounded border-gray-300 bg-gray-50 text-primary accent-primary focus:ring-2 focus:ring-primary/30"
                             />
                             <label htmlFor="checkbox-all" className="sr-only">checkbox</label>
                         </div>

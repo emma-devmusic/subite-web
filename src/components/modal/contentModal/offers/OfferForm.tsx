@@ -69,7 +69,7 @@ export const OfferForm = () => {
                             type="number"
                             min={auctionSelected.bid_amount}
                             step={auctionSelected.bid_amount}
-                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                             value={price}
                             onChange={handlePriceChange}
                         />
@@ -95,7 +95,7 @@ export const OfferForm = () => {
                                     value={values.full_name}
                                     onChange={handleInputChange}
                                     type="text" name="full_name" id="full_name"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block p-2.5"
+                                    className="block rounded-md border border-gray-200 bg-gray-50 p-2.5 text-sm text-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                     placeholder="Ingresa tu nombre completo"
                                     required
                                 />
@@ -103,7 +103,7 @@ export const OfferForm = () => {
                                     value={values.phone}
                                     onChange={handleInputChange}
                                     type="text" name="phone" id="phone"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block p-2.5"
+                                    className="block rounded-md border border-gray-200 bg-gray-50 p-2.5 text-sm text-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                     placeholder="Ingresa tu número de teléfono"
                                     required
                                 />
@@ -111,7 +111,7 @@ export const OfferForm = () => {
                                     value={values.address}
                                     onChange={handleInputChange}
                                     type="text" name="address" id="address"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block p-2.5"
+                                    className="block rounded-md border border-gray-200 bg-gray-50 p-2.5 text-sm text-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
                                     placeholder="Ingresa tu dirección"
                                     required
                                 />

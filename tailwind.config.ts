@@ -18,9 +18,9 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        primary: '#FF8232',
-        primaryHover: '#e26a20',    // Color principal personalizado
-        primaryLight: '#fc8942',    // Color principal personalizado
+        primary: '#fe8230',
+        primaryHover: '#e96f20',    // Color principal personalizado
+        primaryLight: '#fff0e6',    // Color principal personalizado
         secondary: '#373737',  // Color secundario personalizado
         white: '#FFFFFF',      // Color blanco personalizado
         success: 'rgb(5 150 105)'

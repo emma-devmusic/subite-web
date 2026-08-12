@@ -54,7 +54,7 @@ export const CategoryModal = () => {
                             placeholder='Electrónica...'
                             name='name'
                             type="text"
-                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
+                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                             value={values.name}
                             onChange={handleInputChange}
                         />
@@ -65,7 +65,7 @@ export const CategoryModal = () => {
                             rows={4}
                             placeholder='Describe tu categoría...'
                             name='description'
-                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50 '
+                            className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                             value={values.description}
                             onChange={handleInputChange}
                         />
@@ -76,7 +76,7 @@ export const CategoryModal = () => {
                             <div className="flex items-start">
                                 <div className="flex items-center h-5 gap-3">
                                     <label htmlFor="isSubcategory" className="block text-sm font-medium leading-6 text-gray-800">¿Es subacategoría?</label>
-                                    <input id="isSubcategory" aria-describedby="isSubcategory" name="isSubcategory" type="checkbox" onChange={() => setIsSubcategory(!isSubcategory)} className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded" />
+                                    <input id="isSubcategory" aria-describedby="isSubcategory" name="isSubcategory" type="checkbox" onChange={() => setIsSubcategory(!isSubcategory)} className="h-4 w-4 rounded border-gray-300 bg-gray-50 text-primary accent-primary focus:ring-2 focus:ring-primary/30" />
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@ export const CategoryModal = () => {
                             <select
                                 onChange={handleInputChange}
                                 name="category_id"
-                                className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:leading-6 bg-gray-50'
+                                className='block w-full rounded-md border-0 py-2 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50'
                             >
                                 <option value={''}>Seleccionar</option>
                                 {

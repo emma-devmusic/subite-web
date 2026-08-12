@@ -14,7 +14,7 @@ export const Subscribe = () => {
                             type="text"
                             id="hero-input"
                             name="hero-input"
-                            className="py-3 px-4 block w-full border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 "
+                            className="block w-full rounded-md border-transparent px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
                             placeholder="Enter your email"
                         />
                     </div>

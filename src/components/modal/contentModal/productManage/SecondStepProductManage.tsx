@@ -40,7 +40,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                     required
                     name="category"
                     defaultValue={category}
-                    className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                    className='block w-full rounded-md border-0 py-2 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     onChange={handleInputChange}
                 >
                     <option value={0}>-Seleccionar-</option>
@@ -61,7 +61,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                         required
                         defaultValue={sub_categoryDef}
                         // disabled={categoriesSelected.subcategories === undefined || categoriesSelected.subcategories.length === 0}
-                        className='block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                        className='block w-full rounded-md border-0 py-2 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                         name="sub_category"
                         onChange={handleInputChange}
                     >
@@ -83,7 +83,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                     placeholder='2300'
                     name='price'
                     type="number"
-                    className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                    className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                     value={price}
                     onChange={handleInputChange}
 
@@ -99,7 +99,7 @@ export const SecondStepProductManage = ({ category, subcategory, handleInputChan
                     value={stock}
                     onChange={handleInputChange}
                     type="number"
-                    className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-sm sm:leading-6 bg-gray-50 '
+                    className='block w-full rounded-md border-0 py-1.5 px-3 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm sm:leading-6 bg-gray-50 '
                 />
             </div>
         </form>
