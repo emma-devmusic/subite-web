@@ -3,12 +3,11 @@ import { useAppForm } from "@/hooks/useAppForm";
 import { useAppDispatch, useAppSelector } from "@/store"
 import { Message } from "./Message";
 import { uiCloseModal } from "@/store/slices/uiSlice";
-import { useRouter } from 'next/navigation'
 import { email_validation } from "@/store/slices/authSlice";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 
 export const NewUser = () => {
 
-    const router = useRouter()
     const { loading, modal: { msg, typeMsg, modalFor } } = useAppSelector(state => state.ui)
     const { userProfile } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
@@ -26,7 +25,7 @@ export const NewUser = () => {
 
     const handleRedirectLogin = () => {
         dispatch(uiCloseModal())
-        if (typeMsg === 'success') router.push('/login')
+        if (typeMsg === 'success') window.location.href = getDashboardUrl('/login')
     }
 
     return (

@@ -4,7 +4,7 @@ import { PopoverApp } from "@/components/popover"
 import { useNotifications } from "@/contexts/NotificationsContext"
 import { ItemNotification } from "@/components/notifications/ItemNotification"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 
 const NotificationsContent = () => {
     const { notifications, isLoading, markAsRead, markAllAsRead, clearNotifications } = useNotifications();
@@ -48,7 +48,7 @@ const NotificationsContent = () => {
                         type="button"
                         className="text-xs font-medium text-orange-600 hover:text-orange-700 hover:underline"
                         onClick={() => {
-                            window.location.href = `${DASHBOARD_BASE_URL}/notifications`;
+                            window.location.href = getDashboardUrl('/notifications');
                         }}
                     >
                         Ver más ({notifications.length})

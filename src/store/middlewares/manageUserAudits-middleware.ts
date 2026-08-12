@@ -5,6 +5,7 @@ import { uiModal, uiSetLoading } from "../slices/uiSlice";
 import { fetchData, getApiErrorMessage } from "@/services/fetchData";
 import Swal from "sweetalert2";
 import SessionManager from "@/commons/Classes/SessionManager";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 
 
 export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
@@ -50,13 +51,13 @@ export const manageUserAuditsMiddleware = (state: MiddlewareAPI) => {
                     state.dispatch(setUser(userSearch.data))
                 } else {
                     Swal.fire('Error', userSearch.message, 'error')
-                    location.replace('/dashboard/users')
+                    location.replace(getDashboardUrl('/users'))
                 }
                 state.dispatch(uiSetLoading(false))
             } catch (error) {
                 state.dispatch(uiSetLoading(false))
                 Swal.fire('Error', getApiErrorMessage(error), 'error')
-                location.replace('/dashboard/users')
+                location.replace(getDashboardUrl('/users'))
 
             }
         }

@@ -13,7 +13,7 @@ import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
 import { InstructiveMenu } from './InstructiveMenu'
 import Link from 'next/link'
-import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
+import { getDashboardUrl } from '@/commons/helpers/envs'
 import { OffCanvas } from '@/components/OffCanvas/OffCanvas'
 import { accountMenuData } from '@/mocks/mocks'
 import { Icon } from '@iconify/react'
@@ -24,7 +24,7 @@ export const Navbar = () => {
     const { isLogged } = useAppSelector(state => state.auth)
 
     const handleGoTo = () => {
-        window.location.href = DASHBOARD_BASE_URL + '/login';
+        window.location.href = getDashboardUrl('/login');
     }
 
     return (
@@ -64,7 +64,7 @@ export const Navbar = () => {
                     </div>
                 ) : (
                     <Link
-                        href={DASHBOARD_BASE_URL + '/login'}
+                        href={getDashboardUrl('/login')}
                         className="block mt-4 bg-primary text-white px-4 py-2 rounded-md text-center"
                     >
                         Ingresar

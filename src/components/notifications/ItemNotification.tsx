@@ -1,10 +1,8 @@
 'use client'
 
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 import { ObjectNotification } from "@/types"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import Link from "next/link"
-import { useRouter } from "next/navigation";
 
 type Props = ObjectNotification & {
     onClick?: () => void;
@@ -22,11 +20,9 @@ export const ItemNotification = ({
     onClick 
 }: Props) => {
 
-    const router = useRouter()
     const handleGoTo = () => {
         onClick?.();
-        window.location.href = DASHBOARD_BASE_URL + link!;
-        console.log(link)
+        if (link) window.location.href = getDashboardUrl(link);
     }
 
     return (

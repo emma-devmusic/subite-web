@@ -1,5 +1,5 @@
 'use client'
-import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
+import { getDashboardUrl } from '@/commons/helpers/envs'
 import { parseAuctionDate } from '@/commons/helpers/auctions'
 import { Button } from '@/components/buttons/Button'
 import { useAppDispatch, useAppSelector } from '@/store'
@@ -57,7 +57,7 @@ export const ButtonOffers = ({ product }: Props) => {
 
     const handleSeeOffers = () => {
         if(isLogged){
-            window.location.href = `${DASHBOARD_BASE_URL}/auctions/offers/${product.id}`
+            window.location.href = getDashboardUrl(`/auctions/offers/${product.id}`)
         } else {
             Swal.fire('Inicia Sesión', 'Para visualizar el historial de ofertas debes iniciar sesión.', 'info')
         }

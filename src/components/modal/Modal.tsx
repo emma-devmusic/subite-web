@@ -7,7 +7,8 @@ import { uiCloseModal, uiSetLoading } from "@/store/slices/uiSlice"
 import { MessageModal } from "./contentModal/MessageModal"
 import { TwoFactorCode } from './contentModal/TwoFactorCode';
 import { ModalHeader } from './ModalHeader';
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
+import { getDashboardUrl } from "@/commons/helpers/envs"
 import { ImageProfileModal } from "./contentModal/ImageProfile"
 import { Spinner } from "../spinner/Spinner"
 import { ValidateNewEmail } from "./contentModal/ValidateNewEmail"
@@ -32,7 +33,6 @@ export const Modal = () => {
     const { loading } = useAppSelector(state => state.ui)
     const { modal: { modalOpen, modalFor, msg, typeMsg, modalTitle } } = useAppSelector(state => state.ui)
     const path = usePathname()
-    const router = useRouter()
 
 
 
@@ -48,7 +48,9 @@ export const Modal = () => {
             dispatch(cleanSelectCategories())
         }
         if (modalFor === '2F_code' && typeof window !== 'undefined') sessionStorage.clear();
-        if (modalFor === 'validate_code' && path.includes('register')) router.push('./login');
+        if (modalFor === 'validate_code' && path.includes('register')) {
+            window.location.href = getDashboardUrl('/login')
+        }
         if (modalFor === 'offers') dispatch(clearOffers())
     }
 

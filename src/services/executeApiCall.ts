@@ -4,7 +4,7 @@ import { clearRedux } from '@/store/slices/authSlice';
 import { uiModal } from '@/store/slices/uiSlice';
 import { ResponseApiDing } from '@/types/api';
 import { CookieUtils } from '@/commons/Classes/CookiesUtils';
-import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs';
+import { getDashboardUrl } from '@/commons/helpers/envs';
 import { getApiErrorMessage } from './fetchData';
 
 // Flag global para evitar múltiples redirecciones por token expirado
@@ -26,7 +26,7 @@ export async function executeApiCall<T>(
         CookieUtils.clearSessionCookies();
         
         if (typeof window !== 'undefined') {
-            window.location.href = DASHBOARD_BASE_URL + '/login';
+            window.location.href = getDashboardUrl('/login');
         }
     };
     

@@ -1,5 +1,3 @@
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
-
 export const navigation = {
     pages: [
         { name: 'Subastas', href: '/auctions' },

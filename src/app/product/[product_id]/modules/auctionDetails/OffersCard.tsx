@@ -2,7 +2,7 @@
 import { Card } from '@/components/cards/Card'
 import { ButtonOffers } from './ButtonOffers'
 import { DataHomeProductResponse } from '@/types/homeProductResponse'
-import { DASHBOARD_BASE_URL } from '@/commons/helpers/envs'
+import { getDashboardUrl } from '@/commons/helpers/envs'
 import { useAppSelector } from '@/store'
 
 interface Props {
@@ -32,7 +32,7 @@ export const OffersCard = ({ product }: Props) => {
             {
               !isLogged ?
               <>
-                <a href={DASHBOARD_BASE_URL + '/login'} className='mr-[4px] link-standard'>
+                <a href={getDashboardUrl('/login')} className='mr-[4px] link-standard'>
                   Inicia sesión
                 </a>
               para ver el historial

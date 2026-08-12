@@ -214,7 +214,7 @@ export default function ContactPage() {
                                             <p className="text-sm text-blue-700">
                                                 <strong>Tu privacidad es importante.</strong> La información que nos proporcionás 
                                                 será utilizada únicamente para responder tu consulta. 
-                                                <a href="/privacy-policy" className="underline hover:text-blue-800">
+                                                <a href="/politica-de-privacidad" className="underline hover:text-blue-800">
                                                     Ver Política de Privacidad
                                                 </a>
                                             </p>
@@ -249,7 +249,7 @@ export default function ContactPage() {
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
                                 <a
-                                    href="/terms-and-conditions"
+                                    href="/terminos-y-condiciones"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                                 >
                                     <DocumentIcon className="text-gray-600" size={16} />

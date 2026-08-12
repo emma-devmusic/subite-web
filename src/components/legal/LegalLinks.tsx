@@ -14,12 +14,12 @@ export const LegalLinks: React.FC<LegalLinksProps> = ({
 }) => {
   const links = [
     {
-      href: '/terms-and-conditions',
+      href: '/terminos-y-condiciones',
       label: 'Términos y Condiciones',
       icon: '📝'
     },
     {
-      href: '/privacy-policy', 
+      href: '/politica-de-privacidad',
       label: 'Política de Privacidad',
       icon: '🔒'
     }

@@ -4,7 +4,7 @@ import { getAuctionStatus } from "@/commons/helpers/auctions";
 import { useAppSelector } from "@/store";
 import { ItemHomeProductsSearchResponse } from "@/types/homeResponse";
 import { useEffect, useRef, useState } from "react";
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 import Link from "next/link";
 
 interface TimeRemaining {
@@ -63,7 +63,7 @@ export const BannerProduct = ({ itemProduct, itemAlternative }: Props) => {
         <div className="relative flex justify-center items-center banner3-box w-full">
             {
                 itemProduct 
-                ?   <Link href={isLogged ? `/product/${itemProduct.id}` : DASHBOARD_BASE_URL} className={`banner3-box-button border-2 rounded-md px-4 py-2 transition-all text-sm sm:w-auto md:text-xl text-white hover:bg-primaryHover hover:border-primaryHover ${itemProduct ? '' : 'hidden'}`}>
+                ?   <Link href={isLogged ? `/product/${itemProduct.id}` : getDashboardUrl('/register')} className={`banner3-box-button border-2 rounded-md px-4 py-2 transition-all text-sm sm:w-auto md:text-xl text-white hover:bg-primaryHover hover:border-primaryHover ${itemProduct ? '' : 'hidden'}`}>
                         {!isLogged ? '¡Registrate para participar!' : 'Ver Subasta'}
                     </Link>
                 :   <p className="banner3-box-button text-white text-center md:text-xl max-w-[250px] md:max-w-lg" >Descubre productos exclusivos en nuestras subastas en línea. ¡Regístrate y participa para llevarte increíbles ofertas!</p>

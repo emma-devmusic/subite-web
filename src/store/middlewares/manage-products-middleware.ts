@@ -9,6 +9,7 @@ import { ItemProductSearchResponse, ProductSearchIDResponse, ProductSearchRespon
 import { path_role } from "@/commons/helpers";
 import { ProductAuditsStatuses } from "@/types";
 import SessionManager from "@/commons/Classes/SessionManager";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 
 
 
@@ -95,7 +96,7 @@ export const manageProductMiddleware = (state: MiddlewareAPI) => {
                     typeMsg: 'error',
                     msg: `${typeof error.code === 'undefined' ? 'Parece que ese registro no existe' : error.code}`
                 }))
-                location.replace('/dashboard')
+                location.replace(getDashboardUrl())
                 state.dispatch(uiSetLoading(false))
 
             }

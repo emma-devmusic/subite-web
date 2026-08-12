@@ -2,11 +2,27 @@
 // Environment variables configuration for Client (Next.js)
 export const API_BASE_URL =
     process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.subite.ar/api/v1'
-export const APP_BASE_URL =
+export const APP_BASE_URL = (
     process.env.NEXT_PUBLIC_APP_BASE_URL || 'https://www.subite.ar'
+).replace(/\/+$/, '')
+
+const PRODUCTION_DASHBOARD_URL = 'https://admin.subite.ar'
+const configuredDashboardUrl = (
+    process.env.NEXT_PUBLIC_DASHBOARD_BASE_URL || PRODUCTION_DASHBOARD_URL
+).replace(/\/+$/, '')
+const isLocalDashboardUrl = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(
+    configuredDashboardUrl
+)
+
 export const DASHBOARD_BASE_URL =
-    process.env.NEXT_PUBLIC_DASHBOARD_BASE_URL ||
-    'https://admin-auctions-three.vercel.app'
+    process.env.NODE_ENV === 'production' && isLocalDashboardUrl
+        ? PRODUCTION_DASHBOARD_URL
+        : configuredDashboardUrl
+
+export const getDashboardUrl = (path = ''): string => {
+    if (!path) return DASHBOARD_BASE_URL
+    return `${DASHBOARD_BASE_URL}/${path.replace(/^\/+/, '')}`
+}
 export const tenant_id = process.env.NEXT_PUBLIC_API_TENANT || '1'
 export const public_bucket =
     process.env.NEXT_PUBLIC_S3_PUBLIC_BUCKET || 'localpublic'

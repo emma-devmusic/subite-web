@@ -5,8 +5,8 @@ import { deleteOffer } from "@/store/slices/offersSlice";
 import { uiCloseModal } from "@/store/slices/uiSlice";
 import { ItemGetOffersResponse } from "@/types/offersResponse";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 // {
@@ -40,12 +40,11 @@ import Swal from "sweetalert2";
 
 export const BlobOffer = ({ offer }: { offer: ItemGetOffersResponse }) => {
 
-    const router = useRouter()
     const { isAdmin } = useAppSelector(state => state.manageUser)
     const dispatch = useAppDispatch()
 
     const handleSeeUser = () => {
-        router.push(`/dashboard/users/${offer.auth_user?.id}`)
+        window.location.href = getDashboardUrl(`/users/${offer.auth_user?.id}`)
         dispatch(uiCloseModal())
     }
 

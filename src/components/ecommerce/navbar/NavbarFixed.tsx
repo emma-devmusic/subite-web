@@ -13,6 +13,7 @@ import { Button } from '@/components/buttons/Button'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'
 import { Notifications } from '@/components/notifications/Notifications'
 import { useAppSelector } from '@/store'
+import { getDashboardUrl } from '@/commons/helpers/envs'
 
 export const NavbarFixed = () => {
 
@@ -33,7 +34,7 @@ export const NavbarFixed = () => {
     }, []);
 
     const handleGoTo = () => {
-        window.location.href = 'http://localhost:3001/login';
+        window.location.href = getDashboardUrl('/login');
     }
 
     if (pathname.includes('dashboard')) return

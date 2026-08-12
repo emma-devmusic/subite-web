@@ -1,4 +1,4 @@
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs"
+import { getDashboardUrl } from "@/commons/helpers/envs"
 import { useAppForm } from "@/hooks/useAppForm"
 import { useAppDispatch, useAppSelector } from "@/store"
 import { send_two_factor_code_change } from "@/store/slices/authSlice"
@@ -21,7 +21,7 @@ export const TwoFactorCode = () => {
         } else {
             // La autenticación de dos factores para login ahora se maneja desde el dashboard
             console.log('2FA para login debe manejarse desde el dashboard');
-            window.location.href = DASHBOARD_BASE_URL + '/login';
+            window.location.href = getDashboardUrl('/login');
         }
     }
 

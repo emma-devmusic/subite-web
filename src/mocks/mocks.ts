@@ -1,17 +1,17 @@
-import { DASHBOARD_BASE_URL } from "@/commons/helpers/envs";
+import { getDashboardUrl } from "@/commons/helpers/envs";
 import { SidebarMenuItem, MenuItem, NotificationApp, User, NotificationFromDB  } from "@/types";
 
 export const sidebarData : SidebarMenuItem[] = [
     {
         forAdmin: false,
         text: 'Tablero',
-        link: '/dashboard',
+        link: getDashboardUrl(),
         icon: 'tabler:chart-pie-filled'
     },
     {
         forAdmin: false,
         text: 'Notificaciones',
-        link: '/dashboard/notifications',
+        link: getDashboardUrl('/notifications'),
         icon: 'ic:round-notifications-active'
     },
     // {
@@ -23,25 +23,25 @@ export const sidebarData : SidebarMenuItem[] = [
     {
         forAdmin: false,
         text: 'Subastas',
-        link: '/dashboard/auctions',
+        link: getDashboardUrl('/auctions'),
         icon: 'mingcute:auction-fill'
     },
     {
         forAdmin: false,
         text: 'Productos',
-        link: '/dashboard/products',
+        link: getDashboardUrl('/products'),
         icon: 'icon-park-outline:ad-product',
     },
     {
         forAdmin: true,
         text: 'Categorias',
-        link: '/dashboard/categories',
+        link: getDashboardUrl('/categories'),
         icon: 'ic:round-category'
     },
     {
         forAdmin: true,
         text: 'Usuarios',
-        link: '/dashboard/users',
+        link: getDashboardUrl('/users'),
         icon: 'mdi:users'
     },
 ]
@@ -51,35 +51,35 @@ export const accountMenuData: MenuItem[] = [
         isBoth: false,
         isLogged: false,
         text: 'Ingresar',
-        link: DASHBOARD_BASE_URL + '/login',
+        link: getDashboardUrl('/login'),
         icon: 'ic:round-log-in'
     },
     {
         isBoth: false,
         isLogged: false,
-        text: 'Regisrarse',
-        link: DASHBOARD_BASE_URL + '/register',
+        text: 'Registrarse',
+        link: getDashboardUrl('/register'),
         icon: 'mdi:register',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Perfil',
-        link: DASHBOARD_BASE_URL + '/user-profile',
+        link: getDashboardUrl('/user-profile'),
         icon: 'gg:profile',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Ajustes',
-        link: DASHBOARD_BASE_URL + '/user-config',
+        link: getDashboardUrl('/user-config'),
         icon: 'solar:settings-bold',
     },
     {
         isBoth: false,
         isLogged: true,
         text: 'Plataforma',
-        link: DASHBOARD_BASE_URL + '',
+        link: getDashboardUrl(),
         icon: 'mage:dashboard-check-fill'
     },
     {
@@ -96,21 +96,21 @@ export const notificationsData: NotificationApp[] = [
         id: 'lkdsfgkjebg',
         title: 'Nuevo Usuario',
         body: 'Ingresa para autorizar.',
-        linkTo: '/authorizations',
+        linkTo: getDashboardUrl('/users'),
         type: 'authorization'
     },
     {
         id: 'nlqeitadlfjjhee',
         title: 'Nuevo Mensaje',
         body: 'Léelo en el buzón.',
-        linkTo: '/inbox',
+        linkTo: getDashboardUrl('/notifications'),
         type: 'inbox'
     },
     {
         id: 'lkdsfgkjebsdfxg',
         title: 'No se pudo enviar un msj',
         body: 'Revisalo en las notificaciones',
-        linkTo: '/authorizations',
+        linkTo: getDashboardUrl('/notifications'),
         type: 'alert'
     }
 ]
