@@ -27,7 +27,6 @@ export const CardCategory = ({
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover/cardItem:scale-x-100"
             />
-
             <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-gradient-to-br from-primaryLight to-white text-primary shadow-inner ring-1 ring-primary/15 transition-all duration-300 group-hover/cardItem:scale-105 group-hover/cardItem:text-primaryHover group-hover/cardItem:ring-primary/40 [&_svg]:h-12 [&_svg]:w-12">
                 {icon ? (
                     icon
